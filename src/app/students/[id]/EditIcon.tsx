@@ -14,7 +14,7 @@ export default function EditIcon({ studentId }: EditIconProps) {
     <div className="relative">
       <Link 
         href={`/students/${studentId}/edit`}
-        className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-gray-100 rounded transition-colors"
+        className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-gray-100 rounded transition-colors cursor-pointer"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >

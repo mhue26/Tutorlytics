@@ -93,26 +93,6 @@ export default async function BillingPage() {
 				</div>
 			</div>
 
-			{/* Payment Methods */}
-			<div className="bg-white rounded-lg border p-6">
-				<h2 className="text-lg font-medium mb-4">Payment Methods</h2>
-				<div className="text-center py-8">
-					<div className="text-gray-400 mb-4">
-						<svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-						</svg>
-					</div>
-					<h3 className="text-lg font-medium text-gray-900 mb-2">Set up payment methods</h3>
-					<div className="mt-4">
-						<button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-							<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-							</svg>
-							Add Payment Method
-						</button>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }

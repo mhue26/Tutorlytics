@@ -33,22 +33,31 @@ export default function StudentsClient({ students, archivedStudents }: { student
 				<h2 className="text-2xl font-semibold">Students</h2>
 				<div className="flex items-center gap-2">
 					<button
-						className={`rounded-md border px-3 py-1.5 text-sm ${view === "list" ? "bg-gray-900 text-white" : "bg-white hover:bg-gray-50"}`}
+						className={`rounded-md border p-2 ${view === "list" ? "bg-gray-900 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
 						onClick={() => setView("list")}
+						title="List View"
 					>
-						List View
+						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+						</svg>
 					</button>
 					<button
-						className={`rounded-md border px-3 py-1.5 text-sm ${view === "card" ? "bg-gray-900 text-white" : "bg-white hover:bg-gray-50"}`}
+						className={`rounded-md border p-2 ${view === "card" ? "bg-gray-900 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
 						onClick={() => setView("card")}
+						title="Card View"
 					>
-						Card View
+						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+						</svg>
 					</button>
 					<Link
-						className="rounded-md bg-blue-600 text-white px-3 py-2 text-sm hover:bg-blue-700"
+						className="rounded-md bg-blue-600 text-white p-2 hover:bg-blue-700"
 						href="/students/new"
+						title="Add Student"
 					>
-						Add Student
+						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+						</svg>
 					</Link>
 				</div>
 			</div>

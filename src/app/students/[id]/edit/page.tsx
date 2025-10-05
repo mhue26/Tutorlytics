@@ -67,24 +67,27 @@ async function updateStudent(id: number, formData: FormData) {
 	const parentContactDetails = String(formData.get("parentContactDetails") || "").trim();
 	const parentContact = (parentContactMethod && parentContactDetails) ? `${parentContactMethod}: ${parentContactDetails}` : null;
 	
-	// Process alternative contacts
+	// Process alternative contacts and store them in phone field
 	const alternativeContacts = [];
 	let index = 0;
 	while (formData.get(`alternativeContactMethod-${index}`) !== null) {
 		const method = String(formData.get(`alternativeContactMethod-${index}`) || "").trim();
 		const details = String(formData.get(`alternativeContactDetails-${index}`) || "").trim();
 		if (method && details) {
-			alternativeContacts.push({ method, details });
+			alternativeContacts.push(`${method}: ${details}`);
 		}
 		index++;
 	}
 	
+	// Combine existing phone contacts with alternative contacts
+	const existingPhone = String(formData.get("phone") || "").trim();
+	const allContacts = [];
+	if (existingPhone) {
+		allContacts.push(existingPhone);
+	}
+	allContacts.push(...alternativeContacts);
+	const combinedPhone = allContacts.length > 0 ? allContacts.join(" | ") : null;
 	
-	// Combine notes with alternative contacts
-	const originalNotes = String(formData.get("notes") || "").trim() || null;
-	const notesWithAlternativeContacts = alternativeContacts.length > 0 
-		? JSON.stringify({ alternativeContacts, notes: originalNotes })
-		: originalNotes;
 	
 	try {
 		await prisma.student.update({
@@ -93,7 +96,7 @@ async function updateStudent(id: number, formData: FormData) {
 				firstName,
 				lastName,
 				email,
-				phone,
+				phone: combinedPhone,
 				subjects,
 				schoolSubjects,
 				year,
@@ -104,7 +107,7 @@ async function updateStudent(id: number, formData: FormData) {
 				parentName,
 				parentEmail: finalRelationship,
 				parentPhone: parentContact,
-				notes: notesWithAlternativeContacts,
+				notes: notes,
 				classId,
 			},
 		});
@@ -172,16 +175,19 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 	const isOtherRelationship = !["Mother", "Father", "N/A"].includes(parentRelationship);
 	const otherRelationship = isOtherRelationship ? parentRelationship : "";
 
-	// Parse alternative contacts (stored in notes field as JSON for now)
+	// Parse alternative contacts from phone field
 	let alternativeContacts = [];
-	try {
-		if (student.notes && student.notes.startsWith('{"alternativeContacts":')) {
-			const parsed = JSON.parse(student.notes);
-			alternativeContacts = parsed.alternativeContacts || [];
-		}
-	} catch (e) {
-		// If parsing fails, use empty array
-		alternativeContacts = [];
+	if (student.phone) {
+		const contacts = student.phone.split(" | ");
+		contacts.forEach((contact) => {
+			const [method, ...details] = contact.split(": ");
+			if (method && details.length > 0) {
+				alternativeContacts.push({
+					method: method.trim(),
+					details: details.join(": ").trim()
+				});
+			}
+		});
 	}
 
 	// Fetch classes for the current user

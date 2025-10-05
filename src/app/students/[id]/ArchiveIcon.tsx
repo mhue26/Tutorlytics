@@ -52,7 +52,7 @@ export default function ArchiveIcon({ studentId }: ArchiveIconProps) {
         onClick={() => setShowConfirmation(true)}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
-        className="w-8 h-8 flex items-center justify-center text-yellow-600 hover:bg-yellow-50 rounded transition-colors"
+        className="w-8 h-8 flex items-center justify-center text-yellow-600 hover:bg-yellow-50 rounded transition-colors cursor-pointer"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M4 4h16v2H4V4zm0 4h16v12H4V8zm2 2v8h12v-8H6zm4 2h4v4h-4v-4z"/>

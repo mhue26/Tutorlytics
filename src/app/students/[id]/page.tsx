@@ -9,6 +9,7 @@ import EditIcon from "./EditIcon";
 import SubjectsDisplay from "../SubjectsDisplay";
 import LessonBreakdown from "../LessonBreakdown";
 import StudentTabs from "../StudentTabs";
+import EditableGoals from "./EditableGoals";
 
 function formatCurrencyFromCents(valueInCents: number): string {
 	const dollars = (valueInCents / 100).toFixed(2);
@@ -168,33 +169,96 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<div className="flex items-center justify-between">
-				<div className="flex items-center gap-3">
+			<div className="space-y-6">
+				<Link href="/students" className="text-sm text-gray-600 hover:underline cursor-pointer">← Back to Students</Link>
+				
+				{/* Centered student name and actions */}
+				<div className="flex flex-col items-center gap-3">
 					<h2 className="text-2xl font-semibold">{student.firstName} {student.lastName}</h2>
-					<EditIcon studentId={student.id} />
-					<ArchiveIcon studentId={student.id} />
-					<DeleteIcon studentId={student.id} deleteAction={deleteStudent} />
-				</div>
-				<Link href="/students" className="text-sm text-gray-600 hover:underline">← Back to list</Link>
-			</div>
-
-			{/* Goals Callout */}
-			<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-				<div className="flex items-start gap-3">
-					<div className="flex-shrink-0">
-						<svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-						</svg>
+					<div className="flex items-center gap-3">
+						<EditIcon studentId={student.id} />
+						<ArchiveIcon studentId={student.id} />
+						<DeleteIcon studentId={student.id} deleteAction={deleteStudent} />
 					</div>
-					<div className="flex-1">
-						<h3 className="text-sm font-medium text-blue-900 mb-1">Student Goals</h3>
-						<div className="text-sm text-blue-800">
-							{student.notes ? (
-								<div className="whitespace-pre-wrap">{student.notes}</div>
-							) : (
-								<div className="text-blue-600 italic">No goals set yet. Click edit to add student goals and objectives.</div>
-							)}
-						</div>
+				</div>
+				
+				{/* Two-column layout */}
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+					{/* Left column - Student goals */}
+					<div>
+						<EditableGoals studentId={student.id} initialNotes={student.notes} />
+					</div>
+					
+					{/* Right column - Upcoming */}
+					<div>
+						{student.meetings.length > 0 ? (
+							<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 h-full">
+								<div className="flex items-start gap-3">
+									<div className="flex-shrink-0">
+										<svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+										</svg>
+									</div>
+									<div className="flex-1">
+										<h3 className="text-sm font-medium text-blue-900 mb-1">Upcoming</h3>
+										<div className="text-sm text-blue-800">
+											<div className="space-y-2">
+												<div>
+													<div className="text-xs text-blue-600 font-medium">Title</div>
+													<div className="text-sm">{student.meetings[0].title}</div>
+												</div>
+												<div>
+													<div className="text-xs text-blue-600 font-medium">Date</div>
+													<div className="text-sm">{new Date(student.meetings[0].startTime).toLocaleDateString('en-GB')}</div>
+												</div>
+												<div>
+													<div className="text-xs text-blue-600 font-medium">Time</div>
+													<div className="text-sm">
+														{new Date(student.meetings[0].startTime).toLocaleTimeString('en-GB', { 
+															hour: '2-digit', 
+															minute: '2-digit',
+															hour12: true 
+														})} - {new Date(student.meetings[0].endTime).toLocaleTimeString('en-GB', { 
+															hour: '2-digit', 
+															minute: '2-digit',
+															hour12: true 
+														})}
+													</div>
+												</div>
+												<div>
+													<div className="text-xs text-blue-600 font-medium">Duration</div>
+													<div className="text-sm">
+														{Math.round((new Date(student.meetings[0].endTime).getTime() - new Date(student.meetings[0].startTime).getTime()) / (1000 * 60 * 60))} hours
+													</div>
+												</div>
+												{student.meetings[0].description && (
+													<div>
+														<div className="text-xs text-blue-600 font-medium">Description</div>
+														<div className="text-sm">{student.meetings[0].description}</div>
+													</div>
+												)}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						) : (
+							<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 h-full">
+								<div className="flex items-start gap-3">
+									<div className="flex-shrink-0">
+										<svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+										</svg>
+									</div>
+									<div className="flex-1">
+										<h3 className="text-sm font-medium text-blue-900 mb-1">Upcoming</h3>
+										<div className="text-sm text-blue-800">
+											<div className="text-blue-600 italic">No upcoming events scheduled</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
@@ -205,53 +269,6 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 				studentName={`${student.firstName} ${student.lastName}`}
 				studentSubjects={student.schoolSubjects || ""}
 			>
-				{/* Next Lesson Card */}
-				{student.meetings.length > 0 ? (
-					<div className="bg-white rounded-lg border p-6">
-						<h3 className="text-lg font-medium mb-4">Upcoming</h3>
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-							<div>
-								<div className="text-sm text-gray-600">Title</div>
-								<div className="font-medium">{student.meetings[0].title}</div>
-							</div>
-							<div>
-								<div className="text-sm text-gray-600">Date</div>
-								<div className="font-medium">{new Date(student.meetings[0].startTime).toLocaleDateString('en-GB')}</div>
-							</div>
-							<div>
-								<div className="text-sm text-gray-600">Time</div>
-								<div className="font-medium">
-									{new Date(student.meetings[0].startTime).toLocaleTimeString('en-GB', { 
-										hour: '2-digit', 
-										minute: '2-digit',
-										hour12: true 
-									})} - {new Date(student.meetings[0].endTime).toLocaleTimeString('en-GB', { 
-										hour: '2-digit', 
-										minute: '2-digit',
-										hour12: true 
-									})}
-								</div>
-							</div>
-							<div>
-								<div className="text-sm text-gray-600">Duration</div>
-								<div className="font-medium">
-									{Math.round((new Date(student.meetings[0].endTime).getTime() - new Date(student.meetings[0].startTime).getTime()) / (1000 * 60 * 60))} hours
-								</div>
-							</div>
-						</div>
-						{student.meetings[0].description && (
-							<div className="mt-4">
-								<div className="text-sm text-gray-600">Description</div>
-								<div className="font-medium text-gray-700">{student.meetings[0].description}</div>
-							</div>
-						)}
-					</div>
-				) : (
-					<div className="bg-white rounded-lg border p-6">
-						<h3 className="text-lg font-medium mb-4">Upcoming</h3>
-						<div className="text-gray-500">No upcoming events scheduled</div>
-					</div>
-				)}
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 					{/* Student Information Card */}
@@ -398,13 +415,6 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 					</div>
 				</div>
 
-				{/* Notes Card */}
-				{student.notes && (
-					<div className="bg-white rounded-lg border p-6">
-						<h3 className="text-lg font-medium mb-4">Notes</h3>
-						<div className="text-gray-700 whitespace-pre-wrap">{student.notes}</div>
-					</div>
-				)}
 			</StudentTabs>
 
 		</div>

@@ -17,7 +17,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { setIsModalOpen } = useModal();
+  const { setModalType } = useModal();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -39,8 +39,8 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
 
   const handleEditProfileClick = () => {
     setIsOpen(false);
-    // Open the on-page profile edit modal
-    setIsModalOpen(true);
+    // Open only the profile modal
+    setModalType('profile');
   };
 
   return (

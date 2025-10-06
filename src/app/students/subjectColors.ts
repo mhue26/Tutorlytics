@@ -45,6 +45,16 @@ export const COLOR_OPTIONS = [
   { name: "Gray", classes: "bg-gray-100 text-gray-800", preview: "bg-gray-100" }
 ];
 
+// Get the default color for a subject without reading from any client-only APIs.
+export const getDefaultSubjectColor = (subject: string): string => {
+  const trimmedSubject = subject.trim();
+  return (
+    DEFAULT_SUBJECT_COLORS[
+      trimmedSubject as keyof typeof DEFAULT_SUBJECT_COLORS
+    ] || "bg-gray-100 text-gray-800"
+  );
+};
+
 // Get custom subject colors from localStorage
 export const getCustomSubjectColors = (): Record<string, string> => {
   if (typeof window === 'undefined') return {};
@@ -69,7 +79,7 @@ export const getSubjectColor = (subject: string): string => {
   }
   
   // Fall back to default colors
-  return DEFAULT_SUBJECT_COLORS[trimmedSubject as keyof typeof DEFAULT_SUBJECT_COLORS] || "bg-gray-100 text-gray-800";
+  return getDefaultSubjectColor(trimmedSubject);
 };
 
 // Set custom color for a subject

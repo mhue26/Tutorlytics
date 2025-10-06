@@ -73,24 +73,20 @@ export default async function DashboardPage() {
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<div>
-				<h1 className="text-2xl font-semibold">Dashboard</h1>
+			{/* Centered Welcome Heading */}
+			<div className="text-center">
+				<h1 className="text-3xl font-semibold text-blue-900">Welcome{session?.user?.name ? `, ${session.user.name}` : ""}!</h1>
 			</div>
 
-			{/* Welcome Call-out Block */}
-			<div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-				<div className="flex items-center">
-					<div className="flex-shrink-0">
-						<div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-							<svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-							</svg>
-						</div>
+			{/* Today Call-out Box */}
+			<div className="bg-blue-50 border border-blue-300 ring-1 ring-blue-200 rounded-lg p-8 shadow-sm">
+				<div className="flex items-center justify-center">
+					<div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+						<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
 					</div>
-					<div className="ml-4">
-						<h2 className="text-lg font-semibold text-blue-900">Welcome{session?.user?.name ? `, ${session.user.name}` : ""}!</h2>
-						<p className="text-blue-700">Today is {formatDate(today)}</p>
-					</div>
+					<p className="text-blue-700 text-base">Today is {formatDate(today)}</p>
 				</div>
 			</div>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { getSubjectColor } from './subjectColors';
+import { useEffect, useState } from 'react';
+import { getDefaultSubjectColor, getSubjectColor } from './subjectColors';
 import SubjectColorPicker from './SubjectColorPicker';
 
 interface SubjectsDisplayProps {
@@ -18,6 +18,15 @@ export default function SubjectsDisplay({ subjects, allowColorPicker = false }: 
 
   const subjectList = subjects.split(",").map(s => s.trim()).filter(s => s);
 
+  // Render with deterministic defaults on the server, then upgrade to custom colors after mount.
+  const [subjectClasses, setSubjectClasses] = useState<string[]>(
+    () => subjectList.map((s) => getDefaultSubjectColor(s))
+  );
+
+  useEffect(() => {
+    setSubjectClasses(subjectList.map((s) => getSubjectColor(s)));
+  }, [subjects, refreshKey]);
+
   const handleColorChange = () => {
     setRefreshKey(prev => prev + 1);
   };
@@ -27,7 +36,7 @@ export default function SubjectsDisplay({ subjects, allowColorPicker = false }: 
       {subjectList.map((subject, index) => (
         <span
           key={`${subject}-${index}-${refreshKey}`}
-          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getSubjectColor(subject)}`}
+          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${subjectClasses[index] || getDefaultSubjectColor(subject)}`}
         >
           {subject}
           {allowColorPicker && (

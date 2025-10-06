@@ -13,7 +13,7 @@ interface ProfileEditModalProps {
 }
 
 export default function ProfileEditModal({ user }: ProfileEditModalProps) {
-  const { isModalOpen, setIsModalOpen } = useModal();
+  const { isModalOpen, setIsModalOpen, modalType, setModalType } = useModal();
 
   // Close on ESC
   useEffect(() => {
@@ -24,14 +24,14 @@ export default function ProfileEditModal({ user }: ProfileEditModalProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [setIsModalOpen]);
 
-  if (!isModalOpen) return null;
+  if (!isModalOpen || modalType !== 'profile') return null;
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center backdrop-blur-sm overflow-hidden">
       {/* Click outside to close */}
       <div
         className="absolute inset-0"
-        onClick={() => setIsModalOpen(false)}
+        onClick={() => setModalType('none')}
       />
 
       <div className="relative bg-white rounded-lg shadow-xl border max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
@@ -39,7 +39,7 @@ export default function ProfileEditModal({ user }: ProfileEditModalProps) {
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-semibold text-gray-900">Edit Profile</h1>
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => setModalType('none')}
               aria-label="Close"
               className="text-gray-400 hover:text-gray-600"
             >

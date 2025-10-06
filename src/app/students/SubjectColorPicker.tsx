@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { COLOR_OPTIONS, setSubjectColor, getSubjectColor } from './subjectColors';
+import { useEffect, useState } from 'react';
+import { COLOR_OPTIONS, setSubjectColor, getDefaultSubjectColor, getSubjectColor } from './subjectColors';
 
 interface SubjectColorPickerProps {
   subject: string;
@@ -10,7 +10,12 @@ interface SubjectColorPickerProps {
 
 export default function SubjectColorPicker({ subject, onColorChange }: SubjectColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const currentColor = getSubjectColor(subject);
+  const [currentColor, setCurrentColor] = useState<string>(getDefaultSubjectColor(subject));
+
+  // Upgrade to custom color after mount to match SubjectsDisplay behavior
+  useEffect(() => {
+    setCurrentColor(getSubjectColor(subject));
+  }, [subject]);
 
   const handleColorSelect = (colorClasses: string) => {
     setSubjectColor(subject, colorClasses);

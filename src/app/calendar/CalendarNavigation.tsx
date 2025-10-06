@@ -13,7 +13,7 @@ interface CalendarNavigationProps {
 export default function CalendarNavigation({ onScheduleClick, userId }: CalendarNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setIsModalOpen } = useModal();
+  const { setModalType } = useModal();
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(() => {
     const month = searchParams.get('month');
@@ -50,7 +50,7 @@ export default function CalendarNavigation({ onScheduleClick, userId }: Calendar
         <button
           onClick={() => {
             setShowTermsModal(true);
-            setIsModalOpen(true);
+            setModalType('teachingPeriods');
           }}
           className="p-1 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
           title="Customise"
@@ -113,7 +113,7 @@ export default function CalendarNavigation({ onScheduleClick, userId }: Calendar
           isOpen={showTermsModal}
           onClose={() => {
             setShowTermsModal(false);
-            setIsModalOpen(false);
+            setModalType('none');
           }}
           userId={userId}
         />

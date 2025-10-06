@@ -21,7 +21,7 @@ interface TeachingPeriodsModalProps {
 }
 
 export default function TeachingPeriodsModal({ isOpen, onClose, userId }: TeachingPeriodsModalProps) {
-  const { setIsModalOpen } = useModal();
+  const { modalType, setModalType } = useModal();
   const [teachingPeriods, setTeachingPeriods] = useState<TeachingPeriod[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingPeriod, setEditingPeriod] = useState<TeachingPeriod | null>(null);
@@ -40,12 +40,15 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
 
   useEffect(() => {
     if (isOpen) {
-      setIsModalOpen(true);
+      setModalType('teachingPeriods');
       loadTeachingPeriods();
     } else {
-      setIsModalOpen(false);
+      // Only clear modal type if we are the active modal
+      if (modalType === 'teachingPeriods') {
+        setModalType('none');
+      }
     }
-  }, [isOpen, userId, setIsModalOpen]);
+  }, [isOpen, userId, setModalType, modalType]);
 
   const loadTeachingPeriods = async () => {
     try {

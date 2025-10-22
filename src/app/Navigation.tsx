@@ -9,15 +9,15 @@ export default function Navigation({ session }: NavigationProps) {
     <nav className="text-base flex items-center justify-center gap-2">
       {session ? (
         <>
-          <a href="/dashboard" className="hover:font-bold">DASHBOARD</a>
+          <a href="/dashboard" className="hover:font-bold" style={{ color: '#3D4756' }}>dashboard</a>
           <span className="px-2">·</span>
-          <a href="/students" className="hover:font-bold">STUDENTS</a>
+          <a href="/students" className="hover:font-bold" style={{ color: '#3D4756' }}>students</a>
           <span className="px-2">·</span>
-          <a href="/classes" className="hover:font-bold">CLASSES</a>
+          <a href="/classes" className="hover:font-bold" style={{ color: '#3D4756' }}>classes</a>
           <span className="px-2">·</span>
-          <a href="/calendar" className="hover:font-bold">CALENDAR</a>
+          <a href="/calendar" className="hover:font-bold" style={{ color: '#3D4756' }}>calendar</a>
           <span className="px-2">·</span>
-          <a href="/billing" className="hover:font-bold">INVOICING</a>
+          <a href="/billing" className="hover:font-bold" style={{ color: '#3D4756' }}>invoicing</a>
         </>
       ) : null}
       {!session ? (

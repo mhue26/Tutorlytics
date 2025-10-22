@@ -17,42 +17,40 @@ export default async function BillingPage() {
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
 			<div>
 				<h1 className="text-2xl font-semibold">Invoicing</h1>
-				<p className="text-gray-600 mt-2">Create and manage invoices for your students.</p>
 			</div>
 
-			{/* Quick Actions */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-				<button className="rounded-lg border p-4 hover:bg-gray-50 text-left">
-					<div className="flex items-center mb-2">
-						<svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-						</svg>
-						<h2 className="font-medium">Create Invoice</h2>
-					</div>
-					<p className="text-sm text-gray-600">Generate a new invoice for a student.</p>
-				</button>
-				<button className="rounded-lg border p-4 hover:bg-gray-50 text-left">
-					<div className="flex items-center mb-2">
-						<svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-						</svg>
-						<h2 className="font-medium">View Invoices</h2>
-					</div>
-					<p className="text-sm text-gray-600">See all your invoices and their status.</p>
-				</button>
-				<button className="rounded-lg border p-4 hover:bg-gray-50 text-left">
-					<div className="flex items-center mb-2">
-						<svg className="w-5 h-5 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-						</svg>
-						<h2 className="font-medium">Payment Tracking</h2>
-					</div>
-					<p className="text-sm text-gray-600">Track payments and outstanding balances.</p>
-				</button>
-			</div>
+			{/* Main Content Grid */}
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				{/* Left Column - Quick Actions */}
+				<div className="space-y-4">
+					<button className="w-full rounded-lg bg-blue-600/80 text-white p-4 hover:bg-blue-700/80 text-left transition-colors">
+						<div className="flex items-center mb-2">
+							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+							</svg>
+							<h2 className="font-medium text-white">Create Invoice</h2>
+						</div>
+					</button>
+					<button className="w-full rounded-lg bg-green-600/80 text-white p-4 hover:bg-green-700/80 text-left transition-colors">
+						<div className="flex items-center mb-2">
+							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							</svg>
+							<h2 className="font-medium text-white">View Invoices</h2>
+						</div>
+					</button>
+					<button className="w-full rounded-lg bg-purple-600/80 text-white p-4 hover:bg-purple-700/80 text-left transition-colors">
+						<div className="flex items-center mb-2">
+							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+							</svg>
+							<h2 className="font-medium text-white">Payment Tracking</h2>
+						</div>
+					</button>
+				</div>
 
-			{/* Recent Invoices */}
-			<div className="bg-white rounded-lg border p-6">
+				{/* Right Column - Recent Invoices */}
+				<div className="bg-white rounded-lg border p-6">
 				<div className="flex items-center justify-between mb-4">
 					<h2 className="text-lg font-medium">Recent Invoices</h2>
 					<button className="text-sm text-blue-600 hover:text-blue-700">View all</button>
@@ -73,6 +71,7 @@ export default async function BillingPage() {
 							Create First Invoice
 						</button>
 					</div>
+				</div>
 				</div>
 			</div>
 

@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useModal } from "./contexts/ModalContext";
 const Navigation = dynamic(() => import("./Navigation"), { ssr: false });
 import ProfileEditModal from "./profile/ProfileEditModal";
 import ProfileDropdown from "./ProfileDropdown";
@@ -11,13 +10,10 @@ interface HeaderProps {
 }
 
 export default function Header({ session }: HeaderProps) {
-  const { isModalOpen } = useModal();
 
   return (
     <>
-      <header className={`fixed top-4 left-4 right-4 z-[60] bg-white/40 backdrop-blur-md border border-white/20 rounded-xl shadow-sm transition-all duration-300 ${
-        isModalOpen ? 'blur-sm' : ''
-      }`}>
+      <header className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-gray-200 transition-all duration-300">
         <div className="w-full px-4 sm:px-6 py-4 grid grid-cols-3 items-center">
           <div className="flex justify-start">
             <a href="/" className="text-lg font-semibold hover:text-blue-600 transition-colors">

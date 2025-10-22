@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { authOptions } from "@/utils/auth";
 import { getServerSession } from "next-auth";
-import LandingClient from "./landing/LandingClient";
+import AnimatedText from "./AnimatedText";
 
 export const metadata = {
 	title: "TutorTools — Modern Platform for Private Tutors",
@@ -13,25 +13,19 @@ export default async function Home() {
 	const session = await getServerSession(authOptions);
 	return (
 		<div className="font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<LandingClient />
-			<section className="bg-gradient-to-b from-white to-gray-50">
-				<div className="mx-auto max-w-7xl px-4 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-					<div>
-						<h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-							TutorTools is the #1 tutoring platform for private tutors
-						</h1>
-						<p className="mt-4 text-lg text-gray-700">
-							Manage your scheduling, billing, and students — all in one place.
-						</p>
-						<div className="mt-6 flex flex-col sm:flex-row gap-3">
-							<a href="/signup" className="rounded-md bg-blue-600 text-white px-5 py-3 text-center hover:bg-blue-700">Create an account</a>
-							<a href="/about" className="rounded-md border px-5 py-3 text-center hover:bg-gray-50">About us</a>
-						</div>
+			<section className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: '#D6E3F8', width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', marginTop: '-5rem' }}>
+				<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 items-center mb-12">
+					<div className="px-24 lg:px-32">
+						<AnimatedText 
+							text="On a mission to student-first teaching."
+							className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug"
+							delay={300}
+						/>
 					</div>
-					<div className="relative" data-fade>
+					<div className="relative px-8 lg:px-16" data-fade>
 						<div className="aspect-[16/10] rounded-xl border bg-white shadow-sm" />
-						<div className="absolute -bottom-8 -right-8 w-40 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
-						<div className="absolute -top-8 -left-8 w-28 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
+						<div className="absolute -bottom-4 right-4 w-32 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
+						<div className="absolute -top-4 left-4 w-24 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
 					</div>
 				</div>
 			</section>
@@ -88,37 +82,7 @@ export default async function Home() {
 				))}
 			</section>
 
-			<section id="social" className="bg-gray-50">
-				<div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
-					<div className="flex flex-col items-center text-center" data-fade>
-						<div className="text-sm text-gray-600">Rated 4.8 / 5 from 300+ users</div>
-						<div className="mt-2 flex items-center gap-4 opacity-80">
-							<div className="h-6 w-20 rounded bg-gray-300" />
-							<div className="h-6 w-20 rounded bg-gray-300" />
-							<div className="h-6 w-20 rounded bg-gray-300" />
-						</div>
-					</div>
-					<div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-						{[1,2,3].map((i) => (
-							<figure key={i} className="rounded-xl border bg-white p-6" data-fade>
-								<blockquote className="text-gray-700">“TutorTools keeps me organized, reduces no-shows, and gets me paid on time.”</blockquote>
-								<figcaption className="mt-4 text-sm font-medium">Alex Johnson — Piano Teacher</figcaption>
-							</figure>
-						))}
-					</div>
-				</div>
-			</section>
 
-			<section id="pricing" className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
-				<div className="text-center" data-fade>
-					<h3 className="text-2xl font-semibold">Try it Free for 30 Days</h3>
-					<p className="mt-2 text-gray-700">Upgrade any time. Cancel any time.</p>
-					<div className="mt-6 flex items-center justify-center gap-3">
-						<a href="#trial" className="rounded-md bg-blue-600 text-white px-5 py-3 hover:bg-blue-700">Start Free Trial</a>
-						<a href="/signin" className="rounded-md border px-5 py-3 hover:bg-gray-50">Sign in</a>
-					</div>
-				</div>
-			</section>
 		</div>
 	);
 }

@@ -36,6 +36,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
         style={{ fontFamily: "'Work Sans', sans-serif" }}
+        suppressHydrationWarning={true}
       >
         <ModalProvider>
           <div className="min-h-screen flex flex-col">

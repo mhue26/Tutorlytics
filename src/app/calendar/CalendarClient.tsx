@@ -175,10 +175,10 @@ export default function CalendarClient({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Calendar</h2>
         {currentTerm && (
-          <div className="text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded-lg">
-            <span className="font-medium">{currentTerm.name}</span>
+          <div className="flex items-center rounded-full px-4 py-2" style={{ backgroundColor: '#FEF5eF' }}>
+            <span className="text-base font-medium" style={{ color: '#584b53' }}>{currentTerm.name}</span>
             {currentWeek && (
-              <span className="ml-2">• Week {currentWeek}</span>
+              <span className="ml-2 text-base" style={{ color: '#584b53' }}>• Week {currentWeek}</span>
             )}
           </div>
         )}

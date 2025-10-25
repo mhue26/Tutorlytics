@@ -251,7 +251,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                 resetForm();
                 setShowForm(true);
               }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="px-6 py-3 bg-[#3D4756] text-white rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
             >
               Add Teaching Period
             </button>

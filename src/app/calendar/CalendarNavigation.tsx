@@ -42,70 +42,55 @@ export default function CalendarNavigation({ onScheduleClick, userId }: Calendar
 
 
   return (
-    <div className="flex items-center justify-between mb-6">
-      <div className="flex items-center gap-4">
-        <h3 className="text-lg font-medium">
-          {currentDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
-        </h3>
-        <button
-          onClick={() => {
-            setShowTermsModal(true);
-            setModalType('teachingPeriods');
-          }}
-          className="p-1 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
-          title="Customise"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-        </button>
-      </div>
-      
-      <div className="flex items-center gap-2">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                navigateMonth('prev');
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                  e.preventDefault();
-                }
-              }}
-              className="p-2 rounded-md border hover:bg-gray-50 transition-colors"
-              title="Previous month"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                navigateMonth('next');
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                  e.preventDefault();
-                }
-              }}
-              className="p-2 rounded-md border hover:bg-gray-50 transition-colors"
-              title="Next month"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+    <>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex-1">
+          {/* Left spacer to push the month navigation to the center */}
+        </div>
         
-        {onScheduleClick && (
+        <div className="relative h-10 w-72 flex justify-center items-center">
           <button
-            onClick={onScheduleClick}
-            className="ml-4 rounded-md bg-blue-600 text-white px-3 py-2 text-sm hover:bg-blue-700"
+            onClick={() => navigateMonth('prev')}
+            className="absolute left-0 p-2 text-gray-500 hover:text-gray-900 transition-colors"
+            title="Previous month"
           >
-            Schedule
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
-        )}
+          
+          <button
+            onClick={() => {
+              setShowTermsModal(true);
+              setModalType('teachingPeriods');
+            }}
+            className="text-lg font-medium text-gray-900 hover:text-gray-700 transition-colors cursor-pointer"
+            title="Customise"
+          >
+            {currentDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+          </button>
+          
+          <button
+            onClick={() => navigateMonth('next')}
+            className="absolute right-0 p-2 text-gray-500 hover:text-gray-900 transition-colors"
+            title="Next month"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex-1 flex justify-end">
+          {onScheduleClick && (
+            <button
+              onClick={onScheduleClick}
+              className="rounded-lg bg-[#3D4756] text-white px-6 py-3 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+            >
+              Schedule
+            </button>
+          )}
+        </div>
       </div>
 
       {userId && (
@@ -118,6 +103,6 @@ export default function CalendarNavigation({ onScheduleClick, userId }: Calendar
           userId={userId}
         />
       )}
-    </div>
+    </>
   );
 }

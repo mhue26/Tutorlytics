@@ -67,8 +67,11 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
       </button>
 
       {/* Dropdown Menu */}
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+      <div className={`absolute right-0 mt-4 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 transition-all duration-200 ease-out ${
+        isOpen 
+          ? 'opacity-100 translate-y-0 pointer-events-auto' 
+          : 'opacity-0 -translate-y-2 pointer-events-none'
+      }`}>
           {/* User Info */}
           <div className="px-4 py-3 border-b border-gray-100">
             <p className="text-sm font-medium text-gray-900">
@@ -95,7 +98,6 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
             </button>
           </div>
         </div>
-      )}
     </div>
   );
 }

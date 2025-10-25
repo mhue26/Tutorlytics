@@ -22,8 +22,8 @@ export default async function BillingPage() {
 			{/* Main Content Grid */}
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 				{/* Left Column - Quick Actions */}
-				<div className="space-y-4">
-					<button className="w-full rounded-lg bg-blue-600/80 text-white p-4 hover:bg-blue-700/80 text-left transition-colors">
+				<div className="space-y-4 flex flex-col">
+					<button className="flex-1 rounded-lg bg-blue-600/80 text-white p-4 hover:bg-blue-700/80 text-left transition-colors">
 						<div className="flex items-center mb-2">
 							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -31,7 +31,7 @@ export default async function BillingPage() {
 							<h2 className="font-medium text-white">Create Invoice</h2>
 						</div>
 					</button>
-					<button className="w-full rounded-lg bg-green-600/80 text-white p-4 hover:bg-green-700/80 text-left transition-colors">
+					<button className="flex-1 rounded-lg bg-green-600/80 text-white p-4 hover:bg-green-700/80 text-left transition-colors">
 						<div className="flex items-center mb-2">
 							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -39,7 +39,7 @@ export default async function BillingPage() {
 							<h2 className="font-medium text-white">View Invoices</h2>
 						</div>
 					</button>
-					<button className="w-full rounded-lg bg-purple-600/80 text-white p-4 hover:bg-purple-700/80 text-left transition-colors">
+					<button className="flex-1 rounded-lg bg-purple-600/80 text-white p-4 hover:bg-purple-700/80 text-left transition-colors">
 						<div className="flex items-center mb-2">
 							<svg className="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -61,14 +61,10 @@ export default async function BillingPage() {
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 						</svg>
 					</div>
-					<h3 className="text-lg font-medium text-gray-900 mb-2">No invoices yet</h3>
-					<p className="text-gray-500">Create your first invoice to start billing your students.</p>
+					<h3 className="text-lg font-medium mb-4" style={{ color: '#A1ACBD' }}>No invoices yet</h3>
 					<div className="mt-4">
-						<button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-							<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-							</svg>
-							Create First Invoice
+						<button className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200">
+							Create Invoice
 						</button>
 					</div>
 				</div>

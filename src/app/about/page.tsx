@@ -3,7 +3,7 @@ export default function AboutPage() {
 		<div className="w-full space-y-12">
 			{/* Hero Section */}
 			<div className="text-center">
-				<h1 className="text-4xl font-bold text-gray-900 mb-4">About TutorTools</h1>
+				<h1 className="text-4xl font-bold text-gray-900 mb-4">About Tutorlytics</h1>
 				<p className="text-xl text-gray-600 max-w-2xl mx-auto">
 					We're on a mission to empower private tutors with the tools they need to build successful, sustainable teaching businesses.
 				</p>
@@ -23,7 +23,7 @@ export default function AboutPage() {
 				<div className="bg-white rounded-lg border p-6">
 					<h3 className="text-xl font-semibold text-gray-900 mb-4">What We Do</h3>
 					<p className="text-gray-700 leading-relaxed mb-4">
-						TutorTools provides a comprehensive platform that handles all aspects of running a tutoring business:
+						Tutorlytics provides a comprehensive platform that handles all aspects of running a tutoring business:
 					</p>
 					<ul className="space-y-2 text-gray-700">
 						<li className="flex items-start">
@@ -110,7 +110,7 @@ export default function AboutPage() {
 							"Every feature we build starts with one question: 'How does this help tutors teach better?' 
 							That focus drives everything we do."
 						</p>
-						<p className="text-sm text-gray-500 mt-2">— The TutorTools Team</p>
+						<p className="text-sm text-gray-500 mt-2">— The Tutorlytics Team</p>
 					</div>
 				</div>
 			</div>
@@ -119,7 +119,7 @@ export default function AboutPage() {
 			<div className="bg-blue-50 rounded-lg p-8 text-center">
 				<h2 className="text-2xl font-semibold text-gray-900 mb-4">Ready to Transform Your Tutoring Business?</h2>
 				<p className="text-gray-700 mb-6">
-					Join thousands of tutors who are already using TutorTools to grow their businesses.
+					Join thousands of tutors who are already using Tutorlytics to grow their businesses.
 				</p>
 				<div className="flex flex-col sm:flex-row gap-3 justify-center">
 					<a href="/signup" className="rounded-md bg-blue-600 text-white px-6 py-3 hover:bg-blue-700">

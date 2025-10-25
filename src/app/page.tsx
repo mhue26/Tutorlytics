@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import AnimatedText from "./AnimatedText";
 
 export const metadata = {
-	title: "TutorTools — Modern Platform for Private Tutors",
+	title: "Tutorlytics — Modern Platform for Private Tutors",
 	description: "Manage your scheduling, billing, and students — all in one place.",
 };
 
@@ -13,19 +13,22 @@ export default async function Home() {
 	const session = await getServerSession(authOptions);
 	return (
 		<div className="font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<section className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: '#D6E3F8', width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', marginTop: '-5rem' }}>
-				<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 items-center mb-12">
-					<div className="px-24 lg:px-32">
+			<section className="min-h-screen flex flex-col items-start justify-center" style={{ backgroundColor: '#D6E3F8', width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', marginTop: '-5rem' }}>
+				<div 
+					className="absolute top-0 right-0 w-1/2 h-full bg-white hidden lg:block"
+					style={{ clipPath: 'polygon(30% 0, 100% 0, 100% 100%, 0% 100%)' }}
+				></div>
+				<div className="relative z-10 w-full">
+					<div className="px-48">
+						<div className="w-20 h-2 bg-white rounded-full mb-4"></div>
 						<AnimatedText 
-							text="On a mission to student-first teaching."
-							className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug"
-							delay={300}
+							text="Students First"
+							className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug text-left text-[#3D4756]"
+							delay={500}
 						/>
-					</div>
-					<div className="relative px-8 lg:px-16" data-fade>
-						<div className="aspect-[16/10] rounded-xl border bg-white shadow-sm" />
-						<div className="absolute -bottom-4 right-4 w-32 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
-						<div className="absolute -top-4 left-4 w-24 aspect-[3/2] rounded-xl border bg-white shadow-sm hidden sm:block" />
+						<button className="mt-8 bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200">
+							Join Today
+						</button>
 					</div>
 				</div>
 			</section>
@@ -69,14 +72,10 @@ export default async function Home() {
 							<ul className="mt-4 space-y-2 text-gray-700 list-disc list-inside">
 								{m.points.map((p) => (<li key={p}>{p}</li>))}
 							</ul>
-							<div className="mt-6 rounded-xl border bg-white aspect-[16/10]" />
-							<figure className="mt-4 border-l-4 border-gray-200 pl-4 text-sm text-gray-600">
-								<blockquote>“I saved hours every week and grew my studio.”</blockquote>
+							<figure className="mt-6 border-l-4 border-gray-200 pl-4 text-sm text-gray-600">
+								<blockquote>"I saved hours every week and grew my studio."</blockquote>
 								<figcaption className="mt-2 font-medium">Jane Doe, Music Studio Owner</figcaption>
 							</figure>
-						</div>
-						<div data-fade>
-							<div className="rounded-xl border bg-white shadow-sm aspect-[4/3]" />
 						</div>
 					</div>
 				))}

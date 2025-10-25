@@ -73,20 +73,21 @@ export default async function DashboardPage() {
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			{/* Centered Welcome Heading */}
-			<div className="text-center">
-				<h1 className="text-3xl font-semibold text-blue-900">Welcome{session?.user?.name ? `, ${session.user.name}` : ""}!</h1>
-			</div>
+			{/* Welcome and Today Box Row */}
+			<div className="flex items-center justify-between">
+				{/* Welcome Heading */}
+				<div>
+					<h1 className="text-3xl font-semibold" style={{ color: '#3D4756' }}>Welcome{session?.user?.name ? `, ${session.user.name}` : ""}!</h1>
+				</div>
 
-			{/* Today Call-out Box */}
-			<div className="bg-blue-50 border border-blue-300 ring-1 ring-blue-200 rounded-lg p-8 shadow-sm">
-				<div className="flex items-center justify-center">
-					<div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-						<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				{/* Today Text and Icon */}
+				<div className="flex items-center rounded-full px-4 py-2" style={{ backgroundColor: '#FEF5eF' }}>
+					<div className="w-6 h-6 flex items-center justify-center mr-3">
+						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#584b53' }}>
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
 						</svg>
 					</div>
-					<p className="text-blue-700 text-base">Today is {formatDate(today)}</p>
+					<p className="text-base" style={{ color: '#584b53' }}>Today is {formatDate(today)}</p>
 				</div>
 			</div>
 
@@ -155,16 +156,12 @@ export default async function DashboardPage() {
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
 							</svg>
 						</div>
-						<h3 className="text-lg font-medium text-gray-900 mb-2">No upcoming events</h3>
-						<p className="text-gray-500">You don't have any lessons scheduled. Perfect time to plan ahead!</p>
+						<h3 className="text-lg font-medium mb-4" style={{ color: '#A1ACBD' }}>No upcoming events</h3>
 						<div className="mt-4">
 							<a 
 								href="/calendar/new" 
-								className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+								className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
 							>
-								<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-								</svg>
 								Schedule
 							</a>
 						</div>

@@ -7,9 +7,23 @@ export default function Footer() {
           <div className="md:w-2/3">
             <h3 className="text-lg font-semibold text-white mb-4">Tutorlytics</h3>
             <p className="text-gray-300 mb-4">
-              On a mission to deliver student-first education.
+              Delivering student-first education.
             </p>
-            <div className="flex space-x-4">
+          </div>
+
+          {/* Support */}
+          <div className="text-right">
+            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Support</h4>
+            <ul className="space-y-3">
+              <li><a href="/contact" className="text-gray-300 hover:text-white">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-gray-600">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            {/* Social Media Icons - Left */}
+            <div className="flex space-x-4 justify-start">
               <a href="#" className="text-gray-400 hover:text-white">
                 <span className="sr-only">Instagram</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -29,23 +43,16 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-          </div>
-
-          {/* Support */}
-          <div className="text-right">
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Support</h4>
-            <ul className="space-y-3">
-              <li><a href="/contact" className="text-gray-300 hover:text-white">Contact Us</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-8 pt-8 border-t border-gray-600">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © 2025 Tutorlytics. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            
+            {/* Copyright - Center */}
+            <div className="text-center">
+              <p className="text-gray-400 text-sm">
+                © 2025 Tutorlytics. All rights reserved.
+              </p>
+            </div>
+            
+            {/* Terms and Policy Links - Right */}
+            <div className="flex space-x-6 justify-end">
               <a href="/" className="text-gray-400 hover:text-white text-sm">Terms of Service</a>
               <a href="/cookie-policy" className="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
             </div>

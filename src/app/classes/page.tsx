@@ -33,9 +33,9 @@ export default async function ClassesPage() {
   });
 
   return (
-    <div className="space-y-6 pt-8">
+    <div className="space-y-6 pt-8" style={{ backgroundColor: '#EFFAFF' }}>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Classes</h1>
+        <h1 className="text-2xl font-semibold text-[#3D4756]">Classes</h1>
       </div>
 
       <ClassesClient classes={classes} />

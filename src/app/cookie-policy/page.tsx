@@ -148,7 +148,7 @@ export default function CookiePolicyPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Contact</h2>
               <p className="text-gray-700 mb-4">
                 If you have any questions about our use of cookies or this Cookie Policy, please contact us:
               </p>

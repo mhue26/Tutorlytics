@@ -37,7 +37,7 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
         <h3 className="text-lg font-medium mb-8" style={{ color: '#A1ACBD' }}>No classes yet</h3>
         <Link 
           href="/classes/new"
-          className="bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+          className="bg-[#3D4756] text-white px-6 py-3 rounded-2xl font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
         >
           Create Class
         </Link>
@@ -49,7 +49,7 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
     <div className="space-y-4">
       {/* View Toggle */}
       <div className="flex justify-end">
-        <div className="flex border rounded-md">
+        <div className="flex rounded-md shadow-sm">
           <button
             onClick={() => setViewMode('grid')}
             className={`px-3 py-1 text-sm font-medium rounded-l-md ${
@@ -77,7 +77,7 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((classItem) => (
-            <div key={classItem.id} className="bg-white rounded-lg border p-6 hover:shadow-md transition-shadow">
+            <div key={classItem.id} className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div 
@@ -110,7 +110,7 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg border overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>

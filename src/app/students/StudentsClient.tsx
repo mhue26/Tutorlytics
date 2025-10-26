@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import SubjectsDisplay from "./SubjectsDisplay";
+import StatusIndicator from "./StatusIndicator";
 
 type StudentItem = {
 	id: string;
@@ -12,10 +13,81 @@ type StudentItem = {
 	phone: string | null;
 	subjects: string | null;
 	hourlyRateCents: number;
-	year?: number | null; // Year level as number (e.g., 5, 10, 12)
-	isActive?: boolean; // Keep for backward compatibility
-	isArchived?: boolean; // Keep for backward compatibility
-	updatedAt?: string | Date; // For showing when student was archived
+	year?: number | null;
+	isArchived: boolean;
+	updatedAt?: string | Date;
+};
+
+type Filter = {
+    id: string;
+    field: 'year' | 'subjects' | 'isArchived';
+    condition: 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'isGreaterThan' | 'isLessThan';
+    value: any;
+};
+
+const StudentAvatar = ({ student }: { student: StudentItem }) => {
+    const [showMenu, setShowMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+    const initial = student.firstName ? student.firstName.charAt(0).toUpperCase() : '?';
+    const colors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200', 'bg-red-200'];
+    const color = colors[String(student.id).charCodeAt(0) % colors.length];
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setShowMenu(false);
+            }
+        };
+
+        if (showMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showMenu]);
+
+    return (
+        <div className="relative" ref={menuRef}>
+            <button
+                onClick={() => setShowMenu(!showMenu)}
+                className={`w-8 h-8 rounded-full ${color} flex items-center justify-center font-bold text-gray-700 hover:scale-105 transition-transform cursor-pointer`}
+            >
+                {initial}
+            </button>
+            
+            {showMenu && (
+                <div className="absolute top-10 left-0 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-[9999] min-w-[120px]">
+                    <Link
+                        href={`/students/${student.id}/edit`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowMenu(false)}
+                    >
+                        Edit
+                    </Link>
+                    <button
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => {
+                            // Archive functionality would go here
+                            setShowMenu(false);
+                        }}
+                    >
+                        Archive
+                    </button>
+                    <button
+                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        onClick={() => {
+                            // Delete functionality would go here
+                            setShowMenu(false);
+                        }}
+                    >
+                        Delete
+                    </button>
+                </div>
+            )}
+        </div>
+    );
 };
 
 function formatCurrencyFromCents(valueInCents: number): string {
@@ -24,34 +96,50 @@ function formatCurrencyFromCents(valueInCents: number): string {
 }
 
 export default function StudentsClient({ students, archivedStudents }: { students: StudentItem[], archivedStudents: StudentItem[] }) {
-	const [view, setView] = useState<"list" | "card">("list");
-	const [showPastStudents, setShowPastStudents] = useState(false);
+	const allStudents = useMemo(() => [...students, ...archivedStudents], [students, archivedStudents]);
+    const [filters, setFilters] = useState<Filter[]>([]);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    const filteredStudents = useMemo(() => {
+        if (filters.length === 0) {
+            return allStudents;
+        }
+
+        return allStudents.filter(student => {
+            return filters.every(filter => {
+                const { field, condition, value } = filter;
+                const studentValue = student[field as keyof StudentItem];
+
+                switch (condition) {
+                    case 'is':
+                        return studentValue == value;
+                    case 'isNot':
+                        return studentValue != value;
+                    case 'contains':
+                        return typeof studentValue === 'string' && studentValue.toLowerCase().includes(value.toLowerCase());
+                    case 'doesNotContain':
+                        return typeof studentValue === 'string' && !studentValue.toLowerCase().includes(value.toLowerCase());
+                    case 'isGreaterThan':
+                        return typeof studentValue === 'number' && studentValue > value;
+                    case 'isLessThan':
+                        return typeof studentValue === 'number' && studentValue < value;
+                    default:
+                        return true;
+                }
+            });
+        });
+    }, [allStudents, filters]);
 
 	return (
-		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif", backgroundColor: '#EFFAFF' }}>
 			<div className="flex items-center justify-between">
-				<h2 className="text-2xl font-semibold">Students</h2>
+				<h2 className="text-2xl font-semibold text-[#3D4756]">Students</h2>
 				<div className="flex items-center gap-2">
-					<button
-						className={`rounded-md border p-2 ${view === "list" ? "bg-gray-900 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
-						onClick={() => setView("list")}
-						title="List View"
-					>
-						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-						</svg>
-					</button>
-					<button
-						className={`rounded-md border p-2 ${view === "card" ? "bg-gray-900 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}
-						onClick={() => setView("card")}
-						title="Card View"
-					>
-						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-						</svg>
+					<button className="px-4 py-2 bg-white rounded-md shadow-sm border border-gray-200 text-sm font-medium hover:bg-gray-50">
+						Add Filter
 					</button>
 					<Link
-						className="rounded-md bg-blue-600 text-white p-2 hover:bg-blue-700"
+						className="rounded-md bg-[#3D4756] text-white p-2 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
 						href="/students/new"
 						title="Add Student"
 					>
@@ -62,171 +150,63 @@ export default function StudentsClient({ students, archivedStudents }: { student
 				</div>
 			</div>
 
-			{view === "list" ? (
-				<div className="rounded-lg border bg-white">
-					<table className="w-full text-left text-sm">
-						<thead className="bg-gray-50">
-							<tr>
-								<th className="px-3 py-2 w-1/4">Name</th>
-								<th className="px-3 py-2 w-1/4">Subjects</th>
-								<th className="px-3 py-2 w-1/4">Rate</th>
-								<th className="px-3 py-2 w-1/4">Year</th>
-							</tr>
-						</thead>
-						<tbody>
-							{students.map((s) => (
-								<tr key={s.id} className="border-t">
-									<td className="px-3 py-2">
-										<Link className="text-blue-600 hover:underline" href={`/students/${s.id}`}>
+            {isFilterOpen && (
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+                    <div className="flex items-center gap-2">
+                        {/* Form to add a new filter */}
+                    </div>
+                </div>
+            )}
+
+            {filters.length > 0 && (
+                <div className="p-4 flex items-center gap-2">
+                    {filters.map(filter => (
+                        <div key={filter.id} className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1 text-xs">
+                            <span>{filter.field} {filter.condition} {filter.value.toString()}</span>
+                            <button onClick={() => setFilters(filters.filter(f => f.id !== filter.id))} className="text-gray-500 hover:text-gray-800">
+                                &times;
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+			<div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+				<table className="w-full text-left text-sm">
+					<thead className="bg-[#3D4756] border-b border-gray-200">
+						<tr>
+							<th className="px-4 py-3 font-medium text-white">Record</th>
+							<th className="px-4 py-3 font-medium text-white">Subjects</th>
+							<th className="px-4 py-3 font-medium text-white">Year Level</th>
+							<th className="px-4 py-3 font-medium text-white">Hourly Rate</th>
+							<th className="px-4 py-3 font-medium text-white">Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{filteredStudents.map((s) => (
+							<tr key={s.id} className="border-t border-gray-200 hover:bg-gray-50">
+								<td className="px-4 py-3">
+									<div className="flex items-center gap-3">
+										<StudentAvatar student={s} />
+										<Link className="font-medium text-gray-800 hover:underline" href={`/students/${s.id}`}>
 											{s.firstName} {s.lastName}
 										</Link>
-									</td>
-									<td className="px-3 py-2">
-										<SubjectsDisplay subjects={s.subjects || ""} />
-									</td>
-									<td className="px-3 py-2">{formatCurrencyFromCents(s.hourlyRateCents)}</td>
-									<td className="px-3 py-2">{s.year ? `Year ${s.year}` : "—"}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-			) : (
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-					{students.map((s) => (
-						<div key={s.id} className="rounded-lg border bg-white p-4 hover:shadow-sm transition-shadow">
-							<div className="flex items-start justify-between">
-								<div>
-									<h3 className="font-medium">
-										<Link className="text-blue-600 hover:underline" href={`/students/${s.id}`}>
-											{s.firstName} {s.lastName}
-										</Link>
-									</h3>
-									<p className="text-sm text-gray-600">{s.email ?? "—"}</p>
-									<p className="text-sm text-gray-600">{s.phone ?? "—"}</p>
-								</div>
-								<span className={`text-xs px-2 py-1 rounded ${s.year ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700"}`}>
-									{s.year ? `Year ${s.year}` : "—"}
-								</span>
-							</div>
-							<div className="mt-3 text-sm text-gray-700">
-								<div className="flex items-center gap-2">
-									<span className="text-gray-500">Subjects:</span>
-									<SubjectsDisplay subjects={s.subjects || ""} />
-								</div>
-								<p><span className="text-gray-500">Rate:</span> {formatCurrencyFromCents(s.hourlyRateCents)}</p>
-							</div>
-						</div>
-					))}
-				</div>
-			)}
-
-			{/* Past Students Section */}
-			<div className="mt-8">
-				<button
-					onClick={() => setShowPastStudents(!showPastStudents)}
-					className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
-				>
-					<svg 
-						className={`w-4 h-4 transition-transform ${showPastStudents ? 'rotate-90' : ''}`}
-						fill="none" 
-						stroke="currentColor" 
-						viewBox="0 0 24 24"
-					>
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-					</svg>
-					<span className="font-medium">Past Students</span>
-					<span className="text-sm text-gray-500">({archivedStudents.length} archived)</span>
-				</button>
-
-				{showPastStudents && (
-					<div className="mt-4">
-						{view === "list" ? (
-							<div className="rounded-lg border bg-white">
-								<table className="w-full text-left text-sm">
-									<thead className="bg-gray-50">
-										<tr>
-											<th className="px-3 py-2 w-1/6">Name</th>
-											<th className="px-3 py-2 w-1/6">Email</th>
-											<th className="px-3 py-2 w-1/6">Phone</th>
-											<th className="px-3 py-2 w-1/6">Subjects</th>
-											<th className="px-3 py-2 w-1/6">Rate</th>
-											<th className="px-3 py-2 w-1/6">Year</th>
-										</tr>
-									</thead>
-									<tbody>
-										{archivedStudents.length > 0 ? (
-											archivedStudents.map((s) => (
-												<tr key={s.id} className="border-t">
-													<td className="px-3 py-2">
-														<Link className="text-blue-600 hover:underline" href={`/students/${s.id}`}>
-															{s.firstName} {s.lastName}
-														</Link>
-													</td>
-													<td className="px-3 py-2">{s.email ?? "—"}</td>
-													<td className="px-3 py-2">{s.phone ?? "—"}</td>
-													<td className="px-3 py-2">
-														<SubjectsDisplay subjects={s.subjects || ""} />
-													</td>
-													<td className="px-3 py-2">{formatCurrencyFromCents(s.hourlyRateCents)}</td>
-													<td className="px-3 py-2">{s.year ? `Year ${s.year}` : "—"}</td>
-												</tr>
-											))
-										) : (
-											<tr>
-												<td colSpan={6} className="px-3 py-8 text-center text-gray-500">
-													<svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-													</svg>
-													<p>No archived students yet</p>
-													<p className="text-sm mt-1">Students you archive will appear here</p>
-												</td>
-											</tr>
-										)}
-									</tbody>
-								</table>
-							</div>
-						) : (
-							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-								{archivedStudents.length > 0 ? (
-									archivedStudents.map((s) => (
-										<div key={s.id} className="rounded-lg border bg-white p-4 hover:shadow-sm transition-shadow">
-											<div className="flex items-start justify-between">
-												<div>
-													<h3 className="font-medium">
-														<Link className="text-blue-600 hover:underline" href={`/students/${s.id}`}>
-															{s.firstName} {s.lastName}
-														</Link>
-													</h3>
-													<p className="text-sm text-gray-600">{s.email ?? "—"}</p>
-													<p className="text-sm text-gray-600">{s.phone ?? "—"}</p>
-												</div>
-												<span className={`text-xs px-2 py-1 rounded ${s.year ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700"}`}>
-													{s.year ? `Year ${s.year}` : "—"}
-												</span>
-											</div>
-											<div className="mt-3 text-sm text-gray-700">
-												<div className="flex items-center gap-2">
-													<span className="text-gray-500">Subjects:</span>
-													<SubjectsDisplay subjects={s.subjects || ""} />
-												</div>
-												<p><span className="text-gray-500">Rate:</span> {formatCurrencyFromCents(s.hourlyRateCents)}</p>
-											</div>
-										</div>
-									))
-								) : (
-									<div className="col-span-full rounded-lg border bg-white p-8 text-center text-gray-500">
-										<svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-										</svg>
-										<p>No archived students yet</p>
-										<p className="text-sm mt-1">Students you archive will appear here</p>
 									</div>
-								)}
-							</div>
-						)}
-					</div>
-				)}
+								</td>
+								<td className="px-4 py-3">
+									<SubjectsDisplay subjects={s.subjects || ""} />
+								</td>
+								<td className="px-4 py-3 text-sm text-gray-900">
+									{s.year || '—'}
+								</td>
+								<td className="px-4 py-3">{formatCurrencyFromCents(s.hourlyRateCents)}</td>
+								<td className="px-4 py-3">
+                                    <StatusIndicator isActive={!s.isArchived} />
+                                </td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);

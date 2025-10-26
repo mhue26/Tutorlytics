@@ -23,15 +23,13 @@ export default function Navigation({ session }: NavigationProps) {
           <span className="px-2">·</span>
           <a href="/billing" className={pathname === '/billing' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Invoicing</a>
         </>
-      ) : null}
-      {!session ? (
+      ) : (
         <div className="flex items-center gap-2">
-          <a href="/about" className="hover:font-bold">About us</a>
+          <a href="/about" className="hover:font-bold" style={{ color: '#584B53' }}>About</a>
           <span className="px-2">·</span>
-          <a href="/signin" className="rounded-md border px-3 py-1.5 hover:bg-gray-50">Log in</a>
-          <a href="/signup" className="rounded-md bg-blue-600 text-white px-3 py-1.5 hover:bg-blue-700">Sign up</a>
+          <a href="/contact" className="hover:font-bold" style={{ color: '#584B53' }}>Contact</a>
         </div>
-      ) : null }
+      )}
     </nav>
   );
 }

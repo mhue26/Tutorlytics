@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import TeachingPeriodsModal from "./TermsHolidaysModal";
 import { useModal } from "../contexts/ModalContext";
 
 interface CalendarNavigationProps {
-  onScheduleClick?: () => void;
   userId?: string;
 }
 
-export default function CalendarNavigation({ onScheduleClick, userId }: CalendarNavigationProps) {
+export default function CalendarNavigation({ userId }: CalendarNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setModalType } = useModal();
@@ -82,14 +82,12 @@ export default function CalendarNavigation({ onScheduleClick, userId }: Calendar
         </div>
 
         <div className="flex-1 flex justify-end">
-          {onScheduleClick && (
-            <button
-              onClick={onScheduleClick}
-              className="rounded-lg bg-[#3D4756] text-white px-6 py-3 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
-            >
-              Schedule
-            </button>
-          )}
+          <Link
+            href="/schedule"
+            className="rounded-lg bg-[#3D4756] text-white px-6 py-3 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+          >
+            Schedule
+          </Link>
         </div>
       </div>
 

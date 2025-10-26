@@ -54,7 +54,6 @@ export default function SignInForm() {
 				<span className="inline-block h-4 w-4 rounded bg-gray-200" />
 				Continue with Google
 			</button>
-			<p className="text-xs text-gray-600 mt-3">Use tutor@example.com / password123</p>
 		</div>
 	);
 }

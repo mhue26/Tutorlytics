@@ -105,7 +105,7 @@ export default function ParentInformationClient({
                 <button 
                   type="button"
                   onClick={addAlternativeContact}
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1"
+                  className="bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200 flex items-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

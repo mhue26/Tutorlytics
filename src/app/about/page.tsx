@@ -126,7 +126,7 @@ export default function AboutPage() {
 						Get Started Free
 					</a>
 					<a href="/contact" className="rounded-md border border-blue-600 text-blue-600 px-6 py-3 hover:bg-blue-50">
-						Contact Us
+						Contact
 					</a>
 				</div>
 			</div>

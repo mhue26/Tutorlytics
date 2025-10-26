@@ -272,7 +272,7 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 								</div>
 								<button 
 									type="button" 
-									className="mt-3 text-sm text-blue-600 hover:underline add-contact-btn"
+									className="mt-3 bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200 add-contact-btn"
 								>
 									+ Add another alternative contact
 								</button>

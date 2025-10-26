@@ -81,7 +81,7 @@ export default async function DashboardPage() {
 				</div>
 
 				{/* Today Text and Icon */}
-				<div className="flex items-center rounded-full px-4 py-2" style={{ backgroundColor: '#FEF5eF' }}>
+				<div className="flex items-center rounded-full px-4 py-2 shadow-sm" style={{ backgroundColor: '#FEF5eF' }}>
 					<div className="w-6 h-6 flex items-center justify-center mr-3">
 						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#584b53' }}>
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -92,7 +92,7 @@ export default async function DashboardPage() {
 			</div>
 
 			{/* Recent Events Card */}
-			<div className="bg-white rounded-lg border p-6">
+			<div className="bg-white rounded-2xl shadow-sm p-6">
 				<h2 className="text-lg font-medium mb-4">Recent Events</h2>
 				{recentMeetings.length > 0 ? (
 					<div className="space-y-3">
@@ -104,7 +104,7 @@ export default async function DashboardPage() {
 							return (
 								<div
 									key={meeting.id}
-									className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+									className="rounded-2xl p-4 hover:shadow-sm transition-shadow"
 								>
 									<div className="flex justify-between items-start mb-2">
 										<div>
@@ -159,8 +159,8 @@ export default async function DashboardPage() {
 						<h3 className="text-lg font-medium mb-4" style={{ color: '#A1ACBD' }}>No upcoming events</h3>
 						<div className="mt-4">
 							<a 
-								href="/calendar/new" 
-								className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+								href="/schedule" 
+								className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-2xl font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
 							>
 								Schedule
 							</a>
@@ -169,20 +169,6 @@ export default async function DashboardPage() {
 				)}
 			</div>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-				<a href="/students" className="rounded-lg border p-4 hover:bg-gray-50">
-					<h2 className="font-medium">Manage Students</h2>
-					<p className="text-sm text-gray-600">Create, view, and edit your students.</p>
-				</a>
-				<a href="/students/new" className="rounded-lg border p-4 hover:bg-gray-50">
-					<h2 className="font-medium">Add New Student</h2>
-					<p className="text-sm text-gray-600">Quickly add a new student to your studio.</p>
-				</a>
-				<a href="/billing" className="rounded-lg border p-4 hover:bg-gray-50">
-					<h2 className="font-medium">Manage Invoicing</h2>
-					<p className="text-sm text-gray-600">Create and manage invoices for your students.</p>
-				</a>
-			</div>
 		</div>
 	);
 }

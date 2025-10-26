@@ -60,7 +60,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 font-medium">
+          <div className="w-full h-full flex items-center justify-center font-medium" style={{ backgroundColor: '#FEF5eF', color: '#584b53' }}>
             {user.name ? user.name.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase() || 'U'}
           </div>
         )}

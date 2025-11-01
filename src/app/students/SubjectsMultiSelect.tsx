@@ -9,18 +9,11 @@ interface SubjectsMultiSelectProps {
   required?: boolean;
 }
 
-const COMMON_SUBJECTS = [
-  "Math", "English", "Science", "Physics", "Chemistry", "Biology",
-  "History", "Geography", "Art", "Music", "PE", "Computer Science",
-  "Economics", "Psychology", "Spanish", "French", "German", "Chinese",
-  "Japanese", "Latin", "Philosophy", "Politics", "Sociology", "Statistics"
-];
-
-// Store available subjects in localStorage
+// Get available subjects from localStorage (user-created only)
 const getAvailableSubjects = (): string[] => {
-  if (typeof window === 'undefined') return COMMON_SUBJECTS;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem('availableSubjects');
-  return stored ? JSON.parse(stored) : COMMON_SUBJECTS;
+  return stored ? JSON.parse(stored) : [];
 };
 
 const saveAvailableSubjects = (subjects: string[]) => {
@@ -83,8 +76,18 @@ export default function SubjectsMultiSelect({ name, defaultValue = "", required 
   };
 
   const addCustomSubject = () => {
-    if (searchTerm.trim() && !selectedSubjects.includes(searchTerm.trim())) {
-      setSelectedSubjects(prev => [...prev, searchTerm.trim()]);
+    const trimmedSubject = searchTerm.trim();
+    if (trimmedSubject && !selectedSubjects.includes(trimmedSubject)) {
+      // Add to selected subjects
+      setSelectedSubjects(prev => [...prev, trimmedSubject]);
+      
+      // Add to available subjects list if not already there
+      if (!availableSubjects.includes(trimmedSubject)) {
+        const updatedAvailable = [...availableSubjects, trimmedSubject];
+        setAvailableSubjects(updatedAvailable);
+        saveAvailableSubjects(updatedAvailable);
+      }
+      
       setSearchTerm("");
       // Keep dropdown open for multiple selections
     }
@@ -162,7 +165,7 @@ export default function SubjectsMultiSelect({ name, defaultValue = "", required 
       {/* Dropdown */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-60 overflow-hidden">
-          {searchTerm && !COMMON_SUBJECTS.includes(searchTerm) && (
+          {searchTerm && !availableSubjects.includes(searchTerm) && (
             <div className="p-2 border-b">
               <button
                 type="button"

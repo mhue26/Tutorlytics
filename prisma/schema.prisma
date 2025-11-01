@@ -12,7 +12,7 @@ model Student {
   id              Int       @id @default(autoincrement())
   firstName       String
   lastName        String
-  email           String    @unique
+  email           String?   @unique
   phone           String?
   subjects        String    @default("") // Tutoring subjects (e.g., "Math,Physics")
   schoolSubjects  String?   // School subjects (e.g., "Math,English,Science,History")

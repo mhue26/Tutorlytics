@@ -17,7 +17,8 @@ async function updateStudent(id: number, formData: FormData) {
 	const nameParts = fullName.split(" ");
 	const firstName = nameParts[0] || "";
 	const lastName = nameParts.slice(1).join(" ") || "";
-	const email = String(formData.get("email") || "").trim();
+	const emailValue = String(formData.get("email") || "").trim();
+	const email = emailValue || undefined;
 	// Process multiple alternative contacts
 	const contacts = [];
 	let contactIndex = 1;
@@ -211,7 +212,7 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 
 			<form action={updateStudentAction} className="space-y-6">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-					<div className="bg-white p-6 rounded-lg border">
+					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Student Information</h3>
 						<div className="space-y-4">
 							<label className="block">
@@ -289,7 +290,7 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 						initialAlternativeContacts={alternativeContacts}
 					/>
 
-					<div className="bg-white p-6 rounded-lg border">
+					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Academic Information</h3>
 						<div className="space-y-4">
 							<label className="block">
@@ -335,7 +336,7 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 						</div>
 					</div>
 
-					<div className="bg-white p-6 rounded-lg border">
+					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Lesson Information</h3>
 						<div className="space-y-4">
 							<label className="block">

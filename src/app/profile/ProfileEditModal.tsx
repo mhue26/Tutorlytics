@@ -34,7 +34,7 @@ export default function ProfileEditModal({ user }: ProfileEditModalProps) {
         onClick={() => setModalType('none')}
       />
 
-      <div className="relative bg-white rounded-lg shadow-xl border max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white rounded-2xl shadow-sm max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-semibold text-gray-900">Edit Profile</h1>

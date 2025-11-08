@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900`}
-        style={{ backgroundColor: '#EFFAFF', fontFamily: "'Work Sans', sans-serif" }}
+        style={{ backgroundColor: '#ffffff', fontFamily: "'Work Sans', sans-serif" }}
         suppressHydrationWarning={true}
       >
         <ModalProvider>

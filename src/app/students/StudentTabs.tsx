@@ -128,12 +128,12 @@ export default function StudentTabs({ children, meetings, teachingPeriods, stude
             )}
             
             {activeTab === 'notes' && (
-              <div className="bg-white rounded-lg border p-6">
+              <div className="bg-white rounded-2xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h4 className="font-medium text-gray-900">Student Notes</h4>
                   <button 
                     onClick={addNote}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition-colors cursor-pointer"
+                    className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-2xl font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200 cursor-pointer"
                   >
                     Add Note
                   </button>

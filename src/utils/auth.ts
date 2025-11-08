@@ -1,6 +1,5 @@
 import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 // Create a local Prisma client here to avoid importing edge-incompatible client into middleware
 import { PrismaClient } from "@/generated/prisma";
 const prisma = new PrismaClient();
@@ -9,11 +8,10 @@ import { getServerSession } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
 	session: { strategy: "jwt" },
+	pages: {
+		signIn: "/signin",
+	},
 	providers: [
-		Google({
-			clientId: process.env.GOOGLE_CLIENT_ID!,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-		}),
 		Credentials({
 			name: "Credentials",
 			credentials: {

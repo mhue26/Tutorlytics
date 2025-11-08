@@ -224,7 +224,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
   };
 
   return (
-    <div className="bg-white rounded-lg border p-6">
+    <div className="bg-white rounded-2xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-medium">Lesson Breakdown</h3>
         
@@ -376,11 +376,11 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
         <div className="space-y-4">
           {/* First row: Completed and Completed Hours */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-green-50 p-4 rounded-lg">
+            <div className="bg-green-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-green-600">{stats.completedLessons}</div>
               <div className="text-sm text-green-800">Completed</div>
             </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="bg-gray-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-gray-600">{stats.totalHours.toFixed(1)}h</div>
               <div className="text-sm text-gray-800">Completed Hours</div>
             </div>
@@ -388,11 +388,11 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
           
           {/* Second row: Cancelled and Upcoming */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-red-50 p-4 rounded-lg">
+            <div className="bg-red-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-red-600">{stats.cancelledLessons}</div>
               <div className="text-sm text-red-800">Cancelled</div>
             </div>
-            <div className="bg-orange-50 p-4 rounded-lg">
+            <div className="bg-orange-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-orange-600">{stats.upcomingLessons}</div>
               <div className="text-sm text-orange-800">Upcoming</div>
             </div>
@@ -400,7 +400,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
           
           {/* Third row: Total Lessons */}
           <div className="grid grid-cols-1 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="bg-blue-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-blue-600">{stats.totalLessons}</div>
               <div className="text-sm text-blue-800">Total Lessons</div>
             </div>
@@ -408,7 +408,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
         </div>
 
         {/* Chart Section */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h4 className="font-medium text-gray-900">Visualization</h4>
             <div className="flex gap-2">

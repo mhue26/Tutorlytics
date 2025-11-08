@@ -99,36 +99,93 @@ export default function StudentsClient({ students, archivedStudents }: { student
 	const allStudents = useMemo(() => [...students, ...archivedStudents], [students, archivedStudents]);
     const [filters, setFilters] = useState<Filter[]>([]);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [sortField, setSortField] = useState<string | null>(null);
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null);
+
+    const handleSort = (field: string) => {
+        if (sortField !== field) {
+            // First click: set new field and ascending
+            setSortField(field);
+            setSortDirection('asc');
+        } else if (sortDirection === 'asc') {
+            // Second click: change to descending
+            setSortDirection('desc');
+        } else {
+            // Third click: remove sort
+            setSortField(null);
+            setSortDirection(null);
+        }
+    };
 
     const filteredStudents = useMemo(() => {
-        if (filters.length === 0) {
-            return allStudents;
+        let result = allStudents;
+
+        // Apply filters
+        if (filters.length > 0) {
+            result = allStudents.filter(student => {
+                return filters.every(filter => {
+                    const { field, condition, value } = filter;
+                    const studentValue = student[field as keyof StudentItem];
+
+                    switch (condition) {
+                        case 'is':
+                            return studentValue == value;
+                        case 'isNot':
+                            return studentValue != value;
+                        case 'contains':
+                            return typeof studentValue === 'string' && studentValue.toLowerCase().includes(value.toLowerCase());
+                        case 'doesNotContain':
+                            return typeof studentValue === 'string' && !studentValue.toLowerCase().includes(value.toLowerCase());
+                        case 'isGreaterThan':
+                            return typeof studentValue === 'number' && studentValue > value;
+                        case 'isLessThan':
+                            return typeof studentValue === 'number' && studentValue < value;
+                        default:
+                            return true;
+                    }
+                });
+            });
         }
 
-        return allStudents.filter(student => {
-            return filters.every(filter => {
-                const { field, condition, value } = filter;
-                const studentValue = student[field as keyof StudentItem];
+        // Apply sorting
+        if (sortField && sortDirection) {
+            result = [...result].sort((a, b) => {
+                let aValue: any;
+                let bValue: any;
 
-                switch (condition) {
-                    case 'is':
-                        return studentValue == value;
-                    case 'isNot':
-                        return studentValue != value;
-                    case 'contains':
-                        return typeof studentValue === 'string' && studentValue.toLowerCase().includes(value.toLowerCase());
-                    case 'doesNotContain':
-                        return typeof studentValue === 'string' && !studentValue.toLowerCase().includes(value.toLowerCase());
-                    case 'isGreaterThan':
-                        return typeof studentValue === 'number' && studentValue > value;
-                    case 'isLessThan':
-                        return typeof studentValue === 'number' && studentValue < value;
+                switch (sortField) {
+                    case 'record':
+                        aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+                        bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+                        break;
+                    case 'subjects':
+                        aValue = (a.subjects || '').toLowerCase();
+                        bValue = (b.subjects || '').toLowerCase();
+                        break;
+                    case 'year':
+                        aValue = a.year ?? -1;
+                        bValue = b.year ?? -1;
+                        break;
+                    case 'hourlyRate':
+                        aValue = a.hourlyRateCents;
+                        bValue = b.hourlyRateCents;
+                        break;
+                    case 'status':
+                        aValue = a.isArchived ? 1 : 0;
+                        bValue = b.isArchived ? 1 : 0;
+                        break;
                     default:
-                        return true;
+                        return 0;
                 }
+
+                if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+                if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
             });
-        });
-    }, [allStudents, filters]);
+        }
+
+        return result;
+    }, [allStudents, filters, sortField, sortDirection]);
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif", backgroundColor: '#EFFAFF' }}>
@@ -175,11 +232,61 @@ export default function StudentsClient({ students, archivedStudents }: { student
 				<table className="w-full text-left text-sm">
 					<thead className="bg-[#3D4756] border-b border-gray-200">
 						<tr>
-							<th className="px-4 py-3 font-medium text-white">Record</th>
-							<th className="px-4 py-3 font-medium text-white">Subjects</th>
-							<th className="px-4 py-3 font-medium text-white">Year Level</th>
-							<th className="px-4 py-3 font-medium text-white">Hourly Rate</th>
-							<th className="px-4 py-3 font-medium text-white">Status</th>
+							<th 
+								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+								onClick={() => handleSort('record')}
+							>
+								<div className="flex items-center gap-2">
+									<span>Name</span>
+									<span className="text-xs w-3 inline-block text-center">
+										{sortField === 'record' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+									</span>
+								</div>
+							</th>
+							<th 
+								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+								onClick={() => handleSort('subjects')}
+							>
+								<div className="flex items-center gap-2">
+									<span>Subjects</span>
+									<span className="text-xs w-3 inline-block text-center">
+										{sortField === 'subjects' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+									</span>
+								</div>
+							</th>
+							<th 
+								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+								onClick={() => handleSort('year')}
+							>
+								<div className="flex items-center gap-2">
+									<span>Year Level</span>
+									<span className="text-xs w-3 inline-block text-center">
+										{sortField === 'year' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+									</span>
+								</div>
+							</th>
+							<th 
+								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+								onClick={() => handleSort('hourlyRate')}
+							>
+								<div className="flex items-center gap-2">
+									<span>Hourly Rate</span>
+									<span className="text-xs w-3 inline-block text-center">
+										{sortField === 'hourlyRate' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+									</span>
+								</div>
+							</th>
+							<th 
+								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+								onClick={() => handleSort('status')}
+							>
+								<div className="flex items-center gap-2">
+									<span>Status</span>
+									<span className="text-xs w-3 inline-block text-center">
+										{sortField === 'status' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+									</span>
+								</div>
+							</th>
 						</tr>
 					</thead>
 					<tbody>

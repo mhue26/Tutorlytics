@@ -43,7 +43,7 @@ function getDuration(startTime: Date, endTime: Date): string {
 
 export default function LessonLogs({ meetings }: LessonLogsProps) {
   return (
-    <div className="bg-white rounded-lg border p-6">
+    <div className="bg-white rounded-2xl shadow-sm p-6">
       <h4 className="font-medium text-gray-900 mb-4">Lesson Logs ({meetings.length})</h4>
       <div className="max-h-96 overflow-y-auto space-y-3">
         {meetings.length === 0 ? (

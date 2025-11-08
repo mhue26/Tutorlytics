@@ -102,8 +102,15 @@ export default function ProfileEditClient({ user }: ProfileEditClientProps) {
       <div className="flex items-center space-x-6">
         <div className="flex-shrink-0">
           <div 
-            className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors"
+            className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-[#584b53] focus:ring-offset-2"
             onClick={handleImageClick}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleImageClick();
+              }
+            }}
           >
             {formData.image ? (
               <img
@@ -135,7 +142,7 @@ export default function ProfileEditClient({ user }: ProfileEditClientProps) {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          className="hidden"
+          className="hidden focus:outline-none focus:ring-2 focus:ring-[#584b53] focus:ring-offset-2"
         />
       </div>
 
@@ -212,9 +219,9 @@ export default function ProfileEditClient({ user }: ProfileEditClientProps) {
         <button
           type="submit"
           disabled={isLoading}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-6 py-3 bg-[#3D4756] text-white rounded-2xl font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Saving...' : 'Save Changes'}
+          {isLoading ? 'Saving...' : 'Save'}
         </button>
       </div>
     </form>

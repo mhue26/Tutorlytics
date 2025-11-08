@@ -272,7 +272,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 					{/* Student Information Card */}
-					<div className="bg-white rounded-lg border p-6">
+					<div className="bg-white rounded-2xl shadow-sm p-6">
 						<h3 className="text-lg font-medium mb-4">Student Information</h3>
 						<div className="space-y-4">
 							<div>
@@ -301,7 +301,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 
 					{/* Parent Information Card */}
 					{student.parentEmail !== "N/A" && (
-						<div className="bg-white rounded-lg border p-6">
+						<div className="bg-white rounded-2xl shadow-sm p-6">
 							<h3 className="text-lg font-medium mb-4">Parent Information</h3>
 							<div className="space-y-4">
 								{student.parentEmail && (
@@ -351,7 +351,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 					)}
 
 					{/* Academic Information Card */}
-					<div className="bg-white rounded-lg border p-6">
+					<div className="bg-white rounded-2xl shadow-sm p-6">
 						<h3 className="text-lg font-medium mb-4">Academic Information</h3>
 						<div className="space-y-4">
 							<div>
@@ -395,7 +395,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 				</div>
 
 				{/* Lesson Information Card */}
-				<div className="bg-white rounded-lg border p-6">
+				<div className="bg-white rounded-2xl shadow-sm p-6">
 					<h3 className="text-lg font-medium mb-4">Lesson Information</h3>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 						<div>

@@ -48,7 +48,7 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
       {/* Profile Image Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-[#584b53] focus:ring-offset-2"
         aria-label="Profile menu"
         aria-expanded={isOpen}
         aria-haspopup="true"

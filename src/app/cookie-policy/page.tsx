@@ -88,7 +88,6 @@ export default function CookiePolicyPage() {
               </p>
               <ul className="list-disc list-inside text-gray-700 space-y-2">
                 <li><strong>Google Analytics:</strong> Helps us understand website usage and performance</li>
-                <li><strong>Authentication providers:</strong> Google OAuth for secure login</li>
                 <li><strong>Cloud services:</strong> For data storage and backup purposes</li>
               </ul>
             </section>

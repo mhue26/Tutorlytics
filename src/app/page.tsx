@@ -23,17 +23,18 @@ export default async function Home() {
 						<div className="w-20 h-2 bg-white rounded-full mb-4"></div>
 						<AnimatedText 
 							text="Students First"
-							className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug text-left text-[#3D4756]"
+							className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-snug text-left text-[#3D4756]"
 							delay={500}
 						/>
 						<button className="mt-8 bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200">
-							Join Today
+							Get Started
 						</button>
 					</div>
 				</div>
 			</section>
 
-			<section id="features" className="mx-auto max-w-7xl px-4 py-16 lg:py-24 space-y-16">
+			<section id="features" className="bg-white py-16 lg:py-24" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)' }}>
+				<div className="mx-auto max-w-7xl px-4 space-y-16">
 				{[
 					{ title: "Lesson Scheduling", points: [
 						"Drag-and-drop calendar with conflicts prevention",
@@ -79,6 +80,7 @@ export default async function Home() {
 						</div>
 					</div>
 				))}
+				</div>
 			</section>
 
 

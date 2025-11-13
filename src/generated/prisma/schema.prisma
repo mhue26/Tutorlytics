@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id              Int       @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String?   @unique
+  phone           String?
+  subjects        String    @default("") // Tutoring subjects (e.g., "Math,Physics")
+  schoolSubjects  String? // School subjects (e.g., "Math,English,Science,History")
+  hourlyRateCents Int
+  notes           String?
+  isActive        Boolean   @default(true)
+  isArchived      Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  userId          String?
+  parentEmail     String?
+  parentName      String?
+  parentPhone     String?
+  year            Int?
+  meetingLocation String?
+  resourceLink    String?
+  school          String?
+  classId         Int?
+  meetings        Meeting[]
+  user            User?     @relation(fields: [userId], references: [id])
+  class           Class?    @relation(fields: [classId], references: [id])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  meetings      Meeting[]
+  students      Student[]
+  terms         Term[]
+  holidays      Holiday[]
+  classes       Class[]
+}
+
+model Class {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  color       String    @default("#3B82F6")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  students    Student[]
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model Meeting {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  studentId   Int
+  student     Student  @relation(fields: [studentId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Term {
+  id        Int      @id @default(autoincrement())
+  name      String // e.g., "Term 1", "Semester 1"
+  startDate DateTime
+  endDate   DateTime
+  year      Int // e.g., 2025
+  isActive  Boolean  @default(true)
+  color     String   @default("#3B82F6") // Hex color code
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Holiday {
+  id        Int      @id @default(autoincrement())
+  name      String // e.g., "Easter Break", "Summer Holidays"
+  startDate DateTime
+  endDate   DateTime
+  year      Int // e.g., 2025
+  color     String   @default("#F59E0B") // Hex color code
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}

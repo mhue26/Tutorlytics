@@ -1,47 +1,70 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function SignInForm() {
+export default function ForgotPasswordForm() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [rememberMe, setRememberMe] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [passwordValue, setPasswordValue] = useState('');
 	const router = useRouter();
-	const searchParams = useSearchParams();
-
-	// Check for error from NextAuth redirect
-	useEffect(() => {
-		const errorParam = searchParams.get('error');
-		if (errorParam === 'CredentialsSignin') {
-			setError('Invalid email or password');
-		}
-	}, [searchParams]);
 
 	async function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setError(null);
 		setLoading(true);
+		
 		const form = e.currentTarget as HTMLFormElement & {
 			elements: any;
 		};
-		const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-		const password = (form.elements.namedItem('password') as HTMLInputElement).value;
-		const res = await signIn('credentials', {
-			redirect: false,
-			email,
-			password,
-		});
-		if (res?.error) {
-			setError('Invalid email or password');
+		const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim().toLowerCase();
+		const newPassword = (form.elements.namedItem('password') as HTMLInputElement).value;
+		const confirmPassword = (form.elements.namedItem('confirmPassword') as HTMLInputElement).value;
+
+		if (!email || !newPassword || !confirmPassword) {
+			setError('All fields are required');
 			setLoading(false);
-		} else if (res?.ok) {
-			router.push('/students');
+			return;
+		}
+
+		if (newPassword !== confirmPassword) {
+			setError('Passwords do not match');
+			setLoading(false);
+			return;
+		}
+
+		if (newPassword.length < 6) {
+			setError('Password must be at least 6 characters');
+			setLoading(false);
+			return;
+		}
+
+		try {
+			const res = await fetch('/api/auth/reset-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password: newPassword }),
+			});
+
+			const data = await res.json();
+
+			if (!res.ok) {
+				setError(data.error || 'Failed to reset password');
+				setLoading(false);
+				return;
+			}
+
+			setSuccess(true);
+			setTimeout(() => {
+				router.push('/signin');
+			}, 2000);
+		} catch (err) {
+			setError('An error occurred. Please try again.');
+			setLoading(false);
 		}
 	}
 
@@ -52,8 +75,11 @@ export default function SignInForm() {
 				{/* Heading */}
 				<div className="mb-12 mt-16">
 					<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug text-center" style={{ color: '#3D4756' }}>
-						Welcome
+						Reset Password
 					</h1>
+					<p className="text-center mt-4 text-sm" style={{ color: '#6B7280' }}>
+						Enter your email and new password
+					</p>
 				</div>
 
 				{/* Form */}
@@ -73,13 +99,14 @@ export default function SignInForm() {
 							/>
 						</label>
 						<label className="block">
-							<div className="text-sm mb-2" style={{ color: '#3D4756' }}>Password</div>
+							<div className="text-sm mb-2" style={{ color: '#3D4756' }}>New Password</div>
 							<div className="relative">
 								<input 
 									name="password" 
 									type={showPassword ? "text" : "password"}
 									required 
 									value={passwordValue}
+									minLength={6}
 									className="w-full border-0 border-l-4 pl-3 pr-10 py-3 font-medium focus:outline-none transition-colors bg-transparent"
 									style={{ borderColor: '#E4BB97', color: '#3D4756' }}
 									onFocus={(e) => e.target.style.borderColor = '#584b53'}
@@ -113,52 +140,45 @@ export default function SignInForm() {
 								)}
 							</div>
 						</label>
-					</div>
-
-					{/* Remember me and Forgot password */}
-					<div className="flex items-center justify-between">
-						<label className="flex items-center cursor-pointer">
-							<input
-								type="checkbox"
-								checked={rememberMe}
-								onChange={(e) => setRememberMe(e.target.checked)}
-								className="w-4 h-4 border rounded focus:ring-[#3D4756] appearance-none cursor-pointer"
-								style={{
-									borderColor: '#584b53',
-									...(rememberMe ? { 
-										backgroundColor: '#FEF5eF', 
-										backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\'%3E%3Cpath fill=\'%23584b53\' d=\'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z\'/%3E%3C/svg%3E")',
-										backgroundSize: 'contain',
-										backgroundRepeat: 'no-repeat',
-										backgroundPosition: 'center'
-									} : {})
-								}}
+						<label className="block">
+							<div className="text-sm mb-2" style={{ color: '#3D4756' }}>Confirm Password</div>
+							<input 
+								name="confirmPassword" 
+								type="password"
+								required 
+								minLength={6}
+								className="w-full border-0 border-l-4 pl-3 py-3 font-medium focus:outline-none transition-colors bg-transparent"
+								style={{ borderColor: '#E4BB97', color: '#3D4756' }}
+								onFocus={(e) => e.target.style.borderColor = '#584b53'}
+								onBlur={(e) => e.target.style.borderColor = e.target.value ? '#584b53' : '#E4BB97'}
+								onChange={(e) => e.target.style.borderColor = e.target.value ? '#584b53' : '#E4BB97'}
 							/>
-							<span className="ml-2 text-sm" style={{ color: '#3D4756' }}>Remember me</span>
 						</label>
-						<Link href="/forgot-password" className="text-sm transition-colors hover:underline" style={{ color: '#3D4756' }}>
-							Forget password?
-						</Link>
 					</div>
 
 					{error && <div className="text-sm text-red-600">{error}</div>}
+					{success && (
+						<div className="text-sm text-green-600">
+							Password reset successfully! Redirecting to sign in...
+						</div>
+					)}
 
 					{/* Buttons */}
 					<div className="flex gap-4 pt-4">
 						<button 
 							type="submit"
-							disabled={loading} 
+							disabled={loading || success} 
 							className="flex-1 text-white px-6 py-3 rounded-lg font-semibold text-base hover:opacity-90 transition-opacity duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
 							style={{ backgroundColor: '#4A5568' }}
 						>
-							{loading ? 'Signing in…' : 'Login'}
+							{loading ? 'Resetting…' : success ? 'Success!' : 'Reset Password'}
 						</button>
 						<Link
-							href="/signup"
+							href="/signin"
 							className="flex-1 bg-white border-2 px-6 py-3 rounded-lg font-semibold text-base hover:bg-gray-50 transition-colors duration-200 text-center shadow-sm"
 							style={{ borderColor: '#6B7280', color: '#6B7280' }}
 						>
-							Sign up
+							Back to Sign In
 						</Link>
 					</div>
 				</form>
@@ -177,5 +197,4 @@ export default function SignInForm() {
 		</div>
 	);
 }
-
 

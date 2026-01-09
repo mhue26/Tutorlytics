@@ -24,7 +24,23 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getServerSession(authOptions);
+  // #region agent log
+  try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:27',message:'before getServerSession',data:{hasAuthOptions:!!authOptions,hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})})}catch(e){}
+  // #endregion
+  let session;
+  try {
+    session = await getServerSession(authOptions);
+    // #region agent log
+    try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:32',message:'getServerSession success',data:{hasSession:!!session,hasUser:!!session?.user},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})})}catch(e){}
+    // #endregion
+  } catch (error) {
+    // #region agent log
+    try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:36',message:'getServerSession error',data:{errorMessage:error instanceof Error?error.message:'unknown',errorName:error instanceof Error?error.name:'unknown',hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})})}catch(e){}
+    // #endregion
+    // Gracefully handle session error - set session to null
+    console.error('Session error in layout:', error);
+    session = null;
+  }
   
   return (
     <html lang="en">

@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -16,7 +16,8 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const termId = parseInt(params.id);
+    const { id } = await params;
+    const termId = parseInt(id);
     const body = await request.json();
     const { name, startDate, endDate, year, isActive, userId } = body;
 
@@ -63,7 +64,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -71,7 +72,8 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const termId = parseInt(params.id);
+    const { id } = await params;
+    const termId = parseInt(id);
 
     // Check if term exists and belongs to user
     const existingTerm = await prisma.term.findFirst({

@@ -16,9 +16,15 @@ interface ConditionalLayoutProps {
 const publicRoutes = ["/", "/signin", "/signup", "/about", "/contact", "/cookie-policy"];
 
 export default function ConditionalLayout({ children, session, initialPathname }: ConditionalLayoutProps) {
+  const [mounted, setMounted] = useState(false);
   const clientPathname = usePathname();
-  // Use client pathname if available, otherwise fall back to initialPathname from server
-  const pathname = clientPathname || initialPathname || "";
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Use client pathname if available and mounted, otherwise fall back to initialPathname from server
+  const pathname = (mounted && clientPathname) ? clientPathname : (initialPathname || "");
   
   // #region agent log
   useEffect(() => {

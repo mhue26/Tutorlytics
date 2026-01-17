@@ -10,6 +10,16 @@ export const authOptions: NextAuthOptions = {
 	pages: {
 		signIn: "/signin",
 	},
+	logger: {
+		error(code, metadata) {
+			// Suppress JWT_SESSION_ERROR (common when cookies are invalid)
+			if (code === "JWT_SESSION_ERROR") {
+				return;
+			}
+			// Log other errors normally
+			console.error("[next-auth][error]", code, metadata);
+		},
+	},
 	providers: [
 		Credentials({
 			name: "Credentials",

@@ -3,10 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { authOptions } from "@/utils/auth";
 import { getServerSession } from "next-auth";
-import Navigation from "./Navigation";
 import { ModalProvider } from "./contexts/ModalContext";
-import Header from "./Header";
-import Footer from "./Footer";
+import ConditionalLayout from "./components/layout/ConditionalLayout";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,9 +36,27 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     // #region agent log
     try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:36',message:'getServerSession error',data:{errorMessage:error instanceof Error?error.message:'unknown',errorName:error instanceof Error?error.name:'unknown',hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})})}catch(e){}
     // #endregion
-    // Gracefully handle session error - set session to null
-    console.error('Session error in layout:', error);
-    session = null;
+    // Gracefully handle session error - this often happens when cookies are encrypted with a different secret
+    // The error is expected and handled - user just needs to clear cookies or sign in again
+    if (error instanceof Error && error.message.includes('decryption operation failed')) {
+      // This is a common error when session cookies are invalid - silently handle it
+      session = null;
+    } else {
+      // For other errors, log them
+      console.error('Session error in layout:', error);
+      session = null;
+    }
+  }
+  
+  // Get pathname from headers (set by middleware)
+  let initialPathname: string | undefined = undefined;
+  try {
+    const headersList = headers();
+    initialPathname = headersList.get('x-pathname') || undefined;
+  } catch (error) {
+    // If headers() fails, continue without initialPathname
+    // The client-side usePathname() will handle it
+    console.warn('Could not get pathname from headers:', error);
   }
   
   return (
@@ -55,15 +72,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         suppressHydrationWarning={true}
       >
         <ModalProvider>
-          <div className="min-h-screen flex flex-col">
-            <Header session={session} />
-          <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 pt-20">
-            <div className="mx-auto max-w-7xl">
-              {children}
-            </div>
-          </main>
-          <Footer />
-          </div>
+          <ConditionalLayout session={session} initialPathname={initialPathname || undefined}>
+            {children}
+          </ConditionalLayout>
         </ModalProvider>
       </body>
     </html>

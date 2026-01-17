@@ -201,7 +201,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/michaelhue/Documents/TutorTools/tutor-tools/src/generated/prisma",
+      "value": "/Users/michaelhue/Documents/TutorTools/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -215,12 +215,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/michaelhue/Documents/TutorTools/tutor-tools/prisma/schema.prisma",
+    "sourceFilePath": "/Users/michaelhue/Documents/TutorTools/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.16.2",
@@ -229,7 +228,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

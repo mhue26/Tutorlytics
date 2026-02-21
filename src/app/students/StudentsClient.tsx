@@ -5,8 +5,12 @@ import Link from "next/link";
 import SubjectsDisplay from "./SubjectsDisplay";
 import StatusIndicator from "./StatusIndicator";
 
+const STORAGE_KEY_COLUMN_WIDTHS = "studentsTableColumnWidths";
+const DEFAULT_COLUMN_WIDTHS = [140, 140, 200, 80, 90, 100];
+const MIN_COLUMN_WIDTH = 48;
+
 type StudentItem = {
-	id: string;
+	id: number;
 	firstName: string;
 	lastName: string;
 	email: string | null;
@@ -18,76 +22,13 @@ type StudentItem = {
 	updatedAt?: string | Date;
 };
 
+type EditableField = "firstName" | "lastName" | "subjects" | "year" | "hourlyRate";
+
 type Filter = {
     id: string;
     field: 'year' | 'subjects' | 'isArchived';
     condition: 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'isGreaterThan' | 'isLessThan';
     value: any;
-};
-
-const StudentAvatar = ({ student }: { student: StudentItem }) => {
-    const [showMenu, setShowMenu] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-    const initial = student.firstName ? student.firstName.charAt(0).toUpperCase() : '?';
-    const colors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200', 'bg-red-200'];
-    const color = colors[String(student.id).charCodeAt(0) % colors.length];
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setShowMenu(false);
-            }
-        };
-
-        if (showMenu) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showMenu]);
-
-    return (
-        <div className="relative" ref={menuRef}>
-            <button
-                onClick={() => setShowMenu(!showMenu)}
-                className={`w-8 h-8 rounded-full ${color} flex items-center justify-center font-bold text-gray-700 hover:scale-105 transition-transform cursor-pointer`}
-            >
-                {initial}
-            </button>
-            
-            {showMenu && (
-                <div className="absolute top-10 left-0 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-[9999] min-w-[120px]">
-                    <Link
-                        href={`/students/${student.id}/edit`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowMenu(false)}
-                    >
-                        Edit
-                    </Link>
-                    <button
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => {
-                            // Archive functionality would go here
-                            setShowMenu(false);
-                        }}
-                    >
-                        Archive
-                    </button>
-                    <button
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                        onClick={() => {
-                            // Delete functionality would go here
-                            setShowMenu(false);
-                        }}
-                    >
-                        Delete
-                    </button>
-                </div>
-            )}
-        </div>
-    );
 };
 
 function formatCurrencyFromCents(valueInCents: number): string {
@@ -96,11 +37,71 @@ function formatCurrencyFromCents(valueInCents: number): string {
 }
 
 export default function StudentsClient({ students, archivedStudents }: { students: StudentItem[], archivedStudents: StudentItem[] }) {
-	const allStudents = useMemo(() => [...students, ...archivedStudents], [students, archivedStudents]);
+	const [allStudents, setAllStudents] = useState<StudentItem[]>(() => [...students, ...archivedStudents]);
     const [filters, setFilters] = useState<Filter[]>([]);
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [sortField, setSortField] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [editingCell, setEditingCell] = useState<{ id: number; field: EditableField } | null>(null);
+    const [draftValue, setDraftValue] = useState("");
+    const [savingCell, setSavingCell] = useState<string | null>(null);
+
+    const [newRow, setNewRow] = useState({ firstName: "", lastName: "", subjects: "", year: "", hourlyRate: "" });
+    const [savingNewRow, setSavingNewRow] = useState(false);
+    const [showNewRow, setShowNewRow] = useState(false);
+    const newRowFirstInputRef = useRef<HTMLInputElement>(null);
+
+    const [columnWidths, setColumnWidths] = useState<number[]>(DEFAULT_COLUMN_WIDTHS);
+
+    useEffect(() => {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY_COLUMN_WIDTHS);
+            if (stored) {
+                const parsed = JSON.parse(stored) as number[];
+                if (Array.isArray(parsed) && parsed.length === DEFAULT_COLUMN_WIDTHS.length) {
+                    setColumnWidths(parsed.map((w) => Math.max(MIN_COLUMN_WIDTH, Number(w) || MIN_COLUMN_WIDTH)));
+                }
+            }
+        } catch (_) {}
+    }, []);
+    const [resizingIndex, setResizingIndex] = useState<number | null>(null);
+    const [resizeStartX, setResizeStartX] = useState(0);
+    const [resizeStartWidth, setResizeStartWidth] = useState(0);
+
+    useEffect(() => {
+        if (resizingIndex === null) return;
+        const onMove = (e: MouseEvent) => {
+            const delta = e.clientX - resizeStartX;
+            setColumnWidths((prev) => {
+                const next = [...prev];
+                const newW = Math.max(MIN_COLUMN_WIDTH, resizeStartWidth + delta);
+                next[resizingIndex] = newW;
+                try {
+                    localStorage.setItem(STORAGE_KEY_COLUMN_WIDTHS, JSON.stringify(next));
+                } catch (_) {}
+                return next;
+            });
+        };
+        const onUp = () => {
+            setResizingIndex(null);
+            window.removeEventListener("mousemove", onMove);
+            window.removeEventListener("mouseup", onUp);
+        };
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+        return () => {
+            window.removeEventListener("mousemove", onMove);
+            window.removeEventListener("mouseup", onUp);
+        };
+    }, [resizingIndex, resizeStartX, resizeStartWidth]);
+
+    const startResize = (index: number) => (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setResizingIndex(index);
+        setResizeStartX(e.clientX);
+        setResizeStartWidth(columnWidths[index]);
+    };
 
     const handleSort = (field: string) => {
         if (sortField !== field) {
@@ -147,6 +148,16 @@ export default function StudentsClient({ students, archivedStudents }: { student
             });
         }
 
+        // Apply search
+        if (searchTerm.trim()) {
+            const q = searchTerm.toLowerCase();
+            result = result.filter((student) => {
+                const name = `${student.firstName} ${student.lastName}`.toLowerCase();
+                const subjects = (student.subjects || "").toLowerCase();
+                return name.includes(q) || subjects.includes(q);
+            });
+        }
+
         // Apply sorting
         if (sortField && sortDirection) {
             result = [...result].sort((a, b) => {
@@ -185,16 +196,130 @@ export default function StudentsClient({ students, archivedStudents }: { student
         }
 
         return result;
-    }, [allStudents, filters, sortField, sortDirection]);
+    }, [allStudents, filters, sortField, sortDirection, searchTerm]);
+
+    const getCellKey = (id: number, field: EditableField) => `${id}:${field}`;
+
+    const getInitialValue = (student: StudentItem, field: EditableField) => {
+        if (field === "firstName") return student.firstName ?? "";
+        if (field === "lastName") return student.lastName ?? "";
+        if (field === "subjects") return student.subjects ?? "";
+        if (field === "year") return student.year?.toString() ?? "";
+        if (field === "hourlyRate") return (student.hourlyRateCents / 100).toFixed(2);
+        return "";
+    };
+
+    const startEditing = (student: StudentItem, field: EditableField) => {
+        setEditingCell({ id: student.id, field });
+        setDraftValue(getInitialValue(student, field));
+    };
+
+    const cancelEditing = () => {
+        setEditingCell(null);
+        setDraftValue("");
+    };
+
+    const saveEditing = async () => {
+        if (!editingCell) return;
+        const cellKey = getCellKey(editingCell.id, editingCell.field);
+        if (savingCell === cellKey) return;
+
+        const student = allStudents.find((s) => s.id === editingCell.id);
+        if (!student) {
+            cancelEditing();
+            return;
+        }
+
+        const initial = getInitialValue(student, editingCell.field).trim();
+        const next = draftValue.trim();
+        if (initial === next) {
+            cancelEditing();
+            return;
+        }
+
+        setSavingCell(cellKey);
+        try {
+            const res = await fetch(`/api/students/${editingCell.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ field: editingCell.field, value: draftValue }),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData?.error || "Failed to save");
+            }
+
+            const data = await res.json();
+            const updated = data.student as Partial<StudentItem> & { id: number };
+            setAllStudents((prev) =>
+                prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s))
+            );
+            cancelEditing();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "Failed to save student";
+            alert(message);
+        } finally {
+            setSavingCell(null);
+        }
+    };
+
+    const saveNewRow = async () => {
+        const first = newRow.firstName.trim();
+        const last = newRow.lastName.trim();
+        if (!first || !last || savingNewRow) return;
+        setSavingNewRow(true);
+        try {
+            const res = await fetch("/api/students", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName: first,
+                    lastName: last,
+                    subjects: newRow.subjects.trim(),
+                    year: newRow.year.trim() ? Number(newRow.year.trim()) : null,
+                    hourlyRate: newRow.hourlyRate.trim() ? Number(newRow.hourlyRate.trim()) : 0,
+                }),
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err?.error || "Failed to create student");
+            }
+            const data = await res.json();
+            const created = data.student as StudentItem;
+            setAllStudents((prev) => [created, ...prev]);
+            setNewRow({ firstName: "", lastName: "", subjects: "", year: "", hourlyRate: "" });
+            setShowNewRow(false);
+        } catch (e) {
+            alert(e instanceof Error ? e.message : "Failed to create student");
+        } finally {
+            setSavingNewRow(false);
+        }
+    };
+
+    const handleNewRowBlur = () => {
+        if (newRow.firstName.trim() && newRow.lastName.trim()) void saveNewRow();
+    };
+
+    const startNewPage = () => {
+        setNewRow({ firstName: "", lastName: "", subjects: "", year: "", hourlyRate: "" });
+        setShowNewRow(true);
+        setTimeout(() => newRowFirstInputRef.current?.focus(), 0);
+    };
 
 	return (
-		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif", backgroundColor: '#EFFAFF' }}>
+		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
 			<div className="flex items-center justify-between">
 				<h2 className="text-2xl font-semibold text-[#3D4756]">Students</h2>
-				<div className="flex items-center gap-2">
-					<button className="px-4 py-2 bg-white rounded-md shadow-sm border border-gray-200 text-sm font-medium hover:bg-gray-50">
-						Add Filter
-					</button>
+				<div className="flex items-center gap-3">
+                    {savingCell ? <span className="text-xs text-gray-500">Saving...</span> : null}
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search"
+                        className="w-56 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                    />
 					<Link
 						className="rounded-md bg-[#3D4756] text-white p-2 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
 						href="/students/new"
@@ -206,14 +331,6 @@ export default function StudentsClient({ students, archivedStudents }: { student
 					</Link>
 				</div>
 			</div>
-
-            {isFilterOpen && (
-                <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-                    <div className="flex items-center gap-2">
-                        {/* Form to add a new filter */}
-                    </div>
-                </div>
-            )}
 
             {filters.length > 0 && (
                 <div className="p-4 flex items-center gap-2">
@@ -228,90 +345,301 @@ export default function StudentsClient({ students, archivedStudents }: { student
                 </div>
             )}
 
-			<div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-				<table className="w-full text-left text-sm">
-					<thead className="bg-[#3D4756] border-b border-gray-200">
+			<div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+				<table className="w-full text-left text-sm table-fixed" style={{ tableLayout: "fixed" }}>
+					<colgroup>
+						{columnWidths.map((w, i) => (
+							<col key={i} style={{ width: w }} />
+						))}
+					</colgroup>
+					<thead className="bg-white border-b border-gray-200">
 						<tr>
-							<th 
-								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+							<th
+								style={{ width: columnWidths[0] }}
+								className="relative px-4 py-4 font-semibold text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors select-none"
 								onClick={() => handleSort('record')}
 							>
-								<div className="flex items-center gap-2">
-									<span>Name</span>
-									<span className="text-xs w-3 inline-block text-center">
+								<div className="flex items-center gap-2 truncate">
+									<span>First name</span>
+									<span className="text-xs w-3 inline-block text-center shrink-0">
 										{sortField === 'record' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
 									</span>
 								</div>
+								<div role="separator" onMouseDown={startResize(0)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
 							</th>
-							<th 
-								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+							<th
+								style={{ width: columnWidths[1] }}
+								className="relative px-4 py-4 font-semibold text-gray-900"
+							>
+								<span className="truncate block">Last Name</span>
+								<div role="separator" onMouseDown={startResize(1)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
+							</th>
+							<th
+								style={{ width: columnWidths[2] }}
+								className="relative px-4 py-4 font-semibold text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors select-none"
 								onClick={() => handleSort('subjects')}
 							>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-2 truncate">
 									<span>Subjects</span>
-									<span className="text-xs w-3 inline-block text-center">
+									<span className="text-xs w-3 inline-block text-center shrink-0">
 										{sortField === 'subjects' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
 									</span>
 								</div>
+								<div role="separator" onMouseDown={startResize(2)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
 							</th>
-							<th 
-								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+							<th
+								style={{ width: columnWidths[3] }}
+								className="relative px-4 py-4 font-semibold text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors select-none"
 								onClick={() => handleSort('year')}
 							>
-								<div className="flex items-center gap-2">
-									<span>Year Level</span>
-									<span className="text-xs w-3 inline-block text-center">
+								<div className="flex items-center gap-2 truncate">
+									<span>Year</span>
+									<span className="text-xs w-3 inline-block text-center shrink-0">
 										{sortField === 'year' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
 									</span>
 								</div>
+								<div role="separator" onMouseDown={startResize(3)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
 							</th>
-							<th 
-								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+							<th
+								style={{ width: columnWidths[4] }}
+								className="relative px-4 py-4 font-semibold text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors select-none"
 								onClick={() => handleSort('hourlyRate')}
 							>
-								<div className="flex items-center gap-2">
-									<span>Hourly Rate</span>
-									<span className="text-xs w-3 inline-block text-center">
+								<div className="flex items-center gap-2 truncate">
+									<span>Rate</span>
+									<span className="text-xs w-3 inline-block text-center shrink-0">
 										{sortField === 'hourlyRate' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
 									</span>
 								</div>
+								<div role="separator" onMouseDown={startResize(4)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
 							</th>
-							<th 
-								className="px-4 py-3 font-medium text-white cursor-pointer hover:bg-[#4A5568] transition-colors select-none"
+							<th
+								style={{ width: columnWidths[5] }}
+								className="relative px-4 py-4 font-semibold text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors select-none"
 								onClick={() => handleSort('status')}
 							>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-2 truncate">
 									<span>Status</span>
-									<span className="text-xs w-3 inline-block text-center">
+									<span className="text-xs w-3 inline-block text-center shrink-0">
 										{sortField === 'status' ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
 									</span>
 								</div>
+								<div role="separator" onMouseDown={startResize(5)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{filteredStudents.map((s) => (
 							<tr key={s.id} className="border-t border-gray-200 hover:bg-gray-50">
-								<td className="px-4 py-3">
-									<div className="flex items-center gap-3">
-										<StudentAvatar student={s} />
-										<Link className="font-medium text-gray-800 hover:underline" href={`/students/${s.id}`}>
-											{s.firstName} {s.lastName}
-										</Link>
-									</div>
+								<td
+									className="px-4 py-4 font-medium text-gray-900 cursor-text align-middle min-h-[3rem] h-12"
+									onClick={() => startEditing(s, "firstName")}
+								>
+									{editingCell?.id === s.id && editingCell.field === "firstName" ? (
+										<input
+											autoFocus
+											value={draftValue}
+											onChange={(e) => setDraftValue(e.target.value)}
+											onBlur={saveEditing}
+											onKeyDown={(e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													void saveEditing();
+												} else if (e.key === "Escape") {
+													e.preventDefault();
+													cancelEditing();
+												}
+											}}
+											className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm font-medium text-gray-900"
+										/>
+									) : (
+										<span className="block truncate">{s.firstName}</span>
+									)}
 								</td>
-								<td className="px-4 py-3">
-									<SubjectsDisplay subjects={s.subjects || ""} />
+								<td
+									className="px-4 py-4 font-medium text-gray-900 cursor-text align-middle min-h-[3rem] h-12"
+									onClick={() => startEditing(s, "lastName")}
+								>
+									{editingCell?.id === s.id && editingCell.field === "lastName" ? (
+										<input
+											autoFocus
+											value={draftValue}
+											onChange={(e) => setDraftValue(e.target.value)}
+											onBlur={saveEditing}
+											onKeyDown={(e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													void saveEditing();
+												} else if (e.key === "Escape") {
+													e.preventDefault();
+													cancelEditing();
+												}
+											}}
+											className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm font-medium text-gray-900"
+										/>
+									) : (
+										<span className="block truncate">{s.lastName}</span>
+									)}
 								</td>
-								<td className="px-4 py-3 text-sm text-gray-900">
-									{s.year || '—'}
+								<td
+									className="px-4 py-4 cursor-text align-middle min-h-[3rem] h-12"
+									onClick={() => startEditing(s, "subjects")}
+								>
+									{editingCell?.id === s.id && editingCell.field === "subjects" ? (
+										<input
+											autoFocus
+											value={draftValue}
+											onChange={(e) => setDraftValue(e.target.value)}
+											onBlur={saveEditing}
+											onKeyDown={(e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													void saveEditing();
+												} else if (e.key === "Escape") {
+													e.preventDefault();
+													cancelEditing();
+												}
+											}}
+											className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900"
+										/>
+									) : (
+										<SubjectsDisplay subjects={s.subjects || ""} />
+									)}
 								</td>
-								<td className="px-4 py-3">{formatCurrencyFromCents(s.hourlyRateCents)}</td>
-								<td className="px-4 py-3">
+								<td
+									className="px-4 py-4 text-sm text-gray-900 cursor-text align-middle min-h-[3rem] h-12"
+									onClick={() => startEditing(s, "year")}
+								>
+									{editingCell?.id === s.id && editingCell.field === "year" ? (
+										<input
+											autoFocus
+											value={draftValue}
+											onChange={(e) => setDraftValue(e.target.value)}
+											onBlur={saveEditing}
+											onKeyDown={(e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													void saveEditing();
+												} else if (e.key === "Escape") {
+													e.preventDefault();
+													cancelEditing();
+												}
+											}}
+											className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900"
+										/>
+									) : (
+										<span className="block truncate">{s.year || "—"}</span>
+									)}
+								</td>
+								<td
+									className="px-4 py-4 cursor-text align-middle min-h-[3rem] h-12"
+									onClick={() => startEditing(s, "hourlyRate")}
+								>
+									{editingCell?.id === s.id && editingCell.field === "hourlyRate" ? (
+										<input
+											autoFocus
+											value={draftValue}
+											onChange={(e) => setDraftValue(e.target.value)}
+											onBlur={saveEditing}
+											onKeyDown={(e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													void saveEditing();
+												} else if (e.key === "Escape") {
+													e.preventDefault();
+													cancelEditing();
+												}
+											}}
+											className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900"
+										/>
+									) : (
+										<span className="block truncate">{formatCurrencyFromCents(s.hourlyRateCents)}</span>
+									)}
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
                                     <StatusIndicator isActive={!s.isArchived} />
                                 </td>
 							</tr>
 						))}
+						{/* Notion-style: "+ New page" creates an empty row to fill in */}
+						{!showNewRow ? (
+							<tr className="border-t border-gray-200">
+								<td
+									colSpan={6}
+									className="px-4 py-3 align-middle min-h-[3rem]"
+								>
+									<button
+										type="button"
+										onClick={startNewPage}
+										className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 hover:bg-gray-50 rounded px-1 py-0.5 -ml-1 transition-colors"
+									>
+										<span className="text-gray-400">+</span>
+										<span>New page</span>
+									</button>
+								</td>
+							</tr>
+						) : (
+							<tr className="border-t border-gray-200 bg-gray-50/50">
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									<input
+										ref={newRowFirstInputRef}
+										placeholder="First name"
+										value={newRow.firstName}
+										onChange={(e) => setNewRow((r) => ({ ...r, firstName: e.target.value }))}
+										onBlur={handleNewRowBlur}
+										onKeyDown={(e) => { if (e.key === "Escape") setShowNewRow(false); if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).closest("td")?.nextElementSibling?.querySelector("input")?.focus(); } }}
+										className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm font-medium text-gray-900 placeholder:text-gray-400"
+									/>
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									<input
+										placeholder="Last name"
+										value={newRow.lastName}
+										onChange={(e) => setNewRow((r) => ({ ...r, lastName: e.target.value }))}
+										onBlur={handleNewRowBlur}
+										onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).closest("td")?.nextElementSibling?.querySelector("input")?.focus(); } }}
+										className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm font-medium text-gray-900 placeholder:text-gray-400"
+									/>
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									<input
+										placeholder="Subjects"
+										value={newRow.subjects}
+										onChange={(e) => setNewRow((r) => ({ ...r, subjects: e.target.value }))}
+										onBlur={handleNewRowBlur}
+										onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).closest("td")?.nextElementSibling?.querySelector("input")?.focus(); } }}
+										className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900 placeholder:text-gray-400"
+									/>
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									<input
+										placeholder="Year"
+										value={newRow.year}
+										onChange={(e) => setNewRow((r) => ({ ...r, year: e.target.value }))}
+										onBlur={handleNewRowBlur}
+										onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).closest("td")?.nextElementSibling?.querySelector("input")?.focus(); } }}
+										className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900 placeholder:text-gray-400"
+									/>
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									<input
+										placeholder="Rate"
+										value={newRow.hourlyRate}
+										onChange={(e) => setNewRow((r) => ({ ...r, hourlyRate: e.target.value }))}
+										onBlur={handleNewRowBlur}
+										onKeyDown={(e) => { if (e.key === "Enter") handleNewRowBlur(); }}
+										className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 focus:outline-none p-0 text-sm text-gray-900 placeholder:text-gray-400"
+									/>
+								</td>
+								<td className="px-4 py-4 align-middle min-h-[3rem] h-12">
+									{savingNewRow ? (
+										<span className="text-xs text-gray-500">Saving...</span>
+									) : (
+										<button type="button" onClick={() => setShowNewRow(false)} className="text-xs text-gray-500 hover:text-gray-700">Cancel</button>
+									)}
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>

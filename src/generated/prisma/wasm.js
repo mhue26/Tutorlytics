@@ -86,8 +86,64 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
+
+exports.Prisma.OrganisationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  ownerId: 'ownerId',
+  joinCode: 'joinCode',
+  joinCodeExpiresAt: 'joinCodeExpiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrganisationMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt',
+  organisationId: 'organisationId',
+  invitedById: 'invitedById'
+};
+
+exports.Prisma.OrganisationJoinRequestScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  role: 'role',
+  decidedAt: 'decidedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  organisationId: 'organisationId',
+  decidedById: 'decidedById'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  passwordHash: 'passwordHash'
+};
 
 exports.Prisma.StudentScalarFieldEnum = {
   id: 'id',
@@ -103,7 +159,6 @@ exports.Prisma.StudentScalarFieldEnum = {
   isArchived: 'isArchived',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
   parentEmail: 'parentEmail',
   parentName: 'parentName',
   parentPhone: 'parentPhone',
@@ -111,16 +166,9 @@ exports.Prisma.StudentScalarFieldEnum = {
   meetingLocation: 'meetingLocation',
   resourceLink: 'resourceLink',
   school: 'school',
-  classId: 'classId'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image',
-  passwordHash: 'passwordHash'
+  classId: 'classId',
+  customTermRateCents: 'customTermRateCents',
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
@@ -130,7 +178,8 @@ exports.Prisma.ClassScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId',
+  teacherId: 'teacherId'
 };
 
 exports.Prisma.MeetingScalarFieldEnum = {
@@ -142,7 +191,8 @@ exports.Prisma.MeetingScalarFieldEnum = {
   isCompleted: 'isCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
+  organisationId: 'organisationId',
+  createdById: 'createdById',
   studentId: 'studentId'
 };
 
@@ -156,7 +206,7 @@ exports.Prisma.TermScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.HolidayScalarFieldEnum = {
@@ -168,7 +218,95 @@ exports.Prisma.HolidayScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.AssessmentScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  title: 'title',
+  score: 'score',
+  maxScore: 'maxScore',
+  grade: 'grade',
+  notes: 'notes',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  meetingId: 'meetingId',
+  recordedById: 'recordedById'
+};
+
+exports.Prisma.CheckInScalarFieldEnum = {
+  id: 'id',
+  scheduledDate: 'scheduledDate',
+  completedDate: 'completedDate',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  teacherId: 'teacherId'
+};
+
+exports.Prisma.BillingSettingsScalarFieldEnum = {
+  id: 'id',
+  defaultTermRateCents: 'defaultTermRateCents',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.DiscountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  billingSettingsId: 'billingSettingsId'
+};
+
+exports.Prisma.StudentDiscountScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  studentId: 'studentId',
+  discountId: 'discountId'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  amount: 'amount',
+  discount: 'discount',
+  tax: 'tax',
+  total: 'total',
+  status: 'status',
+  dueDate: 'dueDate',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  termId: 'termId'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  method: 'method',
+  reference: 'reference',
+  date: 'date',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  invoiceId: 'invoiceId',
+  recordedById: 'recordedById'
 };
 
 exports.Prisma.SortOrder = {
@@ -176,19 +314,73 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Role = exports.$Enums.Role = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  TEACHER: 'TEACHER'
+};
 
+exports.DiscountType = exports.$Enums.DiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED: 'FIXED'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  OVERDUE: 'OVERDUE',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  CASH: 'CASH',
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  CARD: 'CARD',
+  OTHER: 'OTHER'
+};
+
+exports.CheckInStatus = exports.$Enums.CheckInStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  MISSED: 'MISSED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.JoinRequestStatus = exports.$Enums.JoinRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
 
 exports.Prisma.ModelName = {
-  Student: 'Student',
+  Organisation: 'Organisation',
+  OrganisationMember: 'OrganisationMember',
+  Invitation: 'Invitation',
+  OrganisationJoinRequest: 'OrganisationJoinRequest',
   User: 'User',
+  Student: 'Student',
   Class: 'Class',
   Meeting: 'Meeting',
   Term: 'Term',
-  Holiday: 'Holiday'
+  Holiday: 'Holiday',
+  Assessment: 'Assessment',
+  CheckIn: 'CheckIn',
+  BillingSettings: 'BillingSettings',
+  Discount: 'Discount',
+  StudentDiscount: 'StudentDiscount',
+  Invoice: 'Invoice',
+  Payment: 'Payment'
 };
 /**
  * Create the Client
@@ -219,7 +411,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.16.2",
@@ -227,8 +420,8 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": true,
+  "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -237,13 +430,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Student {\n  id              Int       @id @default(autoincrement())\n  firstName       String\n  lastName        String\n  email           String?   @unique\n  phone           String?\n  subjects        String    @default(\"\") // Tutoring subjects (e.g., \"Math,Physics\")\n  schoolSubjects  String? // School subjects (e.g., \"Math,English,Science,History\")\n  hourlyRateCents Int\n  notes           String?\n  isActive        Boolean   @default(true)\n  isArchived      Boolean   @default(false)\n  createdAt       DateTime  @default(now())\n  updatedAt       DateTime  @updatedAt\n  userId          String?\n  parentEmail     String?\n  parentName      String?\n  parentPhone     String?\n  year            Int?\n  meetingLocation String?\n  resourceLink    String?\n  school          String?\n  classId         Int?\n  meetings        Meeting[]\n  user            User?     @relation(fields: [userId], references: [id])\n  class           Class?    @relation(fields: [classId], references: [id])\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String?   @unique\n  emailVerified DateTime?\n  image         String?\n  passwordHash  String?\n  meetings      Meeting[]\n  students      Student[]\n  terms         Term[]\n  holidays      Holiday[]\n  classes       Class[]\n}\n\nmodel Class {\n  id          Int       @id @default(autoincrement())\n  name        String\n  description String?\n  color       String    @default(\"#3B82F6\")\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  userId      String\n  students    Student[]\n  user        User      @relation(fields: [userId], references: [id])\n}\n\nmodel Meeting {\n  id          Int      @id @default(autoincrement())\n  title       String\n  description String?\n  startTime   DateTime\n  endTime     DateTime\n  isCompleted Boolean  @default(false)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  userId      String\n  studentId   Int\n  student     Student  @relation(fields: [studentId], references: [id])\n  user        User     @relation(fields: [userId], references: [id])\n}\n\nmodel Term {\n  id        Int      @id @default(autoincrement())\n  name      String // e.g., \"Term 1\", \"Semester 1\"\n  startDate DateTime\n  endDate   DateTime\n  year      Int // e.g., 2025\n  isActive  Boolean  @default(true)\n  color     String   @default(\"#3B82F6\") // Hex color code\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n}\n\nmodel Holiday {\n  id        Int      @id @default(autoincrement())\n  name      String // e.g., \"Easter Break\", \"Summer Holidays\"\n  startDate DateTime\n  endDate   DateTime\n  year      Int // e.g., 2025\n  color     String   @default(\"#F59E0B\") // Hex color code\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n}\n",
-  "inlineSchemaHash": "6a48ec9e5744a20e492c2df40fab6e54c0d48b454140c56bfa1954e81cb5487c",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// ─── Enums ───────────────────────────────────────────────────────────────────\n\nenum Role {\n  OWNER\n  ADMIN\n  TEACHER\n}\n\nenum DiscountType {\n  PERCENTAGE\n  FIXED\n}\n\nenum InvoiceStatus {\n  DRAFT\n  SENT\n  PAID\n  PARTIALLY_PAID\n  OVERDUE\n  CANCELLED\n}\n\nenum PaymentMethod {\n  CASH\n  BANK_TRANSFER\n  CARD\n  OTHER\n}\n\nenum CheckInStatus {\n  SCHEDULED\n  COMPLETED\n  MISSED\n  CANCELLED\n}\n\nenum JoinRequestStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\n// ─── Organisation ────────────────────────────────────────────────────────────\n\nmodel Organisation {\n  id                String    @id @default(cuid())\n  name              String\n  slug              String    @unique\n  ownerId           String?   @unique\n  joinCode          String?   @unique\n  joinCodeExpiresAt DateTime?\n  createdAt         DateTime  @default(now())\n  updatedAt         DateTime  @updatedAt\n\n  owner           User?                     @relation(\"PersonalWorkspace\", fields: [ownerId], references: [id], onDelete: SetNull)\n  members         OrganisationMember[]\n  invitations     Invitation[]\n  joinRequests    OrganisationJoinRequest[]\n  students        Student[]\n  classes         Class[]\n  meetings        Meeting[]\n  terms           Term[]\n  holidays        Holiday[]\n  assessments     Assessment[]\n  checkIns        CheckIn[]\n  billingSettings BillingSettings?\n  invoices        Invoice[]\n  payments        Payment[]\n}\n\nmodel OrganisationMember {\n  id        String   @id @default(cuid())\n  role      Role     @default(TEACHER)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  userId         String\n  organisationId String\n  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, organisationId])\n}\n\nmodel Invitation {\n  id         String    @id @default(cuid())\n  email      String\n  role       Role      @default(TEACHER)\n  token      String    @unique\n  expiresAt  DateTime\n  acceptedAt DateTime?\n  createdAt  DateTime  @default(now())\n\n  organisationId String\n  invitedById    String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  invitedBy      User         @relation(fields: [invitedById], references: [id])\n}\n\nmodel OrganisationJoinRequest {\n  id        String            @id @default(cuid())\n  status    JoinRequestStatus @default(PENDING)\n  role      Role              @default(TEACHER)\n  decidedAt DateTime?\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  userId         String\n  organisationId String\n  decidedById    String?\n  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  decidedBy      User?        @relation(\"JoinRequestDecidedBy\", fields: [decidedById], references: [id], onDelete: SetNull)\n}\n\n// ─── User ────────────────────────────────────────────────────────────────────\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String?   @unique\n  emailVerified DateTime?\n  image         String?\n  passwordHash  String?\n\n  ownedWorkspace      Organisation?             @relation(\"PersonalWorkspace\")\n  memberships         OrganisationMember[]\n  invitationsSent     Invitation[]\n  joinRequests        OrganisationJoinRequest[]\n  joinRequestsDecided OrganisationJoinRequest[] @relation(\"JoinRequestDecidedBy\")\n  meetingsCreated     Meeting[]\n  assessmentsLogged   Assessment[]              @relation(\"AssessmentRecordedBy\")\n  checkInsAssigned    CheckIn[]\n  paymentsRecorded    Payment[]                 @relation(\"PaymentRecordedBy\")\n}\n\n// ─── Student ─────────────────────────────────────────────────────────────────\n\nmodel Student {\n  id              Int      @id @default(autoincrement())\n  firstName       String\n  lastName        String\n  email           String?\n  phone           String?\n  subjects        String   @default(\"\")\n  schoolSubjects  String?\n  hourlyRateCents Int\n  notes           String?\n  isActive        Boolean  @default(true)\n  isArchived      Boolean  @default(false)\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n  parentEmail     String?\n  parentName      String?\n  parentPhone     String?\n  year            Int?\n  meetingLocation String?\n  resourceLink    String?\n  school          String?\n  classId         Int?\n\n  customTermRateCents Int?\n\n  organisationId String\n  organisation   Organisation      @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  class          Class?            @relation(fields: [classId], references: [id], onDelete: SetNull)\n  meetings       Meeting[]\n  assessments    Assessment[]\n  checkIns       CheckIn[]\n  invoices       Invoice[]\n  payments       Payment[]\n  discounts      StudentDiscount[]\n}\n\n// ─── Class ───────────────────────────────────────────────────────────────────\n\nmodel Class {\n  id          Int      @id @default(autoincrement())\n  name        String\n  description String?\n  color       String   @default(\"#3B82F6\")\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  organisationId String\n  teacherId      String?\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  students       Student[]\n}\n\n// ─── Meeting ─────────────────────────────────────────────────────────────────\n\nmodel Meeting {\n  id          Int      @id @default(autoincrement())\n  title       String\n  description String?\n  startTime   DateTime\n  endTime     DateTime\n  isCompleted Boolean  @default(false)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  organisationId String\n  createdById    String\n  studentId      Int\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  createdBy      User         @relation(fields: [createdById], references: [id])\n  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  assessments    Assessment[]\n}\n\n// ─── Term ────────────────────────────────────────────────────────────────────\n\nmodel Term {\n  id        Int      @id @default(autoincrement())\n  name      String\n  startDate DateTime\n  endDate   DateTime\n  year      Int\n  isActive  Boolean  @default(true)\n  color     String   @default(\"#3B82F6\")\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  organisationId String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  invoices       Invoice[]\n}\n\n// ─── Holiday ─────────────────────────────────────────────────────────────────\n\nmodel Holiday {\n  id        Int      @id @default(autoincrement())\n  name      String\n  startDate DateTime\n  endDate   DateTime\n  year      Int\n  color     String   @default(\"#F59E0B\")\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  organisationId String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n}\n\n// ─── Assessment / Performance ────────────────────────────────────────────────\n\nmodel Assessment {\n  id        String   @id @default(cuid())\n  type      String\n  title     String\n  score     Float?\n  maxScore  Float?\n  grade     String?\n  notes     String?\n  date      DateTime\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  organisationId String\n  studentId      Int\n  meetingId      Int?\n  recordedById   String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  meeting        Meeting?     @relation(fields: [meetingId], references: [id], onDelete: SetNull)\n  recordedBy     User         @relation(\"AssessmentRecordedBy\", fields: [recordedById], references: [id])\n}\n\n// ─── Check-In ────────────────────────────────────────────────────────────────\n\nmodel CheckIn {\n  id            String        @id @default(cuid())\n  scheduledDate DateTime\n  completedDate DateTime?\n  status        CheckInStatus @default(SCHEDULED)\n  notes         String?\n  createdAt     DateTime      @default(now())\n  updatedAt     DateTime      @updatedAt\n\n  organisationId String\n  studentId      Int\n  teacherId      String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  teacher        User         @relation(fields: [teacherId], references: [id])\n}\n\n// ─── Billing ─────────────────────────────────────────────────────────────────\n\nmodel BillingSettings {\n  id                   String   @id @default(cuid())\n  defaultTermRateCents Int\n  currency             String   @default(\"AUD\")\n  createdAt            DateTime @default(now())\n  updatedAt            DateTime @updatedAt\n\n  organisationId String       @unique\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  discounts      Discount[]\n}\n\nmodel Discount {\n  id        String       @id @default(cuid())\n  name      String\n  type      DiscountType\n  value     Float\n  createdAt DateTime     @default(now())\n  updatedAt DateTime     @updatedAt\n\n  billingSettingsId String\n  billingSettings   BillingSettings   @relation(fields: [billingSettingsId], references: [id], onDelete: Cascade)\n  studentDiscounts  StudentDiscount[]\n}\n\nmodel StudentDiscount {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n\n  studentId  Int\n  discountId String\n  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  discount   Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)\n\n  @@unique([studentId, discountId])\n}\n\nmodel Invoice {\n  id        String        @id @default(cuid())\n  number    String\n  amount    Int\n  discount  Int           @default(0)\n  tax       Int           @default(0)\n  total     Int\n  status    InvoiceStatus @default(DRAFT)\n  dueDate   DateTime?\n  notes     String?\n  createdAt DateTime      @default(now())\n  updatedAt DateTime      @updatedAt\n\n  organisationId String\n  studentId      Int\n  termId         Int?\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  term           Term?        @relation(fields: [termId], references: [id], onDelete: SetNull)\n  payments       Payment[]\n\n  @@unique([organisationId, number])\n}\n\nmodel Payment {\n  id        String        @id @default(cuid())\n  amount    Int\n  method    PaymentMethod\n  reference String?\n  date      DateTime\n  notes     String?\n  createdAt DateTime      @default(now())\n  updatedAt DateTime      @updatedAt\n\n  organisationId String\n  studentId      Int\n  invoiceId      String?\n  recordedById   String\n  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)\n  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  invoice        Invoice?     @relation(fields: [invoiceId], references: [id], onDelete: SetNull)\n  recordedBy     User         @relation(\"PaymentRecordedBy\", fields: [recordedById], references: [id])\n}\n",
+  "inlineSchemaHash": "ddb90b76f9a5932228b01c60d9230e072efdd2f625bc86305d07002055748b96",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Student\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subjects\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolSubjects\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hourlyRateCents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isArchived\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentEmail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"meetingLocation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resourceLink\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"school\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"meetings\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StudentToUser\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToStudent\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"meetings\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToUser\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"StudentToUser\"},{\"name\":\"terms\",\"kind\":\"object\",\"type\":\"Term\",\"relationName\":\"TermToUser\"},{\"name\":\"holidays\",\"kind\":\"object\",\"type\":\"Holiday\",\"relationName\":\"HolidayToUser\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToUser\"}],\"dbName\":null},\"Class\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"ClassToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ClassToUser\"}],\"dbName\":null},\"Meeting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isCompleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"MeetingToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MeetingToUser\"}],\"dbName\":null},\"Term\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TermToUser\"}],\"dbName\":null},\"Holiday\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"HolidayToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Organisation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"joinCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"joinCodeExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PersonalWorkspace\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"OrganisationMember\",\"relationName\":\"OrganisationToOrganisationMember\"},{\"name\":\"invitations\",\"kind\":\"object\",\"type\":\"Invitation\",\"relationName\":\"InvitationToOrganisation\"},{\"name\":\"joinRequests\",\"kind\":\"object\",\"type\":\"OrganisationJoinRequest\",\"relationName\":\"OrganisationToOrganisationJoinRequest\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"OrganisationToStudent\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToOrganisation\"},{\"name\":\"meetings\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToOrganisation\"},{\"name\":\"terms\",\"kind\":\"object\",\"type\":\"Term\",\"relationName\":\"OrganisationToTerm\"},{\"name\":\"holidays\",\"kind\":\"object\",\"type\":\"Holiday\",\"relationName\":\"HolidayToOrganisation\"},{\"name\":\"assessments\",\"kind\":\"object\",\"type\":\"Assessment\",\"relationName\":\"AssessmentToOrganisation\"},{\"name\":\"checkIns\",\"kind\":\"object\",\"type\":\"CheckIn\",\"relationName\":\"CheckInToOrganisation\"},{\"name\":\"billingSettings\",\"kind\":\"object\",\"type\":\"BillingSettings\",\"relationName\":\"BillingSettingsToOrganisation\"},{\"name\":\"invoices\",\"kind\":\"object\",\"type\":\"Invoice\",\"relationName\":\"InvoiceToOrganisation\"},{\"name\":\"payments\",\"kind\":\"object\",\"type\":\"Payment\",\"relationName\":\"OrganisationToPayment\"}],\"dbName\":null},\"OrganisationMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrganisationMemberToUser\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"OrganisationToOrganisationMember\"}],\"dbName\":null},\"Invitation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"acceptedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"invitedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"InvitationToOrganisation\"},{\"name\":\"invitedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InvitationToUser\"}],\"dbName\":null},\"OrganisationJoinRequest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"JoinRequestStatus\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"decidedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"decidedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrganisationJoinRequestToUser\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"OrganisationToOrganisationJoinRequest\"},{\"name\":\"decidedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"JoinRequestDecidedBy\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownedWorkspace\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"PersonalWorkspace\"},{\"name\":\"memberships\",\"kind\":\"object\",\"type\":\"OrganisationMember\",\"relationName\":\"OrganisationMemberToUser\"},{\"name\":\"invitationsSent\",\"kind\":\"object\",\"type\":\"Invitation\",\"relationName\":\"InvitationToUser\"},{\"name\":\"joinRequests\",\"kind\":\"object\",\"type\":\"OrganisationJoinRequest\",\"relationName\":\"OrganisationJoinRequestToUser\"},{\"name\":\"joinRequestsDecided\",\"kind\":\"object\",\"type\":\"OrganisationJoinRequest\",\"relationName\":\"JoinRequestDecidedBy\"},{\"name\":\"meetingsCreated\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToUser\"},{\"name\":\"assessmentsLogged\",\"kind\":\"object\",\"type\":\"Assessment\",\"relationName\":\"AssessmentRecordedBy\"},{\"name\":\"checkInsAssigned\",\"kind\":\"object\",\"type\":\"CheckIn\",\"relationName\":\"CheckInToUser\"},{\"name\":\"paymentsRecorded\",\"kind\":\"object\",\"type\":\"Payment\",\"relationName\":\"PaymentRecordedBy\"}],\"dbName\":null},\"Student\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subjects\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolSubjects\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hourlyRateCents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isArchived\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"parentEmail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"meetingLocation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resourceLink\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"school\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"customTermRateCents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"OrganisationToStudent\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToStudent\"},{\"name\":\"meetings\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToStudent\"},{\"name\":\"assessments\",\"kind\":\"object\",\"type\":\"Assessment\",\"relationName\":\"AssessmentToStudent\"},{\"name\":\"checkIns\",\"kind\":\"object\",\"type\":\"CheckIn\",\"relationName\":\"CheckInToStudent\"},{\"name\":\"invoices\",\"kind\":\"object\",\"type\":\"Invoice\",\"relationName\":\"InvoiceToStudent\"},{\"name\":\"payments\",\"kind\":\"object\",\"type\":\"Payment\",\"relationName\":\"PaymentToStudent\"},{\"name\":\"discounts\",\"kind\":\"object\",\"type\":\"StudentDiscount\",\"relationName\":\"StudentToStudentDiscount\"}],\"dbName\":null},\"Class\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"teacherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"ClassToOrganisation\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"ClassToStudent\"}],\"dbName\":null},\"Meeting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isCompleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"MeetingToOrganisation\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MeetingToUser\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"MeetingToStudent\"},{\"name\":\"assessments\",\"kind\":\"object\",\"type\":\"Assessment\",\"relationName\":\"AssessmentToMeeting\"}],\"dbName\":null},\"Term\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"OrganisationToTerm\"},{\"name\":\"invoices\",\"kind\":\"object\",\"type\":\"Invoice\",\"relationName\":\"InvoiceToTerm\"}],\"dbName\":null},\"Holiday\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"HolidayToOrganisation\"}],\"dbName\":null},\"Assessment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"maxScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"grade\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"meetingId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"recordedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"AssessmentToOrganisation\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"AssessmentToStudent\"},{\"name\":\"meeting\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"AssessmentToMeeting\"},{\"name\":\"recordedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AssessmentRecordedBy\"}],\"dbName\":null},\"CheckIn\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scheduledDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CheckInStatus\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"teacherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"CheckInToOrganisation\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"CheckInToStudent\"},{\"name\":\"teacher\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CheckInToUser\"}],\"dbName\":null},\"BillingSettings\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"defaultTermRateCents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"currency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"BillingSettingsToOrganisation\"},{\"name\":\"discounts\",\"kind\":\"object\",\"type\":\"Discount\",\"relationName\":\"BillingSettingsToDiscount\"}],\"dbName\":null},\"Discount\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"DiscountType\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"billingSettingsId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"billingSettings\",\"kind\":\"object\",\"type\":\"BillingSettings\",\"relationName\":\"BillingSettingsToDiscount\"},{\"name\":\"studentDiscounts\",\"kind\":\"object\",\"type\":\"StudentDiscount\",\"relationName\":\"DiscountToStudentDiscount\"}],\"dbName\":null},\"StudentDiscount\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"discountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"StudentToStudentDiscount\"},{\"name\":\"discount\",\"kind\":\"object\",\"type\":\"Discount\",\"relationName\":\"DiscountToStudentDiscount\"}],\"dbName\":null},\"Invoice\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"discount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tax\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"total\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InvoiceStatus\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"termId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"InvoiceToOrganisation\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"InvoiceToStudent\"},{\"name\":\"term\",\"kind\":\"object\",\"type\":\"Term\",\"relationName\":\"InvoiceToTerm\"},{\"name\":\"payments\",\"kind\":\"object\",\"type\":\"Payment\",\"relationName\":\"InvoiceToPayment\"}],\"dbName\":null},\"Payment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"method\",\"kind\":\"enum\",\"type\":\"PaymentMethod\"},{\"name\":\"reference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"organisationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"invoiceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"recordedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"organisation\",\"kind\":\"object\",\"type\":\"Organisation\",\"relationName\":\"OrganisationToPayment\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"PaymentToStudent\"},{\"name\":\"invoice\",\"kind\":\"object\",\"type\":\"Invoice\",\"relationName\":\"InvoiceToPayment\"},{\"name\":\"recordedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PaymentRecordedBy\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

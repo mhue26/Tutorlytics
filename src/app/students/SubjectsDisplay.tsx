@@ -11,21 +11,20 @@ interface SubjectsDisplayProps {
 
 export default function SubjectsDisplay({ subjects, allowColorPicker = false }: SubjectsDisplayProps) {
   const [refreshKey, setRefreshKey] = useState(0);
+  const subjectList = (subjects || "").split(",").map(s => s.trim()).filter(s => s);
 
-  if (!subjects || subjects.trim() === "") {
-    return <span className="text-gray-500">—</span>;
-  }
-
-  const subjectList = subjects.split(",").map(s => s.trim()).filter(s => s);
-
-  // Render with deterministic defaults on the server, then upgrade to custom colors after mount.
   const [subjectClasses, setSubjectClasses] = useState<string[]>(
     () => subjectList.map((s) => getDefaultSubjectColor(s))
   );
 
   useEffect(() => {
     setSubjectClasses(subjectList.map((s) => getSubjectColor(s)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjects, refreshKey]);
+
+  if (!subjects || subjects.trim() === "") {
+    return <span className="text-gray-500">—</span>;
+  }
 
   const handleColorChange = () => {
     setRefreshKey(prev => prev + 1);

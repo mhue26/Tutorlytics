@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="border-t border-gray-600 bg-gray-800 mt-auto">
@@ -53,7 +55,7 @@ export default function Footer() {
             
             {/* Terms and Policy Links - Right */}
             <div className="flex space-x-6 justify-end">
-              <a href="/" className="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+              <Link href="/" className="text-gray-400 hover:text-white text-sm">Terms of Service</Link>
               <a href="/cookie-policy" className="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
             </div>
           </div>

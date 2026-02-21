@@ -1,33 +1,15 @@
-import { authOptions } from "@/utils/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { requireOrgContext } from "@/utils/auth";
 import { prisma } from "@/lib/prisma";
 import ScheduleClient from "./ScheduleClient";
 
 export default async function SchedulePage() {
-  const session = await getServerSession(authOptions);
-  
-  if (!session) {
-    redirect("/signin");
-  }
+	const ctx = await requireOrgContext();
 
-  // Fetch students for the form
-  const students = await prisma.student.findMany({
-    where: {
-      userId: (session.user as any).id,
-      isArchived: false,
-    },
-    select: {
-      id: true,
-      firstName: true,
-      lastName: true,
-    },
-    orderBy: {
-      firstName: "asc",
-    },
-  });
+	const students = await prisma.student.findMany({
+		where: { organisationId: ctx.organisationId, isArchived: false },
+		select: { id: true, firstName: true, lastName: true },
+		orderBy: { firstName: "asc" },
+	});
 
-  return (
-    <ScheduleClient students={students} userId={(session.user as any).id} />
-  );
+	return <ScheduleClient students={students as any} userId={ctx.userId} />;
 }

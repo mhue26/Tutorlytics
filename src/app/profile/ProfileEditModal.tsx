@@ -48,7 +48,7 @@ export default function ProfileEditModal({ user }: ProfileEditModalProps) {
               </svg>
             </button>
           </div>
-          <ProfileEditClient user={user} />
+          <ProfileEditClient user={user} onCancel={() => setModalType('none')} />
         </div>
       </div>
     </div>

@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment variables
+
+For Google sign-in/sign-up, set in `.env.local`:
+
+- `NEXTAUTH_URL` – canonical URL of the app. For local dev use `http://localhost:3000` (required for OAuth callbacks).
+- `GOOGLE_CLIENT_ID` – from [Google Cloud Console](https://console.cloud.google.com/) (APIs & Services → Credentials → OAuth 2.0 Client ID).
+- `GOOGLE_CLIENT_SECRET` – from the same OAuth client.
+
+In the OAuth client, add an **Authorized redirect URI** exactly: `http://localhost:3000/api/auth/callback/google` (for production, add `https://your-domain.com/api/auth/callback/google`).
+
 ## Getting Started
 
 First, run the development server:

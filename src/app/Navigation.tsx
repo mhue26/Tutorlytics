@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from 'next/navigation';
 
 interface NavigationProps {
@@ -8,26 +9,31 @@ interface NavigationProps {
 
 export default function Navigation({ session }: NavigationProps) {
   const pathname = usePathname();
+
+  // Keep the home page minimal; app navigation lives in the sidebar after login.
+  if (pathname === "/") {
+    return null;
+  }
   
   return (
     <nav className="text-base flex items-center justify-center gap-2">
       {session ? (
         <>
-          <a href="/dashboard" className={pathname === '/dashboard' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Dashboard</a>
+          <Link href="/dashboard" className={pathname === '/dashboard' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Dashboard</Link>
           <span className="px-2">·</span>
-          <a href="/students" className={pathname?.startsWith('/students') ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Students</a>
+          <Link href="/students" className={pathname?.startsWith('/students') ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Students</Link>
           <span className="px-2">·</span>
-          <a href="/classes" className={pathname?.startsWith('/classes') ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Classes</a>
+          <Link href="/classes" className={pathname?.startsWith('/classes') ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Classes</Link>
           <span className="px-2">·</span>
-          <a href="/calendar" className={pathname === '/calendar' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Calendar</a>
+          <Link href="/calendar" className={pathname === '/calendar' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Calendar</Link>
           <span className="px-2">·</span>
-          <a href="/billing" className={pathname === '/billing' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Invoicing</a>
+          <Link href="/billing" className={pathname === '/billing' ? 'font-bold' : 'hover:font-bold'} style={{ color: '#584B53' }}>Invoicing</Link>
         </>
       ) : (
         <div className="flex items-center gap-2">
-          <a href="/about" className="hover:font-bold" style={{ color: '#584B53' }}>About</a>
+          <Link href="/about" className="hover:font-bold" style={{ color: '#584B53' }}>About</Link>
           <span className="px-2">·</span>
-          <a href="/contact" className="hover:font-bold" style={{ color: '#584B53' }}>Contact</a>
+          <Link href="/contact" className="hover:font-bold" style={{ color: '#584B53' }}>Contact</Link>
         </div>
       )}
     </nav>

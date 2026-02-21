@@ -4,37 +4,126 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Student {
-  id              Int       @id @default(autoincrement())
-  firstName       String
-  lastName        String
-  email           String?   @unique
-  phone           String?
-  subjects        String    @default("") // Tutoring subjects (e.g., "Math,Physics")
-  schoolSubjects  String? // School subjects (e.g., "Math,English,Science,History")
-  hourlyRateCents Int
-  notes           String?
-  isActive        Boolean   @default(true)
-  isArchived      Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  userId          String?
-  parentEmail     String?
-  parentName      String?
-  parentPhone     String?
-  year            Int?
-  meetingLocation String?
-  resourceLink    String?
-  school          String?
-  classId         Int?
-  meetings        Meeting[]
-  user            User?     @relation(fields: [userId], references: [id])
-  class           Class?    @relation(fields: [classId], references: [id])
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Role {
+  OWNER
+  ADMIN
+  TEACHER
 }
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  PARTIALLY_PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  CARD
+  OTHER
+}
+
+enum CheckInStatus {
+  SCHEDULED
+  COMPLETED
+  MISSED
+  CANCELLED
+}
+
+enum JoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ─── Organisation ────────────────────────────────────────────────────────────
+
+model Organisation {
+  id                String    @id @default(cuid())
+  name              String
+  slug              String    @unique
+  ownerId           String?   @unique
+  joinCode          String?   @unique
+  joinCodeExpiresAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  owner           User?                     @relation("PersonalWorkspace", fields: [ownerId], references: [id], onDelete: SetNull)
+  members         OrganisationMember[]
+  invitations     Invitation[]
+  joinRequests    OrganisationJoinRequest[]
+  students        Student[]
+  classes         Class[]
+  meetings        Meeting[]
+  terms           Term[]
+  holidays        Holiday[]
+  assessments     Assessment[]
+  checkIns        CheckIn[]
+  billingSettings BillingSettings?
+  invoices        Invoice[]
+  payments        Payment[]
+}
+
+model OrganisationMember {
+  id        String   @id @default(cuid())
+  role      Role     @default(TEACHER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId         String
+  organisationId String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organisationId])
+}
+
+model Invitation {
+  id         String    @id @default(cuid())
+  email      String
+  role       Role      @default(TEACHER)
+  token      String    @unique
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  organisationId String
+  invitedById    String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  invitedBy      User         @relation(fields: [invitedById], references: [id])
+}
+
+model OrganisationJoinRequest {
+  id        String            @id @default(cuid())
+  status    JoinRequestStatus @default(PENDING)
+  role      Role              @default(TEACHER)
+  decidedAt DateTime?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  userId         String
+  organisationId String
+  decidedById    String?
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  decidedBy      User?        @relation("JoinRequestDecidedBy", fields: [decidedById], references: [id], onDelete: SetNull)
+}
+
+// ─── User ────────────────────────────────────────────────────────────────────
 
 model User {
   id            String    @id @default(cuid())
@@ -43,24 +132,73 @@ model User {
   emailVerified DateTime?
   image         String?
   passwordHash  String?
-  meetings      Meeting[]
-  students      Student[]
-  terms         Term[]
-  holidays      Holiday[]
-  classes       Class[]
+
+  ownedWorkspace      Organisation?             @relation("PersonalWorkspace")
+  memberships         OrganisationMember[]
+  invitationsSent     Invitation[]
+  joinRequests        OrganisationJoinRequest[]
+  joinRequestsDecided OrganisationJoinRequest[] @relation("JoinRequestDecidedBy")
+  meetingsCreated     Meeting[]
+  assessmentsLogged   Assessment[]              @relation("AssessmentRecordedBy")
+  checkInsAssigned    CheckIn[]
+  paymentsRecorded    Payment[]                 @relation("PaymentRecordedBy")
 }
 
+// ─── Student ─────────────────────────────────────────────────────────────────
+
+model Student {
+  id              Int      @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String?
+  phone           String?
+  subjects        String   @default("")
+  schoolSubjects  String?
+  hourlyRateCents Int
+  notes           String?
+  isActive        Boolean  @default(true)
+  isArchived      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  parentEmail     String?
+  parentName      String?
+  parentPhone     String?
+  year            Int?
+  meetingLocation String?
+  resourceLink    String?
+  school          String?
+  classId         Int?
+
+  customTermRateCents Int?
+
+  organisationId String
+  organisation   Organisation      @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  class          Class?            @relation(fields: [classId], references: [id], onDelete: SetNull)
+  meetings       Meeting[]
+  assessments    Assessment[]
+  checkIns       CheckIn[]
+  invoices       Invoice[]
+  payments       Payment[]
+  discounts      StudentDiscount[]
+}
+
+// ─── Class ───────────────────────────────────────────────────────────────────
+
 model Class {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   description String?
-  color       String    @default("#3B82F6")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  userId      String
-  students    Student[]
-  user        User      @relation(fields: [userId], references: [id])
+  color       String   @default("#3B82F6")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organisationId String
+  teacherId      String?
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  students       Student[]
 }
+
+// ─── Meeting ─────────────────────────────────────────────────────────────────
 
 model Meeting {
   id          Int      @id @default(autoincrement())
@@ -71,35 +209,172 @@ model Meeting {
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId      String
-  studentId   Int
-  student     Student  @relation(fields: [studentId], references: [id])
-  user        User     @relation(fields: [userId], references: [id])
+
+  organisationId String
+  createdById    String
+  studentId      Int
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  createdBy      User         @relation(fields: [createdById], references: [id])
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  assessments    Assessment[]
 }
+
+// ─── Term ────────────────────────────────────────────────────────────────────
 
 model Term {
   id        Int      @id @default(autoincrement())
-  name      String // e.g., "Term 1", "Semester 1"
+  name      String
   startDate DateTime
   endDate   DateTime
-  year      Int // e.g., 2025
+  year      Int
   isActive  Boolean  @default(true)
-  color     String   @default("#3B82F6") // Hex color code
+  color     String   @default("#3B82F6")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  invoices       Invoice[]
 }
+
+// ─── Holiday ─────────────────────────────────────────────────────────────────
 
 model Holiday {
   id        Int      @id @default(autoincrement())
-  name      String // e.g., "Easter Break", "Summer Holidays"
+  name      String
   startDate DateTime
   endDate   DateTime
-  year      Int // e.g., 2025
-  color     String   @default("#F59E0B") // Hex color code
+  year      Int
+  color     String   @default("#F59E0B")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+}
+
+// ─── Assessment / Performance ────────────────────────────────────────────────
+
+model Assessment {
+  id        String   @id @default(cuid())
+  type      String
+  title     String
+  score     Float?
+  maxScore  Float?
+  grade     String?
+  notes     String?
+  date      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organisationId String
+  studentId      Int
+  meetingId      Int?
+  recordedById   String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  meeting        Meeting?     @relation(fields: [meetingId], references: [id], onDelete: SetNull)
+  recordedBy     User         @relation("AssessmentRecordedBy", fields: [recordedById], references: [id])
+}
+
+// ─── Check-In ────────────────────────────────────────────────────────────────
+
+model CheckIn {
+  id            String        @id @default(cuid())
+  scheduledDate DateTime
+  completedDate DateTime?
+  status        CheckInStatus @default(SCHEDULED)
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  organisationId String
+  studentId      Int
+  teacherId      String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher        User         @relation(fields: [teacherId], references: [id])
+}
+
+// ─── Billing ─────────────────────────────────────────────────────────────────
+
+model BillingSettings {
+  id                   String   @id @default(cuid())
+  defaultTermRateCents Int
+  currency             String   @default("AUD")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  organisationId String       @unique
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  discounts      Discount[]
+}
+
+model Discount {
+  id        String       @id @default(cuid())
+  name      String
+  type      DiscountType
+  value     Float
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  billingSettingsId String
+  billingSettings   BillingSettings   @relation(fields: [billingSettingsId], references: [id], onDelete: Cascade)
+  studentDiscounts  StudentDiscount[]
+}
+
+model StudentDiscount {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  studentId  Int
+  discountId String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  discount   Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, discountId])
+}
+
+model Invoice {
+  id        String        @id @default(cuid())
+  number    String
+  amount    Int
+  discount  Int           @default(0)
+  tax       Int           @default(0)
+  total     Int
+  status    InvoiceStatus @default(DRAFT)
+  dueDate   DateTime?
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  organisationId String
+  studentId      Int
+  termId         Int?
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  term           Term?        @relation(fields: [termId], references: [id], onDelete: SetNull)
+  payments       Payment[]
+
+  @@unique([organisationId, number])
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  amount    Int
+  method    PaymentMethod
+  reference String?
+  date      DateTime
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  organisationId String
+  studentId      Int
+  invoiceId      String?
+  recordedById   String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  invoice        Invoice?     @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  recordedBy     User         @relation("PaymentRecordedBy", fields: [recordedById], references: [id])
 }

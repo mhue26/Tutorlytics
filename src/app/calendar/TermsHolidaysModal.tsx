@@ -54,8 +54,8 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
     try {
       console.log('Loading teaching periods...');
       const [termsResponse, holidaysResponse] = await Promise.all([
-        fetch(`/api/terms?userId=${userId}`),
-        fetch(`/api/holidays?userId=${userId}`)
+        fetch(`/api/terms`),
+        fetch(`/api/holidays`)
       ]);
       
       const terms = termsResponse.ok ? await termsResponse.json() : [];
@@ -89,7 +89,6 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
       
       const requestBody = {
         ...formData,
-        userId,
         isActive: isTerm ? formData.isActive : true
       };
       
@@ -464,7 +463,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
             }).flat()}
             {sortedPeriods.length === 0 && (
               <p className="text-gray-500 text-center py-8">
-                No teaching periods found. Click "Add Teaching Period" to get started.
+                No teaching periods found. Click &quot;Add Teaching Period&quot; to get started.
               </p>
             )}
           </div>

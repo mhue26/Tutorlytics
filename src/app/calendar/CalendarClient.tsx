@@ -48,8 +48,8 @@ export default function CalendarClient({
   const loadCurrentTerm = async () => {
     try {
       const [termsResponse, holidaysResponse] = await Promise.all([
-        fetch(`/api/terms?userId=${userId}`),
-        fetch(`/api/holidays?userId=${userId}`)
+        fetch(`/api/terms`),
+        fetch(`/api/holidays`)
       ]);
       
       const terms = termsResponse.ok ? await termsResponse.json() : [];
@@ -185,7 +185,7 @@ export default function CalendarClient({
   };
 
   return (
-    <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif", backgroundColor: '#EFFAFF' }}>
+    <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-[#3D4756]">Calendar</h2>
         {currentTerm && (

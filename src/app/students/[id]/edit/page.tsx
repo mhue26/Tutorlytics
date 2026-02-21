@@ -1,6 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth";
+import { requireOrgContext } from "@/utils/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import ParentInformationClient from "./ParentInformationClient";
@@ -10,8 +9,7 @@ import ClassSelector from "../../ClassSelector";
 
 async function updateStudent(id: number, formData: FormData) {
 	"use server";
-    const session = await getServerSession(authOptions);
-	if (!session?.user) redirect("/signin");
+	await requireOrgContext();
 	
 	const fullName = String(formData.get("fullName") || "").trim();
 	const nameParts = fullName.split(" ");
@@ -30,7 +28,7 @@ async function updateStudent(id: number, formData: FormData) {
 		}
 		contactIndex++;
 	}
-	const phone = contacts.length > 0 ? contacts.join(" | ") : null;
+	const _phone = contacts.length > 0 ? contacts.join(" | ") : null;
 	const subjects = String(formData.get("subjects") || "").trim();
 	const schoolSubjects = String(formData.get("schoolSubjects") || "").trim() || null;
 	const year = Number(String(formData.get("year") || "0")) || null;
@@ -121,8 +119,7 @@ async function updateStudent(id: number, formData: FormData) {
 }
 
 export default async function EditStudentPage({ params }: { params: Promise<{ id: string }> }) {
-	const session = await getServerSession(authOptions);
-	if (!session?.user) redirect("/signin");
+	const ctx = await requireOrgContext();
 
 	const { id } = await params;
 	const studentId = parseInt(id);
@@ -177,7 +174,7 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 	const otherRelationship = isOtherRelationship ? parentRelationship : "";
 
 	// Parse alternative contacts from phone field
-	let alternativeContacts = [];
+	const alternativeContacts: { method: string; details: string }[] = [];
 	if (student.phone) {
 		const contacts = student.phone.split(" | ");
 		contacts.forEach((contact) => {
@@ -191,14 +188,9 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 		});
 	}
 
-	// Fetch classes for the current user
 	const classes = await prisma.class.findMany({
-		where: {
-			userId: (session.user as any).id
-		},
-		orderBy: {
-			name: 'asc'
-		}
+		where: { organisationId: ctx.organisationId },
+		orderBy: { name: "asc" },
 	});
 
 	const updateStudentAction = updateStudent.bind(null, studentId);
@@ -227,10 +219,10 @@ export default async function EditStudentPage({ params }: { params: Promise<{ id
 							<label className="block">
 								<div className="text-sm text-gray-700">Email</div>
 								<input 
-									type="email" 
-									name="email" 
-									required 
-									defaultValue={student.email}
+								type="email" 
+								name="email" 
+								required 
+								defaultValue={student.email || ""}
 									className="mt-1 w-full border rounded-md px-3 py-2" 
 								/>
 							</label>

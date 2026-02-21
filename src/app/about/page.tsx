@@ -7,7 +7,7 @@ export default function AboutPage() {
 					<div>
 						<h2 className="text-5xl font-bold text-gray-900 mb-6">About Us</h2>
 						<p className="text-lg text-gray-700 leading-relaxed">
-							Tutorlytics's company and culture are a lot like our product. They're crafted, not cobbled, for a delightful experience.
+							Tutorlytics&apos;s company and culture are a lot like our product. They&apos;re crafted, not cobbled, for a delightful experience.
 						</p>
 					</div>
 					<div>

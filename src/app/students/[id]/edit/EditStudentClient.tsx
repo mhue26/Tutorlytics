@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+declare const google: any;
+
 interface EditStudentClientProps {
   meetingLocation: string | null;
 }
@@ -126,7 +128,7 @@ export default function EditStudentClient({ meetingLocation }: EditStudentClient
     }
 
     // Handle Google Maps API errors
-    window.gm_authFailure = function() {
+    (window as any).gm_authFailure = function() {
       console.warn('Google Maps API authentication failed - using manual input only');
     };
 
@@ -135,7 +137,7 @@ export default function EditStudentClient({ meetingLocation }: EditStudentClient
       initializeAutocomplete();
     } else {
       // Wait for Google Maps API to load
-      window.initMap = initializeAutocomplete;
+      (window as any).initMap = initializeAutocomplete;
       
       // Also try to initialize after a delay in case the API loads asynchronously
       setTimeout(function() {

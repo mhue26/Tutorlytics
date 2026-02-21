@@ -1,23 +1,19 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { authOptions } from "@/utils/auth";
-import { getServerSession } from "next-auth";
+import { requireOrgContext } from "@/utils/auth";
 import SubjectsMultiSelect from "../SubjectsMultiSelect";
 import ParentInformationClient from "./ParentInformationClient";
 import Link from "next/link";
 
 async function createStudent(formData: FormData) {
 	"use server";
-    const session = await getServerSession(authOptions);
-	if (!session?.user) {
-		redirect("/signin");
-	}
+	const ctx = await requireOrgContext();
+
 	const firstName = String(formData.get("firstName") || "").trim();
 	const lastName = String(formData.get("lastName") || "").trim();
 	const emailValue = String(formData.get("email") || "").trim();
 	const email = emailValue || undefined;
-	
-	// Process multiple alternative contacts
+
 	const contacts = [];
 	let contactIndex = 1;
 	while (formData.get(`contactMethod${contactIndex}`)) {
@@ -29,37 +25,31 @@ async function createStudent(formData: FormData) {
 		contactIndex++;
 	}
 	const phone = contacts.length > 0 ? contacts.join(" | ") : null;
-	
+
 	const subjects = String(formData.get("subjects") || "").trim();
 	const schoolSubjects = String(formData.get("schoolSubjects") || "").trim() || null;
 	const year = Number(String(formData.get("year") || "0")) || null;
 	const school = String(formData.get("school") || "").trim() || null;
 	const hourlyRate = Number(String(formData.get("hourlyRate") || "0"));
-	
-	// Handle meeting location based on type
+
 	const meetingLocationType = String(formData.get("meetingLocationType") || "").trim();
 	const meetingLocationDetails = String(formData.get("meetingLocationDetails") || "").trim();
 	const meetingPlatform = String(formData.get("meetingPlatform") || "").trim();
-	
+
 	let meetingLocation = null;
 	if (meetingLocationType === "In-Person" && meetingLocationDetails) {
 		meetingLocation = meetingLocationDetails;
 	} else if (meetingLocationType === "Online" && meetingPlatform) {
 		meetingLocation = meetingPlatform;
 	}
-	
+
 	const notes = String(formData.get("notes") || "").trim() || null;
-	
-	// Parent information
+
 	const parentRelationship = String(formData.get("parentRelationship") || "").trim() || null;
 	const parentRelationshipOther = String(formData.get("parentRelationshipOther") || "").trim();
-	
-	// Handle "Other" relationship
-	const finalRelationship = parentRelationship === "Other" && parentRelationshipOther 
-		? parentRelationshipOther 
+	const finalRelationship = parentRelationship === "Other" && parentRelationshipOther
+		? parentRelationshipOther
 		: parentRelationship;
-	
-	// If N/A is selected, clear all parent information
 	const parentName = parentRelationship === "N/A" ? null : String(formData.get("parentName") || "").trim() || null;
 	const parentContactMethod = String(formData.get("parentContactMethod") || "").trim();
 	const parentContactDetails = String(formData.get("parentContactDetails") || "").trim();
@@ -81,7 +71,7 @@ async function createStudent(formData: FormData) {
 			parentName,
 			parentEmail: finalRelationship,
 			parentPhone: parentContact,
-			userId: (session.user as any).id as string,
+			organisationId: ctx.organisationId,
 		},
 	});
 
@@ -98,7 +88,6 @@ export default function NewStudentPage() {
 
 			<form action={createStudent} className="space-y-6">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-					{/* Top Left: Student Information */}
 					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Student Information</h3>
 						<div className="space-y-4">
@@ -130,48 +119,12 @@ export default function NewStudentPage() {
 										<input name="contactDetails1" placeholder="Enter contact details" className="flex-1 border rounded-md px-3 py-2" />
 									</div>
 								</div>
-								<button 
-									type="button" 
-									className="mt-3 bg-[#3D4756] text-white px-6 py-3 rounded-lg font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200 add-contact-btn"
-								>
-									+ Add another alternative contact
-								</button>
-								<script dangerouslySetInnerHTML={{
-									__html: `
-										let contactCount = 1;
-										document.addEventListener('DOMContentLoaded', function() {
-											const addBtn = document.querySelector('.add-contact-btn');
-											if (addBtn) {
-												addBtn.addEventListener('click', function() {
-													contactCount++;
-													const container = document.getElementById('alternative-contacts');
-													const newContact = document.createElement('div');
-													newContact.className = 'flex gap-2';
-													newContact.innerHTML = \`
-														<select name="contactMethod\${contactCount}" class="flex-1 border rounded-md px-3 py-2">
-															<option value="">Select method</option>
-															<option value="Phone">Phone</option>
-															<option value="WhatsApp">WhatsApp</option>
-															<option value="Instagram">Instagram</option>
-															<option value="WeChat">WeChat</option>
-														</select>
-														<input name="contactDetails\${contactCount}" placeholder="Enter contact details" class="flex-1 border rounded-md px-3 py-2" />
-														<button type="button" class="px-2 py-1 text-red-600 hover:text-red-800" onclick="this.parentElement.remove()">×</button>
-													\`;
-													container.appendChild(newContact);
-												});
-											}
-										});
-									`
-								}} />
 							</div>
 						</div>
 					</div>
 
-					{/* Top Right: Parent Information */}
 					<ParentInformationClient />
 
-					{/* Bottom Left: Academic Information */}
 					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Academic Information</h3>
 						<div className="space-y-4">
@@ -182,12 +135,7 @@ export default function NewStudentPage() {
 							<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 								<label className="block sm:col-span-2">
 									<div className="text-sm text-gray-700">School</div>
-									<input 
-										name="school" 
-										type="text" 
-										placeholder="Enter school name"
-										className="mt-1 w-full border rounded-md px-3 py-2" 
-									/>
+									<input name="school" type="text" placeholder="Enter school name" className="mt-1 w-full border rounded-md px-3 py-2" />
 								</label>
 								<label className="block">
 									<div className="text-sm text-gray-700">Year</div>
@@ -202,7 +150,6 @@ export default function NewStudentPage() {
 						</div>
 					</div>
 
-					{/* Bottom Right: Lesson Information */}
 					<div className="bg-white p-6 rounded-2xl shadow-sm">
 						<h3 className="text-lg font-medium text-gray-900 mb-4">Lesson Information</h3>
 						<div className="space-y-4">
@@ -216,11 +163,7 @@ export default function NewStudentPage() {
 							</label>
 							<div className="block">
 								<div className="text-sm text-gray-700">Mode</div>
-								<select 
-									name="meetingLocationType" 
-									className="mt-1 w-full border rounded-md px-3 py-2"
-									id="locationTypeSelect"
-								>
+								<select name="meetingLocationType" className="mt-1 w-full border rounded-md px-3 py-2" id="locationTypeSelect">
 									<option value="">Select location type</option>
 									<option value="In-Person">In-Person</option>
 									<option value="Online">Online</option>
@@ -228,20 +171,11 @@ export default function NewStudentPage() {
 							</div>
 							<div id="locationDetails" className="block" style={{display: "none"}}>
 								<div className="text-sm text-gray-700">Location</div>
-								<input 
-									id="location-input"
-									name="meetingLocationDetails" 
-									type="text" 
-									placeholder=""
-									className="mt-1 w-full border rounded-md px-3 py-2" 
-								/>
+								<input id="location-input" name="meetingLocationDetails" type="text" className="mt-1 w-full border rounded-md px-3 py-2" />
 							</div>
 							<div id="platformDetails" className="block" style={{display: "none"}}>
 								<div className="text-sm text-gray-700">Platform</div>
-								<select 
-									name="meetingPlatform" 
-									className="mt-1 w-full border rounded-md px-3 py-2"
-								>
+								<select name="meetingPlatform" className="mt-1 w-full border rounded-md px-3 py-2">
 									<option value="">Select platform</option>
 									<option value="Zoom">Zoom</option>
 									<option value="Google Meet">Google Meet</option>
@@ -249,106 +183,6 @@ export default function NewStudentPage() {
 									<option value="Webex">Webex</option>
 								</select>
 							</div>
-							<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHcXZQq3Y8iCLQLb9Z1KxFqpSMik5vPs0&libraries=places" async defer></script>
-							<script dangerouslySetInnerHTML={{
-								__html: `
-									let autocomplete;
-									
-									function initAutocomplete() {
-										const locationInput = document.getElementById('location-input');
-										if (locationInput && window.google && window.google.maps && window.google.maps.places) {
-											autocomplete = new google.maps.places.Autocomplete(locationInput, {
-												types: ['establishment', 'geocode'],
-												componentRestrictions: { country: 'au' } // Restrict to Australia, change as needed
-											});
-											
-											// Optional: Listen for place selection
-											autocomplete.addListener('place_changed', function() {
-												const place = autocomplete.getPlace();
-												if (place.formatted_address) {
-													locationInput.value = place.formatted_address;
-												}
-											});
-										}
-									}
-									
-									document.addEventListener('DOMContentLoaded', function() {
-										const locationTypeSelect = document.getElementById('locationTypeSelect');
-										const locationDetails = document.getElementById('locationDetails');
-										const platformDetails = document.getElementById('platformDetails');
-										const locationDetailsInput = document.querySelector('input[name="meetingLocationDetails"]');
-										const platformSelect = document.querySelector('select[name="meetingPlatform"]');
-										
-										function toggleLocationInput() {
-											if (locationTypeSelect.value === 'In-Person') {
-												locationDetails.style.display = 'block';
-												platformDetails.style.display = 'none';
-												// Initialize autocomplete when the input becomes visible
-												setTimeout(initAutocomplete, 100);
-												// Clear platform selection
-												if (platformSelect) {
-													platformSelect.value = '';
-												}
-											} else if (locationTypeSelect.value === 'Online') {
-												locationDetails.style.display = 'none';
-												platformDetails.style.display = 'block';
-												// Clear location input
-												if (locationDetailsInput) {
-													locationDetailsInput.value = '';
-												}
-											} else {
-												locationDetails.style.display = 'none';
-												platformDetails.style.display = 'none';
-												if (locationDetailsInput) {
-													locationDetailsInput.value = '';
-												}
-												if (platformSelect) {
-													platformSelect.value = '';
-												}
-											}
-										}
-										
-										// Add event listener for dropdown change
-										if (locationTypeSelect) {
-											locationTypeSelect.addEventListener('change', toggleLocationInput);
-										}
-										
-										// Initialize autocomplete when Google Maps API loads
-										window.initAutocomplete = initAutocomplete;
-										
-										// Set up the form submission to combine the values
-										const form = document.querySelector('form');
-										if (form) {
-											form.addEventListener('submit', function(e) {
-												const locationType = locationTypeSelect ? locationTypeSelect.value : '';
-												const locationDetailsValue = locationDetailsInput ? locationDetailsInput.value : '';
-												const platformValue = platformSelect ? platformSelect.value : '';
-												
-												// Remove any existing hidden input
-												const existingHidden = form.querySelector('input[name="meetingLocation"][type="hidden"]');
-												if (existingHidden) {
-													existingHidden.remove();
-												}
-												
-												// Create a hidden input with the final meetingLocation value
-												const hiddenInput = document.createElement('input');
-												hiddenInput.type = 'hidden';
-												hiddenInput.name = 'meetingLocation';
-												
-												if (locationType === 'Online') {
-													hiddenInput.value = platformValue || 'Online';
-												} else if (locationType === 'In-Person') {
-													hiddenInput.value = locationDetailsValue || 'In-Person';
-												} else {
-													hiddenInput.value = '';
-												}
-												
-												form.appendChild(hiddenInput);
-											});
-										}
-									});
-								`
-							}} />
 						</div>
 					</div>
 				</div>
@@ -361,5 +195,3 @@ export default function NewStudentPage() {
 		</div>
 	);
 }
-
-

@@ -172,7 +172,7 @@ export default function SubjectsMultiSelect({ name, defaultValue = "", required 
                 onClick={addCustomSubject}
                 className="text-xs text-blue-600 hover:text-blue-800"
               >
-                Add "{searchTerm}"
+                Add &quot;{searchTerm}&quot;
               </button>
             </div>
           )}

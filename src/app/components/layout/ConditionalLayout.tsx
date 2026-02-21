@@ -13,7 +13,7 @@ interface ConditionalLayoutProps {
 }
 
 // Public routes that should not use DashboardLayout
-const publicRoutes = ["/", "/signin", "/signup", "/about", "/contact", "/cookie-policy"];
+const publicRoutes = ["/", "/signin", "/signup", "/signup/complete", "/about", "/contact", "/cookie-policy"];
 
 export default function ConditionalLayout({ children, session, initialPathname }: ConditionalLayoutProps) {
   const [mounted, setMounted] = useState(false);

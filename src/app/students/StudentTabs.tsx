@@ -141,7 +141,7 @@ export default function StudentTabs({ children, meetings, teachingPeriods, stude
                 
                 {notes.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
-                    No notes yet. Click "Add Note" to create your first note.
+                    No notes yet. Click &quot;Add Note&quot; to create your first note.
                   </div>
                 ) : (
                   <div className="space-y-4">

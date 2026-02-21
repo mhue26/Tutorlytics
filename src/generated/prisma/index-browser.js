@@ -114,8 +114,64 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
+
+exports.Prisma.OrganisationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  ownerId: 'ownerId',
+  joinCode: 'joinCode',
+  joinCodeExpiresAt: 'joinCodeExpiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrganisationMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt',
+  organisationId: 'organisationId',
+  invitedById: 'invitedById'
+};
+
+exports.Prisma.OrganisationJoinRequestScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  role: 'role',
+  decidedAt: 'decidedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  organisationId: 'organisationId',
+  decidedById: 'decidedById'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  passwordHash: 'passwordHash'
+};
 
 exports.Prisma.StudentScalarFieldEnum = {
   id: 'id',
@@ -131,7 +187,6 @@ exports.Prisma.StudentScalarFieldEnum = {
   isArchived: 'isArchived',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
   parentEmail: 'parentEmail',
   parentName: 'parentName',
   parentPhone: 'parentPhone',
@@ -139,16 +194,9 @@ exports.Prisma.StudentScalarFieldEnum = {
   meetingLocation: 'meetingLocation',
   resourceLink: 'resourceLink',
   school: 'school',
-  classId: 'classId'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image',
-  passwordHash: 'passwordHash'
+  classId: 'classId',
+  customTermRateCents: 'customTermRateCents',
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
@@ -158,7 +206,8 @@ exports.Prisma.ClassScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId',
+  teacherId: 'teacherId'
 };
 
 exports.Prisma.MeetingScalarFieldEnum = {
@@ -170,7 +219,8 @@ exports.Prisma.MeetingScalarFieldEnum = {
   isCompleted: 'isCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId',
+  organisationId: 'organisationId',
+  createdById: 'createdById',
   studentId: 'studentId'
 };
 
@@ -184,7 +234,7 @@ exports.Prisma.TermScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.HolidayScalarFieldEnum = {
@@ -196,7 +246,95 @@ exports.Prisma.HolidayScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.AssessmentScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  title: 'title',
+  score: 'score',
+  maxScore: 'maxScore',
+  grade: 'grade',
+  notes: 'notes',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  meetingId: 'meetingId',
+  recordedById: 'recordedById'
+};
+
+exports.Prisma.CheckInScalarFieldEnum = {
+  id: 'id',
+  scheduledDate: 'scheduledDate',
+  completedDate: 'completedDate',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  teacherId: 'teacherId'
+};
+
+exports.Prisma.BillingSettingsScalarFieldEnum = {
+  id: 'id',
+  defaultTermRateCents: 'defaultTermRateCents',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.DiscountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  billingSettingsId: 'billingSettingsId'
+};
+
+exports.Prisma.StudentDiscountScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  studentId: 'studentId',
+  discountId: 'discountId'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  amount: 'amount',
+  discount: 'discount',
+  tax: 'tax',
+  total: 'total',
+  status: 'status',
+  dueDate: 'dueDate',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  termId: 'termId'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  method: 'method',
+  reference: 'reference',
+  date: 'date',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  invoiceId: 'invoiceId',
+  recordedById: 'recordedById'
 };
 
 exports.Prisma.SortOrder = {
@@ -204,19 +342,73 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Role = exports.$Enums.Role = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  TEACHER: 'TEACHER'
+};
 
+exports.JoinRequestStatus = exports.$Enums.JoinRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.CheckInStatus = exports.$Enums.CheckInStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  MISSED: 'MISSED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.DiscountType = exports.$Enums.DiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED: 'FIXED'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  OVERDUE: 'OVERDUE',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  CASH: 'CASH',
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  CARD: 'CARD',
+  OTHER: 'OTHER'
+};
 
 exports.Prisma.ModelName = {
-  Student: 'Student',
+  Organisation: 'Organisation',
+  OrganisationMember: 'OrganisationMember',
+  Invitation: 'Invitation',
+  OrganisationJoinRequest: 'OrganisationJoinRequest',
   User: 'User',
+  Student: 'Student',
   Class: 'Class',
   Meeting: 'Meeting',
   Term: 'Term',
-  Holiday: 'Holiday'
+  Holiday: 'Holiday',
+  Assessment: 'Assessment',
+  CheckIn: 'CheckIn',
+  BillingSettings: 'BillingSettings',
+  Discount: 'Discount',
+  StudentDiscount: 'StudentDiscount',
+  Invoice: 'Invoice',
+  Payment: 'Payment'
 };
 
 /**

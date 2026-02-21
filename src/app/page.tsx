@@ -89,7 +89,7 @@ export default async function Home() {
 								{m.points.map((p) => (<li key={p}>{p}</li>))}
 							</ul>
 							<figure className="mt-6 border-l-4 border-gray-200 pl-4 text-sm text-gray-600">
-								<blockquote>"I saved hours every week and grew my studio."</blockquote>
+								<blockquote>&quot;I saved hours every week and grew my studio.&quot;</blockquote>
 								<figcaption className="mt-2 font-medium">Jane Doe, Music Studio Owner</figcaption>
 							</figure>
 						</div>

@@ -1,98 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@/generated/prisma";
-import { authOptions } from "@/utils/auth";
-import { getServerSession } from "next-auth";
-
-// Create a new Prisma client instance
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { getOrgContext } from "@/utils/auth";
 
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+	const ctx = await getOrgContext();
+	if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { id } = await params;
-    const holidayId = parseInt(id);
-    const body = await request.json();
-    const { name, startDate, endDate, year, userId } = body;
+	const { id } = await params;
+	const holidayId = parseInt(id);
+	const body = await request.json();
+	const { name, startDate, endDate, year } = body;
 
-    if (!name || !startDate || !endDate || !year || userId !== (session.user as any).id) {
-      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
-    }
+	if (!name || !startDate || !endDate || !year) {
+		return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+	}
 
-    // Validate date range
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    if (start >= end) {
-      return NextResponse.json({ error: "Start date must be before end date" }, { status: 400 });
-    }
+	const start = new Date(startDate);
+	const end = new Date(endDate);
+	if (start >= end) {
+		return NextResponse.json({ error: "Start date must be before end date" }, { status: 400 });
+	}
 
-    // Check if holiday exists and belongs to user
-    const existingHoliday = await prisma.holiday.findFirst({
-      where: {
-        id: holidayId,
-        userId: (session.user as any).id
-      }
-    });
+	const existing = await prisma.holiday.findFirst({
+		where: { id: holidayId, organisationId: ctx.organisationId },
+	});
+	if (!existing) {
+		return NextResponse.json({ error: "Holiday not found" }, { status: 404 });
+	}
 
-    if (!existingHoliday) {
-      return NextResponse.json({ error: "Holiday not found" }, { status: 404 });
-    }
+	const holiday = await prisma.holiday.update({
+		where: { id: holidayId },
+		data: { name, startDate: start, endDate: end, year },
+	});
 
-    const holiday = await prisma.holiday.update({
-      where: { id: holidayId },
-      data: {
-        name,
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        year
-      }
-    });
-
-    return NextResponse.json(holiday);
-  } catch (error) {
-    console.error('Error updating holiday:', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-  }
+	return NextResponse.json(holiday);
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+	const ctx = await getOrgContext();
+	if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { id } = await params;
-    const holidayId = parseInt(id);
+	const { id } = await params;
+	const holidayId = parseInt(id);
 
-    // Check if holiday exists and belongs to user
-    const existingHoliday = await prisma.holiday.findFirst({
-      where: {
-        id: holidayId,
-        userId: (session.user as any).id
-      }
-    });
+	const existing = await prisma.holiday.findFirst({
+		where: { id: holidayId, organisationId: ctx.organisationId },
+	});
+	if (!existing) {
+		return NextResponse.json({ error: "Holiday not found" }, { status: 404 });
+	}
 
-    if (!existingHoliday) {
-      return NextResponse.json({ error: "Holiday not found" }, { status: 404 });
-    }
-
-    await prisma.holiday.delete({
-      where: { id: holidayId }
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error deleting holiday:', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-  }
+	await prisma.holiday.delete({ where: { id: holidayId } });
+	return NextResponse.json({ success: true });
 }

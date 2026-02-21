@@ -1,44 +1,26 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import Link from "next/link";
+import { requireOrgContext } from "@/utils/auth";
 import ClassesClient from "./ClassesClient";
 
 export default async function ClassesPage() {
-  const session = await getServerSession(authOptions);
-  
-  if (!session?.user) {
-    redirect("/signin");
-  }
+	const ctx = await requireOrgContext();
 
-  // Fetch classes for the current user
-  const classes = await prisma.class.findMany({
-    where: {
-      userId: (session.user as any).id
-    },
-    include: {
-      students: {
-        select: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          email: true
-        }
-      }
-    },
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
+	const classes = await prisma.class.findMany({
+		where: { organisationId: ctx.organisationId },
+		include: {
+			students: {
+				select: { id: true, firstName: true, lastName: true, email: true },
+			},
+		},
+		orderBy: { createdAt: "desc" },
+	});
 
-  return (
-    <div className="space-y-6 pt-8" style={{ backgroundColor: '#EFFAFF' }}>
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-[#3D4756]">Classes</h1>
-      </div>
-
-      <ClassesClient classes={classes} />
-    </div>
-  );
+	return (
+		<div className="space-y-6 pt-8">
+			<div className="flex items-center justify-between">
+				<h1 className="text-2xl font-semibold text-[#3D4756]">Classes</h1>
+			</div>
+			<ClassesClient classes={classes as any} />
+		</div>
+	);
 }

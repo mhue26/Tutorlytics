@@ -11,9 +11,11 @@ interface User {
 
 interface ProfileEditClientProps {
   user: User;
+  /** When provided (e.g. in modal), Cancel calls this instead of router.back() */
+  onCancel?: () => void;
 }
 
-export default function ProfileEditClient({ user }: ProfileEditClientProps) {
+export default function ProfileEditClient({ user, onCancel }: ProfileEditClientProps) {
   const [formData, setFormData] = useState({
     name: user.name || '',
     email: user.email || '',
@@ -211,7 +213,7 @@ export default function ProfileEditClient({ user }: ProfileEditClientProps) {
       <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => (onCancel ? onCancel() : router.back())}
           className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Cancel

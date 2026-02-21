@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import dynamic from "next/dynamic";
 const Navigation = dynamic(() => import("./Navigation"), { ssr: false });
 import ProfileEditModal from "./profile/ProfileEditModal";
@@ -15,9 +16,9 @@ export default function Header({ session }: HeaderProps) {
       <header className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-gray-200 transition-all duration-300">
         <div className="w-full px-4 sm:px-6 py-4 grid grid-cols-3 items-center">
           <div className="flex justify-start">
-            <a href="/" className="text-lg font-semibold transition-colors text-[#584b53] hover:text-[#E4BB97]">
+            <Link href={session ? "/dashboard" : "/"} className="text-lg font-semibold transition-colors text-[#584b53] hover:text-[#E4BB97]">
               Tutorlytics
-            </a>
+            </Link>
           </div>
           <div className="flex justify-center">
             <Navigation session={session} />

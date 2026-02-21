@@ -8,6 +8,7 @@ export default async function middleware(req: NextRequest) {
 	response.headers.set("x-pathname", pathname);
 
 	const protectedRoutes = [
+		"/home",
 		"/students",
 		"/dashboard",
 		"/calendar",

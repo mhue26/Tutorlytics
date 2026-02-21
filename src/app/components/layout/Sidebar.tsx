@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -23,8 +23,12 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
   const router = useRouter();
   const { data: sessionData, update: updateSession } = useSession();
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [workspaceDropdownOpen, setWorkspaceDropdownOpen] = useState(false);
+  const [workspaceSearch, setWorkspaceSearch] = useState("");
+  const workspaceDropdownRef = useRef<HTMLDivElement>(null);
 
   const currentOrgId = (sessionData?.user ?? session?.user) && (sessionData?.user as any)?.organisationId;
+  const currentWorkspace = workspaces.find((w) => w.organisationId === currentOrgId);
 
   useEffect(() => {
     if (!session?.user) return;
@@ -38,6 +42,29 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
     return () => { cancelled = true; };
   }, [session?.user]);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (workspaceDropdownRef.current && !workspaceDropdownRef.current.contains(event.target as Node)) {
+        setWorkspaceDropdownOpen(false);
+      }
+    }
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setWorkspaceDropdownOpen(false);
+    }
+    if (workspaceDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscape);
+      };
+    }
+  }, [workspaceDropdownOpen]);
+
+  const filteredWorkspaces = workspaces.filter((w) =>
+    w.organisationName.toLowerCase().includes(workspaceSearch.toLowerCase().trim())
+  );
+
   async function switchWorkspace(organisationId: string, role: string) {
     if (organisationId === currentOrgId) return;
     await updateSession?.({ organisationId, role });
@@ -45,6 +72,7 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
   }
 
   const navItems = [
+    { href: "/home", label: "Home", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
     { href: "/students", label: "Students", icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" },
     { href: "/classes", label: "Classes", icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" },
     { href: "/calendar", label: "Calendar", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
@@ -71,7 +99,7 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
   }
 
   return (
-    <aside className="w-64 h-full bg-white overflow-y-auto border-r border-gray-200 shadow-sm relative" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+    <aside className="w-64 h-full min-h-0 flex flex-col bg-white border-r border-gray-200 shadow-sm relative" style={{ fontFamily: "'Work Sans', sans-serif" }}>
       {/* Hide sidebar - left-facing arrow on right edge */}
       <button
         onClick={onToggle}
@@ -83,42 +111,10 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
         </svg>
       </button>
 
-      <div className="flex flex-col h-full">
-        {/* Workspaces */}
-        <div className="p-4 border-b border-gray-200">
-          <p className="text-xs font-semibold tracking-wide text-gray-500 uppercase px-3 mb-2">
-            Workspaces
-          </p>
+      <div className="flex flex-col h-full min-h-0 flex-1">
+        {/* Main navigation - scrolls if content is tall so Workspaces stays visible */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-4">
           <div className="space-y-0.5">
-            {workspaces.map((w) => {
-              const isCurrent = w.organisationId === currentOrgId;
-              return (
-                <button
-                  key={w.organisationId}
-                  type="button"
-                  onClick={() => switchWorkspace(w.organisationId, w.role)}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors truncate border-l-2 ${
-                    isCurrent
-                      ? "bg-blue-50 text-blue-700 border-blue-700"
-                      : "border-transparent text-gray-700 hover:bg-gray-50"
-                  }`}
-                  title={w.organisationName}
-                >
-                  {w.organisationName}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        {/* Main Navigation */}
-        <div className="flex-1 p-4">
-          <div className="mb-3">
-            <p className="text-xs font-semibold tracking-wide text-gray-500 uppercase px-3">
-              Navigation
-            </p>
-          </div>
-
-          <div className="space-y-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -129,12 +125,102 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                 </svg>
                 {item.label}
               </Link>
             ))}
+          </div>
+        </div>
+
+        {/* Workspaces dropdown at bottom - always visible, does not scroll away */}
+        <div className="flex-shrink-0 p-4 border-t border-gray-200" ref={workspaceDropdownRef}>
+          <p className="text-xs font-semibold tracking-wide text-gray-500 uppercase px-1 mb-2">
+            Workspaces
+          </p>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setWorkspaceDropdownOpen((o) => !o)}
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-colors border bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-0"
+              style={workspaceDropdownOpen ? { backgroundColor: "#FEF5eF", borderColor: "#E4BB97" } : undefined}
+              aria-expanded={workspaceDropdownOpen}
+              aria-haspopup="listbox"
+            >
+              <svg className="h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <span className="flex-1 truncate" title={currentWorkspace?.organisationName}>
+                {currentWorkspace?.organisationName ?? "Select workspace"}
+              </span>
+              <svg
+                className={`h-4 w-4 flex-shrink-0 text-gray-400 transition-transform ${workspaceDropdownOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {workspaceDropdownOpen && (
+              <div
+                className="absolute left-0 right-0 bottom-full mb-2 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden z-20"
+                role="listbox"
+              >
+                <div className="p-2 border-b border-gray-100">
+                  <div className="relative">
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input
+                      type="text"
+                      value={workspaceSearch}
+                      onChange={(e) => setWorkspaceSearch(e.target.value)}
+                      placeholder="Search for a workspace"
+                      className="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      autoFocus
+                    />
+                  </div>
+                </div>
+                <div className="py-1 max-h-56 overflow-y-auto">
+                  <p className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    My workspaces
+                  </p>
+                  {filteredWorkspaces.length === 0 ? (
+                    <p className="px-3 py-4 text-sm text-gray-500">No workspaces match your search.</p>
+                  ) : (
+                    filteredWorkspaces.map((w) => {
+                      const isCurrent = w.organisationId === currentOrgId;
+                      return (
+                        <button
+                          key={w.organisationId}
+                          type="button"
+                          role="option"
+                          aria-selected={isCurrent}
+                          onClick={() => {
+                            switchWorkspace(w.organisationId, w.role);
+                            setWorkspaceDropdownOpen(false);
+                            setWorkspaceSearch("");
+                          }}
+                          className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-sm font-medium transition-colors ${
+                            isCurrent
+                              ? "bg-blue-50 text-blue-700"
+                              : "text-gray-700 hover:bg-gray-50"
+                          }`}
+                        >
+                          <svg className="h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                          <span className="truncate">{w.organisationName}</span>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

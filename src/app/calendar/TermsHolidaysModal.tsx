@@ -258,7 +258,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
 
           {/* Form */}
           {showForm && (
-            <div className="mb-6 p-4 border rounded-lg bg-gray-50">
+            <div className="mb-6 p-4 rounded-lg bg-gray-50 border border-transparent shadow-md">
               <h3 className="font-medium mb-4">
                 {editingPeriod ? 'Edit' : 'Add'} Teaching Period
               </h3>
@@ -275,7 +275,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                       placeholder="e.g., Term 1, Easter Break"
                       required
                     />
@@ -287,7 +287,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                     <select
                       value={formData.type}
                       onChange={(e) => setFormData({ ...formData, type: e.target.value as 'term' | 'holiday' })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                       required
                     >
                       <option value="term">Term</option>
@@ -304,7 +304,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                       type="number"
                       value={formData.year}
                       onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                       required
                     />
                   </div>
@@ -317,13 +317,13 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                         type="color"
                         value={formData.color}
                         onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                        className="w-12 h-10 border border-gray-300 rounded-md cursor-pointer"
+                        className="w-12 h-10 border border-transparent rounded-md shadow-sm cursor-pointer bg-white"
                       />
                       <input
                         type="text"
                         value={formData.color}
                         onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                         placeholder="#3B82F6"
                       />
                     </div>
@@ -338,7 +338,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                       type="date"
                       value={formData.startDate}
                       onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                       required
                     />
                   </div>
@@ -350,7 +350,7 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                       type="date"
                       value={formData.endDate}
                       onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-transparent rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-md"
                       required
                     />
                   </div>
@@ -373,14 +373,14 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm border border-transparent hover:bg-blue-700 hover:shadow-md disabled:opacity-50"
                   >
                     {loading ? 'Saving...' : 'Save'}
                   </button>
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow-sm border border-transparent hover:bg-gray-200 hover:shadow-md"
                   >
                     Cancel
                   </button>

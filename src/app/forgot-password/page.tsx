@@ -6,7 +6,7 @@ import ForgotPasswordForm from "./ForgotPasswordForm";
 
 export default async function ForgotPasswordPage() {
     const session = await getServerSession(authOptions);
-    if (session?.user) redirect("/students");
+    if (session?.user) redirect("/home");
     return (
         <div className="fixed inset-0 overflow-hidden" style={{ backgroundColor: '#EFFAFF' }}>
             <Suspense fallback={

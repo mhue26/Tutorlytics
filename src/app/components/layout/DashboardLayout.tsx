@@ -21,12 +21,12 @@ export default function DashboardLayout({ children, session }: DashboardLayoutPr
         <SwitchWorkspaceFromQuery />
       </Suspense>
       <TopHeader session={session} />
-      <div className="flex flex-1 pt-14">
+      <div className="flex flex-1 min-h-0 pt-14">
         <Sidebar session={session} isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
         <main
           className="flex-1 min-w-0 overflow-y-auto bg-gray-50"
         >
-          <div className="p-6 max-w-full">
+          <div key={(session?.user as any)?.organisationId ?? "no-org"} className="p-6 max-w-full">
             {children}
           </div>
         </main>

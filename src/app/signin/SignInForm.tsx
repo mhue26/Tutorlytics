@@ -50,7 +50,7 @@ export default function SignInForm() {
 			setError('Invalid email or password');
 			setLoading(false);
 		} else if (res?.ok) {
-			const callbackUrl = searchParams.get("callbackUrl") || "/students";
+			const callbackUrl = searchParams.get("callbackUrl") || "/home";
 			router.push(callbackUrl);
 		}
 	}
@@ -71,7 +71,7 @@ export default function SignInForm() {
 					<button
 						type="button"
 						onClick={() => {
-							const callbackUrl = searchParams.get("callbackUrl") || "/students";
+							const callbackUrl = searchParams.get("callbackUrl") || "/home";
 							void signIn("google", { callbackUrl, redirect: true });
 						}}
 						disabled={loading}

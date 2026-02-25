@@ -25,12 +25,18 @@ export async function GET() {
 		},
 	});
 
-	const workspaces = memberships.map((m) => ({
-		organisationId: m.organisationId,
-		role: m.role,
-		organisationName: m.organisation.name,
-		isPersonal: m.organisation.ownerId === userId,
-	}));
+	const workspaces = memberships.map((m) => {
+		const rawName = m.organisation.name;
+		const isPersonal = m.organisation.ownerId === userId;
+		// Personal workspace name is already "[Name]'s Workspace"; org workspaces show as "[Org]'s Workspace"
+		const organisationName = isPersonal ? rawName : `${rawName}'s Workspace`;
+		return {
+			organisationId: m.organisationId,
+			role: m.role,
+			organisationName,
+			isPersonal,
+		};
+	});
 
 	// Personal first, then by name
 	workspaces.sort((a, b) => {

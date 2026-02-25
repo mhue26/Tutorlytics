@@ -44,6 +44,13 @@ enum CheckInStatus {
   CANCELLED
 }
 
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  UNMARKED
+}
+
 enum JoinRequestStatus {
   PENDING
   APPROVED
@@ -69,6 +76,8 @@ model Organisation {
   students        Student[]
   classes         Class[]
   meetings        Meeting[]
+  classSessions   ClassSession[]
+  classSessionAttendances ClassSessionAttendance[]
   terms           Term[]
   holidays        Holiday[]
   assessments     Assessment[]
@@ -142,6 +151,7 @@ model User {
   assessmentsLogged    Assessment[]                @relation("AssessmentRecordedBy")
   checkInsAssigned     CheckIn[]
   paymentsRecorded     Payment[]                  @relation("PaymentRecordedBy")
+  classSessionsCreated ClassSession[]             @relation("ClassSessionCreatedBy")
 }
 
 // ─── Student ─────────────────────────────────────────────────────────────────
@@ -180,6 +190,7 @@ model Student {
   invoices       Invoice[]
   payments       Payment[]
   discounts      StudentDiscount[]
+  classSessionAttendances ClassSessionAttendance[]
 }
 
 // ─── Class ───────────────────────────────────────────────────────────────────
@@ -196,6 +207,7 @@ model Class {
   teacherId      String?
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
   students       Student[]
+  classSessions  ClassSession[]
 }
 
 // ─── Meeting ─────────────────────────────────────────────────────────────────
@@ -275,6 +287,43 @@ model Assessment {
   student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
   meeting        Meeting?     @relation(fields: [meetingId], references: [id], onDelete: SetNull)
   recordedBy     User         @relation("AssessmentRecordedBy", fields: [recordedById], references: [id])
+}
+
+// ─── Class Session / Attendance ──────────────────────────────────────────────
+
+model ClassSession {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organisationId String
+  classId        Int
+  createdById    String?
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  class          Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  createdBy      User?        @relation("ClassSessionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  attendanceRecords ClassSessionAttendance[]
+}
+
+model ClassSessionAttendance {
+  id        Int              @id @default(autoincrement())
+  status    AttendanceStatus @default(UNMARKED)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  organisationId String
+  classSessionId Int
+  studentId      Int
+
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  classSession   ClassSession @relation(fields: [classSessionId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([classSessionId, studentId])
 }
 
 // ─── Check-In ────────────────────────────────────────────────────────────────

@@ -266,6 +266,29 @@ exports.Prisma.AssessmentScalarFieldEnum = {
   recordedById: 'recordedById'
 };
 
+exports.Prisma.ClassSessionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  classId: 'classId',
+  createdById: 'createdById'
+};
+
+exports.Prisma.ClassSessionAttendanceScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  classSessionId: 'classSessionId',
+  studentId: 'studentId'
+};
+
 exports.Prisma.CheckInScalarFieldEnum = {
   id: 'id',
   scheduledDate: 'scheduledDate',
@@ -363,6 +386,13 @@ exports.JoinRequestStatus = exports.$Enums.JoinRequestStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE',
+  UNMARKED: 'UNMARKED'
+};
+
 exports.CheckInStatus = exports.$Enums.CheckInStatus = {
   SCHEDULED: 'SCHEDULED',
   COMPLETED: 'COMPLETED',
@@ -403,6 +433,8 @@ exports.Prisma.ModelName = {
   Term: 'Term',
   Holiday: 'Holiday',
   Assessment: 'Assessment',
+  ClassSession: 'ClassSession',
+  ClassSessionAttendance: 'ClassSessionAttendance',
   CheckIn: 'CheckIn',
   BillingSettings: 'BillingSettings',
   Discount: 'Discount',

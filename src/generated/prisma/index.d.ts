@@ -69,6 +69,16 @@ export type Holiday = $Result.DefaultSelection<Prisma.$HolidayPayload>
  */
 export type Assessment = $Result.DefaultSelection<Prisma.$AssessmentPayload>
 /**
+ * Model ClassSession
+ * 
+ */
+export type ClassSession = $Result.DefaultSelection<Prisma.$ClassSessionPayload>
+/**
+ * Model ClassSessionAttendance
+ * 
+ */
+export type ClassSessionAttendance = $Result.DefaultSelection<Prisma.$ClassSessionAttendancePayload>
+/**
  * Model CheckIn
  * 
  */
@@ -152,6 +162,16 @@ export const CheckInStatus: {
 export type CheckInStatus = (typeof CheckInStatus)[keyof typeof CheckInStatus]
 
 
+export const AttendanceStatus: {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE',
+  UNMARKED: 'UNMARKED'
+};
+
+export type AttendanceStatus = (typeof AttendanceStatus)[keyof typeof AttendanceStatus]
+
+
 export const JoinRequestStatus: {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
@@ -181,6 +201,10 @@ export const PaymentMethod: typeof $Enums.PaymentMethod
 export type CheckInStatus = $Enums.CheckInStatus
 
 export const CheckInStatus: typeof $Enums.CheckInStatus
+
+export type AttendanceStatus = $Enums.AttendanceStatus
+
+export const AttendanceStatus: typeof $Enums.AttendanceStatus
 
 export type JoinRequestStatus = $Enums.JoinRequestStatus
 
@@ -413,6 +437,26 @@ export class PrismaClient<
     * ```
     */
   get assessment(): Prisma.AssessmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.classSession`: Exposes CRUD operations for the **ClassSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClassSessions
+    * const classSessions = await prisma.classSession.findMany()
+    * ```
+    */
+  get classSession(): Prisma.ClassSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.classSessionAttendance`: Exposes CRUD operations for the **ClassSessionAttendance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClassSessionAttendances
+    * const classSessionAttendances = await prisma.classSessionAttendance.findMany()
+    * ```
+    */
+  get classSessionAttendance(): Prisma.ClassSessionAttendanceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.checkIn`: Exposes CRUD operations for the **CheckIn** model.
@@ -924,6 +968,8 @@ export namespace Prisma {
     Term: 'Term',
     Holiday: 'Holiday',
     Assessment: 'Assessment',
+    ClassSession: 'ClassSession',
+    ClassSessionAttendance: 'ClassSessionAttendance',
     CheckIn: 'CheckIn',
     BillingSettings: 'BillingSettings',
     Discount: 'Discount',
@@ -948,7 +994,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "student" | "class" | "meeting" | "term" | "holiday" | "assessment" | "checkIn" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
+      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "student" | "class" | "meeting" | "term" | "holiday" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1766,6 +1812,154 @@ export namespace Prisma {
           }
         }
       }
+      ClassSession: {
+        payload: Prisma.$ClassSessionPayload<ExtArgs>
+        fields: Prisma.ClassSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClassSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClassSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.ClassSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClassSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          findMany: {
+            args: Prisma.ClassSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>[]
+          }
+          create: {
+            args: Prisma.ClassSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          createMany: {
+            args: Prisma.ClassSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClassSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.ClassSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          update: {
+            args: Prisma.ClassSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClassSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClassSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClassSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ClassSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.ClassSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClassSession>
+          }
+          groupBy: {
+            args: Prisma.ClassSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClassSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClassSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<ClassSessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      ClassSessionAttendance: {
+        payload: Prisma.$ClassSessionAttendancePayload<ExtArgs>
+        fields: Prisma.ClassSessionAttendanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClassSessionAttendanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClassSessionAttendanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          findFirst: {
+            args: Prisma.ClassSessionAttendanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClassSessionAttendanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          findMany: {
+            args: Prisma.ClassSessionAttendanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>[]
+          }
+          create: {
+            args: Prisma.ClassSessionAttendanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          createMany: {
+            args: Prisma.ClassSessionAttendanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClassSessionAttendanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>[]
+          }
+          delete: {
+            args: Prisma.ClassSessionAttendanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          update: {
+            args: Prisma.ClassSessionAttendanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          deleteMany: {
+            args: Prisma.ClassSessionAttendanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClassSessionAttendanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClassSessionAttendanceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>[]
+          }
+          upsert: {
+            args: Prisma.ClassSessionAttendanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClassSessionAttendancePayload>
+          }
+          aggregate: {
+            args: Prisma.ClassSessionAttendanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClassSessionAttendance>
+          }
+          groupBy: {
+            args: Prisma.ClassSessionAttendanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClassSessionAttendanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClassSessionAttendanceCountArgs<ExtArgs>
+            result: $Utils.Optional<ClassSessionAttendanceCountAggregateOutputType> | number
+          }
+        }
+      }
       CheckIn: {
         payload: Prisma.$CheckInPayload<ExtArgs>
         fields: Prisma.CheckInFieldRefs
@@ -2317,6 +2511,8 @@ export namespace Prisma {
     term?: TermOmit
     holiday?: HolidayOmit
     assessment?: AssessmentOmit
+    classSession?: ClassSessionOmit
+    classSessionAttendance?: ClassSessionAttendanceOmit
     checkIn?: CheckInOmit
     billingSettings?: BillingSettingsOmit
     discount?: DiscountOmit
@@ -2409,6 +2605,8 @@ export namespace Prisma {
     students: number
     classes: number
     meetings: number
+    classSessions: number
+    classSessionAttendances: number
     terms: number
     holidays: number
     assessments: number
@@ -2424,6 +2622,8 @@ export namespace Prisma {
     students?: boolean | OrganisationCountOutputTypeCountStudentsArgs
     classes?: boolean | OrganisationCountOutputTypeCountClassesArgs
     meetings?: boolean | OrganisationCountOutputTypeCountMeetingsArgs
+    classSessions?: boolean | OrganisationCountOutputTypeCountClassSessionsArgs
+    classSessionAttendances?: boolean | OrganisationCountOutputTypeCountClassSessionAttendancesArgs
     terms?: boolean | OrganisationCountOutputTypeCountTermsArgs
     holidays?: boolean | OrganisationCountOutputTypeCountHolidaysArgs
     assessments?: boolean | OrganisationCountOutputTypeCountAssessmentsArgs
@@ -2488,6 +2688,20 @@ export namespace Prisma {
   /**
    * OrganisationCountOutputType without action
    */
+  export type OrganisationCountOutputTypeCountClassSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionWhereInput
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
+  export type OrganisationCountOutputTypeCountClassSessionAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionAttendanceWhereInput
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
   export type OrganisationCountOutputTypeCountTermsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TermWhereInput
   }
@@ -2541,6 +2755,7 @@ export namespace Prisma {
     assessmentsLogged: number
     checkInsAssigned: number
     paymentsRecorded: number
+    classSessionsCreated: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2552,6 +2767,7 @@ export namespace Prisma {
     assessmentsLogged?: boolean | UserCountOutputTypeCountAssessmentsLoggedArgs
     checkInsAssigned?: boolean | UserCountOutputTypeCountCheckInsAssignedArgs
     paymentsRecorded?: boolean | UserCountOutputTypeCountPaymentsRecordedArgs
+    classSessionsCreated?: boolean | UserCountOutputTypeCountClassSessionsCreatedArgs
   }
 
   // Custom InputTypes
@@ -2621,6 +2837,13 @@ export namespace Prisma {
     where?: PaymentWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountClassSessionsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionWhereInput
+  }
+
 
   /**
    * Count Type StudentCountOutputType
@@ -2633,6 +2856,7 @@ export namespace Prisma {
     invoices: number
     payments: number
     discounts: number
+    classSessionAttendances: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2642,6 +2866,7 @@ export namespace Prisma {
     invoices?: boolean | StudentCountOutputTypeCountInvoicesArgs
     payments?: boolean | StudentCountOutputTypeCountPaymentsArgs
     discounts?: boolean | StudentCountOutputTypeCountDiscountsArgs
+    classSessionAttendances?: boolean | StudentCountOutputTypeCountClassSessionAttendancesArgs
   }
 
   // Custom InputTypes
@@ -2697,6 +2922,13 @@ export namespace Prisma {
     where?: StudentDiscountWhereInput
   }
 
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountClassSessionAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionAttendanceWhereInput
+  }
+
 
   /**
    * Count Type ClassCountOutputType
@@ -2704,10 +2936,12 @@ export namespace Prisma {
 
   export type ClassCountOutputType = {
     students: number
+    classSessions: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     students?: boolean | ClassCountOutputTypeCountStudentsArgs
+    classSessions?: boolean | ClassCountOutputTypeCountClassSessionsArgs
   }
 
   // Custom InputTypes
@@ -2726,6 +2960,13 @@ export namespace Prisma {
    */
   export type ClassCountOutputTypeCountStudentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StudentWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountClassSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionWhereInput
   }
 
 
@@ -2788,6 +3029,37 @@ export namespace Prisma {
    */
   export type TermCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
+  }
+
+
+  /**
+   * Count Type ClassSessionCountOutputType
+   */
+
+  export type ClassSessionCountOutputType = {
+    attendanceRecords: number
+  }
+
+  export type ClassSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attendanceRecords?: boolean | ClassSessionCountOutputTypeCountAttendanceRecordsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ClassSessionCountOutputType without action
+   */
+  export type ClassSessionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionCountOutputType
+     */
+    select?: ClassSessionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ClassSessionCountOutputType without action
+   */
+  export type ClassSessionCountOutputTypeCountAttendanceRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionAttendanceWhereInput
   }
 
 
@@ -3083,6 +3355,8 @@ export namespace Prisma {
     students?: boolean | Organisation$studentsArgs<ExtArgs>
     classes?: boolean | Organisation$classesArgs<ExtArgs>
     meetings?: boolean | Organisation$meetingsArgs<ExtArgs>
+    classSessions?: boolean | Organisation$classSessionsArgs<ExtArgs>
+    classSessionAttendances?: boolean | Organisation$classSessionAttendancesArgs<ExtArgs>
     terms?: boolean | Organisation$termsArgs<ExtArgs>
     holidays?: boolean | Organisation$holidaysArgs<ExtArgs>
     assessments?: boolean | Organisation$assessmentsArgs<ExtArgs>
@@ -3137,6 +3411,8 @@ export namespace Prisma {
     students?: boolean | Organisation$studentsArgs<ExtArgs>
     classes?: boolean | Organisation$classesArgs<ExtArgs>
     meetings?: boolean | Organisation$meetingsArgs<ExtArgs>
+    classSessions?: boolean | Organisation$classSessionsArgs<ExtArgs>
+    classSessionAttendances?: boolean | Organisation$classSessionAttendancesArgs<ExtArgs>
     terms?: boolean | Organisation$termsArgs<ExtArgs>
     holidays?: boolean | Organisation$holidaysArgs<ExtArgs>
     assessments?: boolean | Organisation$assessmentsArgs<ExtArgs>
@@ -3163,6 +3439,8 @@ export namespace Prisma {
       students: Prisma.$StudentPayload<ExtArgs>[]
       classes: Prisma.$ClassPayload<ExtArgs>[]
       meetings: Prisma.$MeetingPayload<ExtArgs>[]
+      classSessions: Prisma.$ClassSessionPayload<ExtArgs>[]
+      classSessionAttendances: Prisma.$ClassSessionAttendancePayload<ExtArgs>[]
       terms: Prisma.$TermPayload<ExtArgs>[]
       holidays: Prisma.$HolidayPayload<ExtArgs>[]
       assessments: Prisma.$AssessmentPayload<ExtArgs>[]
@@ -3581,6 +3859,8 @@ export namespace Prisma {
     students<T extends Organisation$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classes<T extends Organisation$classesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$classesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     meetings<T extends Organisation$meetingsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$meetingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    classSessions<T extends Organisation$classSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$classSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    classSessionAttendances<T extends Organisation$classSessionAttendancesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$classSessionAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     terms<T extends Organisation$termsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$termsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     holidays<T extends Organisation$holidaysArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assessments<T extends Organisation$assessmentsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4181,6 +4461,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MeetingScalarFieldEnum | MeetingScalarFieldEnum[]
+  }
+
+  /**
+   * Organisation.classSessions
+   */
+  export type Organisation$classSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    where?: ClassSessionWhereInput
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    cursor?: ClassSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Organisation.classSessionAttendances
+   */
+  export type Organisation$classSessionAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    where?: ClassSessionAttendanceWhereInput
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
   }
 
   /**
@@ -7888,6 +8216,7 @@ export namespace Prisma {
     assessmentsLogged?: boolean | User$assessmentsLoggedArgs<ExtArgs>
     checkInsAssigned?: boolean | User$checkInsAssignedArgs<ExtArgs>
     paymentsRecorded?: boolean | User$paymentsRecordedArgs<ExtArgs>
+    classSessionsCreated?: boolean | User$classSessionsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7929,6 +8258,7 @@ export namespace Prisma {
     assessmentsLogged?: boolean | User$assessmentsLoggedArgs<ExtArgs>
     checkInsAssigned?: boolean | User$checkInsAssignedArgs<ExtArgs>
     paymentsRecorded?: boolean | User$paymentsRecordedArgs<ExtArgs>
+    classSessionsCreated?: boolean | User$classSessionsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7946,6 +8276,7 @@ export namespace Prisma {
       assessmentsLogged: Prisma.$AssessmentPayload<ExtArgs>[]
       checkInsAssigned: Prisma.$CheckInPayload<ExtArgs>[]
       paymentsRecorded: Prisma.$PaymentPayload<ExtArgs>[]
+      classSessionsCreated: Prisma.$ClassSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8357,6 +8688,7 @@ export namespace Prisma {
     assessmentsLogged<T extends User$assessmentsLoggedArgs<ExtArgs> = {}>(args?: Subset<T, User$assessmentsLoggedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     checkInsAssigned<T extends User$checkInsAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$checkInsAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentsRecorded<T extends User$paymentsRecordedArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    classSessionsCreated<T extends User$classSessionsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$classSessionsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8991,6 +9323,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.classSessionsCreated
+   */
+  export type User$classSessionsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    where?: ClassSessionWhereInput
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    cursor?: ClassSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9375,6 +9731,7 @@ export namespace Prisma {
     invoices?: boolean | Student$invoicesArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
+    classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -9470,6 +9827,7 @@ export namespace Prisma {
     invoices?: boolean | Student$invoicesArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
+    classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9492,6 +9850,7 @@ export namespace Prisma {
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       discounts: Prisma.$StudentDiscountPayload<ExtArgs>[]
+      classSessionAttendances: Prisma.$ClassSessionAttendancePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -9919,6 +10278,7 @@ export namespace Prisma {
     invoices<T extends Student$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Student$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Student$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discounts<T extends Student$discountsArgs<ExtArgs> = {}>(args?: Subset<T, Student$discountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDiscountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    classSessionAttendances<T extends Student$classSessionAttendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$classSessionAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10530,6 +10890,30 @@ export namespace Prisma {
   }
 
   /**
+   * Student.classSessionAttendances
+   */
+  export type Student$classSessionAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    where?: ClassSessionAttendanceWhereInput
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
+  }
+
+  /**
    * Student without action
    */
   export type StudentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10772,6 +11156,7 @@ export namespace Prisma {
     teacherId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
+    classSessions?: boolean | Class$classSessionsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -10814,6 +11199,7 @@ export namespace Prisma {
   export type ClassInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
+    classSessions?: boolean | Class$classSessionsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10828,6 +11214,7 @@ export namespace Prisma {
     objects: {
       organisation: Prisma.$OrganisationPayload<ExtArgs>
       students: Prisma.$StudentPayload<ExtArgs>[]
+      classSessions: Prisma.$ClassSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -11234,6 +11621,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     students<T extends Class$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    classSessions<T extends Class$classSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Class$classSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11688,6 +12076,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StudentScalarFieldEnum | StudentScalarFieldEnum[]
+  }
+
+  /**
+   * Class.classSessions
+   */
+  export type Class$classSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    where?: ClassSessionWhereInput
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    cursor?: ClassSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
   }
 
   /**
@@ -16529,6 +16941,2374 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssessmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClassSession
+   */
+
+  export type AggregateClassSession = {
+    _count: ClassSessionCountAggregateOutputType | null
+    _avg: ClassSessionAvgAggregateOutputType | null
+    _sum: ClassSessionSumAggregateOutputType | null
+    _min: ClassSessionMinAggregateOutputType | null
+    _max: ClassSessionMaxAggregateOutputType | null
+  }
+
+  export type ClassSessionAvgAggregateOutputType = {
+    id: number | null
+    classId: number | null
+  }
+
+  export type ClassSessionSumAggregateOutputType = {
+    id: number | null
+    classId: number | null
+  }
+
+  export type ClassSessionMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    startTime: Date | null
+    endTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classId: number | null
+    createdById: string | null
+  }
+
+  export type ClassSessionMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    startTime: Date | null
+    endTime: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classId: number | null
+    createdById: string | null
+  }
+
+  export type ClassSessionCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    startTime: number
+    endTime: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    classId: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type ClassSessionAvgAggregateInputType = {
+    id?: true
+    classId?: true
+  }
+
+  export type ClassSessionSumAggregateInputType = {
+    id?: true
+    classId?: true
+  }
+
+  export type ClassSessionMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startTime?: true
+    endTime?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+    createdById?: true
+  }
+
+  export type ClassSessionMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startTime?: true
+    endTime?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+    createdById?: true
+  }
+
+  export type ClassSessionCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    startTime?: true
+    endTime?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type ClassSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClassSession to aggregate.
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessions to fetch.
+     */
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClassSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClassSessions
+    **/
+    _count?: true | ClassSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ClassSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClassSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClassSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClassSessionMaxAggregateInputType
+  }
+
+  export type GetClassSessionAggregateType<T extends ClassSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateClassSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClassSession[P]>
+      : GetScalarType<T[P], AggregateClassSession[P]>
+  }
+
+
+
+
+  export type ClassSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionWhereInput
+    orderBy?: ClassSessionOrderByWithAggregationInput | ClassSessionOrderByWithAggregationInput[]
+    by: ClassSessionScalarFieldEnum[] | ClassSessionScalarFieldEnum
+    having?: ClassSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClassSessionCountAggregateInputType | true
+    _avg?: ClassSessionAvgAggregateInputType
+    _sum?: ClassSessionSumAggregateInputType
+    _min?: ClassSessionMinAggregateInputType
+    _max?: ClassSessionMaxAggregateInputType
+  }
+
+  export type ClassSessionGroupByOutputType = {
+    id: number
+    title: string
+    description: string | null
+    startTime: Date
+    endTime: Date
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    classId: number
+    createdById: string | null
+    _count: ClassSessionCountAggregateOutputType | null
+    _avg: ClassSessionAvgAggregateOutputType | null
+    _sum: ClassSessionSumAggregateOutputType | null
+    _min: ClassSessionMinAggregateOutputType | null
+    _max: ClassSessionMaxAggregateOutputType | null
+  }
+
+  type GetClassSessionGroupByPayload<T extends ClassSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClassSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClassSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClassSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], ClassSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClassSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    createdById?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+    attendanceRecords?: boolean | ClassSession$attendanceRecordsArgs<ExtArgs>
+    _count?: boolean | ClassSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["classSession"]>
+
+  export type ClassSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    createdById?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["classSession"]>
+
+  export type ClassSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    createdById?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["classSession"]>
+
+  export type ClassSessionSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    createdById?: boolean
+  }
+
+  export type ClassSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "startTime" | "endTime" | "createdAt" | "updatedAt" | "organisationId" | "classId" | "createdById", ExtArgs["result"]["classSession"]>
+  export type ClassSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+    attendanceRecords?: boolean | ClassSession$attendanceRecordsArgs<ExtArgs>
+    _count?: boolean | ClassSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ClassSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+  }
+  export type ClassSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    createdBy?: boolean | ClassSession$createdByArgs<ExtArgs>
+  }
+
+  export type $ClassSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClassSession"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+      class: Prisma.$ClassPayload<ExtArgs>
+      createdBy: Prisma.$UserPayload<ExtArgs> | null
+      attendanceRecords: Prisma.$ClassSessionAttendancePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      description: string | null
+      startTime: Date
+      endTime: Date
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+      classId: number
+      createdById: string | null
+    }, ExtArgs["result"]["classSession"]>
+    composites: {}
+  }
+
+  type ClassSessionGetPayload<S extends boolean | null | undefined | ClassSessionDefaultArgs> = $Result.GetResult<Prisma.$ClassSessionPayload, S>
+
+  type ClassSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClassSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClassSessionCountAggregateInputType | true
+    }
+
+  export interface ClassSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClassSession'], meta: { name: 'ClassSession' } }
+    /**
+     * Find zero or one ClassSession that matches the filter.
+     * @param {ClassSessionFindUniqueArgs} args - Arguments to find a ClassSession
+     * @example
+     * // Get one ClassSession
+     * const classSession = await prisma.classSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClassSessionFindUniqueArgs>(args: SelectSubset<T, ClassSessionFindUniqueArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ClassSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClassSessionFindUniqueOrThrowArgs} args - Arguments to find a ClassSession
+     * @example
+     * // Get one ClassSession
+     * const classSession = await prisma.classSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClassSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, ClassSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClassSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionFindFirstArgs} args - Arguments to find a ClassSession
+     * @example
+     * // Get one ClassSession
+     * const classSession = await prisma.classSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClassSessionFindFirstArgs>(args?: SelectSubset<T, ClassSessionFindFirstArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClassSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionFindFirstOrThrowArgs} args - Arguments to find a ClassSession
+     * @example
+     * // Get one ClassSession
+     * const classSession = await prisma.classSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClassSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, ClassSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ClassSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClassSessions
+     * const classSessions = await prisma.classSession.findMany()
+     * 
+     * // Get first 10 ClassSessions
+     * const classSessions = await prisma.classSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const classSessionWithIdOnly = await prisma.classSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClassSessionFindManyArgs>(args?: SelectSubset<T, ClassSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ClassSession.
+     * @param {ClassSessionCreateArgs} args - Arguments to create a ClassSession.
+     * @example
+     * // Create one ClassSession
+     * const ClassSession = await prisma.classSession.create({
+     *   data: {
+     *     // ... data to create a ClassSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClassSessionCreateArgs>(args: SelectSubset<T, ClassSessionCreateArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ClassSessions.
+     * @param {ClassSessionCreateManyArgs} args - Arguments to create many ClassSessions.
+     * @example
+     * // Create many ClassSessions
+     * const classSession = await prisma.classSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClassSessionCreateManyArgs>(args?: SelectSubset<T, ClassSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClassSessions and returns the data saved in the database.
+     * @param {ClassSessionCreateManyAndReturnArgs} args - Arguments to create many ClassSessions.
+     * @example
+     * // Create many ClassSessions
+     * const classSession = await prisma.classSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClassSessions and only return the `id`
+     * const classSessionWithIdOnly = await prisma.classSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClassSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, ClassSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ClassSession.
+     * @param {ClassSessionDeleteArgs} args - Arguments to delete one ClassSession.
+     * @example
+     * // Delete one ClassSession
+     * const ClassSession = await prisma.classSession.delete({
+     *   where: {
+     *     // ... filter to delete one ClassSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClassSessionDeleteArgs>(args: SelectSubset<T, ClassSessionDeleteArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ClassSession.
+     * @param {ClassSessionUpdateArgs} args - Arguments to update one ClassSession.
+     * @example
+     * // Update one ClassSession
+     * const classSession = await prisma.classSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClassSessionUpdateArgs>(args: SelectSubset<T, ClassSessionUpdateArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ClassSessions.
+     * @param {ClassSessionDeleteManyArgs} args - Arguments to filter ClassSessions to delete.
+     * @example
+     * // Delete a few ClassSessions
+     * const { count } = await prisma.classSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClassSessionDeleteManyArgs>(args?: SelectSubset<T, ClassSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClassSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClassSessions
+     * const classSession = await prisma.classSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClassSessionUpdateManyArgs>(args: SelectSubset<T, ClassSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClassSessions and returns the data updated in the database.
+     * @param {ClassSessionUpdateManyAndReturnArgs} args - Arguments to update many ClassSessions.
+     * @example
+     * // Update many ClassSessions
+     * const classSession = await prisma.classSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ClassSessions and only return the `id`
+     * const classSessionWithIdOnly = await prisma.classSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClassSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, ClassSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ClassSession.
+     * @param {ClassSessionUpsertArgs} args - Arguments to update or create a ClassSession.
+     * @example
+     * // Update or create a ClassSession
+     * const classSession = await prisma.classSession.upsert({
+     *   create: {
+     *     // ... data to create a ClassSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClassSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClassSessionUpsertArgs>(args: SelectSubset<T, ClassSessionUpsertArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ClassSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionCountArgs} args - Arguments to filter ClassSessions to count.
+     * @example
+     * // Count the number of ClassSessions
+     * const count = await prisma.classSession.count({
+     *   where: {
+     *     // ... the filter for the ClassSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClassSessionCountArgs>(
+      args?: Subset<T, ClassSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClassSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClassSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClassSessionAggregateArgs>(args: Subset<T, ClassSessionAggregateArgs>): Prisma.PrismaPromise<GetClassSessionAggregateType<T>>
+
+    /**
+     * Group by ClassSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClassSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClassSessionGroupByArgs['orderBy'] }
+        : { orderBy?: ClassSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClassSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClassSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClassSession model
+   */
+  readonly fields: ClassSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClassSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClassSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    createdBy<T extends ClassSession$createdByArgs<ExtArgs> = {}>(args?: Subset<T, ClassSession$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    attendanceRecords<T extends ClassSession$attendanceRecordsArgs<ExtArgs> = {}>(args?: Subset<T, ClassSession$attendanceRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClassSession model
+   */
+  interface ClassSessionFieldRefs {
+    readonly id: FieldRef<"ClassSession", 'Int'>
+    readonly title: FieldRef<"ClassSession", 'String'>
+    readonly description: FieldRef<"ClassSession", 'String'>
+    readonly startTime: FieldRef<"ClassSession", 'DateTime'>
+    readonly endTime: FieldRef<"ClassSession", 'DateTime'>
+    readonly createdAt: FieldRef<"ClassSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClassSession", 'DateTime'>
+    readonly organisationId: FieldRef<"ClassSession", 'String'>
+    readonly classId: FieldRef<"ClassSession", 'Int'>
+    readonly createdById: FieldRef<"ClassSession", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClassSession findUnique
+   */
+  export type ClassSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSession to fetch.
+     */
+    where: ClassSessionWhereUniqueInput
+  }
+
+  /**
+   * ClassSession findUniqueOrThrow
+   */
+  export type ClassSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSession to fetch.
+     */
+    where: ClassSessionWhereUniqueInput
+  }
+
+  /**
+   * ClassSession findFirst
+   */
+  export type ClassSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSession to fetch.
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessions to fetch.
+     */
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClassSessions.
+     */
+    cursor?: ClassSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClassSessions.
+     */
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSession findFirstOrThrow
+   */
+  export type ClassSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSession to fetch.
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessions to fetch.
+     */
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClassSessions.
+     */
+    cursor?: ClassSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClassSessions.
+     */
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSession findMany
+   */
+  export type ClassSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessions to fetch.
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessions to fetch.
+     */
+    orderBy?: ClassSessionOrderByWithRelationInput | ClassSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClassSessions.
+     */
+    cursor?: ClassSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessions.
+     */
+    skip?: number
+    distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSession create
+   */
+  export type ClassSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClassSession.
+     */
+    data: XOR<ClassSessionCreateInput, ClassSessionUncheckedCreateInput>
+  }
+
+  /**
+   * ClassSession createMany
+   */
+  export type ClassSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClassSessions.
+     */
+    data: ClassSessionCreateManyInput | ClassSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClassSession createManyAndReturn
+   */
+  export type ClassSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ClassSessions.
+     */
+    data: ClassSessionCreateManyInput | ClassSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClassSession update
+   */
+  export type ClassSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClassSession.
+     */
+    data: XOR<ClassSessionUpdateInput, ClassSessionUncheckedUpdateInput>
+    /**
+     * Choose, which ClassSession to update.
+     */
+    where: ClassSessionWhereUniqueInput
+  }
+
+  /**
+   * ClassSession updateMany
+   */
+  export type ClassSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClassSessions.
+     */
+    data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which ClassSessions to update
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * Limit how many ClassSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClassSession updateManyAndReturn
+   */
+  export type ClassSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update ClassSessions.
+     */
+    data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which ClassSessions to update
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * Limit how many ClassSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClassSession upsert
+   */
+  export type ClassSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClassSession to update in case it exists.
+     */
+    where: ClassSessionWhereUniqueInput
+    /**
+     * In case the ClassSession found by the `where` argument doesn't exist, create a new ClassSession with this data.
+     */
+    create: XOR<ClassSessionCreateInput, ClassSessionUncheckedCreateInput>
+    /**
+     * In case the ClassSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClassSessionUpdateInput, ClassSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * ClassSession delete
+   */
+  export type ClassSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+    /**
+     * Filter which ClassSession to delete.
+     */
+    where: ClassSessionWhereUniqueInput
+  }
+
+  /**
+   * ClassSession deleteMany
+   */
+  export type ClassSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClassSessions to delete
+     */
+    where?: ClassSessionWhereInput
+    /**
+     * Limit how many ClassSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClassSession.createdBy
+   */
+  export type ClassSession$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ClassSession.attendanceRecords
+   */
+  export type ClassSession$attendanceRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    where?: ClassSessionAttendanceWhereInput
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSession without action
+   */
+  export type ClassSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSession
+     */
+    select?: ClassSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSession
+     */
+    omit?: ClassSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClassSessionAttendance
+   */
+
+  export type AggregateClassSessionAttendance = {
+    _count: ClassSessionAttendanceCountAggregateOutputType | null
+    _avg: ClassSessionAttendanceAvgAggregateOutputType | null
+    _sum: ClassSessionAttendanceSumAggregateOutputType | null
+    _min: ClassSessionAttendanceMinAggregateOutputType | null
+    _max: ClassSessionAttendanceMaxAggregateOutputType | null
+  }
+
+  export type ClassSessionAttendanceAvgAggregateOutputType = {
+    id: number | null
+    classSessionId: number | null
+    studentId: number | null
+  }
+
+  export type ClassSessionAttendanceSumAggregateOutputType = {
+    id: number | null
+    classSessionId: number | null
+    studentId: number | null
+  }
+
+  export type ClassSessionAttendanceMinAggregateOutputType = {
+    id: number | null
+    status: $Enums.AttendanceStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classSessionId: number | null
+    studentId: number | null
+  }
+
+  export type ClassSessionAttendanceMaxAggregateOutputType = {
+    id: number | null
+    status: $Enums.AttendanceStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classSessionId: number | null
+    studentId: number | null
+  }
+
+  export type ClassSessionAttendanceCountAggregateOutputType = {
+    id: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    classSessionId: number
+    studentId: number
+    _all: number
+  }
+
+
+  export type ClassSessionAttendanceAvgAggregateInputType = {
+    id?: true
+    classSessionId?: true
+    studentId?: true
+  }
+
+  export type ClassSessionAttendanceSumAggregateInputType = {
+    id?: true
+    classSessionId?: true
+    studentId?: true
+  }
+
+  export type ClassSessionAttendanceMinAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classSessionId?: true
+    studentId?: true
+  }
+
+  export type ClassSessionAttendanceMaxAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classSessionId?: true
+    studentId?: true
+  }
+
+  export type ClassSessionAttendanceCountAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classSessionId?: true
+    studentId?: true
+    _all?: true
+  }
+
+  export type ClassSessionAttendanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClassSessionAttendance to aggregate.
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessionAttendances to fetch.
+     */
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessionAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessionAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClassSessionAttendances
+    **/
+    _count?: true | ClassSessionAttendanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ClassSessionAttendanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClassSessionAttendanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClassSessionAttendanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClassSessionAttendanceMaxAggregateInputType
+  }
+
+  export type GetClassSessionAttendanceAggregateType<T extends ClassSessionAttendanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateClassSessionAttendance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClassSessionAttendance[P]>
+      : GetScalarType<T[P], AggregateClassSessionAttendance[P]>
+  }
+
+
+
+
+  export type ClassSessionAttendanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassSessionAttendanceWhereInput
+    orderBy?: ClassSessionAttendanceOrderByWithAggregationInput | ClassSessionAttendanceOrderByWithAggregationInput[]
+    by: ClassSessionAttendanceScalarFieldEnum[] | ClassSessionAttendanceScalarFieldEnum
+    having?: ClassSessionAttendanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClassSessionAttendanceCountAggregateInputType | true
+    _avg?: ClassSessionAttendanceAvgAggregateInputType
+    _sum?: ClassSessionAttendanceSumAggregateInputType
+    _min?: ClassSessionAttendanceMinAggregateInputType
+    _max?: ClassSessionAttendanceMaxAggregateInputType
+  }
+
+  export type ClassSessionAttendanceGroupByOutputType = {
+    id: number
+    status: $Enums.AttendanceStatus
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    classSessionId: number
+    studentId: number
+    _count: ClassSessionAttendanceCountAggregateOutputType | null
+    _avg: ClassSessionAttendanceAvgAggregateOutputType | null
+    _sum: ClassSessionAttendanceSumAggregateOutputType | null
+    _min: ClassSessionAttendanceMinAggregateOutputType | null
+    _max: ClassSessionAttendanceMaxAggregateOutputType | null
+  }
+
+  type GetClassSessionAttendanceGroupByPayload<T extends ClassSessionAttendanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClassSessionAttendanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClassSessionAttendanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClassSessionAttendanceGroupByOutputType[P]>
+            : GetScalarType<T[P], ClassSessionAttendanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClassSessionAttendanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classSessionId?: boolean
+    studentId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["classSessionAttendance"]>
+
+  export type ClassSessionAttendanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classSessionId?: boolean
+    studentId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["classSessionAttendance"]>
+
+  export type ClassSessionAttendanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classSessionId?: boolean
+    studentId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["classSessionAttendance"]>
+
+  export type ClassSessionAttendanceSelectScalar = {
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classSessionId?: boolean
+    studentId?: boolean
+  }
+
+  export type ClassSessionAttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "createdAt" | "updatedAt" | "organisationId" | "classSessionId" | "studentId", ExtArgs["result"]["classSessionAttendance"]>
+  export type ClassSessionAttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type ClassSessionAttendanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type ClassSessionAttendanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    classSession?: boolean | ClassSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $ClassSessionAttendancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClassSessionAttendance"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+      classSession: Prisma.$ClassSessionPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      status: $Enums.AttendanceStatus
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+      classSessionId: number
+      studentId: number
+    }, ExtArgs["result"]["classSessionAttendance"]>
+    composites: {}
+  }
+
+  type ClassSessionAttendanceGetPayload<S extends boolean | null | undefined | ClassSessionAttendanceDefaultArgs> = $Result.GetResult<Prisma.$ClassSessionAttendancePayload, S>
+
+  type ClassSessionAttendanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClassSessionAttendanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClassSessionAttendanceCountAggregateInputType | true
+    }
+
+  export interface ClassSessionAttendanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClassSessionAttendance'], meta: { name: 'ClassSessionAttendance' } }
+    /**
+     * Find zero or one ClassSessionAttendance that matches the filter.
+     * @param {ClassSessionAttendanceFindUniqueArgs} args - Arguments to find a ClassSessionAttendance
+     * @example
+     * // Get one ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClassSessionAttendanceFindUniqueArgs>(args: SelectSubset<T, ClassSessionAttendanceFindUniqueArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ClassSessionAttendance that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClassSessionAttendanceFindUniqueOrThrowArgs} args - Arguments to find a ClassSessionAttendance
+     * @example
+     * // Get one ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClassSessionAttendanceFindUniqueOrThrowArgs>(args: SelectSubset<T, ClassSessionAttendanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClassSessionAttendance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceFindFirstArgs} args - Arguments to find a ClassSessionAttendance
+     * @example
+     * // Get one ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClassSessionAttendanceFindFirstArgs>(args?: SelectSubset<T, ClassSessionAttendanceFindFirstArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClassSessionAttendance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceFindFirstOrThrowArgs} args - Arguments to find a ClassSessionAttendance
+     * @example
+     * // Get one ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClassSessionAttendanceFindFirstOrThrowArgs>(args?: SelectSubset<T, ClassSessionAttendanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ClassSessionAttendances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClassSessionAttendances
+     * const classSessionAttendances = await prisma.classSessionAttendance.findMany()
+     * 
+     * // Get first 10 ClassSessionAttendances
+     * const classSessionAttendances = await prisma.classSessionAttendance.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const classSessionAttendanceWithIdOnly = await prisma.classSessionAttendance.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClassSessionAttendanceFindManyArgs>(args?: SelectSubset<T, ClassSessionAttendanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ClassSessionAttendance.
+     * @param {ClassSessionAttendanceCreateArgs} args - Arguments to create a ClassSessionAttendance.
+     * @example
+     * // Create one ClassSessionAttendance
+     * const ClassSessionAttendance = await prisma.classSessionAttendance.create({
+     *   data: {
+     *     // ... data to create a ClassSessionAttendance
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClassSessionAttendanceCreateArgs>(args: SelectSubset<T, ClassSessionAttendanceCreateArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ClassSessionAttendances.
+     * @param {ClassSessionAttendanceCreateManyArgs} args - Arguments to create many ClassSessionAttendances.
+     * @example
+     * // Create many ClassSessionAttendances
+     * const classSessionAttendance = await prisma.classSessionAttendance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClassSessionAttendanceCreateManyArgs>(args?: SelectSubset<T, ClassSessionAttendanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClassSessionAttendances and returns the data saved in the database.
+     * @param {ClassSessionAttendanceCreateManyAndReturnArgs} args - Arguments to create many ClassSessionAttendances.
+     * @example
+     * // Create many ClassSessionAttendances
+     * const classSessionAttendance = await prisma.classSessionAttendance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClassSessionAttendances and only return the `id`
+     * const classSessionAttendanceWithIdOnly = await prisma.classSessionAttendance.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClassSessionAttendanceCreateManyAndReturnArgs>(args?: SelectSubset<T, ClassSessionAttendanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ClassSessionAttendance.
+     * @param {ClassSessionAttendanceDeleteArgs} args - Arguments to delete one ClassSessionAttendance.
+     * @example
+     * // Delete one ClassSessionAttendance
+     * const ClassSessionAttendance = await prisma.classSessionAttendance.delete({
+     *   where: {
+     *     // ... filter to delete one ClassSessionAttendance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClassSessionAttendanceDeleteArgs>(args: SelectSubset<T, ClassSessionAttendanceDeleteArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ClassSessionAttendance.
+     * @param {ClassSessionAttendanceUpdateArgs} args - Arguments to update one ClassSessionAttendance.
+     * @example
+     * // Update one ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClassSessionAttendanceUpdateArgs>(args: SelectSubset<T, ClassSessionAttendanceUpdateArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ClassSessionAttendances.
+     * @param {ClassSessionAttendanceDeleteManyArgs} args - Arguments to filter ClassSessionAttendances to delete.
+     * @example
+     * // Delete a few ClassSessionAttendances
+     * const { count } = await prisma.classSessionAttendance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClassSessionAttendanceDeleteManyArgs>(args?: SelectSubset<T, ClassSessionAttendanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClassSessionAttendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClassSessionAttendances
+     * const classSessionAttendance = await prisma.classSessionAttendance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClassSessionAttendanceUpdateManyArgs>(args: SelectSubset<T, ClassSessionAttendanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClassSessionAttendances and returns the data updated in the database.
+     * @param {ClassSessionAttendanceUpdateManyAndReturnArgs} args - Arguments to update many ClassSessionAttendances.
+     * @example
+     * // Update many ClassSessionAttendances
+     * const classSessionAttendance = await prisma.classSessionAttendance.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ClassSessionAttendances and only return the `id`
+     * const classSessionAttendanceWithIdOnly = await prisma.classSessionAttendance.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClassSessionAttendanceUpdateManyAndReturnArgs>(args: SelectSubset<T, ClassSessionAttendanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ClassSessionAttendance.
+     * @param {ClassSessionAttendanceUpsertArgs} args - Arguments to update or create a ClassSessionAttendance.
+     * @example
+     * // Update or create a ClassSessionAttendance
+     * const classSessionAttendance = await prisma.classSessionAttendance.upsert({
+     *   create: {
+     *     // ... data to create a ClassSessionAttendance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClassSessionAttendance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClassSessionAttendanceUpsertArgs>(args: SelectSubset<T, ClassSessionAttendanceUpsertArgs<ExtArgs>>): Prisma__ClassSessionAttendanceClient<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ClassSessionAttendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceCountArgs} args - Arguments to filter ClassSessionAttendances to count.
+     * @example
+     * // Count the number of ClassSessionAttendances
+     * const count = await prisma.classSessionAttendance.count({
+     *   where: {
+     *     // ... the filter for the ClassSessionAttendances we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClassSessionAttendanceCountArgs>(
+      args?: Subset<T, ClassSessionAttendanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClassSessionAttendanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClassSessionAttendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClassSessionAttendanceAggregateArgs>(args: Subset<T, ClassSessionAttendanceAggregateArgs>): Prisma.PrismaPromise<GetClassSessionAttendanceAggregateType<T>>
+
+    /**
+     * Group by ClassSessionAttendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClassSessionAttendanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClassSessionAttendanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClassSessionAttendanceGroupByArgs['orderBy'] }
+        : { orderBy?: ClassSessionAttendanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClassSessionAttendanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClassSessionAttendanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClassSessionAttendance model
+   */
+  readonly fields: ClassSessionAttendanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClassSessionAttendance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClassSessionAttendanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    classSession<T extends ClassSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassSessionDefaultArgs<ExtArgs>>): Prisma__ClassSessionClient<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClassSessionAttendance model
+   */
+  interface ClassSessionAttendanceFieldRefs {
+    readonly id: FieldRef<"ClassSessionAttendance", 'Int'>
+    readonly status: FieldRef<"ClassSessionAttendance", 'AttendanceStatus'>
+    readonly createdAt: FieldRef<"ClassSessionAttendance", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClassSessionAttendance", 'DateTime'>
+    readonly organisationId: FieldRef<"ClassSessionAttendance", 'String'>
+    readonly classSessionId: FieldRef<"ClassSessionAttendance", 'Int'>
+    readonly studentId: FieldRef<"ClassSessionAttendance", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClassSessionAttendance findUnique
+   */
+  export type ClassSessionAttendanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessionAttendance to fetch.
+     */
+    where: ClassSessionAttendanceWhereUniqueInput
+  }
+
+  /**
+   * ClassSessionAttendance findUniqueOrThrow
+   */
+  export type ClassSessionAttendanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessionAttendance to fetch.
+     */
+    where: ClassSessionAttendanceWhereUniqueInput
+  }
+
+  /**
+   * ClassSessionAttendance findFirst
+   */
+  export type ClassSessionAttendanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessionAttendance to fetch.
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessionAttendances to fetch.
+     */
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClassSessionAttendances.
+     */
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessionAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessionAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClassSessionAttendances.
+     */
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSessionAttendance findFirstOrThrow
+   */
+  export type ClassSessionAttendanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessionAttendance to fetch.
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessionAttendances to fetch.
+     */
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClassSessionAttendances.
+     */
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessionAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessionAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClassSessionAttendances.
+     */
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSessionAttendance findMany
+   */
+  export type ClassSessionAttendanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClassSessionAttendances to fetch.
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClassSessionAttendances to fetch.
+     */
+    orderBy?: ClassSessionAttendanceOrderByWithRelationInput | ClassSessionAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClassSessionAttendances.
+     */
+    cursor?: ClassSessionAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClassSessionAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClassSessionAttendances.
+     */
+    skip?: number
+    distinct?: ClassSessionAttendanceScalarFieldEnum | ClassSessionAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * ClassSessionAttendance create
+   */
+  export type ClassSessionAttendanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClassSessionAttendance.
+     */
+    data: XOR<ClassSessionAttendanceCreateInput, ClassSessionAttendanceUncheckedCreateInput>
+  }
+
+  /**
+   * ClassSessionAttendance createMany
+   */
+  export type ClassSessionAttendanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClassSessionAttendances.
+     */
+    data: ClassSessionAttendanceCreateManyInput | ClassSessionAttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClassSessionAttendance createManyAndReturn
+   */
+  export type ClassSessionAttendanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to create many ClassSessionAttendances.
+     */
+    data: ClassSessionAttendanceCreateManyInput | ClassSessionAttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClassSessionAttendance update
+   */
+  export type ClassSessionAttendanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClassSessionAttendance.
+     */
+    data: XOR<ClassSessionAttendanceUpdateInput, ClassSessionAttendanceUncheckedUpdateInput>
+    /**
+     * Choose, which ClassSessionAttendance to update.
+     */
+    where: ClassSessionAttendanceWhereUniqueInput
+  }
+
+  /**
+   * ClassSessionAttendance updateMany
+   */
+  export type ClassSessionAttendanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClassSessionAttendances.
+     */
+    data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which ClassSessionAttendances to update
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * Limit how many ClassSessionAttendances to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClassSessionAttendance updateManyAndReturn
+   */
+  export type ClassSessionAttendanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to update ClassSessionAttendances.
+     */
+    data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which ClassSessionAttendances to update
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * Limit how many ClassSessionAttendances to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClassSessionAttendance upsert
+   */
+  export type ClassSessionAttendanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClassSessionAttendance to update in case it exists.
+     */
+    where: ClassSessionAttendanceWhereUniqueInput
+    /**
+     * In case the ClassSessionAttendance found by the `where` argument doesn't exist, create a new ClassSessionAttendance with this data.
+     */
+    create: XOR<ClassSessionAttendanceCreateInput, ClassSessionAttendanceUncheckedCreateInput>
+    /**
+     * In case the ClassSessionAttendance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClassSessionAttendanceUpdateInput, ClassSessionAttendanceUncheckedUpdateInput>
+  }
+
+  /**
+   * ClassSessionAttendance delete
+   */
+  export type ClassSessionAttendanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter which ClassSessionAttendance to delete.
+     */
+    where: ClassSessionAttendanceWhereUniqueInput
+  }
+
+  /**
+   * ClassSessionAttendance deleteMany
+   */
+  export type ClassSessionAttendanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClassSessionAttendances to delete
+     */
+    where?: ClassSessionAttendanceWhereInput
+    /**
+     * Limit how many ClassSessionAttendances to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClassSessionAttendance without action
+   */
+  export type ClassSessionAttendanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClassSessionAttendance
+     */
+    select?: ClassSessionAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClassSessionAttendance
+     */
+    omit?: ClassSessionAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassSessionAttendanceInclude<ExtArgs> | null
   }
 
 
@@ -23792,6 +26572,35 @@ export namespace Prisma {
   export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
 
 
+  export const ClassSessionScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId',
+    classId: 'classId',
+    createdById: 'createdById'
+  };
+
+  export type ClassSessionScalarFieldEnum = (typeof ClassSessionScalarFieldEnum)[keyof typeof ClassSessionScalarFieldEnum]
+
+
+  export const ClassSessionAttendanceScalarFieldEnum: {
+    id: 'id',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId',
+    classSessionId: 'classSessionId',
+    studentId: 'studentId'
+  };
+
+  export type ClassSessionAttendanceScalarFieldEnum = (typeof ClassSessionAttendanceScalarFieldEnum)[keyof typeof ClassSessionAttendanceScalarFieldEnum]
+
+
   export const CheckInScalarFieldEnum: {
     id: 'id',
     scheduledDate: 'scheduledDate',
@@ -24002,6 +26811,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AttendanceStatus'
+   */
+  export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceStatus[]'
+   */
+  export type ListEnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CheckInStatus'
    */
   export type EnumCheckInStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckInStatus'>
@@ -24079,6 +26902,8 @@ export namespace Prisma {
     students?: StudentListRelationFilter
     classes?: ClassListRelationFilter
     meetings?: MeetingListRelationFilter
+    classSessions?: ClassSessionListRelationFilter
+    classSessionAttendances?: ClassSessionAttendanceListRelationFilter
     terms?: TermListRelationFilter
     holidays?: HolidayListRelationFilter
     assessments?: AssessmentListRelationFilter
@@ -24104,6 +26929,8 @@ export namespace Prisma {
     students?: StudentOrderByRelationAggregateInput
     classes?: ClassOrderByRelationAggregateInput
     meetings?: MeetingOrderByRelationAggregateInput
+    classSessions?: ClassSessionOrderByRelationAggregateInput
+    classSessionAttendances?: ClassSessionAttendanceOrderByRelationAggregateInput
     terms?: TermOrderByRelationAggregateInput
     holidays?: HolidayOrderByRelationAggregateInput
     assessments?: AssessmentOrderByRelationAggregateInput
@@ -24132,6 +26959,8 @@ export namespace Prisma {
     students?: StudentListRelationFilter
     classes?: ClassListRelationFilter
     meetings?: MeetingListRelationFilter
+    classSessions?: ClassSessionListRelationFilter
+    classSessionAttendances?: ClassSessionAttendanceListRelationFilter
     terms?: TermListRelationFilter
     holidays?: HolidayListRelationFilter
     assessments?: AssessmentListRelationFilter
@@ -24411,6 +27240,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentListRelationFilter
     checkInsAssigned?: CheckInListRelationFilter
     paymentsRecorded?: PaymentListRelationFilter
+    classSessionsCreated?: ClassSessionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -24429,6 +27259,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentOrderByRelationAggregateInput
     checkInsAssigned?: CheckInOrderByRelationAggregateInput
     paymentsRecorded?: PaymentOrderByRelationAggregateInput
+    classSessionsCreated?: ClassSessionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -24450,6 +27281,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentListRelationFilter
     checkInsAssigned?: CheckInListRelationFilter
     paymentsRecorded?: PaymentListRelationFilter
+    classSessionsCreated?: ClassSessionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -24511,6 +27343,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
+    classSessionAttendances?: ClassSessionAttendanceListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -24545,6 +27378,7 @@ export namespace Prisma {
     invoices?: InvoiceOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     discounts?: StudentDiscountOrderByRelationAggregateInput
+    classSessionAttendances?: ClassSessionAttendanceOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -24582,6 +27416,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
+    classSessionAttendances?: ClassSessionAttendanceListRelationFilter
   }, "id">
 
   export type StudentOrderByWithAggregationInput = {
@@ -24658,6 +27493,7 @@ export namespace Prisma {
     teacherId?: StringNullableFilter<"Class"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     students?: StudentListRelationFilter
+    classSessions?: ClassSessionListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -24671,6 +27507,7 @@ export namespace Prisma {
     teacherId?: SortOrderInput | SortOrder
     organisation?: OrganisationOrderByWithRelationInput
     students?: StudentOrderByRelationAggregateInput
+    classSessions?: ClassSessionOrderByRelationAggregateInput
   }
 
   export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -24687,6 +27524,7 @@ export namespace Prisma {
     teacherId?: StringNullableFilter<"Class"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     students?: StudentListRelationFilter
+    classSessions?: ClassSessionListRelationFilter
   }, "id">
 
   export type ClassOrderByWithAggregationInput = {
@@ -25086,6 +27924,171 @@ export namespace Prisma {
     studentId?: IntWithAggregatesFilter<"Assessment"> | number
     meetingId?: IntNullableWithAggregatesFilter<"Assessment"> | number | null
     recordedById?: StringWithAggregatesFilter<"Assessment"> | string
+  }
+
+  export type ClassSessionWhereInput = {
+    AND?: ClassSessionWhereInput | ClassSessionWhereInput[]
+    OR?: ClassSessionWhereInput[]
+    NOT?: ClassSessionWhereInput | ClassSessionWhereInput[]
+    id?: IntFilter<"ClassSession"> | number
+    title?: StringFilter<"ClassSession"> | string
+    description?: StringNullableFilter<"ClassSession"> | string | null
+    startTime?: DateTimeFilter<"ClassSession"> | Date | string
+    endTime?: DateTimeFilter<"ClassSession"> | Date | string
+    createdAt?: DateTimeFilter<"ClassSession"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSession"> | Date | string
+    organisationId?: StringFilter<"ClassSession"> | string
+    classId?: IntFilter<"ClassSession"> | number
+    createdById?: StringNullableFilter<"ClassSession"> | string | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    attendanceRecords?: ClassSessionAttendanceListRelationFilter
+  }
+
+  export type ClassSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+    class?: ClassOrderByWithRelationInput
+    createdBy?: UserOrderByWithRelationInput
+    attendanceRecords?: ClassSessionAttendanceOrderByRelationAggregateInput
+  }
+
+  export type ClassSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ClassSessionWhereInput | ClassSessionWhereInput[]
+    OR?: ClassSessionWhereInput[]
+    NOT?: ClassSessionWhereInput | ClassSessionWhereInput[]
+    title?: StringFilter<"ClassSession"> | string
+    description?: StringNullableFilter<"ClassSession"> | string | null
+    startTime?: DateTimeFilter<"ClassSession"> | Date | string
+    endTime?: DateTimeFilter<"ClassSession"> | Date | string
+    createdAt?: DateTimeFilter<"ClassSession"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSession"> | Date | string
+    organisationId?: StringFilter<"ClassSession"> | string
+    classId?: IntFilter<"ClassSession"> | number
+    createdById?: StringNullableFilter<"ClassSession"> | string | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    attendanceRecords?: ClassSessionAttendanceListRelationFilter
+  }, "id">
+
+  export type ClassSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: ClassSessionCountOrderByAggregateInput
+    _avg?: ClassSessionAvgOrderByAggregateInput
+    _max?: ClassSessionMaxOrderByAggregateInput
+    _min?: ClassSessionMinOrderByAggregateInput
+    _sum?: ClassSessionSumOrderByAggregateInput
+  }
+
+  export type ClassSessionScalarWhereWithAggregatesInput = {
+    AND?: ClassSessionScalarWhereWithAggregatesInput | ClassSessionScalarWhereWithAggregatesInput[]
+    OR?: ClassSessionScalarWhereWithAggregatesInput[]
+    NOT?: ClassSessionScalarWhereWithAggregatesInput | ClassSessionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ClassSession"> | number
+    title?: StringWithAggregatesFilter<"ClassSession"> | string
+    description?: StringNullableWithAggregatesFilter<"ClassSession"> | string | null
+    startTime?: DateTimeWithAggregatesFilter<"ClassSession"> | Date | string
+    endTime?: DateTimeWithAggregatesFilter<"ClassSession"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"ClassSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClassSession"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"ClassSession"> | string
+    classId?: IntWithAggregatesFilter<"ClassSession"> | number
+    createdById?: StringNullableWithAggregatesFilter<"ClassSession"> | string | null
+  }
+
+  export type ClassSessionAttendanceWhereInput = {
+    AND?: ClassSessionAttendanceWhereInput | ClassSessionAttendanceWhereInput[]
+    OR?: ClassSessionAttendanceWhereInput[]
+    NOT?: ClassSessionAttendanceWhereInput | ClassSessionAttendanceWhereInput[]
+    id?: IntFilter<"ClassSessionAttendance"> | number
+    status?: EnumAttendanceStatusFilter<"ClassSessionAttendance"> | $Enums.AttendanceStatus
+    createdAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    organisationId?: StringFilter<"ClassSessionAttendance"> | string
+    classSessionId?: IntFilter<"ClassSessionAttendance"> | number
+    studentId?: IntFilter<"ClassSessionAttendance"> | number
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    classSession?: XOR<ClassSessionScalarRelationFilter, ClassSessionWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type ClassSessionAttendanceOrderByWithRelationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+    classSession?: ClassSessionOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type ClassSessionAttendanceWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    classSessionId_studentId?: ClassSessionAttendanceClassSessionIdStudentIdCompoundUniqueInput
+    AND?: ClassSessionAttendanceWhereInput | ClassSessionAttendanceWhereInput[]
+    OR?: ClassSessionAttendanceWhereInput[]
+    NOT?: ClassSessionAttendanceWhereInput | ClassSessionAttendanceWhereInput[]
+    status?: EnumAttendanceStatusFilter<"ClassSessionAttendance"> | $Enums.AttendanceStatus
+    createdAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    organisationId?: StringFilter<"ClassSessionAttendance"> | string
+    classSessionId?: IntFilter<"ClassSessionAttendance"> | number
+    studentId?: IntFilter<"ClassSessionAttendance"> | number
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    classSession?: XOR<ClassSessionScalarRelationFilter, ClassSessionWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id" | "classSessionId_studentId">
+
+  export type ClassSessionAttendanceOrderByWithAggregationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+    _count?: ClassSessionAttendanceCountOrderByAggregateInput
+    _avg?: ClassSessionAttendanceAvgOrderByAggregateInput
+    _max?: ClassSessionAttendanceMaxOrderByAggregateInput
+    _min?: ClassSessionAttendanceMinOrderByAggregateInput
+    _sum?: ClassSessionAttendanceSumOrderByAggregateInput
+  }
+
+  export type ClassSessionAttendanceScalarWhereWithAggregatesInput = {
+    AND?: ClassSessionAttendanceScalarWhereWithAggregatesInput | ClassSessionAttendanceScalarWhereWithAggregatesInput[]
+    OR?: ClassSessionAttendanceScalarWhereWithAggregatesInput[]
+    NOT?: ClassSessionAttendanceScalarWhereWithAggregatesInput | ClassSessionAttendanceScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ClassSessionAttendance"> | number
+    status?: EnumAttendanceStatusWithAggregatesFilter<"ClassSessionAttendance"> | $Enums.AttendanceStatus
+    createdAt?: DateTimeWithAggregatesFilter<"ClassSessionAttendance"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClassSessionAttendance"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"ClassSessionAttendance"> | string
+    classSessionId?: IntWithAggregatesFilter<"ClassSessionAttendance"> | number
+    studentId?: IntWithAggregatesFilter<"ClassSessionAttendance"> | number
   }
 
   export type CheckInWhereInput = {
@@ -25595,6 +28598,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -25619,6 +28624,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -25643,6 +28650,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -25667,6 +28676,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -25948,6 +28959,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -25966,6 +28978,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUpdateInput = {
@@ -25984,6 +28997,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -26002,6 +29016,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -26060,6 +29075,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -26092,6 +29108,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -26123,6 +29140,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -26155,6 +29173,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -26241,6 +29260,7 @@ export namespace Prisma {
     teacherId?: string | null
     organisation: OrganisationCreateNestedOneWithoutClassesInput
     students?: StudentCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -26253,6 +29273,7 @@ export namespace Prisma {
     organisationId: string
     teacherId?: string | null
     students?: StudentUncheckedCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -26264,6 +29285,7 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
     students?: StudentUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -26276,6 +29298,7 @@ export namespace Prisma {
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -26689,6 +29712,159 @@ export namespace Prisma {
     studentId?: IntFieldUpdateOperationsInput | number
     meetingId?: NullableIntFieldUpdateOperationsInput | number | null
     recordedById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClassSessionCreateInput = {
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionsInput
+    class: ClassCreateNestedOneWithoutClassSessionsInput
+    createdBy?: UserCreateNestedOneWithoutClassSessionsCreatedInput
+    attendanceRecords?: ClassSessionAttendanceCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionUncheckedCreateInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId: number
+    createdById?: string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionsNestedInput
+    class?: ClassUpdateOneRequiredWithoutClassSessionsNestedInput
+    createdBy?: UserUpdateOneWithoutClassSessionsCreatedNestedInput
+    attendanceRecords?: ClassSessionAttendanceUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: IntFieldUpdateOperationsInput | number
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionCreateManyInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId: number
+    createdById?: string | null
+  }
+
+  export type ClassSessionUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClassSessionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: IntFieldUpdateOperationsInput | number
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ClassSessionAttendanceCreateInput = {
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionAttendancesInput
+    classSession: ClassSessionCreateNestedOneWithoutAttendanceRecordsInput
+    student: StudentCreateNestedOneWithoutClassSessionAttendancesInput
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classSessionId: number
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceUpdateInput = {
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+    classSession?: ClassSessionUpdateOneRequiredWithoutAttendanceRecordsNestedInput
+    student?: StudentUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionAttendanceCreateManyInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classSessionId: number
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceUpdateManyMutationInput = {
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CheckInCreateInput = {
@@ -27279,6 +30455,18 @@ export namespace Prisma {
     none?: MeetingWhereInput
   }
 
+  export type ClassSessionListRelationFilter = {
+    every?: ClassSessionWhereInput
+    some?: ClassSessionWhereInput
+    none?: ClassSessionWhereInput
+  }
+
+  export type ClassSessionAttendanceListRelationFilter = {
+    every?: ClassSessionAttendanceWhereInput
+    some?: ClassSessionAttendanceWhereInput
+    none?: ClassSessionAttendanceWhereInput
+  }
+
   export type TermListRelationFilter = {
     every?: TermWhereInput
     some?: TermWhereInput
@@ -27346,6 +30534,14 @@ export namespace Prisma {
   }
 
   export type MeetingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClassSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClassSessionAttendanceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28116,6 +31312,129 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type ClassScalarRelationFilter = {
+    is?: ClassWhereInput
+    isNot?: ClassWhereInput
+  }
+
+  export type ClassSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type ClassSessionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type ClassSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type ClassSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type ClassSessionSumOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type EnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type ClassSessionScalarRelationFilter = {
+    is?: ClassSessionWhereInput
+    isNot?: ClassSessionWhereInput
+  }
+
+  export type ClassSessionAttendanceClassSessionIdStudentIdCompoundUniqueInput = {
+    classSessionId: number
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type ClassSessionAttendanceAvgOrderByAggregateInput = {
+    id?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type ClassSessionAttendanceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type ClassSessionAttendanceMinOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type ClassSessionAttendanceSumOrderByAggregateInput = {
+    id?: SortOrder
+    classSessionId?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type EnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
   export type EnumCheckInStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CheckInStatus | EnumCheckInStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CheckInStatus[] | ListEnumCheckInStatusFieldRefInput<$PrismaModel>
@@ -28572,6 +31891,20 @@ export namespace Prisma {
     connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
   }
 
+  export type ClassSessionCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput> | ClassSessionCreateWithoutOrganisationInput[] | ClassSessionUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutOrganisationInput | ClassSessionCreateOrConnectWithoutOrganisationInput[]
+    createMany?: ClassSessionCreateManyOrganisationInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+  }
+
+  export type ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput> | ClassSessionAttendanceCreateWithoutOrganisationInput[] | ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput | ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput[]
+    createMany?: ClassSessionAttendanceCreateManyOrganisationInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+  }
+
   export type TermCreateNestedManyWithoutOrganisationInput = {
     create?: XOR<TermCreateWithoutOrganisationInput, TermUncheckedCreateWithoutOrganisationInput> | TermCreateWithoutOrganisationInput[] | TermUncheckedCreateWithoutOrganisationInput[]
     connectOrCreate?: TermCreateOrConnectWithoutOrganisationInput | TermCreateOrConnectWithoutOrganisationInput[]
@@ -28660,6 +31993,20 @@ export namespace Prisma {
     connectOrCreate?: MeetingCreateOrConnectWithoutOrganisationInput | MeetingCreateOrConnectWithoutOrganisationInput[]
     createMany?: MeetingCreateManyOrganisationInputEnvelope
     connect?: MeetingWhereUniqueInput | MeetingWhereUniqueInput[]
+  }
+
+  export type ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput> | ClassSessionCreateWithoutOrganisationInput[] | ClassSessionUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutOrganisationInput | ClassSessionCreateOrConnectWithoutOrganisationInput[]
+    createMany?: ClassSessionCreateManyOrganisationInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput> | ClassSessionAttendanceCreateWithoutOrganisationInput[] | ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput | ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput[]
+    createMany?: ClassSessionAttendanceCreateManyOrganisationInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
   }
 
   export type TermUncheckedCreateNestedManyWithoutOrganisationInput = {
@@ -28818,6 +32165,34 @@ export namespace Prisma {
     update?: MeetingUpdateWithWhereUniqueWithoutOrganisationInput | MeetingUpdateWithWhereUniqueWithoutOrganisationInput[]
     updateMany?: MeetingUpdateManyWithWhereWithoutOrganisationInput | MeetingUpdateManyWithWhereWithoutOrganisationInput[]
     deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type ClassSessionUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput> | ClassSessionCreateWithoutOrganisationInput[] | ClassSessionUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutOrganisationInput | ClassSessionCreateOrConnectWithoutOrganisationInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutOrganisationInput | ClassSessionUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: ClassSessionCreateManyOrganisationInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutOrganisationInput | ClassSessionUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutOrganisationInput | ClassSessionUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
+  export type ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput> | ClassSessionAttendanceCreateWithoutOrganisationInput[] | ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput | ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutOrganisationInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: ClassSessionAttendanceCreateManyOrganisationInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutOrganisationInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutOrganisationInput | ClassSessionAttendanceUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
   }
 
   export type TermUpdateManyWithoutOrganisationNestedInput = {
@@ -28996,6 +32371,34 @@ export namespace Prisma {
     update?: MeetingUpdateWithWhereUniqueWithoutOrganisationInput | MeetingUpdateWithWhereUniqueWithoutOrganisationInput[]
     updateMany?: MeetingUpdateManyWithWhereWithoutOrganisationInput | MeetingUpdateManyWithWhereWithoutOrganisationInput[]
     deleteMany?: MeetingScalarWhereInput | MeetingScalarWhereInput[]
+  }
+
+  export type ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput> | ClassSessionCreateWithoutOrganisationInput[] | ClassSessionUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutOrganisationInput | ClassSessionCreateOrConnectWithoutOrganisationInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutOrganisationInput | ClassSessionUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: ClassSessionCreateManyOrganisationInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutOrganisationInput | ClassSessionUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutOrganisationInput | ClassSessionUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput> | ClassSessionAttendanceCreateWithoutOrganisationInput[] | ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput | ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutOrganisationInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: ClassSessionAttendanceCreateManyOrganisationInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutOrganisationInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutOrganisationInput | ClassSessionAttendanceUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
   }
 
   export type TermUncheckedUpdateManyWithoutOrganisationNestedInput = {
@@ -29262,6 +32665,13 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type ClassSessionCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput> | ClassSessionCreateWithoutCreatedByInput[] | ClassSessionUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutCreatedByInput | ClassSessionCreateOrConnectWithoutCreatedByInput[]
+    createMany?: ClassSessionCreateManyCreatedByInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+  }
+
   export type OrganisationUncheckedCreateNestedOneWithoutOwnerInput = {
     create?: XOR<OrganisationCreateWithoutOwnerInput, OrganisationUncheckedCreateWithoutOwnerInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutOwnerInput
@@ -29322,6 +32732,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutRecordedByInput | PaymentCreateOrConnectWithoutRecordedByInput[]
     createMany?: PaymentCreateManyRecordedByInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput> | ClassSessionCreateWithoutCreatedByInput[] | ClassSessionUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutCreatedByInput | ClassSessionCreateOrConnectWithoutCreatedByInput[]
+    createMany?: ClassSessionCreateManyCreatedByInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
   }
 
   export type OrganisationUpdateOneWithoutOwnerNestedInput = {
@@ -29446,6 +32863,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type ClassSessionUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput> | ClassSessionCreateWithoutCreatedByInput[] | ClassSessionUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutCreatedByInput | ClassSessionCreateOrConnectWithoutCreatedByInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutCreatedByInput | ClassSessionUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: ClassSessionCreateManyCreatedByInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutCreatedByInput | ClassSessionUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutCreatedByInput | ClassSessionUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
   export type OrganisationUncheckedUpdateOneWithoutOwnerNestedInput = {
     create?: XOR<OrganisationCreateWithoutOwnerInput, OrganisationUncheckedCreateWithoutOwnerInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutOwnerInput
@@ -29568,6 +32999,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput> | ClassSessionCreateWithoutCreatedByInput[] | ClassSessionUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutCreatedByInput | ClassSessionCreateOrConnectWithoutCreatedByInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutCreatedByInput | ClassSessionUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: ClassSessionCreateManyCreatedByInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutCreatedByInput | ClassSessionUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutCreatedByInput | ClassSessionUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
   export type OrganisationCreateNestedOneWithoutStudentsInput = {
     create?: XOR<OrganisationCreateWithoutStudentsInput, OrganisationUncheckedCreateWithoutStudentsInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutStudentsInput
@@ -29622,6 +33067,13 @@ export namespace Prisma {
     connect?: StudentDiscountWhereUniqueInput | StudentDiscountWhereUniqueInput[]
   }
 
+  export type ClassSessionAttendanceCreateNestedManyWithoutStudentInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput> | ClassSessionAttendanceCreateWithoutStudentInput[] | ClassSessionAttendanceUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutStudentInput | ClassSessionAttendanceCreateOrConnectWithoutStudentInput[]
+    createMany?: ClassSessionAttendanceCreateManyStudentInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+  }
+
   export type MeetingUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<MeetingCreateWithoutStudentInput, MeetingUncheckedCreateWithoutStudentInput> | MeetingCreateWithoutStudentInput[] | MeetingUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: MeetingCreateOrConnectWithoutStudentInput | MeetingCreateOrConnectWithoutStudentInput[]
@@ -29662,6 +33114,13 @@ export namespace Prisma {
     connectOrCreate?: StudentDiscountCreateOrConnectWithoutStudentInput | StudentDiscountCreateOrConnectWithoutStudentInput[]
     createMany?: StudentDiscountCreateManyStudentInputEnvelope
     connect?: StudentDiscountWhereUniqueInput | StudentDiscountWhereUniqueInput[]
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput> | ClassSessionAttendanceCreateWithoutStudentInput[] | ClassSessionAttendanceUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutStudentInput | ClassSessionAttendanceCreateOrConnectWithoutStudentInput[]
+    createMany?: ClassSessionAttendanceCreateManyStudentInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -29786,6 +33245,20 @@ export namespace Prisma {
     deleteMany?: StudentDiscountScalarWhereInput | StudentDiscountScalarWhereInput[]
   }
 
+  export type ClassSessionAttendanceUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput> | ClassSessionAttendanceCreateWithoutStudentInput[] | ClassSessionAttendanceUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutStudentInput | ClassSessionAttendanceCreateOrConnectWithoutStudentInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutStudentInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: ClassSessionAttendanceCreateManyStudentInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutStudentInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutStudentInput | ClassSessionAttendanceUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+  }
+
   export type MeetingUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<MeetingCreateWithoutStudentInput, MeetingUncheckedCreateWithoutStudentInput> | MeetingCreateWithoutStudentInput[] | MeetingUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: MeetingCreateOrConnectWithoutStudentInput | MeetingCreateOrConnectWithoutStudentInput[]
@@ -29870,6 +33343,20 @@ export namespace Prisma {
     deleteMany?: StudentDiscountScalarWhereInput | StudentDiscountScalarWhereInput[]
   }
 
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput> | ClassSessionAttendanceCreateWithoutStudentInput[] | ClassSessionAttendanceUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutStudentInput | ClassSessionAttendanceCreateOrConnectWithoutStudentInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutStudentInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: ClassSessionAttendanceCreateManyStudentInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutStudentInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutStudentInput | ClassSessionAttendanceUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+  }
+
   export type OrganisationCreateNestedOneWithoutClassesInput = {
     create?: XOR<OrganisationCreateWithoutClassesInput, OrganisationUncheckedCreateWithoutClassesInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutClassesInput
@@ -29883,11 +33370,25 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
   }
 
+  export type ClassSessionCreateNestedManyWithoutClassInput = {
+    create?: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput> | ClassSessionCreateWithoutClassInput[] | ClassSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutClassInput | ClassSessionCreateOrConnectWithoutClassInput[]
+    createMany?: ClassSessionCreateManyClassInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+  }
+
   export type StudentUncheckedCreateNestedManyWithoutClassInput = {
     create?: XOR<StudentCreateWithoutClassInput, StudentUncheckedCreateWithoutClassInput> | StudentCreateWithoutClassInput[] | StudentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: StudentCreateOrConnectWithoutClassInput | StudentCreateOrConnectWithoutClassInput[]
     createMany?: StudentCreateManyClassInputEnvelope
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
+  }
+
+  export type ClassSessionUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput> | ClassSessionCreateWithoutClassInput[] | ClassSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutClassInput | ClassSessionCreateOrConnectWithoutClassInput[]
+    createMany?: ClassSessionCreateManyClassInputEnvelope
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
   }
 
   export type OrganisationUpdateOneRequiredWithoutClassesNestedInput = {
@@ -29912,6 +33413,20 @@ export namespace Prisma {
     deleteMany?: StudentScalarWhereInput | StudentScalarWhereInput[]
   }
 
+  export type ClassSessionUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput> | ClassSessionCreateWithoutClassInput[] | ClassSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutClassInput | ClassSessionCreateOrConnectWithoutClassInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutClassInput | ClassSessionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ClassSessionCreateManyClassInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutClassInput | ClassSessionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutClassInput | ClassSessionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
   export type StudentUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<StudentCreateWithoutClassInput, StudentUncheckedCreateWithoutClassInput> | StudentCreateWithoutClassInput[] | StudentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: StudentCreateOrConnectWithoutClassInput | StudentCreateOrConnectWithoutClassInput[]
@@ -29924,6 +33439,20 @@ export namespace Prisma {
     update?: StudentUpdateWithWhereUniqueWithoutClassInput | StudentUpdateWithWhereUniqueWithoutClassInput[]
     updateMany?: StudentUpdateManyWithWhereWithoutClassInput | StudentUpdateManyWithWhereWithoutClassInput[]
     deleteMany?: StudentScalarWhereInput | StudentScalarWhereInput[]
+  }
+
+  export type ClassSessionUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput> | ClassSessionCreateWithoutClassInput[] | ClassSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutClassInput | ClassSessionCreateOrConnectWithoutClassInput[]
+    upsert?: ClassSessionUpsertWithWhereUniqueWithoutClassInput | ClassSessionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ClassSessionCreateManyClassInputEnvelope
+    set?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    disconnect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    delete?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+    update?: ClassSessionUpdateWithWhereUniqueWithoutClassInput | ClassSessionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ClassSessionUpdateManyWithWhereWithoutClassInput | ClassSessionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
   }
 
   export type OrganisationCreateNestedOneWithoutMeetingsInput = {
@@ -30144,6 +33673,138 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAssessmentsLoggedInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssessmentsLoggedInput, UserUpdateWithoutAssessmentsLoggedInput>, UserUncheckedUpdateWithoutAssessmentsLoggedInput>
+  }
+
+  export type OrganisationCreateNestedOneWithoutClassSessionsInput = {
+    create?: XOR<OrganisationCreateWithoutClassSessionsInput, OrganisationUncheckedCreateWithoutClassSessionsInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutClassSessionsInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type ClassCreateNestedOneWithoutClassSessionsInput = {
+    create?: XOR<ClassCreateWithoutClassSessionsInput, ClassUncheckedCreateWithoutClassSessionsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutClassSessionsInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutClassSessionsCreatedInput = {
+    create?: XOR<UserCreateWithoutClassSessionsCreatedInput, UserUncheckedCreateWithoutClassSessionsCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutClassSessionsCreatedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ClassSessionAttendanceCreateNestedManyWithoutClassSessionInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput> | ClassSessionAttendanceCreateWithoutClassSessionInput[] | ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput | ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput[]
+    createMany?: ClassSessionAttendanceCreateManyClassSessionInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateNestedManyWithoutClassSessionInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput> | ClassSessionAttendanceCreateWithoutClassSessionInput[] | ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput | ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput[]
+    createMany?: ClassSessionAttendanceCreateManyClassSessionInputEnvelope
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutClassSessionsNestedInput = {
+    create?: XOR<OrganisationCreateWithoutClassSessionsInput, OrganisationUncheckedCreateWithoutClassSessionsInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutClassSessionsInput
+    upsert?: OrganisationUpsertWithoutClassSessionsInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutClassSessionsInput, OrganisationUpdateWithoutClassSessionsInput>, OrganisationUncheckedUpdateWithoutClassSessionsInput>
+  }
+
+  export type ClassUpdateOneRequiredWithoutClassSessionsNestedInput = {
+    create?: XOR<ClassCreateWithoutClassSessionsInput, ClassUncheckedCreateWithoutClassSessionsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutClassSessionsInput
+    upsert?: ClassUpsertWithoutClassSessionsInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutClassSessionsInput, ClassUpdateWithoutClassSessionsInput>, ClassUncheckedUpdateWithoutClassSessionsInput>
+  }
+
+  export type UserUpdateOneWithoutClassSessionsCreatedNestedInput = {
+    create?: XOR<UserCreateWithoutClassSessionsCreatedInput, UserUncheckedCreateWithoutClassSessionsCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutClassSessionsCreatedInput
+    upsert?: UserUpsertWithoutClassSessionsCreatedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutClassSessionsCreatedInput, UserUpdateWithoutClassSessionsCreatedInput>, UserUncheckedUpdateWithoutClassSessionsCreatedInput>
+  }
+
+  export type ClassSessionAttendanceUpdateManyWithoutClassSessionNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput> | ClassSessionAttendanceCreateWithoutClassSessionInput[] | ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput | ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutClassSessionInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutClassSessionInput[]
+    createMany?: ClassSessionAttendanceCreateManyClassSessionInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutClassSessionInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutClassSessionInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutClassSessionInput | ClassSessionAttendanceUpdateManyWithWhereWithoutClassSessionInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionNestedInput = {
+    create?: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput> | ClassSessionAttendanceCreateWithoutClassSessionInput[] | ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput[]
+    connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput | ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput[]
+    upsert?: ClassSessionAttendanceUpsertWithWhereUniqueWithoutClassSessionInput | ClassSessionAttendanceUpsertWithWhereUniqueWithoutClassSessionInput[]
+    createMany?: ClassSessionAttendanceCreateManyClassSessionInputEnvelope
+    set?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    disconnect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    delete?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+    update?: ClassSessionAttendanceUpdateWithWhereUniqueWithoutClassSessionInput | ClassSessionAttendanceUpdateWithWhereUniqueWithoutClassSessionInput[]
+    updateMany?: ClassSessionAttendanceUpdateManyWithWhereWithoutClassSessionInput | ClassSessionAttendanceUpdateManyWithWhereWithoutClassSessionInput[]
+    deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+  }
+
+  export type OrganisationCreateNestedOneWithoutClassSessionAttendancesInput = {
+    create?: XOR<OrganisationCreateWithoutClassSessionAttendancesInput, OrganisationUncheckedCreateWithoutClassSessionAttendancesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutClassSessionAttendancesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type ClassSessionCreateNestedOneWithoutAttendanceRecordsInput = {
+    create?: XOR<ClassSessionCreateWithoutAttendanceRecordsInput, ClassSessionUncheckedCreateWithoutAttendanceRecordsInput>
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutAttendanceRecordsInput
+    connect?: ClassSessionWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutClassSessionAttendancesInput = {
+    create?: XOR<StudentCreateWithoutClassSessionAttendancesInput, StudentUncheckedCreateWithoutClassSessionAttendancesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutClassSessionAttendancesInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type EnumAttendanceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceStatus
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutClassSessionAttendancesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutClassSessionAttendancesInput, OrganisationUncheckedCreateWithoutClassSessionAttendancesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutClassSessionAttendancesInput
+    upsert?: OrganisationUpsertWithoutClassSessionAttendancesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutClassSessionAttendancesInput, OrganisationUpdateWithoutClassSessionAttendancesInput>, OrganisationUncheckedUpdateWithoutClassSessionAttendancesInput>
+  }
+
+  export type ClassSessionUpdateOneRequiredWithoutAttendanceRecordsNestedInput = {
+    create?: XOR<ClassSessionCreateWithoutAttendanceRecordsInput, ClassSessionUncheckedCreateWithoutAttendanceRecordsInput>
+    connectOrCreate?: ClassSessionCreateOrConnectWithoutAttendanceRecordsInput
+    upsert?: ClassSessionUpsertWithoutAttendanceRecordsInput
+    connect?: ClassSessionWhereUniqueInput
+    update?: XOR<XOR<ClassSessionUpdateToOneWithWhereWithoutAttendanceRecordsInput, ClassSessionUpdateWithoutAttendanceRecordsInput>, ClassSessionUncheckedUpdateWithoutAttendanceRecordsInput>
+  }
+
+  export type StudentUpdateOneRequiredWithoutClassSessionAttendancesNestedInput = {
+    create?: XOR<StudentCreateWithoutClassSessionAttendancesInput, StudentUncheckedCreateWithoutClassSessionAttendancesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutClassSessionAttendancesInput
+    upsert?: StudentUpsertWithoutClassSessionAttendancesInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutClassSessionAttendancesInput, StudentUpdateWithoutClassSessionAttendancesInput>, StudentUncheckedUpdateWithoutClassSessionAttendancesInput>
   }
 
   export type OrganisationCreateNestedOneWithoutCheckInsInput = {
@@ -30747,6 +34408,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumCheckInStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.CheckInStatus | EnumCheckInStatusFieldRefInput<$PrismaModel>
     in?: $Enums.CheckInStatus[] | ListEnumCheckInStatusFieldRefInput<$PrismaModel>
@@ -30846,6 +34524,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutOwnedWorkspaceInput = {
@@ -30863,6 +34542,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutOwnedWorkspaceInput = {
@@ -30988,6 +34668,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutOrganisationInput = {
@@ -31019,6 +34700,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutOrganisationInput = {
@@ -31039,6 +34721,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId?: string | null
     students?: StudentCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutOrganisationInput = {
@@ -31050,6 +34733,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId?: string | null
     students?: StudentUncheckedCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutOrganisationInput = {
@@ -31096,6 +34780,68 @@ export namespace Prisma {
 
   export type MeetingCreateManyOrganisationInputEnvelope = {
     data: MeetingCreateManyOrganisationInput | MeetingCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassSessionCreateWithoutOrganisationInput = {
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutClassSessionsInput
+    createdBy?: UserCreateNestedOneWithoutClassSessionsCreatedInput
+    attendanceRecords?: ClassSessionAttendanceCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionUncheckedCreateWithoutOrganisationInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId: number
+    createdById?: string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionCreateOrConnectWithoutOrganisationInput = {
+    where: ClassSessionWhereUniqueInput
+    create: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionCreateManyOrganisationInputEnvelope = {
+    data: ClassSessionCreateManyOrganisationInput | ClassSessionCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassSessionAttendanceCreateWithoutOrganisationInput = {
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classSession: ClassSessionCreateNestedOneWithoutAttendanceRecordsInput
+    student: StudentCreateNestedOneWithoutClassSessionAttendancesInput
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classSessionId: number
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceCreateOrConnectWithoutOrganisationInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    create: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionAttendanceCreateManyOrganisationInputEnvelope = {
+    data: ClassSessionAttendanceCreateManyOrganisationInput | ClassSessionAttendanceCreateManyOrganisationInput[]
     skipDuplicates?: boolean
   }
 
@@ -31372,6 +35118,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedWorkspaceInput = {
@@ -31389,6 +35136,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationMemberUpsertWithWhereUniqueWithoutOrganisationInput = {
@@ -31587,6 +35335,67 @@ export namespace Prisma {
     organisationId?: StringFilter<"Meeting"> | string
     createdById?: StringFilter<"Meeting"> | string
     studentId?: IntFilter<"Meeting"> | number
+  }
+
+  export type ClassSessionUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: ClassSessionWhereUniqueInput
+    update: XOR<ClassSessionUpdateWithoutOrganisationInput, ClassSessionUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<ClassSessionCreateWithoutOrganisationInput, ClassSessionUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: ClassSessionWhereUniqueInput
+    data: XOR<ClassSessionUpdateWithoutOrganisationInput, ClassSessionUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionUpdateManyWithWhereWithoutOrganisationInput = {
+    where: ClassSessionScalarWhereInput
+    data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type ClassSessionScalarWhereInput = {
+    AND?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+    OR?: ClassSessionScalarWhereInput[]
+    NOT?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+    id?: IntFilter<"ClassSession"> | number
+    title?: StringFilter<"ClassSession"> | string
+    description?: StringNullableFilter<"ClassSession"> | string | null
+    startTime?: DateTimeFilter<"ClassSession"> | Date | string
+    endTime?: DateTimeFilter<"ClassSession"> | Date | string
+    createdAt?: DateTimeFilter<"ClassSession"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSession"> | Date | string
+    organisationId?: StringFilter<"ClassSession"> | string
+    classId?: IntFilter<"ClassSession"> | number
+    createdById?: StringNullableFilter<"ClassSession"> | string | null
+  }
+
+  export type ClassSessionAttendanceUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    update: XOR<ClassSessionAttendanceUpdateWithoutOrganisationInput, ClassSessionAttendanceUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<ClassSessionAttendanceCreateWithoutOrganisationInput, ClassSessionAttendanceUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionAttendanceUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    data: XOR<ClassSessionAttendanceUpdateWithoutOrganisationInput, ClassSessionAttendanceUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type ClassSessionAttendanceUpdateManyWithWhereWithoutOrganisationInput = {
+    where: ClassSessionAttendanceScalarWhereInput
+    data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type ClassSessionAttendanceScalarWhereInput = {
+    AND?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+    OR?: ClassSessionAttendanceScalarWhereInput[]
+    NOT?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
+    id?: IntFilter<"ClassSessionAttendance"> | number
+    status?: EnumAttendanceStatusFilter<"ClassSessionAttendance"> | $Enums.AttendanceStatus
+    createdAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    updatedAt?: DateTimeFilter<"ClassSessionAttendance"> | Date | string
+    organisationId?: StringFilter<"ClassSessionAttendance"> | string
+    classSessionId?: IntFilter<"ClassSessionAttendance"> | number
+    studentId?: IntFilter<"ClassSessionAttendance"> | number
   }
 
   export type TermUpsertWithWhereUniqueWithoutOrganisationInput = {
@@ -31834,6 +35643,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -31851,6 +35661,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -31872,6 +35683,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -31895,6 +35708,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -31935,6 +35750,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -31952,6 +35768,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationUpsertWithoutMembersInput = {
@@ -31979,6 +35796,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -32002,6 +35821,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -32025,6 +35846,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -32048,6 +35871,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -32077,6 +35902,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutInvitationsSentInput = {
@@ -32094,6 +35920,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutInvitationsSentInput = {
@@ -32126,6 +35953,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -32149,6 +35978,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -32184,6 +36015,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvitationsSentInput = {
@@ -32201,6 +36033,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateWithoutJoinRequestsInput = {
@@ -32218,6 +36051,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutJoinRequestsInput = {
@@ -32235,6 +36069,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutJoinRequestsInput = {
@@ -32256,6 +36091,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -32279,6 +36116,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -32308,6 +36147,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutJoinRequestsDecidedInput = {
@@ -32325,6 +36165,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutJoinRequestsDecidedInput = {
@@ -32358,6 +36199,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinRequestsInput = {
@@ -32375,6 +36217,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationUpsertWithoutJoinRequestsInput = {
@@ -32402,6 +36245,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -32425,6 +36270,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -32460,6 +36307,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinRequestsDecidedInput = {
@@ -32477,6 +36325,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationCreateWithoutOwnerInput = {
@@ -32493,6 +36342,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -32516,6 +36367,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -32803,6 +36656,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClassSessionCreateWithoutCreatedByInput = {
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionsInput
+    class: ClassCreateNestedOneWithoutClassSessionsInput
+    attendanceRecords?: ClassSessionAttendanceCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionUncheckedCreateWithoutCreatedByInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId: number
+    attendanceRecords?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionCreateOrConnectWithoutCreatedByInput = {
+    where: ClassSessionWhereUniqueInput
+    create: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type ClassSessionCreateManyCreatedByInputEnvelope = {
+    data: ClassSessionCreateManyCreatedByInput | ClassSessionCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganisationUpsertWithoutOwnerInput = {
     update: XOR<OrganisationUpdateWithoutOwnerInput, OrganisationUncheckedUpdateWithoutOwnerInput>
     create: XOR<OrganisationCreateWithoutOwnerInput, OrganisationUncheckedCreateWithoutOwnerInput>
@@ -32828,6 +36716,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -32851,6 +36741,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -32988,6 +36880,22 @@ export namespace Prisma {
     data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutRecordedByInput>
   }
 
+  export type ClassSessionUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: ClassSessionWhereUniqueInput
+    update: XOR<ClassSessionUpdateWithoutCreatedByInput, ClassSessionUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<ClassSessionCreateWithoutCreatedByInput, ClassSessionUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type ClassSessionUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: ClassSessionWhereUniqueInput
+    data: XOR<ClassSessionUpdateWithoutCreatedByInput, ClassSessionUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type ClassSessionUpdateManyWithWhereWithoutCreatedByInput = {
+    where: ClassSessionScalarWhereInput
+    data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyWithoutCreatedByInput>
+  }
+
   export type OrganisationCreateWithoutStudentsInput = {
     id?: string
     name: string
@@ -33002,6 +36910,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -33025,6 +36935,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -33047,6 +36959,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     teacherId?: string | null
     organisation: OrganisationCreateNestedOneWithoutClassesInput
+    classSessions?: ClassSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -33058,6 +36971,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     teacherId?: string | null
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -33282,6 +37196,33 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClassSessionAttendanceCreateWithoutStudentInput = {
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionAttendancesInput
+    classSession: ClassSessionCreateNestedOneWithoutAttendanceRecordsInput
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateWithoutStudentInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classSessionId: number
+  }
+
+  export type ClassSessionAttendanceCreateOrConnectWithoutStudentInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    create: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput>
+  }
+
+  export type ClassSessionAttendanceCreateManyStudentInputEnvelope = {
+    data: ClassSessionAttendanceCreateManyStudentInput | ClassSessionAttendanceCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganisationUpsertWithoutStudentsInput = {
     update: XOR<OrganisationUpdateWithoutStudentsInput, OrganisationUncheckedUpdateWithoutStudentsInput>
     create: XOR<OrganisationCreateWithoutStudentsInput, OrganisationUncheckedCreateWithoutStudentsInput>
@@ -33307,6 +37248,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -33330,6 +37273,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -33358,6 +37303,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -33369,6 +37315,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type MeetingUpsertWithWhereUniqueWithoutStudentInput = {
@@ -33477,6 +37424,22 @@ export namespace Prisma {
     discountId?: StringFilter<"StudentDiscount"> | string
   }
 
+  export type ClassSessionAttendanceUpsertWithWhereUniqueWithoutStudentInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    update: XOR<ClassSessionAttendanceUpdateWithoutStudentInput, ClassSessionAttendanceUncheckedUpdateWithoutStudentInput>
+    create: XOR<ClassSessionAttendanceCreateWithoutStudentInput, ClassSessionAttendanceUncheckedCreateWithoutStudentInput>
+  }
+
+  export type ClassSessionAttendanceUpdateWithWhereUniqueWithoutStudentInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    data: XOR<ClassSessionAttendanceUpdateWithoutStudentInput, ClassSessionAttendanceUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type ClassSessionAttendanceUpdateManyWithWhereWithoutStudentInput = {
+    where: ClassSessionAttendanceScalarWhereInput
+    data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyWithoutStudentInput>
+  }
+
   export type OrganisationCreateWithoutClassesInput = {
     id?: string
     name: string
@@ -33491,6 +37454,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
     students?: StudentCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -33514,6 +37479,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -33556,6 +37523,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutClassInput = {
@@ -33587,6 +37555,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutClassInput = {
@@ -33596,6 +37565,41 @@ export namespace Prisma {
 
   export type StudentCreateManyClassInputEnvelope = {
     data: StudentCreateManyClassInput | StudentCreateManyClassInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassSessionCreateWithoutClassInput = {
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionsInput
+    createdBy?: UserCreateNestedOneWithoutClassSessionsCreatedInput
+    attendanceRecords?: ClassSessionAttendanceCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionUncheckedCreateWithoutClassInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    createdById?: string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutClassSessionInput
+  }
+
+  export type ClassSessionCreateOrConnectWithoutClassInput = {
+    where: ClassSessionWhereUniqueInput
+    create: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput>
+  }
+
+  export type ClassSessionCreateManyClassInputEnvelope = {
+    data: ClassSessionCreateManyClassInput | ClassSessionCreateManyClassInput[]
     skipDuplicates?: boolean
   }
 
@@ -33624,6 +37628,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -33647,6 +37653,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -33672,6 +37680,22 @@ export namespace Prisma {
     data: XOR<StudentUpdateManyMutationInput, StudentUncheckedUpdateManyWithoutClassInput>
   }
 
+  export type ClassSessionUpsertWithWhereUniqueWithoutClassInput = {
+    where: ClassSessionWhereUniqueInput
+    update: XOR<ClassSessionUpdateWithoutClassInput, ClassSessionUncheckedUpdateWithoutClassInput>
+    create: XOR<ClassSessionCreateWithoutClassInput, ClassSessionUncheckedCreateWithoutClassInput>
+  }
+
+  export type ClassSessionUpdateWithWhereUniqueWithoutClassInput = {
+    where: ClassSessionWhereUniqueInput
+    data: XOR<ClassSessionUpdateWithoutClassInput, ClassSessionUncheckedUpdateWithoutClassInput>
+  }
+
+  export type ClassSessionUpdateManyWithWhereWithoutClassInput = {
+    where: ClassSessionScalarWhereInput
+    data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyWithoutClassInput>
+  }
+
   export type OrganisationCreateWithoutMeetingsInput = {
     id?: string
     name: string
@@ -33686,6 +37710,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -33709,6 +37735,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -33738,6 +37766,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutMeetingsCreatedInput = {
@@ -33755,6 +37784,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutMeetingsCreatedInput = {
@@ -33790,6 +37820,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutMeetingsInput = {
@@ -33821,6 +37852,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutMeetingsInput = {
@@ -33895,6 +37927,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -33918,6 +37952,8 @@ export namespace Prisma {
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -33953,6 +37989,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMeetingsCreatedInput = {
@@ -33970,6 +38007,7 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type StudentUpsertWithoutMeetingsInput = {
@@ -34011,6 +38049,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutMeetingsInput = {
@@ -34042,6 +38081,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type AssessmentUpsertWithWhereUniqueWithoutMeetingInput = {
@@ -34075,6 +38115,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
@@ -34098,6 +38140,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
@@ -34181,6 +38225,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
@@ -34204,6 +38250,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -34243,6 +38291,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
@@ -34266,6 +38316,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
@@ -34305,6 +38357,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
@@ -34328,6 +38382,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -34351,6 +38407,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
@@ -34374,6 +38432,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
@@ -34415,6 +38475,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAssessmentsInput = {
@@ -34446,6 +38507,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAssessmentsInput = {
@@ -34500,6 +38562,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingCreateNestedManyWithoutCreatedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutAssessmentsLoggedInput = {
@@ -34517,6 +38580,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutAssessmentsLoggedInput = {
@@ -34550,6 +38614,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
@@ -34573,6 +38639,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -34620,6 +38688,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAssessmentsInput = {
@@ -34651,6 +38720,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type MeetingUpsertWithoutAssessmentsInput = {
@@ -34717,6 +38787,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUpdateManyWithoutCreatedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssessmentsLoggedInput = {
@@ -34734,6 +38805,640 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type OrganisationCreateWithoutClassSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutClassSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutClassSessionsInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutClassSessionsInput, OrganisationUncheckedCreateWithoutClassSessionsInput>
+  }
+
+  export type ClassCreateWithoutClassSessionsInput = {
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId?: string | null
+    organisation: OrganisationCreateNestedOneWithoutClassesInput
+    students?: StudentCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutClassSessionsInput = {
+    id?: number
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    teacherId?: string | null
+    students?: StudentUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutClassSessionsInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutClassSessionsInput, ClassUncheckedCreateWithoutClassSessionsInput>
+  }
+
+  export type UserCreateWithoutClassSessionsCreatedInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    passwordHash?: string | null
+    ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
+    joinRequestsDecided?: OrganisationJoinRequestCreateNestedManyWithoutDecidedByInput
+    meetingsCreated?: MeetingCreateNestedManyWithoutCreatedByInput
+    assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
+    checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
+    paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+  }
+
+  export type UserUncheckedCreateWithoutClassSessionsCreatedInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    passwordHash?: string | null
+    ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
+    joinRequestsDecided?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutDecidedByInput
+    meetingsCreated?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
+    checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
+    paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+  }
+
+  export type UserCreateOrConnectWithoutClassSessionsCreatedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutClassSessionsCreatedInput, UserUncheckedCreateWithoutClassSessionsCreatedInput>
+  }
+
+  export type ClassSessionAttendanceCreateWithoutClassSessionInput = {
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionAttendancesInput
+    student: StudentCreateNestedOneWithoutClassSessionAttendancesInput
+  }
+
+  export type ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceCreateOrConnectWithoutClassSessionInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    create: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput>
+  }
+
+  export type ClassSessionAttendanceCreateManyClassSessionInputEnvelope = {
+    data: ClassSessionAttendanceCreateManyClassSessionInput | ClassSessionAttendanceCreateManyClassSessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrganisationUpsertWithoutClassSessionsInput = {
+    update: XOR<OrganisationUpdateWithoutClassSessionsInput, OrganisationUncheckedUpdateWithoutClassSessionsInput>
+    create: XOR<OrganisationCreateWithoutClassSessionsInput, OrganisationUncheckedCreateWithoutClassSessionsInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutClassSessionsInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutClassSessionsInput, OrganisationUncheckedUpdateWithoutClassSessionsInput>
+  }
+
+  export type OrganisationUpdateWithoutClassSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutClassSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type ClassUpsertWithoutClassSessionsInput = {
+    update: XOR<ClassUpdateWithoutClassSessionsInput, ClassUncheckedUpdateWithoutClassSessionsInput>
+    create: XOR<ClassCreateWithoutClassSessionsInput, ClassUncheckedCreateWithoutClassSessionsInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutClassSessionsInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutClassSessionsInput, ClassUncheckedUpdateWithoutClassSessionsInput>
+  }
+
+  export type ClassUpdateWithoutClassSessionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
+    students?: StudentUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutClassSessionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type UserUpsertWithoutClassSessionsCreatedInput = {
+    update: XOR<UserUpdateWithoutClassSessionsCreatedInput, UserUncheckedUpdateWithoutClassSessionsCreatedInput>
+    create: XOR<UserCreateWithoutClassSessionsCreatedInput, UserUncheckedCreateWithoutClassSessionsCreatedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutClassSessionsCreatedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutClassSessionsCreatedInput, UserUncheckedUpdateWithoutClassSessionsCreatedInput>
+  }
+
+  export type UserUpdateWithoutClassSessionsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
+    joinRequestsDecided?: OrganisationJoinRequestUpdateManyWithoutDecidedByNestedInput
+    meetingsCreated?: MeetingUpdateManyWithoutCreatedByNestedInput
+    assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
+    checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
+    paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutClassSessionsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    joinRequestsDecided?: OrganisationJoinRequestUncheckedUpdateManyWithoutDecidedByNestedInput
+    meetingsCreated?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
+    checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
+    paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+  }
+
+  export type ClassSessionAttendanceUpsertWithWhereUniqueWithoutClassSessionInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    update: XOR<ClassSessionAttendanceUpdateWithoutClassSessionInput, ClassSessionAttendanceUncheckedUpdateWithoutClassSessionInput>
+    create: XOR<ClassSessionAttendanceCreateWithoutClassSessionInput, ClassSessionAttendanceUncheckedCreateWithoutClassSessionInput>
+  }
+
+  export type ClassSessionAttendanceUpdateWithWhereUniqueWithoutClassSessionInput = {
+    where: ClassSessionAttendanceWhereUniqueInput
+    data: XOR<ClassSessionAttendanceUpdateWithoutClassSessionInput, ClassSessionAttendanceUncheckedUpdateWithoutClassSessionInput>
+  }
+
+  export type ClassSessionAttendanceUpdateManyWithWhereWithoutClassSessionInput = {
+    where: ClassSessionAttendanceScalarWhereInput
+    data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionInput>
+  }
+
+  export type OrganisationCreateWithoutClassSessionAttendancesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutClassSessionAttendancesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutClassSessionAttendancesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutClassSessionAttendancesInput, OrganisationUncheckedCreateWithoutClassSessionAttendancesInput>
+  }
+
+  export type ClassSessionCreateWithoutAttendanceRecordsInput = {
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutClassSessionsInput
+    class: ClassCreateNestedOneWithoutClassSessionsInput
+    createdBy?: UserCreateNestedOneWithoutClassSessionsCreatedInput
+  }
+
+  export type ClassSessionUncheckedCreateWithoutAttendanceRecordsInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId: number
+    createdById?: string | null
+  }
+
+  export type ClassSessionCreateOrConnectWithoutAttendanceRecordsInput = {
+    where: ClassSessionWhereUniqueInput
+    create: XOR<ClassSessionCreateWithoutAttendanceRecordsInput, ClassSessionUncheckedCreateWithoutAttendanceRecordsInput>
+  }
+
+  export type StudentCreateWithoutClassSessionAttendancesInput = {
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    customTermRateCents?: number | null
+    organisation: OrganisationCreateNestedOneWithoutStudentsInput
+    class?: ClassCreateNestedOneWithoutStudentsInput
+    meetings?: MeetingCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutClassSessionAttendancesInput = {
+    id?: number
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    classId?: number | null
+    customTermRateCents?: number | null
+    organisationId: string
+    meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutClassSessionAttendancesInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutClassSessionAttendancesInput, StudentUncheckedCreateWithoutClassSessionAttendancesInput>
+  }
+
+  export type OrganisationUpsertWithoutClassSessionAttendancesInput = {
+    update: XOR<OrganisationUpdateWithoutClassSessionAttendancesInput, OrganisationUncheckedUpdateWithoutClassSessionAttendancesInput>
+    create: XOR<OrganisationCreateWithoutClassSessionAttendancesInput, OrganisationUncheckedCreateWithoutClassSessionAttendancesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutClassSessionAttendancesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutClassSessionAttendancesInput, OrganisationUncheckedUpdateWithoutClassSessionAttendancesInput>
+  }
+
+  export type OrganisationUpdateWithoutClassSessionAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutClassSessionAttendancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type ClassSessionUpsertWithoutAttendanceRecordsInput = {
+    update: XOR<ClassSessionUpdateWithoutAttendanceRecordsInput, ClassSessionUncheckedUpdateWithoutAttendanceRecordsInput>
+    create: XOR<ClassSessionCreateWithoutAttendanceRecordsInput, ClassSessionUncheckedCreateWithoutAttendanceRecordsInput>
+    where?: ClassSessionWhereInput
+  }
+
+  export type ClassSessionUpdateToOneWithWhereWithoutAttendanceRecordsInput = {
+    where?: ClassSessionWhereInput
+    data: XOR<ClassSessionUpdateWithoutAttendanceRecordsInput, ClassSessionUncheckedUpdateWithoutAttendanceRecordsInput>
+  }
+
+  export type ClassSessionUpdateWithoutAttendanceRecordsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionsNestedInput
+    class?: ClassUpdateOneRequiredWithoutClassSessionsNestedInput
+    createdBy?: UserUpdateOneWithoutClassSessionsCreatedNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateWithoutAttendanceRecordsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: IntFieldUpdateOperationsInput | number
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type StudentUpsertWithoutClassSessionAttendancesInput = {
+    update: XOR<StudentUpdateWithoutClassSessionAttendancesInput, StudentUncheckedUpdateWithoutClassSessionAttendancesInput>
+    create: XOR<StudentCreateWithoutClassSessionAttendancesInput, StudentUncheckedCreateWithoutClassSessionAttendancesInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutClassSessionAttendancesInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutClassSessionAttendancesInput, StudentUncheckedUpdateWithoutClassSessionAttendancesInput>
+  }
+
+  export type StudentUpdateWithoutClassSessionAttendancesInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisation?: OrganisationUpdateOneRequiredWithoutStudentsNestedInput
+    class?: ClassUpdateOneWithoutStudentsNestedInput
+    meetings?: MeetingUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutClassSessionAttendancesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisationId?: StringFieldUpdateOperationsInput | string
+    meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type OrganisationCreateWithoutCheckInsInput = {
@@ -34751,6 +39456,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -34774,6 +39481,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -34815,6 +39524,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutCheckInsInput = {
@@ -34846,6 +39556,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutCheckInsInput = {
@@ -34868,6 +39579,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingCreateNestedManyWithoutCreatedByInput
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutCheckInsAssignedInput = {
@@ -34885,6 +39597,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutCheckInsAssignedInput = {
@@ -34918,6 +39631,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -34941,6 +39656,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -34988,6 +39705,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutCheckInsInput = {
@@ -35019,6 +39737,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutCheckInsAssignedInput = {
@@ -35047,6 +39766,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUpdateManyWithoutCreatedByNestedInput
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCheckInsAssignedInput = {
@@ -35064,6 +39784,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationCreateWithoutBillingSettingsInput = {
@@ -35081,6 +39802,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -35104,6 +39827,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -35173,6 +39898,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -35196,6 +39923,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -35351,6 +40080,7 @@ export namespace Prisma {
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutDiscountsInput = {
@@ -35382,6 +40112,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutDiscountsInput = {
@@ -35453,6 +40184,7 @@ export namespace Prisma {
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutDiscountsInput = {
@@ -35484,6 +40216,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type DiscountUpsertWithoutStudentDiscountsInput = {
@@ -35532,6 +40265,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -35555,6 +40290,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -35596,6 +40333,7 @@ export namespace Prisma {
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutInvoicesInput = {
@@ -35627,6 +40365,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutInvoicesInput = {
@@ -35728,6 +40467,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -35751,6 +40492,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -35798,6 +40541,7 @@ export namespace Prisma {
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutInvoicesInput = {
@@ -35829,6 +40573,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TermUpsertWithoutInvoicesInput = {
@@ -35898,6 +40643,8 @@ export namespace Prisma {
     students?: StudentCreateNestedManyWithoutOrganisationInput
     classes?: ClassCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
@@ -35921,6 +40668,8 @@ export namespace Prisma {
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
     classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
     meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -35962,6 +40711,7 @@ export namespace Prisma {
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPaymentsInput = {
@@ -35993,6 +40743,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPaymentsInput = {
@@ -36054,6 +40805,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingCreateNestedManyWithoutCreatedByInput
     assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsRecordedInput = {
@@ -36071,6 +40823,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
     checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsRecordedInput = {
@@ -36104,6 +40857,8 @@ export namespace Prisma {
     students?: StudentUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
@@ -36127,6 +40882,8 @@ export namespace Prisma {
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
     classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
     meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -36174,6 +40931,7 @@ export namespace Prisma {
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPaymentsInput = {
@@ -36205,6 +40963,7 @@ export namespace Prisma {
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -36278,6 +41037,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUpdateManyWithoutCreatedByNestedInput
     assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsRecordedInput = {
@@ -36295,6 +41055,7 @@ export namespace Prisma {
     meetingsCreated?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type OrganisationMemberCreateManyOrganisationInput = {
@@ -36372,6 +41133,27 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
+    studentId: number
+  }
+
+  export type ClassSessionCreateManyOrganisationInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId: number
+    createdById?: string | null
+  }
+
+  export type ClassSessionAttendanceCreateManyOrganisationInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classSessionId: number
     studentId: number
   }
 
@@ -36574,6 +41356,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutOrganisationInput = {
@@ -36605,6 +41388,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutOrganisationInput = {
@@ -36640,6 +41424,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutOrganisationInput = {
@@ -36651,6 +41436,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateManyWithoutOrganisationInput = {
@@ -36700,6 +41486,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionUpdateWithoutOrganisationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutClassSessionsNestedInput
+    createdBy?: UserUpdateOneWithoutClassSessionsCreatedNestedInput
+    attendanceRecords?: ClassSessionAttendanceUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateWithoutOrganisationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: IntFieldUpdateOperationsInput | number
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: IntFieldUpdateOperationsInput | number
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ClassSessionAttendanceUpdateWithoutOrganisationInput = {
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classSession?: ClassSessionUpdateOneRequiredWithoutAttendanceRecordsNestedInput
+    student?: StudentUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateWithoutOrganisationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
     studentId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -37044,6 +41893,18 @@ export namespace Prisma {
     invoiceId?: string | null
   }
 
+  export type ClassSessionCreateManyCreatedByInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId: number
+  }
+
   export type OrganisationMemberUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -37333,6 +42194,43 @@ export namespace Prisma {
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ClassSessionUpdateWithoutCreatedByInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionsNestedInput
+    class?: ClassUpdateOneRequiredWithoutClassSessionsNestedInput
+    attendanceRecords?: ClassSessionAttendanceUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateWithoutCreatedByInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: IntFieldUpdateOperationsInput | number
+    attendanceRecords?: ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type MeetingCreateManyStudentInput = {
     id?: number
     title: string
@@ -37408,6 +42306,15 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     discountId: string
+  }
+
+  export type ClassSessionAttendanceCreateManyStudentInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classSessionId: number
   }
 
   export type MeetingUpdateWithoutStudentInput = {
@@ -37644,6 +42551,32 @@ export namespace Prisma {
     discountId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ClassSessionAttendanceUpdateWithoutStudentInput = {
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+    classSession?: ClassSessionUpdateOneRequiredWithoutAttendanceRecordsNestedInput
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classSessionId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type StudentCreateManyClassInput = {
     id?: number
     firstName: string
@@ -37667,6 +42600,18 @@ export namespace Prisma {
     school?: string | null
     customTermRateCents?: number | null
     organisationId: string
+  }
+
+  export type ClassSessionCreateManyClassInput = {
+    id?: number
+    title: string
+    description?: string | null
+    startTime: Date | string
+    endTime: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    createdById?: string | null
   }
 
   export type StudentUpdateWithoutClassInput = {
@@ -37697,6 +42642,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutClassInput = {
@@ -37728,6 +42674,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutClassInput = {
@@ -37753,6 +42700,43 @@ export namespace Prisma {
     school?: NullableStringFieldUpdateOperationsInput | string | null
     customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClassSessionUpdateWithoutClassInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionsNestedInput
+    createdBy?: UserUpdateOneWithoutClassSessionsCreatedNestedInput
+    attendanceRecords?: ClassSessionAttendanceUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateWithoutClassInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    attendanceRecords?: ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionNestedInput
+  }
+
+  export type ClassSessionUncheckedUpdateManyWithoutClassInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssessmentCreateManyMeetingInput = {
@@ -37879,6 +42863,41 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionAttendanceCreateManyClassSessionInput = {
+    id?: number
+    status?: $Enums.AttendanceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+  }
+
+  export type ClassSessionAttendanceUpdateWithoutClassSessionInput = {
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+    student?: StudentUpdateOneRequiredWithoutClassSessionAttendancesNestedInput
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateWithoutClassSessionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClassSessionAttendanceUncheckedUpdateManyWithoutClassSessionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string

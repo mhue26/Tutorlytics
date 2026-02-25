@@ -12,7 +12,7 @@ export default async function CompleteSignupPage() {
 
 	const needOrg = (session.user as any).needOrg === true;
 	if (!needOrg) {
-		redirect("/home");
+		redirect("/dashboard");
 	}
 
 	return (

@@ -6,7 +6,7 @@ import SignInForm from "./SignInForm";
 
 export default async function SignInPage() {
     const session = await getServerSession(authOptions);
-    if (session?.user) redirect("/home");
+    if (session?.user) redirect("/dashboard");
     return (
         <div className="fixed inset-0 overflow-hidden" style={{ backgroundColor: '#EFFAFF' }}>
             <Suspense fallback={

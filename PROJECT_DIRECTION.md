@@ -1,214 +1,89 @@
 # Tutorlytics - Project Direction
 
-## Project Overview
+## Overview
 
-**Tutorlytics** is an AI-powered teaching assistant platform for private tutors. The platform helps tutors manage students, schedule lessons, handle billing, and automate administrative tasks—with a focus on real-time AI assistance during lessons.
+**Tutorlytics** is an AI-powered teaching assistant for private tutors: student management, scheduling, billing, and administrative automation, with a focus on real-time AI assistance during lessons.
 
-### Vision
-To become the go-to platform that enables tutors to focus on teaching while AI handles lesson transcription, automated communication, lesson summaries, and administrative tasks.
+**Vision**: The go-to platform for tutors to focus on teaching while AI handles transcription, communication, lesson summaries, and admin.
 
 ---
 
-## Technology Stack
+## Stack
 
-- **Framework**: Next.js 15.5.4 (App Router)
-- **React**: 19.1.0
-- **Database**: SQLite (via Prisma) - *Migration to PostgreSQL planned*
-- **ORM**: Prisma 6.16.2
-- **Authentication**: NextAuth 4.24.11
+- **Framework**: Next.js 15 (App Router), React 19, TypeScript 5, Turbopack
+- **Database**: SQLite via Prisma 6 — *PostgreSQL migration planned*
+- **Auth**: NextAuth 4
 - **Styling**: Tailwind CSS 4
-- **Language**: TypeScript 5
-- **Build Tool**: Turbopack
 
 ---
 
-## Current Features (Implemented)
+## Implemented
 
-### Core Infrastructure
-- ✅ User authentication with NextAuth
-- ✅ Multi-user support with data isolation
-- ✅ Monday.com-style dashboard layout (top header, sidebar, board views)
-- ✅ Responsive UI with Tailwind CSS
-
-### Student Management
-- ✅ Student profiles (name, email, phone, address, notes)
-- ✅ Parent/guardian relationship tracking
-- ✅ Subject management (tutoring subjects & school subjects)
-- ✅ Student goals tracking
-- ✅ Archive functionality
-- ✅ Class assignment
-- ✅ Student status indicators
-
-### Class Management
-- ✅ Create and manage classes
-- ✅ Color-coded classes
-- ✅ Student-class associations
-
-### Calendar & Scheduling
-- ✅ Calendar view for meetings/lessons
-- ✅ Term and holiday management
-- ✅ Color-coded terms and holidays
-- ✅ Meeting creation and management
-- ✅ Meeting completion tracking
-
-### Dashboard
-- ✅ Monday.com-style board interface
-- ✅ Board groups and task tables
-- ✅ Recent events display
-- ✅ Sidebar navigation with hide/show functionality
-
-### UI/UX
-- ✅ Profile management
-- ✅ Modal system
-- ✅ Public-facing homepage
-- ✅ Forgot password functionality
+- **Auth & infra**: NextAuth, multi-user data isolation, responsive layout
+- **Students**: Profiles, parent/guardian, subjects, goals, archive, class assignment, status
+- **Classes**: Create/manage, color-coded, student associations
+- **Calendar**: Meetings, terms/holidays, completion tracking
+- **Dashboard**: Board-style UI, groups, recent events, collapsible sidebar
+- **UI**: Profile, modals, public homepage, forgot password
 
 ---
 
-## Priority Features for Implementation
+## Priorities
 
-### 🔴 **PRIORITY 1: Billing & Invoicing System** (Critical - Revenue Feature)
-**Why**: Core revenue feature, essential for business operations
+### 1. Landing page UI (current focus)
+- [ ] Update landing page layout, copy, and visuals
+- [ ] Improve conversion and clarity for visitors
 
-**Tasks**:
-- [ ] Design invoice data model (Invoice, InvoiceLineItem, Payment models)
-- [ ] Auto-generate invoices from completed meetings
-- [ ] Invoice management UI (list, filters, detail view, PDF export)
-- [ ] Stripe integration for payment processing
-- [ ] Payment tracking and history
-- [ ] Revenue reports and outstanding invoices dashboard
+### 2. Billing & invoicing (critical – revenue)
+- [ ] Invoice data model (Invoice, LineItem, Payment)
+- [ ] Auto-invoices from completed meetings, management UI, PDF export
+- [ ] Stripe integration, payment tracking, revenue/outstanding views
 
-**Estimated Impact**: High - Enables monetization and core business functionality
+### 3. Calendar & scheduling
+- [ ] Drag-and-drop, recurring lessons, conflict prevention
+- [ ] Availability (working hours, blocks), Google/iCal sync
 
----
+### 4. Communication
+- [ ] Email notifications (reminders, invoices), in-app notifications
+- [ ] Basic tutor–student/parent messaging
 
-### 🟠 **PRIORITY 2: Enhanced Calendar & Scheduling** (High Value)
-**Why**: Improves user experience and reduces scheduling friction
+### 5. AI teaching assistant (differentiator – long-term)
+- [ ] Real-time transcription, in-lesson AI assistance, lesson summaries
+- [ ] AI-drafted parent messages, homework deadline extraction
+- [ ] Decisions: STT provider, LLM, audio storage, WebSockets
 
-**Tasks**:
-- [ ] Drag-and-drop calendar interface
-- [ ] Recurring lessons (create series, edit/delete instances)
-- [ ] Conflict prevention and visual indicators
-- [ ] Availability management (working hours, blocked times)
-- [ ] Calendar sync (Google Calendar, iCal export)
-
-**Estimated Impact**: High - Significantly improves scheduling workflow
-
----
-
-### 🟡 **PRIORITY 3: Communication Features** (Medium-High Value)
-**Why**: Reduces manual communication overhead
-
-**Tasks**:
-- [ ] Email notifications (meeting reminders, invoice notifications)
-- [ ] Automated email reminders (24h, 1h before lessons)
-- [ ] In-app notification center
-- [ ] Basic messaging between tutor and student/parent
-
-**Estimated Impact**: Medium-High - Reduces administrative burden
+### 6. Student portal & self-booking
+- [ ] Student auth, view lessons/payments, download invoices, request changes
+- [ ] Booking links, student booking flow, auto meeting creation
 
 ---
 
-### 🟢 **PRIORITY 4: AI-Powered Teaching Assistant** ⭐ (Differentiator - Long-term)
-**Why**: Key differentiator that sets Tutorlytics apart from competitors
+## Technical debt & security
 
-**Core Features**:
-- [ ] Real-time speech-to-text transcription during lessons
-- [ ] Real-time AI teaching assistance (examples, questions, quotes as you teach)
-- [ ] AI-generated lesson summaries
-- [ ] AI-drafted parent communication messages
-- [ ] Automated homework deadline extraction and scheduling
-
-**Technical Requirements**:
-- Choose speech-to-text provider (Deepgram, AssemblyAI, or OpenAI Whisper)
-- Choose LLM provider (OpenAI GPT-4, Anthropic Claude)
-- Audio storage solution (S3, Cloudflare R2)
-- Real-time WebSocket infrastructure for streaming
-
-**Estimated Impact**: Very High - Unique selling point, but complex to implement
+- **DB**: Migrate SQLite → PostgreSQL before production
+- **Quality**: Stronger TypeScript types, error boundaries, loading states, form validation (client + server)
+- **Security**: Rate limiting, CSRF, input sanitization, authz checks, GDPR (export/delete)
 
 ---
 
-### 🔵 **PRIORITY 5: Student Portal** (Medium Value)
-**Why**: Improves student/parent engagement
+## Timeline
 
-**Tasks**:
-- [ ] Student authentication system
-- [ ] View upcoming lessons and payment history
-- [ ] Download invoices
-- [ ] Request lesson changes
-- [ ] Access resources and materials
-
-**Estimated Impact**: Medium - Improves user experience but not critical for MVP
+| When | Focus |
+|------|--------|
+| **Now** | Landing page UI, billing/invoicing, DB migration planning |
+| **1–3 mo** | Calendar enhancements, communication (email, reminders) |
+| **3–6 mo** | Student portal MVP, self-booking |
+| **6+ mo** | AI teaching assistant, analytics |
 
 ---
 
-### ⚪ **PRIORITY 6: Self-Booking System** (Medium Value)
-**Why**: Reduces scheduling overhead
+## Decisions pending
 
-**Tasks**:
-- [ ] Booking link generation
-- [ ] Student booking flow
-- [ ] Automatic meeting creation
-- [ ] Cancel/reschedule options
-
-**Estimated Impact**: Medium - Nice-to-have feature
+- PostgreSQL host (Vercel, Supabase, Railway)
+- Payment: Stripe (planned)
+- Email: SendGrid, Resend, or SES
+- AI: LLM provider, STT provider, audio storage (S3/R2)
 
 ---
 
-## Technical Debt & Critical Improvements
-
-### Database Migration
-- [ ] **URGENT**: Migrate from SQLite to PostgreSQL before production
-  - Better concurrency handling
-  - Production-ready for multi-user
-  - Better performance at scale
-
-### Code Quality
-- [ ] Add comprehensive TypeScript types
-- [ ] Implement error boundaries
-- [ ] Add loading states consistently
-- [ ] Improve error handling and user feedback
-- [ ] Add form validation (client and server-side)
-
-### Security
-- [ ] Implement rate limiting
-- [ ] Add CSRF protection
-- [ ] Sanitize user inputs
-- [ ] Implement proper authorization checks
-- [ ] GDPR compliance (data export, deletion)
-
----
-
-## Development Timeline
-
-### Immediate (Next 2-4 weeks)
-1. **Billing & Invoicing System** - Critical revenue feature
-2. **Database Migration Planning** - Research PostgreSQL hosting, plan migration
-
-### Short-term (1-3 months)
-1. **Enhanced Calendar** - Drag-and-drop, recurring lessons
-2. **Communication Features** - Email notifications, reminders
-
-### Medium-term (3-6 months)
-1. **Student Portal MVP** - Basic student login and features
-2. **Self-Booking System** - Booking links and flow
-
-### Long-term (6+ months)
-1. **AI-Powered Teaching Assistant** - Real-time transcription and AI assistance
-2. **Advanced Analytics** - Revenue reporting, student analytics
-
----
-
-## Key Decisions Pending
-
-- PostgreSQL hosting provider (Vercel Postgres, Supabase, Railway, etc.)
-- Payment processor (Stripe is planned)
-- Email service provider (SendGrid, Resend, AWS SES, etc.)
-- AI/LLM Provider (OpenAI, Anthropic Claude)
-- Speech-to-Text Provider (Deepgram, AssemblyAI, OpenAI Whisper)
-- Audio storage (AWS S3, Cloudflare R2)
-
----
-
-**Last Updated**: January 2025
+**Last updated**: February 2025

@@ -78,19 +78,16 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((classItem) => (
             <div key={classItem.id} className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div 
-                    className="w-4 h-4 rounded-full" 
-                    style={{ backgroundColor: classItem.color }}
-                  ></div>
-                  <h3 className="text-lg font-medium text-gray-900">{classItem.name}</h3>
-                </div>
-                <Link 
+              <div className="mb-4">
+                <Link
                   href={`/classes/${classItem.id}`}
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  className="flex items-center gap-3 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
                 >
-                  View
+                  <div
+                    className="w-4 h-4 rounded-full shrink-0"
+                    style={{ backgroundColor: classItem.color }}
+                  />
+                  <h3 className="text-lg font-medium text-gray-900 hover:underline">{classItem.name}</h3>
                 </Link>
               </div>
               
@@ -123,41 +120,33 @@ export default function ClassesClient({ classes }: ClassesClientProps) {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Created
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {classes.map((classItem) => (
                 <tr key={classItem.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
+                    <Link
+                      href={`/classes/${classItem.id}`}
+                      className="flex items-center gap-3 text-gray-900 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                    >
+                      <div
+                        className="w-3 h-3 rounded-full shrink-0"
                         style={{ backgroundColor: classItem.color }}
-                      ></div>
+                      />
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{classItem.name}</div>
+                        <div className="text-sm font-medium hover:underline">{classItem.name}</div>
                         {classItem.description && (
                           <div className="text-sm text-gray-500">{classItem.description}</div>
                         )}
                       </div>
-                    </div>
+                    </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {classItem.students.length}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(classItem.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <Link 
-                      href={`/classes/${classItem.id}`}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      View
-                    </Link>
                   </td>
                 </tr>
               ))}

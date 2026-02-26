@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import NiceDatePicker from "@/app/components/NiceDatePicker";
 
 async function createMeeting(formData: FormData) {
 	"use server";
@@ -114,7 +115,10 @@ export default async function NewMeetingPage() {
 
 				<div>
 					<label htmlFor="meetingDate" className="block text-sm font-medium text-gray-700 mb-2">Meeting Date *</label>
-					<input type="date" id="meetingDate" name="meetingDate" required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+					<NiceDatePicker
+						name="meetingDate"
+						initialValue={new Date().toISOString().split("T")[0]}
+					/>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">

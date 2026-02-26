@@ -170,7 +170,27 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  bio: 'bio',
   passwordHash: 'passwordHash'
+};
+
+exports.Prisma.OrganisationPreferencesScalarFieldEnum = {
+  id: 'id',
+  defaultStudentRateCents: 'defaultStudentRateCents',
+  defaultSubjects: 'defaultSubjects',
+  subjectColorsJson: 'subjectColorsJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId'
+};
+
+exports.Prisma.UserPreferencesScalarFieldEnum = {
+  id: 'id',
+  studentsTablePrefsJson: 'studentsTablePrefsJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.StudentScalarFieldEnum = {
@@ -365,6 +385,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -373,6 +398,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   OWNER: 'OWNER',
@@ -427,6 +458,8 @@ exports.Prisma.ModelName = {
   Invitation: 'Invitation',
   OrganisationJoinRequest: 'OrganisationJoinRequest',
   User: 'User',
+  OrganisationPreferences: 'OrganisationPreferences',
+  UserPreferences: 'UserPreferences',
   Student: 'Student',
   Class: 'Class',
   Meeting: 'Meeting',

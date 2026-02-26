@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useModal } from './contexts/ModalContext';
 
 interface ProfileDropdownProps {
   user: {
@@ -17,7 +16,6 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { setModalType } = useModal();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -37,10 +35,9 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
     signOut({ callbackUrl: '/' });
   };
 
-  const handleEditProfileClick = () => {
+  const handleSettingsClick = () => {
     setIsOpen(false);
-    // Open only the profile modal
-    setModalType('profile');
+    router.push('/settings');
   };
 
   return (
@@ -85,10 +82,10 @@ export default function ProfileDropdown({ user }: ProfileDropdownProps) {
           {/* Menu Items */}
           <div className="py-1">
             <button
-              onClick={handleEditProfileClick}
+              onClick={handleSettingsClick}
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              Edit Profile
+              Settings
             </button>
             <button
               onClick={handleSignOut}

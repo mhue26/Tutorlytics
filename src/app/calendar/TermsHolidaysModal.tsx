@@ -189,33 +189,15 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
   };
 
   // Keep the list ordered by start date
-  const sortedPeriods = [...teachingPeriods].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-  const getCurrentTerm = () => {
-    const today = new Date();
-    return teachingPeriods.find(period => {
-      const startDate = new Date(period.startDate);
-      const endDate = new Date(period.endDate);
-      return period.type === 'term' && today >= startDate && today <= endDate && period.isActive;
-    });
-  };
-
-  const getCurrentWeek = () => {
-    const currentTerm = getCurrentTerm();
-    if (!currentTerm) return null;
-
-    const today = new Date();
-    const startDate = new Date(currentTerm.startDate);
-    const diffTime = today.getTime() - startDate.getTime();
-    const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7));
-    return Math.max(1, diffWeeks);
-  };
+  const sortedPeriods = [...teachingPeriods].sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  );
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-500 ease-out">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-500 ease-out transform-gpu">
+    <div className="fixed inset-0 flex items-start justify-center pt-24 z-50 pointer-events-none">
+      <div className="pointer-events-auto bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[80vh] overflow-hidden animate-in zoom-in-95 slide-in-from-top-4 duration-300 ease-out transform-gpu">
         <div className="flex items-center justify-between p-6 border-b animate-in fade-in slide-in-from-top-2 duration-700 delay-100">
           <h2 className="text-xl font-semibold">Teaching Periods</h2>
           <button
@@ -229,20 +211,6 @@ export default function TeachingPeriodsModal({ isOpen, onClose, userId }: Teachi
         </div>
 
         <div className="p-6 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-200">
-          {/* Current Status */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg animate-in fade-in duration-700 delay-300">
-            <h3 className="font-medium text-blue-900 mb-2">Current Status</h3>
-            {getCurrentTerm() ? (
-              <div className="text-blue-800">
-                <p><strong>Current Term:</strong> {getCurrentTerm()?.name}</p>
-                <p><strong>Week:</strong> {getCurrentWeek()} of {Math.ceil((new Date(getCurrentTerm()!.endDate).getTime() - new Date(getCurrentTerm()!.startDate).getTime()) / (1000 * 60 * 60 * 24 * 7))}</p>
-              </div>
-            ) : (
-              <p className="text-blue-800">No active term found for current date</p>
-            )}
-          </div>
-
-
           {/* Add Button */}
           <div className="mb-4 animate-in fade-in duration-700 delay-400">
             <button

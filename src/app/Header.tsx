@@ -3,7 +3,6 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const Navigation = dynamic(() => import("./Navigation"), { ssr: false });
-import ProfileEditModal from "./profile/ProfileEditModal";
 import ProfileDropdown from "./ProfileDropdown";
 
 interface HeaderProps {
@@ -12,8 +11,7 @@ interface HeaderProps {
 
 export default function Header({ session }: HeaderProps) {
   return (
-    <>
-      <header className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-gray-200 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-gray-200 transition-all duration-300">
         <div className="w-full px-4 sm:px-6 py-4 grid grid-cols-3 items-center">
           <div className="flex justify-start">
             <Link href={session ? "/dashboard" : "/"} className="text-lg font-semibold transition-colors text-[#584b53] hover:text-[#E4BB97]">
@@ -32,8 +30,5 @@ export default function Header({ session }: HeaderProps) {
           </div>
         </div>
       </header>
-      {/* Render profile edit modal globally so it works on any page */}
-      {session?.user ? <ProfileEditModal user={session.user} /> : null}
-    </>
   );
 }

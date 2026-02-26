@@ -30,7 +30,19 @@ async function createStudent(formData: FormData) {
 	const schoolSubjects = String(formData.get("schoolSubjects") || "").trim() || null;
 	const year = Number(String(formData.get("year") || "0")) || null;
 	const school = String(formData.get("school") || "").trim() || null;
-	const hourlyRate = Number(String(formData.get("hourlyRate") || "0"));
+	const hourlyRateRaw = String(formData.get("hourlyRate") || "").trim();
+	let hourlyRateCents = 0;
+	if (!hourlyRateRaw) {
+		const prefs = await prisma.organisationPreferences.findUnique({
+			where: { organisationId: ctx.organisationId },
+			select: { defaultStudentRateCents: true },
+		});
+		hourlyRateCents = prefs?.defaultStudentRateCents ?? 0;
+	} else {
+		const hourlyRate = Number(hourlyRateRaw);
+		hourlyRateCents =
+			Number.isNaN(hourlyRate) || hourlyRate < 0 ? 0 : Math.round(hourlyRate * 100);
+	}
 
 	const meetingLocationType = String(formData.get("meetingLocationType") || "").trim();
 	const meetingLocationDetails = String(formData.get("meetingLocationDetails") || "").trim();
@@ -65,7 +77,7 @@ async function createStudent(formData: FormData) {
 			schoolSubjects,
 			year,
 			school,
-			hourlyRateCents: Math.round(hourlyRate * 100),
+			hourlyRateCents,
 			meetingLocation,
 			notes,
 			parentName,

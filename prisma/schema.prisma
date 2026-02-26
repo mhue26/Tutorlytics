@@ -70,6 +70,8 @@ model Organisation {
   updatedAt          DateTime  @updatedAt
 
   owner            User?                    @relation("PersonalWorkspace", fields: [ownerId], references: [id], onDelete: SetNull)
+  preferences      OrganisationPreferences?
+  userPreferences  UserPreferences[]
   members         OrganisationMember[]
   invitations     Invitation[]
   joinRequests    OrganisationJoinRequest[]
@@ -140,9 +142,11 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  bio           String?
   passwordHash  String?
 
   ownedWorkspace       Organisation?              @relation("PersonalWorkspace")
+  preferences          UserPreferences[]
   memberships          OrganisationMember[]
   invitationsSent      Invitation[]
   joinRequests         OrganisationJoinRequest[]
@@ -152,6 +156,34 @@ model User {
   checkInsAssigned     CheckIn[]
   paymentsRecorded     Payment[]                  @relation("PaymentRecordedBy")
   classSessionsCreated ClassSession[]             @relation("ClassSessionCreatedBy")
+}
+
+// ─── Preferences ──────────────────────────────────────────────────────────────
+
+model OrganisationPreferences {
+  id                    String   @id @default(cuid())
+  defaultStudentRateCents Int?
+  defaultSubjects       Json?
+  subjectColorsJson     Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  organisationId String       @unique
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+}
+
+model UserPreferences {
+  id                   String   @id @default(cuid())
+  studentsTablePrefsJson Json?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  userId         String
+  organisationId String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organisationId])
 }
 
 // ─── Student ─────────────────────────────────────────────────────────────────

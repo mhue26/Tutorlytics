@@ -164,6 +164,10 @@ export const authOptions: NextAuthOptions = {
 					token.id = dbUser.id;
 					token.organisationId = organisationId;
 					token.role = role;
+					token.name = dbUser.name ?? null;
+					token.email = dbUser.email ?? null;
+					(token as any).bio = (dbUser as any).bio ?? null;
+					(token as any).picture = dbUser.image ?? null;
 					delete (token as any).needOrg;
 				} catch (err) {
 					console.error("[next-auth] Google JWT callback error:", err);
@@ -176,12 +180,23 @@ export const authOptions: NextAuthOptions = {
 				token.id = (user as any).id;
 				token.organisationId = (user as any).organisationId;
 				token.role = (user as any).role;
+				token.name = (user as any).name ?? token.name ?? null;
+				token.email = (user as any).email ?? token.email ?? null;
+				(token as any).picture = (user as any).image ?? (token as any).picture ?? null;
 			}
-			// Session update (complete signup or after accepting invite)
-			if (trigger === "update" && session?.organisationId != null) {
-				token.organisationId = session.organisationId;
-				token.role = session.role;
-				delete (token as any).needOrg;
+			// Session update (org switch, profile updates)
+			if (trigger === "update") {
+				if ((session as any)?.organisationId != null) {
+					token.organisationId = (session as any).organisationId;
+					token.role = (session as any).role;
+					delete (token as any).needOrg;
+				}
+
+				const updatedUser = (session as any)?.user ?? session;
+				if (updatedUser?.name != null) token.name = String(updatedUser.name);
+				if (updatedUser?.email != null) token.email = String(updatedUser.email);
+				if (updatedUser?.image !== undefined) (token as any).picture = updatedUser.image;
+				if (updatedUser?.bio !== undefined) (token as any).bio = updatedUser.bio;
 			}
 			return token;
 		},
@@ -191,6 +206,7 @@ export const authOptions: NextAuthOptions = {
 				(session.user as any).organisationId = token.organisationId as string | null;
 				(session.user as any).role = token.role as string | null;
 				(session.user as any).needOrg = (token as any).needOrg ?? false;
+				(session.user as any).bio = (token as any).bio ?? null;
 			}
 			return session;
 		},

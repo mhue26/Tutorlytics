@@ -1,42 +1,55 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import TeachingPeriodsModal from "./TermsHolidaysModal";
-import { useModal } from "../contexts/ModalContext";
 
 interface CalendarNavigationProps {
+  view: "month" | "week" | "fiveday" | "threeday" | "day";
+  currentDate: Date;
+  onViewChange: (view: "month" | "week" | "fiveday" | "threeday" | "day") => void;
+  onDateChange: (date: Date) => void;
   userId?: string;
 }
 
-export default function CalendarNavigation({ userId }: CalendarNavigationProps) {
+const getStepDays = (view: CalendarNavigationProps["view"]) => {
+  switch (view) {
+    case "day":
+      return 1;
+    case "threeday":
+      return 3;
+    case "fiveday":
+      return 5;
+    case "week":
+      return 7;
+    default:
+      return 0;
+  }
+};
+
+export default function CalendarNavigation({ view, currentDate, onViewChange, onDateChange, userId }: CalendarNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setModalType } = useModal();
-  const [showTermsModal, setShowTermsModal] = useState(false);
-  const [currentDate, setCurrentDate] = useState(() => {
-    const month = searchParams.get('month');
-    const year = searchParams.get('year');
-    if (month && year) {
-      return new Date(parseInt(year), parseInt(month) - 1);
-    }
-    return new Date();
-  });
 
   const navigateMonth = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(newDate.getMonth() - 1);
+    if (view === "month") {
+      if (direction === 'prev') {
+        newDate.setMonth(newDate.getMonth() - 1);
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1);
+      }
     } else {
-      newDate.setMonth(newDate.getMonth() + 1);
+      const step = getStepDays(view);
+      const delta = direction === "prev" ? -step : step;
+      newDate.setDate(newDate.getDate() + delta);
     }
-    setCurrentDate(newDate);
-    
-    // Update URL with new month/year without scrolling
+
+    onDateChange(newDate);
+
     const params = new URLSearchParams(searchParams);
     params.set('month', (newDate.getMonth() + 1).toString());
     params.set('year', newDate.getFullYear().toString());
+    params.set('view', view);
     router.replace(`/calendar?${params.toString()}`, { scroll: false });
   };
 
@@ -59,16 +72,11 @@ export default function CalendarNavigation({ userId }: CalendarNavigationProps) 
             </svg>
           </button>
           
-          <button
-            onClick={() => {
-              setShowTermsModal(true);
-              setModalType('teachingPeriods');
-            }}
-            className="text-lg font-medium text-gray-900 hover:text-gray-700 transition-colors cursor-pointer"
-            title="Customise"
-          >
-            {currentDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
-          </button>
+          <span className="text-lg font-medium text-gray-900">
+            {view === "month"
+              ? currentDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+              : currentDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
+          </span>
           
           <button
             onClick={() => navigateMonth('next')}
@@ -81,7 +89,37 @@ export default function CalendarNavigation({ userId }: CalendarNavigationProps) 
           </button>
         </div>
 
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center gap-3">
+          <div className="inline-flex rounded-lg border border-gray-200 bg-white shadow-sm text-sm overflow-hidden">
+            {[
+              { id: "month", label: "Month" },
+              { id: "week", label: "Week" },
+              { id: "fiveday", label: "5 days" },
+              { id: "threeday", label: "3 days" },
+              { id: "day", label: "Day" },
+            ].map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => {
+                  onViewChange(option.id as CalendarNavigationProps["view"]);
+                  const params = new URLSearchParams(searchParams);
+                  params.set('view', option.id);
+                  params.set('month', (currentDate.getMonth() + 1).toString());
+                  params.set('year', currentDate.getFullYear().toString());
+                  router.replace(`/calendar?${params.toString()}`, { scroll: false });
+                }}
+                className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                  view === option.id
+                    ? "bg-[#3D4756] text-white"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
           <Link
             href="/schedule"
             className="rounded-lg bg-[#3D4756] text-white px-6 py-3 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
@@ -90,17 +128,6 @@ export default function CalendarNavigation({ userId }: CalendarNavigationProps) 
           </Link>
         </div>
       </div>
-
-      {userId && (
-        <TeachingPeriodsModal
-          isOpen={showTermsModal}
-          onClose={() => {
-            setShowTermsModal(false);
-            setModalType('none');
-          }}
-          userId={userId}
-        />
-      )}
     </>
   );
 }

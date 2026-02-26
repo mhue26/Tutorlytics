@@ -13,10 +13,19 @@ export async function POST(request: NextRequest) {
 	const year = yearRaw === "" || yearRaw === null || yearRaw === undefined
 		? null
 		: Number(yearRaw);
-	const hourlyRate = Number(body?.hourlyRate);
-	const hourlyRateCents = Number.isNaN(hourlyRate) || hourlyRate < 0
-		? 0
-		: Math.round(hourlyRate * 100);
+	const hourlyRateRaw = body?.hourlyRate;
+	let hourlyRateCents = 0;
+	if (hourlyRateRaw === "" || hourlyRateRaw === null || hourlyRateRaw === undefined) {
+		const prefs = await prisma.organisationPreferences.findUnique({
+			where: { organisationId: ctx.organisationId },
+			select: { defaultStudentRateCents: true },
+		});
+		hourlyRateCents = prefs?.defaultStudentRateCents ?? 0;
+	} else {
+		const hourlyRate = Number(hourlyRateRaw);
+		hourlyRateCents =
+			Number.isNaN(hourlyRate) || hourlyRate < 0 ? 0 : Math.round(hourlyRate * 100);
+	}
 
 	if (!firstName) {
 		return NextResponse.json({ error: "First name is required" }, { status: 400 });

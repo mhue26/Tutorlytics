@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import ProfileDropdown from "../../ProfileDropdown";
-import ProfileEditModal from "../../profile/ProfileEditModal";
 
 interface TopHeaderProps {
   session: any;
@@ -10,8 +9,7 @@ interface TopHeaderProps {
 
 export default function TopHeader({ session }: TopHeaderProps) {
   return (
-    <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 h-14 flex items-center justify-between px-4 shadow-sm" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 h-14 flex items-center justify-between px-4 shadow-sm" style={{ fontFamily: "'Work Sans', sans-serif" }}>
         <div className="flex items-center gap-4">
           <Link href={session ? "/dashboard" : "/"} className="text-lg font-semibold text-[#584b53] hover:text-[#E4BB97] transition-colors">
             Tutorlytics
@@ -43,7 +41,5 @@ export default function TopHeader({ session }: TopHeaderProps) {
           )}
         </div>
       </header>
-      {session?.user ? <ProfileEditModal user={session.user} /> : null}
-    </>
   );
 }

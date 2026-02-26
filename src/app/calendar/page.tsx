@@ -3,7 +3,13 @@ import { requireOrgContext } from "@/utils/auth";
 import CalendarClient from "./CalendarClient";
 import { createMeeting } from "./actions";
 
-export default async function CalendarPage({ searchParams }: { searchParams: Promise<{ month?: string; year?: string }> }) {
+interface CalendarSearchParams {
+  month?: string;
+  year?: string;
+  view?: "month" | "week" | "fiveday" | "threeday" | "day";
+}
+
+export default async function CalendarPage({ searchParams }: { searchParams: Promise<CalendarSearchParams> }) {
 	const ctx = await requireOrgContext();
 
 	const params = await searchParams;
@@ -14,9 +20,14 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 	const startOfMonth = new Date(currentYear, currentMonth, 1);
 	const endOfMonth = new Date(currentYear, currentMonth + 1, 0);
 
+	const queryStart = new Date(startOfMonth);
+	queryStart.setDate(queryStart.getDate() - 7);
+	const queryEnd = new Date(endOfMonth);
+	queryEnd.setDate(queryEnd.getDate() + 7);
+
 	const meetingWhere: any = {
 		organisationId: ctx.organisationId,
-		startTime: { gte: startOfMonth, lte: endOfMonth },
+		startTime: { gte: queryStart, lte: queryEnd },
 	};
 	if (ctx.role === "TEACHER") {
 		meetingWhere.createdById = ctx.userId;
@@ -58,6 +69,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 			upcomingMeetings={upcomingMeetings as any}
 			currentYear={currentYear}
 			currentMonth={currentMonth}
+			initialView={params.view ?? "month"}
 			students={students}
 			createMeeting={createMeeting}
 			userId={ctx.userId}

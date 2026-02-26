@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createMeeting } from '../calendar/actions';
+import NiceDatePicker from '../components/NiceDatePicker';
 
 interface Student {
   id: string;
@@ -29,7 +30,7 @@ export default function ScheduleClient({ students, userId }: ScheduleClientProps
   };
 
   return (
-    <div className="min-h-screen bg-[#EFFAFF] py-8">
+    <div className="min-h-screen py-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -67,21 +68,18 @@ export default function ScheduleClient({ students, userId }: ScheduleClientProps
               />
             </div>
 
-            {/* Date and Time Row */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <input
-                  type="date"
-                  name="meetingDate"
-                  required
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+          {/* Date and Time Row */}
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <NiceDatePicker
+                name="meetingDate"
+                value={selectedDate}
+                onChange={setSelectedDate}
+              />
+            </div>
               
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

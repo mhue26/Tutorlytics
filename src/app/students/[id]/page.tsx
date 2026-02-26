@@ -10,6 +10,7 @@ import StudentTabs from "../StudentTabs";
 import EditableGoals from "./EditableGoals";
 import CheckInsSection from "./CheckInsSection";
 import ResultsSection from "./ResultsSection";
+import StudentAvatar from "../StudentAvatar";
 
 function formatCurrencyFromCents(valueInCents: number): string {
 	const dollars = (valueInCents / 100).toFixed(2);
@@ -106,6 +107,11 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 				<Link href="/students" className="text-sm text-gray-600 hover:underline cursor-pointer">← Back to Students</Link>
 
 				<div className="flex flex-col items-center gap-3">
+					<StudentAvatar
+						firstName={student.firstName}
+						lastName={student.lastName}
+						studentId={student.id}
+					/>
 					<h2 className="text-2xl font-semibold">{student.firstName} {student.lastName}</h2>
 					<div className="flex items-center gap-3">
 						<EditIcon studentId={student.id} />

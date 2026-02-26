@@ -34,6 +34,18 @@ const saveAvailableSubjects = (subjects: string[]) => {
   localStorage.setItem('availableSubjects', JSON.stringify(subjects));
 };
 
+const persistOrgAvailableSubjects = async (subjects: string[]) => {
+  try {
+    await fetch("/api/org/preferences", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ defaultSubjects: subjects }),
+    });
+  } catch {
+    // Best-effort: localStorage remains as fallback
+  }
+};
+
 const parseSubjects = (s: string) => (s || "").split(",").map((x) => x.trim()).filter(Boolean);
 
 export default function SubjectsMultiSelect({
@@ -74,9 +86,45 @@ export default function SubjectsMultiSelect({
     setIsClient(true);
     const fromStorage = getAvailableSubjects();
     const fromValue = isControlled ? parseSubjects(controlledValue ?? "") : parseSubjects(defaultValue);
-    const merged = Array.from(new Set([...fromStorage, ...fromValue]));
-    setAvailableSubjects(merged);
-    if (merged.length > fromStorage.length) saveAvailableSubjects(merged);
+    const mergedLocal = Array.from(new Set([...fromStorage, ...fromValue]));
+    setAvailableSubjects(mergedLocal);
+    if (mergedLocal.length > fromStorage.length) saveAvailableSubjects(mergedLocal);
+
+    // Prefer org-wide subjects (DB-backed). If none exist yet, fall back to localStorage.
+    (async () => {
+      try {
+        const res = await fetch("/api/org/preferences", { method: "GET" });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return;
+
+        const orgSubjects = Array.isArray(data?.defaultSubjects)
+          ? (data.defaultSubjects as string[])
+          : [];
+        const orgColors = data?.subjectColors && typeof data.subjectColors === "object"
+          ? (data.subjectColors as Record<string, string>)
+          : null;
+
+        const merged = Array.from(new Set([...orgSubjects, ...fromValue, ...mergedLocal]))
+          .map((s) => String(s).trim())
+          .filter(Boolean);
+
+        setAvailableSubjects(merged);
+        saveAvailableSubjects(merged);
+
+        if (orgColors) {
+          try {
+            localStorage.setItem("customSubjectColors", JSON.stringify(orgColors));
+          } catch {}
+        }
+
+        // If org doesn't have these yet, seed it (best-effort).
+        if (merged.length > orgSubjects.length) {
+          await persistOrgAvailableSubjects(merged);
+        }
+      } catch {
+        // ignore
+      }
+    })();
   }, []);
 
   // When defaultOpen (e.g. table cell): open dropdown and focus input on mount
@@ -139,6 +187,7 @@ export default function SubjectsMultiSelect({
     const updatedSubjects = availableSubjects.filter(s => s !== subject);
     setAvailableSubjects(updatedSubjects);
     saveAvailableSubjects(updatedSubjects);
+    void persistOrgAvailableSubjects(updatedSubjects);
   };
 
   const removeSubject = (subject: string) => {
@@ -153,6 +202,7 @@ export default function SubjectsMultiSelect({
         const updatedAvailable = [...availableSubjects, trimmedSubject];
         setAvailableSubjects(updatedAvailable);
         saveAvailableSubjects(updatedAvailable);
+        void persistOrgAvailableSubjects(updatedAvailable);
       }
       setSearchTerm("");
     }

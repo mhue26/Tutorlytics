@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import CalendarNavigation from "./CalendarNavigation";
 import CalendarGrid from "./CalendarGrid";
+import CalendarTimeGrid from "./CalendarTimeGrid";
+import TeachingPeriodsModal from "./TermsHolidaysModal";
+import { useModal } from "../contexts/ModalContext";
 
 interface Student {
   id: number;
@@ -26,6 +29,7 @@ interface CalendarClientProps {
   upcomingMeetings: Meeting[];
   currentYear: number;
   currentMonth: number;
+  initialView?: "month" | "week" | "fiveday" | "threeday" | "day";
   students: Student[];
   createMeeting: (formData: FormData) => Promise<void>;
   userId: string;
@@ -36,14 +40,23 @@ export default function CalendarClient({
   upcomingMeetings, 
   currentYear, 
   currentMonth, 
+  initialView = "month",
   students,
   createMeeting,
   userId
 }: CalendarClientProps) {
+  type CalendarView = "month" | "week" | "fiveday" | "threeday" | "day";
+
+  const [view, setView] = useState<CalendarView>(initialView);
+  const [currentDate, setCurrentDate] = useState<Date>(() => {
+    return new Date(currentYear, currentMonth, 1);
+  });
   const [timeRange, setTimeRange] = useState<string>('week');
   const [currentTerm, setCurrentTerm] = useState<any>(null);
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
   const [teachingPeriods, setTeachingPeriods] = useState<any[]>([]);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const { setModalType } = useModal();
 
   const loadCurrentTerm = async () => {
     try {
@@ -185,79 +198,139 @@ export default function CalendarClient({
   };
 
   return (
-    <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-[#3D4756]">Calendar</h2>
-        {currentTerm && (
-          <div className="flex items-center rounded-full px-4 py-2 shadow-sm" style={{ backgroundColor: '#FEF5eF' }}>
-            <span className="text-base font-medium" style={{ color: '#584b53' }}>{currentTerm.name}</span>
-            {currentWeek && (
-              <span className="ml-2 text-base" style={{ color: '#584b53' }}>• Week {currentWeek}</span>
-            )}
-          </div>
-        )}
-      </div>
-
-
-      {/* Main Calendar Content */}
-      <div className="space-y-6">
-        {/* Upcoming Meetings */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Upcoming</h3>
-            <select
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="today">Today</option>
-              <option value="tomorrow">Tomorrow</option>
-              <option value="week">Next Week</option>
-              <option value="month">Next Month</option>
-            </select>
-          </div>
-          {getFilteredMeetings().length === 0 ? (
-            <p className="text-gray-500">No upcoming events scheduled.</p>
-          ) : (
-            <div className="space-y-3">
-              {getFilteredMeetings().map((meeting) => (
-                <div key={meeting.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-                  <div>
-                    <div className="font-medium">{meeting.title}</div>
-                    <div className="text-sm text-gray-600">
-                      with {meeting.student.firstName} {meeting.student.lastName}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {formatMeetingDate(new Date(meeting.startTime))} at {formatTime(new Date(meeting.startTime))}
-                    </div>
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    meeting.isCompleted 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-blue-100 text-blue-800'
-                  }`}>
-                    {meeting.isCompleted ? 'Completed' : 'Scheduled'}
-                  </span>
-                </div>
-              ))}
+    <>
+      <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-[#3D4756]">Calendar</h2>
+          {currentTerm && (
+            <div className="flex items-center rounded-full px-4 py-2 shadow-sm" style={{ backgroundColor: '#FEF5eF' }}>
+              <span className="text-base font-medium" style={{ color: '#584b53' }}>{currentTerm.name}</span>
+              {currentWeek && (
+                <span className="ml-2 text-base" style={{ color: '#584b53' }}>• Week {currentWeek}</span>
+              )}
             </div>
           )}
         </div>
 
-        {/* Monthly Calendar View */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <CalendarNavigation userId={userId} />
-          
-          {/* Calendar Grid */}
-          <CalendarGrid 
-            meetings={meetings} 
-            currentYear={currentYear} 
-            currentMonth={currentMonth}
-            teachingPeriods={teachingPeriods}
-          />
+        {/* Current Status on main calendar page */}
+        <div className="p-4 bg-blue-50 rounded-lg">
+          <h3 className="font-medium text-blue-900 mb-2">Current Status</h3>
+          {currentTerm ? (
+            <div className="text-blue-800">
+              <p><strong>Current Term:</strong> {currentTerm.name}</p>
+              {currentWeek && (
+                <p>
+                  <strong>Week:</strong>{" "}
+                  {currentWeek} of{" "}
+                  {Math.ceil(
+                    (new Date(currentTerm.endDate).getTime() -
+                      new Date(currentTerm.startDate).getTime()) /
+                    (1000 * 60 * 60 * 24 * 7)
+                  )}
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="text-blue-800">
+              No active term found for current date.{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowTermsModal(true);
+                  setModalType('teachingPeriods');
+                }}
+                className="text-blue-800 font-medium"
+              >
+                Add teaching term <span className="underline">here</span>
+              </button>
+            </p>
+          )}
+        </div>
+
+        {/* Main Calendar Content */}
+        <div className="space-y-6">
+          {/* Upcoming Meetings */}
+          <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-medium">Upcoming</h3>
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+                className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="today">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="week">Next Week</option>
+                <option value="month">Next Month</option>
+              </select>
+            </div>
+            {getFilteredMeetings().length === 0 ? (
+              <p className="text-gray-500">No upcoming events scheduled.</p>
+            ) : (
+              <div className="space-y-3">
+                {getFilteredMeetings().map((meeting) => (
+                  <div key={meeting.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+                    <div>
+                      <div className="font-medium">{meeting.title}</div>
+                      <div className="text-sm text-gray-600">
+                        with {meeting.student.firstName} {meeting.student.lastName}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {formatMeetingDate(new Date(meeting.startTime))} at {formatTime(new Date(meeting.startTime))}
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      meeting.isCompleted 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {meeting.isCompleted ? 'Completed' : 'Scheduled'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Calendar View */}
+          <div className="bg-white rounded-2xl shadow-sm p-6">
+            <CalendarNavigation
+              userId={userId}
+              view={view}
+              currentDate={currentDate}
+              onViewChange={setView}
+              onDateChange={setCurrentDate}
+            />
+
+            {view === "month" ? (
+              <CalendarGrid 
+                meetings={meetings} 
+                currentYear={currentYear} 
+                currentMonth={currentMonth}
+                teachingPeriods={teachingPeriods}
+              />
+            ) : (
+              <CalendarTimeGrid
+                meetings={meetings}
+                currentDate={currentDate}
+                view={view as "week" | "fiveday" | "threeday" | "day"}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      {userId && (
+        <TeachingPeriodsModal
+          isOpen={showTermsModal}
+          onClose={() => {
+            setShowTermsModal(false);
+            setModalType('none');
+          }}
+          userId={userId}
+        />
+      )}
+    </>
   );
 }
 

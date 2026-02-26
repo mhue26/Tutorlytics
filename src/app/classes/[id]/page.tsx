@@ -63,17 +63,9 @@ export default async function ClassDetailPage({
 						className="w-4 h-4 rounded-full shrink-0"
 						style={{ backgroundColor: classRecord.color }}
 					/>
-					<div className="flex items-center justify-between w-full">
-						<h1 className="text-2xl font-semibold text-gray-900">
-							{classRecord.name}
-						</h1>
-						<Link
-							href={`/classes/${classRecord.id}/schedule`}
-							className="ml-auto inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
-						>
-							Schedule recurring lessons
-						</Link>
-					</div>
+					<h1 className="text-2xl font-semibold text-gray-900">
+						{classRecord.name}
+					</h1>
 				</div>
 				{classRecord.description && (
 					<p className="text-gray-600 text-sm mb-4 pl-7">
@@ -119,9 +111,17 @@ export default async function ClassDetailPage({
 			</div>
 
 			<div className="bg-white rounded-2xl shadow-sm p-6">
-				<h2 className="text-lg font-medium text-gray-900 mb-4">
-					Students
-				</h2>
+				<div className="flex items-center justify-between mb-4">
+					<h2 className="text-lg font-medium text-gray-900">
+						Students
+					</h2>
+					<Link
+						href="/students/new"
+						className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
+					>
+						Add student
+					</Link>
+				</div>
 				{classRecord.students.length === 0 ? (
 					<p className="text-gray-500 text-sm">
 						No students in this class.

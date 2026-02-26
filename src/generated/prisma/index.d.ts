@@ -39,6 +39,16 @@ export type OrganisationJoinRequest = $Result.DefaultSelection<Prisma.$Organisat
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model OrganisationPreferences
+ * 
+ */
+export type OrganisationPreferences = $Result.DefaultSelection<Prisma.$OrganisationPreferencesPayload>
+/**
+ * Model UserPreferences
+ * 
+ */
+export type UserPreferences = $Result.DefaultSelection<Prisma.$UserPreferencesPayload>
+/**
  * Model Student
  * 
  */
@@ -377,6 +387,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.organisationPreferences`: Exposes CRUD operations for the **OrganisationPreferences** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OrganisationPreferences
+    * const organisationPreferences = await prisma.organisationPreferences.findMany()
+    * ```
+    */
+  get organisationPreferences(): Prisma.OrganisationPreferencesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userPreferences`: Exposes CRUD operations for the **UserPreferences** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserPreferences
+    * const userPreferences = await prisma.userPreferences.findMany()
+    * ```
+    */
+  get userPreferences(): Prisma.UserPreferencesDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.student`: Exposes CRUD operations for the **Student** model.
@@ -962,6 +992,8 @@ export namespace Prisma {
     Invitation: 'Invitation',
     OrganisationJoinRequest: 'OrganisationJoinRequest',
     User: 'User',
+    OrganisationPreferences: 'OrganisationPreferences',
+    UserPreferences: 'UserPreferences',
     Student: 'Student',
     Class: 'Class',
     Meeting: 'Meeting',
@@ -994,7 +1026,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "student" | "class" | "meeting" | "term" | "holiday" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
+      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "organisationPreferences" | "userPreferences" | "student" | "class" | "meeting" | "term" | "holiday" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1365,6 +1397,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      OrganisationPreferences: {
+        payload: Prisma.$OrganisationPreferencesPayload<ExtArgs>
+        fields: Prisma.OrganisationPreferencesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OrganisationPreferencesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OrganisationPreferencesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          findFirst: {
+            args: Prisma.OrganisationPreferencesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OrganisationPreferencesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          findMany: {
+            args: Prisma.OrganisationPreferencesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>[]
+          }
+          create: {
+            args: Prisma.OrganisationPreferencesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          createMany: {
+            args: Prisma.OrganisationPreferencesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OrganisationPreferencesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>[]
+          }
+          delete: {
+            args: Prisma.OrganisationPreferencesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          update: {
+            args: Prisma.OrganisationPreferencesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          deleteMany: {
+            args: Prisma.OrganisationPreferencesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OrganisationPreferencesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OrganisationPreferencesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>[]
+          }
+          upsert: {
+            args: Prisma.OrganisationPreferencesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrganisationPreferencesPayload>
+          }
+          aggregate: {
+            args: Prisma.OrganisationPreferencesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrganisationPreferences>
+          }
+          groupBy: {
+            args: Prisma.OrganisationPreferencesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrganisationPreferencesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OrganisationPreferencesCountArgs<ExtArgs>
+            result: $Utils.Optional<OrganisationPreferencesCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserPreferences: {
+        payload: Prisma.$UserPreferencesPayload<ExtArgs>
+        fields: Prisma.UserPreferencesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserPreferencesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserPreferencesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          findFirst: {
+            args: Prisma.UserPreferencesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserPreferencesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          findMany: {
+            args: Prisma.UserPreferencesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>[]
+          }
+          create: {
+            args: Prisma.UserPreferencesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          createMany: {
+            args: Prisma.UserPreferencesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserPreferencesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>[]
+          }
+          delete: {
+            args: Prisma.UserPreferencesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          update: {
+            args: Prisma.UserPreferencesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserPreferencesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserPreferencesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserPreferencesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserPreferencesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>
+          }
+          aggregate: {
+            args: Prisma.UserPreferencesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserPreferences>
+          }
+          groupBy: {
+            args: Prisma.UserPreferencesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserPreferencesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserPreferencesCountArgs<ExtArgs>
+            result: $Utils.Optional<UserPreferencesCountAggregateOutputType> | number
           }
         }
       }
@@ -2505,6 +2685,8 @@ export namespace Prisma {
     invitation?: InvitationOmit
     organisationJoinRequest?: OrganisationJoinRequestOmit
     user?: UserOmit
+    organisationPreferences?: OrganisationPreferencesOmit
+    userPreferences?: UserPreferencesOmit
     student?: StudentOmit
     class?: ClassOmit
     meeting?: MeetingOmit
@@ -2599,6 +2781,7 @@ export namespace Prisma {
    */
 
   export type OrganisationCountOutputType = {
+    userPreferences: number
     members: number
     invitations: number
     joinRequests: number
@@ -2616,6 +2799,7 @@ export namespace Prisma {
   }
 
   export type OrganisationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userPreferences?: boolean | OrganisationCountOutputTypeCountUserPreferencesArgs
     members?: boolean | OrganisationCountOutputTypeCountMembersArgs
     invitations?: boolean | OrganisationCountOutputTypeCountInvitationsArgs
     joinRequests?: boolean | OrganisationCountOutputTypeCountJoinRequestsArgs
@@ -2641,6 +2825,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the OrganisationCountOutputType
      */
     select?: OrganisationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
+  export type OrganisationCountOutputTypeCountUserPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPreferencesWhereInput
   }
 
   /**
@@ -2747,6 +2938,7 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    preferences: number
     memberships: number
     invitationsSent: number
     joinRequests: number
@@ -2759,6 +2951,7 @@ export namespace Prisma {
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    preferences?: boolean | UserCountOutputTypeCountPreferencesArgs
     memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
     invitationsSent?: boolean | UserCountOutputTypeCountInvitationsSentArgs
     joinRequests?: boolean | UserCountOutputTypeCountJoinRequestsArgs
@@ -2779,6 +2972,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPreferencesWhereInput
   }
 
   /**
@@ -3349,6 +3549,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     owner?: boolean | Organisation$ownerArgs<ExtArgs>
+    preferences?: boolean | Organisation$preferencesArgs<ExtArgs>
+    userPreferences?: boolean | Organisation$userPreferencesArgs<ExtArgs>
     members?: boolean | Organisation$membersArgs<ExtArgs>
     invitations?: boolean | Organisation$invitationsArgs<ExtArgs>
     joinRequests?: boolean | Organisation$joinRequestsArgs<ExtArgs>
@@ -3405,6 +3607,8 @@ export namespace Prisma {
   export type OrganisationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "ownerId" | "joinCode" | "joinCodeExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["organisation"]>
   export type OrganisationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | Organisation$ownerArgs<ExtArgs>
+    preferences?: boolean | Organisation$preferencesArgs<ExtArgs>
+    userPreferences?: boolean | Organisation$userPreferencesArgs<ExtArgs>
     members?: boolean | Organisation$membersArgs<ExtArgs>
     invitations?: boolean | Organisation$invitationsArgs<ExtArgs>
     joinRequests?: boolean | Organisation$joinRequestsArgs<ExtArgs>
@@ -3433,6 +3637,8 @@ export namespace Prisma {
     name: "Organisation"
     objects: {
       owner: Prisma.$UserPayload<ExtArgs> | null
+      preferences: Prisma.$OrganisationPreferencesPayload<ExtArgs> | null
+      userPreferences: Prisma.$UserPreferencesPayload<ExtArgs>[]
       members: Prisma.$OrganisationMemberPayload<ExtArgs>[]
       invitations: Prisma.$InvitationPayload<ExtArgs>[]
       joinRequests: Prisma.$OrganisationJoinRequestPayload<ExtArgs>[]
@@ -3853,6 +4059,8 @@ export namespace Prisma {
   export interface Prisma__OrganisationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends Organisation$ownerArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$ownerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    preferences<T extends Organisation$preferencesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$preferencesArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    userPreferences<T extends Organisation$userPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$userPreferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Organisation$membersArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invitations<T extends Organisation$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     joinRequests<T extends Organisation$joinRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$joinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationJoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4317,6 +4525,49 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Organisation.preferences
+   */
+  export type Organisation$preferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    where?: OrganisationPreferencesWhereInput
+  }
+
+  /**
+   * Organisation.userPreferences
+   */
+  export type Organisation$userPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    where?: UserPreferencesWhereInput
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    cursor?: UserPreferencesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserPreferencesScalarFieldEnum | UserPreferencesScalarFieldEnum[]
   }
 
   /**
@@ -8051,6 +8302,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    bio: string | null
     passwordHash: string | null
   }
 
@@ -8060,6 +8312,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    bio: string | null
     passwordHash: string | null
   }
 
@@ -8069,6 +8322,7 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    bio: number
     passwordHash: number
     _all: number
   }
@@ -8080,6 +8334,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    bio?: true
     passwordHash?: true
   }
 
@@ -8089,6 +8344,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    bio?: true
     passwordHash?: true
   }
 
@@ -8098,6 +8354,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    bio?: true
     passwordHash?: true
     _all?: true
   }
@@ -8180,6 +8437,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    bio: string | null
     passwordHash: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -8206,8 +8464,10 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    bio?: boolean
     passwordHash?: boolean
     ownedWorkspace?: boolean | User$ownedWorkspaceArgs<ExtArgs>
+    preferences?: boolean | User$preferencesArgs<ExtArgs>
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     invitationsSent?: boolean | User$invitationsSentArgs<ExtArgs>
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
@@ -8226,6 +8486,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    bio?: boolean
     passwordHash?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -8235,6 +8496,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    bio?: boolean
     passwordHash?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -8244,12 +8506,14 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    bio?: boolean
     passwordHash?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "passwordHash", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "bio" | "passwordHash", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownedWorkspace?: boolean | User$ownedWorkspaceArgs<ExtArgs>
+    preferences?: boolean | User$preferencesArgs<ExtArgs>
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     invitationsSent?: boolean | User$invitationsSentArgs<ExtArgs>
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
@@ -8268,6 +8532,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       ownedWorkspace: Prisma.$OrganisationPayload<ExtArgs> | null
+      preferences: Prisma.$UserPreferencesPayload<ExtArgs>[]
       memberships: Prisma.$OrganisationMemberPayload<ExtArgs>[]
       invitationsSent: Prisma.$InvitationPayload<ExtArgs>[]
       joinRequests: Prisma.$OrganisationJoinRequestPayload<ExtArgs>[]
@@ -8284,6 +8549,7 @@ export namespace Prisma {
       email: string | null
       emailVerified: Date | null
       image: string | null
+      bio: string | null
       passwordHash: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -8680,6 +8946,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     ownedWorkspace<T extends User$ownedWorkspaceArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedWorkspaceArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    preferences<T extends User$preferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$preferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     memberships<T extends User$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invitationsSent<T extends User$invitationsSentArgs<ExtArgs> = {}>(args?: Subset<T, User$invitationsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     joinRequests<T extends User$joinRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$joinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationJoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8723,6 +8990,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
   }
     
@@ -9131,6 +9399,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.preferences
+   */
+  export type User$preferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    where?: UserPreferencesWhereInput
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    cursor?: UserPreferencesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserPreferencesScalarFieldEnum | UserPreferencesScalarFieldEnum[]
+  }
+
+  /**
    * User.memberships
    */
   export type User$membershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9362,6 +9654,2191 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OrganisationPreferences
+   */
+
+  export type AggregateOrganisationPreferences = {
+    _count: OrganisationPreferencesCountAggregateOutputType | null
+    _avg: OrganisationPreferencesAvgAggregateOutputType | null
+    _sum: OrganisationPreferencesSumAggregateOutputType | null
+    _min: OrganisationPreferencesMinAggregateOutputType | null
+    _max: OrganisationPreferencesMaxAggregateOutputType | null
+  }
+
+  export type OrganisationPreferencesAvgAggregateOutputType = {
+    defaultStudentRateCents: number | null
+  }
+
+  export type OrganisationPreferencesSumAggregateOutputType = {
+    defaultStudentRateCents: number | null
+  }
+
+  export type OrganisationPreferencesMinAggregateOutputType = {
+    id: string | null
+    defaultStudentRateCents: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+  }
+
+  export type OrganisationPreferencesMaxAggregateOutputType = {
+    id: string | null
+    defaultStudentRateCents: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+  }
+
+  export type OrganisationPreferencesCountAggregateOutputType = {
+    id: number
+    defaultStudentRateCents: number
+    defaultSubjects: number
+    subjectColorsJson: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    _all: number
+  }
+
+
+  export type OrganisationPreferencesAvgAggregateInputType = {
+    defaultStudentRateCents?: true
+  }
+
+  export type OrganisationPreferencesSumAggregateInputType = {
+    defaultStudentRateCents?: true
+  }
+
+  export type OrganisationPreferencesMinAggregateInputType = {
+    id?: true
+    defaultStudentRateCents?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+  }
+
+  export type OrganisationPreferencesMaxAggregateInputType = {
+    id?: true
+    defaultStudentRateCents?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+  }
+
+  export type OrganisationPreferencesCountAggregateInputType = {
+    id?: true
+    defaultStudentRateCents?: true
+    defaultSubjects?: true
+    subjectColorsJson?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    _all?: true
+  }
+
+  export type OrganisationPreferencesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrganisationPreferences to aggregate.
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrganisationPreferences to fetch.
+     */
+    orderBy?: OrganisationPreferencesOrderByWithRelationInput | OrganisationPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OrganisationPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrganisationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrganisationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OrganisationPreferences
+    **/
+    _count?: true | OrganisationPreferencesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OrganisationPreferencesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrganisationPreferencesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OrganisationPreferencesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OrganisationPreferencesMaxAggregateInputType
+  }
+
+  export type GetOrganisationPreferencesAggregateType<T extends OrganisationPreferencesAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrganisationPreferences]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrganisationPreferences[P]>
+      : GetScalarType<T[P], AggregateOrganisationPreferences[P]>
+  }
+
+
+
+
+  export type OrganisationPreferencesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrganisationPreferencesWhereInput
+    orderBy?: OrganisationPreferencesOrderByWithAggregationInput | OrganisationPreferencesOrderByWithAggregationInput[]
+    by: OrganisationPreferencesScalarFieldEnum[] | OrganisationPreferencesScalarFieldEnum
+    having?: OrganisationPreferencesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OrganisationPreferencesCountAggregateInputType | true
+    _avg?: OrganisationPreferencesAvgAggregateInputType
+    _sum?: OrganisationPreferencesSumAggregateInputType
+    _min?: OrganisationPreferencesMinAggregateInputType
+    _max?: OrganisationPreferencesMaxAggregateInputType
+  }
+
+  export type OrganisationPreferencesGroupByOutputType = {
+    id: string
+    defaultStudentRateCents: number | null
+    defaultSubjects: JsonValue | null
+    subjectColorsJson: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    _count: OrganisationPreferencesCountAggregateOutputType | null
+    _avg: OrganisationPreferencesAvgAggregateOutputType | null
+    _sum: OrganisationPreferencesSumAggregateOutputType | null
+    _min: OrganisationPreferencesMinAggregateOutputType | null
+    _max: OrganisationPreferencesMaxAggregateOutputType | null
+  }
+
+  type GetOrganisationPreferencesGroupByPayload<T extends OrganisationPreferencesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OrganisationPreferencesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OrganisationPreferencesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OrganisationPreferencesGroupByOutputType[P]>
+            : GetScalarType<T[P], OrganisationPreferencesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OrganisationPreferencesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    defaultStudentRateCents?: boolean
+    defaultSubjects?: boolean
+    subjectColorsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["organisationPreferences"]>
+
+  export type OrganisationPreferencesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    defaultStudentRateCents?: boolean
+    defaultSubjects?: boolean
+    subjectColorsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["organisationPreferences"]>
+
+  export type OrganisationPreferencesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    defaultStudentRateCents?: boolean
+    defaultSubjects?: boolean
+    subjectColorsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["organisationPreferences"]>
+
+  export type OrganisationPreferencesSelectScalar = {
+    id?: boolean
+    defaultStudentRateCents?: boolean
+    defaultSubjects?: boolean
+    subjectColorsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+  }
+
+  export type OrganisationPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultStudentRateCents" | "defaultSubjects" | "subjectColorsJson" | "createdAt" | "updatedAt" | "organisationId", ExtArgs["result"]["organisationPreferences"]>
+  export type OrganisationPreferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+  export type OrganisationPreferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+  export type OrganisationPreferencesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+
+  export type $OrganisationPreferencesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OrganisationPreferences"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      defaultStudentRateCents: number | null
+      defaultSubjects: Prisma.JsonValue | null
+      subjectColorsJson: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+    }, ExtArgs["result"]["organisationPreferences"]>
+    composites: {}
+  }
+
+  type OrganisationPreferencesGetPayload<S extends boolean | null | undefined | OrganisationPreferencesDefaultArgs> = $Result.GetResult<Prisma.$OrganisationPreferencesPayload, S>
+
+  type OrganisationPreferencesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrganisationPreferencesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrganisationPreferencesCountAggregateInputType | true
+    }
+
+  export interface OrganisationPreferencesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OrganisationPreferences'], meta: { name: 'OrganisationPreferences' } }
+    /**
+     * Find zero or one OrganisationPreferences that matches the filter.
+     * @param {OrganisationPreferencesFindUniqueArgs} args - Arguments to find a OrganisationPreferences
+     * @example
+     * // Get one OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OrganisationPreferencesFindUniqueArgs>(args: SelectSubset<T, OrganisationPreferencesFindUniqueArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OrganisationPreferences that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OrganisationPreferencesFindUniqueOrThrowArgs} args - Arguments to find a OrganisationPreferences
+     * @example
+     * // Get one OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OrganisationPreferencesFindUniqueOrThrowArgs>(args: SelectSubset<T, OrganisationPreferencesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrganisationPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesFindFirstArgs} args - Arguments to find a OrganisationPreferences
+     * @example
+     * // Get one OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OrganisationPreferencesFindFirstArgs>(args?: SelectSubset<T, OrganisationPreferencesFindFirstArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrganisationPreferences that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesFindFirstOrThrowArgs} args - Arguments to find a OrganisationPreferences
+     * @example
+     * // Get one OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OrganisationPreferencesFindFirstOrThrowArgs>(args?: SelectSubset<T, OrganisationPreferencesFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OrganisationPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findMany()
+     * 
+     * // Get first 10 OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const organisationPreferencesWithIdOnly = await prisma.organisationPreferences.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OrganisationPreferencesFindManyArgs>(args?: SelectSubset<T, OrganisationPreferencesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OrganisationPreferences.
+     * @param {OrganisationPreferencesCreateArgs} args - Arguments to create a OrganisationPreferences.
+     * @example
+     * // Create one OrganisationPreferences
+     * const OrganisationPreferences = await prisma.organisationPreferences.create({
+     *   data: {
+     *     // ... data to create a OrganisationPreferences
+     *   }
+     * })
+     * 
+     */
+    create<T extends OrganisationPreferencesCreateArgs>(args: SelectSubset<T, OrganisationPreferencesCreateArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OrganisationPreferences.
+     * @param {OrganisationPreferencesCreateManyArgs} args - Arguments to create many OrganisationPreferences.
+     * @example
+     * // Create many OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OrganisationPreferencesCreateManyArgs>(args?: SelectSubset<T, OrganisationPreferencesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OrganisationPreferences and returns the data saved in the database.
+     * @param {OrganisationPreferencesCreateManyAndReturnArgs} args - Arguments to create many OrganisationPreferences.
+     * @example
+     * // Create many OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OrganisationPreferences and only return the `id`
+     * const organisationPreferencesWithIdOnly = await prisma.organisationPreferences.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OrganisationPreferencesCreateManyAndReturnArgs>(args?: SelectSubset<T, OrganisationPreferencesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OrganisationPreferences.
+     * @param {OrganisationPreferencesDeleteArgs} args - Arguments to delete one OrganisationPreferences.
+     * @example
+     * // Delete one OrganisationPreferences
+     * const OrganisationPreferences = await prisma.organisationPreferences.delete({
+     *   where: {
+     *     // ... filter to delete one OrganisationPreferences
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OrganisationPreferencesDeleteArgs>(args: SelectSubset<T, OrganisationPreferencesDeleteArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OrganisationPreferences.
+     * @param {OrganisationPreferencesUpdateArgs} args - Arguments to update one OrganisationPreferences.
+     * @example
+     * // Update one OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OrganisationPreferencesUpdateArgs>(args: SelectSubset<T, OrganisationPreferencesUpdateArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OrganisationPreferences.
+     * @param {OrganisationPreferencesDeleteManyArgs} args - Arguments to filter OrganisationPreferences to delete.
+     * @example
+     * // Delete a few OrganisationPreferences
+     * const { count } = await prisma.organisationPreferences.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OrganisationPreferencesDeleteManyArgs>(args?: SelectSubset<T, OrganisationPreferencesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OrganisationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OrganisationPreferencesUpdateManyArgs>(args: SelectSubset<T, OrganisationPreferencesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OrganisationPreferences and returns the data updated in the database.
+     * @param {OrganisationPreferencesUpdateManyAndReturnArgs} args - Arguments to update many OrganisationPreferences.
+     * @example
+     * // Update many OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OrganisationPreferences and only return the `id`
+     * const organisationPreferencesWithIdOnly = await prisma.organisationPreferences.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OrganisationPreferencesUpdateManyAndReturnArgs>(args: SelectSubset<T, OrganisationPreferencesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OrganisationPreferences.
+     * @param {OrganisationPreferencesUpsertArgs} args - Arguments to update or create a OrganisationPreferences.
+     * @example
+     * // Update or create a OrganisationPreferences
+     * const organisationPreferences = await prisma.organisationPreferences.upsert({
+     *   create: {
+     *     // ... data to create a OrganisationPreferences
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OrganisationPreferences we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OrganisationPreferencesUpsertArgs>(args: SelectSubset<T, OrganisationPreferencesUpsertArgs<ExtArgs>>): Prisma__OrganisationPreferencesClient<$Result.GetResult<Prisma.$OrganisationPreferencesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OrganisationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesCountArgs} args - Arguments to filter OrganisationPreferences to count.
+     * @example
+     * // Count the number of OrganisationPreferences
+     * const count = await prisma.organisationPreferences.count({
+     *   where: {
+     *     // ... the filter for the OrganisationPreferences we want to count
+     *   }
+     * })
+    **/
+    count<T extends OrganisationPreferencesCountArgs>(
+      args?: Subset<T, OrganisationPreferencesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OrganisationPreferencesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OrganisationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OrganisationPreferencesAggregateArgs>(args: Subset<T, OrganisationPreferencesAggregateArgs>): Prisma.PrismaPromise<GetOrganisationPreferencesAggregateType<T>>
+
+    /**
+     * Group by OrganisationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrganisationPreferencesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OrganisationPreferencesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OrganisationPreferencesGroupByArgs['orderBy'] }
+        : { orderBy?: OrganisationPreferencesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OrganisationPreferencesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrganisationPreferencesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OrganisationPreferences model
+   */
+  readonly fields: OrganisationPreferencesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OrganisationPreferences.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OrganisationPreferencesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OrganisationPreferences model
+   */
+  interface OrganisationPreferencesFieldRefs {
+    readonly id: FieldRef<"OrganisationPreferences", 'String'>
+    readonly defaultStudentRateCents: FieldRef<"OrganisationPreferences", 'Int'>
+    readonly defaultSubjects: FieldRef<"OrganisationPreferences", 'Json'>
+    readonly subjectColorsJson: FieldRef<"OrganisationPreferences", 'Json'>
+    readonly createdAt: FieldRef<"OrganisationPreferences", 'DateTime'>
+    readonly updatedAt: FieldRef<"OrganisationPreferences", 'DateTime'>
+    readonly organisationId: FieldRef<"OrganisationPreferences", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OrganisationPreferences findUnique
+   */
+  export type OrganisationPreferencesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which OrganisationPreferences to fetch.
+     */
+    where: OrganisationPreferencesWhereUniqueInput
+  }
+
+  /**
+   * OrganisationPreferences findUniqueOrThrow
+   */
+  export type OrganisationPreferencesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which OrganisationPreferences to fetch.
+     */
+    where: OrganisationPreferencesWhereUniqueInput
+  }
+
+  /**
+   * OrganisationPreferences findFirst
+   */
+  export type OrganisationPreferencesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which OrganisationPreferences to fetch.
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrganisationPreferences to fetch.
+     */
+    orderBy?: OrganisationPreferencesOrderByWithRelationInput | OrganisationPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrganisationPreferences.
+     */
+    cursor?: OrganisationPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrganisationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrganisationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrganisationPreferences.
+     */
+    distinct?: OrganisationPreferencesScalarFieldEnum | OrganisationPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * OrganisationPreferences findFirstOrThrow
+   */
+  export type OrganisationPreferencesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which OrganisationPreferences to fetch.
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrganisationPreferences to fetch.
+     */
+    orderBy?: OrganisationPreferencesOrderByWithRelationInput | OrganisationPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrganisationPreferences.
+     */
+    cursor?: OrganisationPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrganisationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrganisationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrganisationPreferences.
+     */
+    distinct?: OrganisationPreferencesScalarFieldEnum | OrganisationPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * OrganisationPreferences findMany
+   */
+  export type OrganisationPreferencesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which OrganisationPreferences to fetch.
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrganisationPreferences to fetch.
+     */
+    orderBy?: OrganisationPreferencesOrderByWithRelationInput | OrganisationPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OrganisationPreferences.
+     */
+    cursor?: OrganisationPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrganisationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrganisationPreferences.
+     */
+    skip?: number
+    distinct?: OrganisationPreferencesScalarFieldEnum | OrganisationPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * OrganisationPreferences create
+   */
+  export type OrganisationPreferencesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OrganisationPreferences.
+     */
+    data: XOR<OrganisationPreferencesCreateInput, OrganisationPreferencesUncheckedCreateInput>
+  }
+
+  /**
+   * OrganisationPreferences createMany
+   */
+  export type OrganisationPreferencesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OrganisationPreferences.
+     */
+    data: OrganisationPreferencesCreateManyInput | OrganisationPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OrganisationPreferences createManyAndReturn
+   */
+  export type OrganisationPreferencesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * The data used to create many OrganisationPreferences.
+     */
+    data: OrganisationPreferencesCreateManyInput | OrganisationPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OrganisationPreferences update
+   */
+  export type OrganisationPreferencesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OrganisationPreferences.
+     */
+    data: XOR<OrganisationPreferencesUpdateInput, OrganisationPreferencesUncheckedUpdateInput>
+    /**
+     * Choose, which OrganisationPreferences to update.
+     */
+    where: OrganisationPreferencesWhereUniqueInput
+  }
+
+  /**
+   * OrganisationPreferences updateMany
+   */
+  export type OrganisationPreferencesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OrganisationPreferences.
+     */
+    data: XOR<OrganisationPreferencesUpdateManyMutationInput, OrganisationPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which OrganisationPreferences to update
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * Limit how many OrganisationPreferences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrganisationPreferences updateManyAndReturn
+   */
+  export type OrganisationPreferencesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * The data used to update OrganisationPreferences.
+     */
+    data: XOR<OrganisationPreferencesUpdateManyMutationInput, OrganisationPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which OrganisationPreferences to update
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * Limit how many OrganisationPreferences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OrganisationPreferences upsert
+   */
+  export type OrganisationPreferencesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OrganisationPreferences to update in case it exists.
+     */
+    where: OrganisationPreferencesWhereUniqueInput
+    /**
+     * In case the OrganisationPreferences found by the `where` argument doesn't exist, create a new OrganisationPreferences with this data.
+     */
+    create: XOR<OrganisationPreferencesCreateInput, OrganisationPreferencesUncheckedCreateInput>
+    /**
+     * In case the OrganisationPreferences was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrganisationPreferencesUpdateInput, OrganisationPreferencesUncheckedUpdateInput>
+  }
+
+  /**
+   * OrganisationPreferences delete
+   */
+  export type OrganisationPreferencesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter which OrganisationPreferences to delete.
+     */
+    where: OrganisationPreferencesWhereUniqueInput
+  }
+
+  /**
+   * OrganisationPreferences deleteMany
+   */
+  export type OrganisationPreferencesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrganisationPreferences to delete
+     */
+    where?: OrganisationPreferencesWhereInput
+    /**
+     * Limit how many OrganisationPreferences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrganisationPreferences without action
+   */
+  export type OrganisationPreferencesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrganisationPreferences
+     */
+    select?: OrganisationPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrganisationPreferences
+     */
+    omit?: OrganisationPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganisationPreferencesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserPreferences
+   */
+
+  export type AggregateUserPreferences = {
+    _count: UserPreferencesCountAggregateOutputType | null
+    _min: UserPreferencesMinAggregateOutputType | null
+    _max: UserPreferencesMaxAggregateOutputType | null
+  }
+
+  export type UserPreferencesMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    organisationId: string | null
+  }
+
+  export type UserPreferencesMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    organisationId: string | null
+  }
+
+  export type UserPreferencesCountAggregateOutputType = {
+    id: number
+    studentsTablePrefsJson: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    organisationId: number
+    _all: number
+  }
+
+
+  export type UserPreferencesMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    organisationId?: true
+  }
+
+  export type UserPreferencesMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    organisationId?: true
+  }
+
+  export type UserPreferencesCountAggregateInputType = {
+    id?: true
+    studentsTablePrefsJson?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    organisationId?: true
+    _all?: true
+  }
+
+  export type UserPreferencesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPreferences to aggregate.
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPreferences to fetch.
+     */
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserPreferences
+    **/
+    _count?: true | UserPreferencesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserPreferencesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserPreferencesMaxAggregateInputType
+  }
+
+  export type GetUserPreferencesAggregateType<T extends UserPreferencesAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserPreferences]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserPreferences[P]>
+      : GetScalarType<T[P], AggregateUserPreferences[P]>
+  }
+
+
+
+
+  export type UserPreferencesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPreferencesWhereInput
+    orderBy?: UserPreferencesOrderByWithAggregationInput | UserPreferencesOrderByWithAggregationInput[]
+    by: UserPreferencesScalarFieldEnum[] | UserPreferencesScalarFieldEnum
+    having?: UserPreferencesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserPreferencesCountAggregateInputType | true
+    _min?: UserPreferencesMinAggregateInputType
+    _max?: UserPreferencesMaxAggregateInputType
+  }
+
+  export type UserPreferencesGroupByOutputType = {
+    id: string
+    studentsTablePrefsJson: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    organisationId: string
+    _count: UserPreferencesCountAggregateOutputType | null
+    _min: UserPreferencesMinAggregateOutputType | null
+    _max: UserPreferencesMaxAggregateOutputType | null
+  }
+
+  type GetUserPreferencesGroupByPayload<T extends UserPreferencesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserPreferencesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserPreferencesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserPreferencesGroupByOutputType[P]>
+            : GetScalarType<T[P], UserPreferencesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserPreferencesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentsTablePrefsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    organisationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPreferences"]>
+
+  export type UserPreferencesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentsTablePrefsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    organisationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPreferences"]>
+
+  export type UserPreferencesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentsTablePrefsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    organisationId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPreferences"]>
+
+  export type UserPreferencesSelectScalar = {
+    id?: boolean
+    studentsTablePrefsJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    organisationId?: boolean
+  }
+
+  export type UserPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentsTablePrefsJson" | "createdAt" | "updatedAt" | "userId" | "organisationId", ExtArgs["result"]["userPreferences"]>
+  export type UserPreferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+  export type UserPreferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+  export type UserPreferencesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+  }
+
+  export type $UserPreferencesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserPreferences"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      studentsTablePrefsJson: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+      organisationId: string
+    }, ExtArgs["result"]["userPreferences"]>
+    composites: {}
+  }
+
+  type UserPreferencesGetPayload<S extends boolean | null | undefined | UserPreferencesDefaultArgs> = $Result.GetResult<Prisma.$UserPreferencesPayload, S>
+
+  type UserPreferencesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserPreferencesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserPreferencesCountAggregateInputType | true
+    }
+
+  export interface UserPreferencesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserPreferences'], meta: { name: 'UserPreferences' } }
+    /**
+     * Find zero or one UserPreferences that matches the filter.
+     * @param {UserPreferencesFindUniqueArgs} args - Arguments to find a UserPreferences
+     * @example
+     * // Get one UserPreferences
+     * const userPreferences = await prisma.userPreferences.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserPreferencesFindUniqueArgs>(args: SelectSubset<T, UserPreferencesFindUniqueArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserPreferences that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserPreferencesFindUniqueOrThrowArgs} args - Arguments to find a UserPreferences
+     * @example
+     * // Get one UserPreferences
+     * const userPreferences = await prisma.userPreferences.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserPreferencesFindUniqueOrThrowArgs>(args: SelectSubset<T, UserPreferencesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesFindFirstArgs} args - Arguments to find a UserPreferences
+     * @example
+     * // Get one UserPreferences
+     * const userPreferences = await prisma.userPreferences.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserPreferencesFindFirstArgs>(args?: SelectSubset<T, UserPreferencesFindFirstArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPreferences that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesFindFirstOrThrowArgs} args - Arguments to find a UserPreferences
+     * @example
+     * // Get one UserPreferences
+     * const userPreferences = await prisma.userPreferences.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserPreferencesFindFirstOrThrowArgs>(args?: SelectSubset<T, UserPreferencesFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserPreferences
+     * const userPreferences = await prisma.userPreferences.findMany()
+     * 
+     * // Get first 10 UserPreferences
+     * const userPreferences = await prisma.userPreferences.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userPreferencesWithIdOnly = await prisma.userPreferences.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserPreferencesFindManyArgs>(args?: SelectSubset<T, UserPreferencesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserPreferences.
+     * @param {UserPreferencesCreateArgs} args - Arguments to create a UserPreferences.
+     * @example
+     * // Create one UserPreferences
+     * const UserPreferences = await prisma.userPreferences.create({
+     *   data: {
+     *     // ... data to create a UserPreferences
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserPreferencesCreateArgs>(args: SelectSubset<T, UserPreferencesCreateArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserPreferences.
+     * @param {UserPreferencesCreateManyArgs} args - Arguments to create many UserPreferences.
+     * @example
+     * // Create many UserPreferences
+     * const userPreferences = await prisma.userPreferences.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserPreferencesCreateManyArgs>(args?: SelectSubset<T, UserPreferencesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserPreferences and returns the data saved in the database.
+     * @param {UserPreferencesCreateManyAndReturnArgs} args - Arguments to create many UserPreferences.
+     * @example
+     * // Create many UserPreferences
+     * const userPreferences = await prisma.userPreferences.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserPreferences and only return the `id`
+     * const userPreferencesWithIdOnly = await prisma.userPreferences.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserPreferencesCreateManyAndReturnArgs>(args?: SelectSubset<T, UserPreferencesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserPreferences.
+     * @param {UserPreferencesDeleteArgs} args - Arguments to delete one UserPreferences.
+     * @example
+     * // Delete one UserPreferences
+     * const UserPreferences = await prisma.userPreferences.delete({
+     *   where: {
+     *     // ... filter to delete one UserPreferences
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserPreferencesDeleteArgs>(args: SelectSubset<T, UserPreferencesDeleteArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserPreferences.
+     * @param {UserPreferencesUpdateArgs} args - Arguments to update one UserPreferences.
+     * @example
+     * // Update one UserPreferences
+     * const userPreferences = await prisma.userPreferences.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserPreferencesUpdateArgs>(args: SelectSubset<T, UserPreferencesUpdateArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserPreferences.
+     * @param {UserPreferencesDeleteManyArgs} args - Arguments to filter UserPreferences to delete.
+     * @example
+     * // Delete a few UserPreferences
+     * const { count } = await prisma.userPreferences.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserPreferencesDeleteManyArgs>(args?: SelectSubset<T, UserPreferencesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserPreferences
+     * const userPreferences = await prisma.userPreferences.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserPreferencesUpdateManyArgs>(args: SelectSubset<T, UserPreferencesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPreferences and returns the data updated in the database.
+     * @param {UserPreferencesUpdateManyAndReturnArgs} args - Arguments to update many UserPreferences.
+     * @example
+     * // Update many UserPreferences
+     * const userPreferences = await prisma.userPreferences.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserPreferences and only return the `id`
+     * const userPreferencesWithIdOnly = await prisma.userPreferences.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserPreferencesUpdateManyAndReturnArgs>(args: SelectSubset<T, UserPreferencesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserPreferences.
+     * @param {UserPreferencesUpsertArgs} args - Arguments to update or create a UserPreferences.
+     * @example
+     * // Update or create a UserPreferences
+     * const userPreferences = await prisma.userPreferences.upsert({
+     *   create: {
+     *     // ... data to create a UserPreferences
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserPreferences we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserPreferencesUpsertArgs>(args: SelectSubset<T, UserPreferencesUpsertArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesCountArgs} args - Arguments to filter UserPreferences to count.
+     * @example
+     * // Count the number of UserPreferences
+     * const count = await prisma.userPreferences.count({
+     *   where: {
+     *     // ... the filter for the UserPreferences we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserPreferencesCountArgs>(
+      args?: Subset<T, UserPreferencesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserPreferencesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserPreferencesAggregateArgs>(args: Subset<T, UserPreferencesAggregateArgs>): Prisma.PrismaPromise<GetUserPreferencesAggregateType<T>>
+
+    /**
+     * Group by UserPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPreferencesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserPreferencesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserPreferencesGroupByArgs['orderBy'] }
+        : { orderBy?: UserPreferencesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserPreferencesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserPreferencesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserPreferences model
+   */
+  readonly fields: UserPreferencesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserPreferences.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserPreferencesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserPreferences model
+   */
+  interface UserPreferencesFieldRefs {
+    readonly id: FieldRef<"UserPreferences", 'String'>
+    readonly studentsTablePrefsJson: FieldRef<"UserPreferences", 'Json'>
+    readonly createdAt: FieldRef<"UserPreferences", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserPreferences", 'DateTime'>
+    readonly userId: FieldRef<"UserPreferences", 'String'>
+    readonly organisationId: FieldRef<"UserPreferences", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserPreferences findUnique
+   */
+  export type UserPreferencesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPreferences to fetch.
+     */
+    where: UserPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserPreferences findUniqueOrThrow
+   */
+  export type UserPreferencesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPreferences to fetch.
+     */
+    where: UserPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserPreferences findFirst
+   */
+  export type UserPreferencesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPreferences to fetch.
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPreferences to fetch.
+     */
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPreferences.
+     */
+    cursor?: UserPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPreferences.
+     */
+    distinct?: UserPreferencesScalarFieldEnum | UserPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserPreferences findFirstOrThrow
+   */
+  export type UserPreferencesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPreferences to fetch.
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPreferences to fetch.
+     */
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPreferences.
+     */
+    cursor?: UserPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPreferences.
+     */
+    distinct?: UserPreferencesScalarFieldEnum | UserPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserPreferences findMany
+   */
+  export type UserPreferencesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPreferences to fetch.
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPreferences to fetch.
+     */
+    orderBy?: UserPreferencesOrderByWithRelationInput | UserPreferencesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserPreferences.
+     */
+    cursor?: UserPreferencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPreferences.
+     */
+    skip?: number
+    distinct?: UserPreferencesScalarFieldEnum | UserPreferencesScalarFieldEnum[]
+  }
+
+  /**
+   * UserPreferences create
+   */
+  export type UserPreferencesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserPreferences.
+     */
+    data: XOR<UserPreferencesCreateInput, UserPreferencesUncheckedCreateInput>
+  }
+
+  /**
+   * UserPreferences createMany
+   */
+  export type UserPreferencesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserPreferences.
+     */
+    data: UserPreferencesCreateManyInput | UserPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserPreferences createManyAndReturn
+   */
+  export type UserPreferencesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserPreferences.
+     */
+    data: UserPreferencesCreateManyInput | UserPreferencesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPreferences update
+   */
+  export type UserPreferencesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserPreferences.
+     */
+    data: XOR<UserPreferencesUpdateInput, UserPreferencesUncheckedUpdateInput>
+    /**
+     * Choose, which UserPreferences to update.
+     */
+    where: UserPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserPreferences updateMany
+   */
+  export type UserPreferencesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserPreferences.
+     */
+    data: XOR<UserPreferencesUpdateManyMutationInput, UserPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPreferences to update
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPreferences updateManyAndReturn
+   */
+  export type UserPreferencesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * The data used to update UserPreferences.
+     */
+    data: XOR<UserPreferencesUpdateManyMutationInput, UserPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPreferences to update
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPreferences upsert
+   */
+  export type UserPreferencesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserPreferences to update in case it exists.
+     */
+    where: UserPreferencesWhereUniqueInput
+    /**
+     * In case the UserPreferences found by the `where` argument doesn't exist, create a new UserPreferences with this data.
+     */
+    create: XOR<UserPreferencesCreateInput, UserPreferencesUncheckedCreateInput>
+    /**
+     * In case the UserPreferences was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserPreferencesUpdateInput, UserPreferencesUncheckedUpdateInput>
+  }
+
+  /**
+   * UserPreferences delete
+   */
+  export type UserPreferencesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
+    /**
+     * Filter which UserPreferences to delete.
+     */
+    where: UserPreferencesWhereUniqueInput
+  }
+
+  /**
+   * UserPreferences deleteMany
+   */
+  export type UserPreferencesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPreferences to delete
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPreferences without action
+   */
+  export type UserPreferencesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesInclude<ExtArgs> | null
   }
 
 
@@ -26455,10 +28932,36 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    bio: 'bio',
     passwordHash: 'passwordHash'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const OrganisationPreferencesScalarFieldEnum: {
+    id: 'id',
+    defaultStudentRateCents: 'defaultStudentRateCents',
+    defaultSubjects: 'defaultSubjects',
+    subjectColorsJson: 'subjectColorsJson',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId'
+  };
+
+  export type OrganisationPreferencesScalarFieldEnum = (typeof OrganisationPreferencesScalarFieldEnum)[keyof typeof OrganisationPreferencesScalarFieldEnum]
+
+
+  export const UserPreferencesScalarFieldEnum: {
+    id: 'id',
+    studentsTablePrefsJson: 'studentsTablePrefsJson',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId',
+    organisationId: 'organisationId'
+  };
+
+  export type UserPreferencesScalarFieldEnum = (typeof UserPreferencesScalarFieldEnum)[keyof typeof UserPreferencesScalarFieldEnum]
 
 
   export const StudentScalarFieldEnum: {
@@ -26698,6 +29201,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -26712,6 +29223,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -26786,6 +29306,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -26896,6 +29430,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Organisation"> | Date | string
     updatedAt?: DateTimeFilter<"Organisation"> | Date | string
     owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    preferences?: XOR<OrganisationPreferencesNullableScalarRelationFilter, OrganisationPreferencesWhereInput> | null
+    userPreferences?: UserPreferencesListRelationFilter
     members?: OrganisationMemberListRelationFilter
     invitations?: InvitationListRelationFilter
     joinRequests?: OrganisationJoinRequestListRelationFilter
@@ -26923,6 +29459,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     owner?: UserOrderByWithRelationInput
+    preferences?: OrganisationPreferencesOrderByWithRelationInput
+    userPreferences?: UserPreferencesOrderByRelationAggregateInput
     members?: OrganisationMemberOrderByRelationAggregateInput
     invitations?: InvitationOrderByRelationAggregateInput
     joinRequests?: OrganisationJoinRequestOrderByRelationAggregateInput
@@ -26953,6 +29491,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Organisation"> | Date | string
     updatedAt?: DateTimeFilter<"Organisation"> | Date | string
     owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    preferences?: XOR<OrganisationPreferencesNullableScalarRelationFilter, OrganisationPreferencesWhereInput> | null
+    userPreferences?: UserPreferencesListRelationFilter
     members?: OrganisationMemberListRelationFilter
     invitations?: InvitationListRelationFilter
     joinRequests?: OrganisationJoinRequestListRelationFilter
@@ -27230,8 +29770,10 @@ export namespace Prisma {
     email?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
     ownedWorkspace?: XOR<OrganisationNullableScalarRelationFilter, OrganisationWhereInput> | null
+    preferences?: UserPreferencesListRelationFilter
     memberships?: OrganisationMemberListRelationFilter
     invitationsSent?: InvitationListRelationFilter
     joinRequests?: OrganisationJoinRequestListRelationFilter
@@ -27249,8 +29791,10 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
     ownedWorkspace?: OrganisationOrderByWithRelationInput
+    preferences?: UserPreferencesOrderByRelationAggregateInput
     memberships?: OrganisationMemberOrderByRelationAggregateInput
     invitationsSent?: InvitationOrderByRelationAggregateInput
     joinRequests?: OrganisationJoinRequestOrderByRelationAggregateInput
@@ -27271,8 +29815,10 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
     ownedWorkspace?: XOR<OrganisationNullableScalarRelationFilter, OrganisationWhereInput> | null
+    preferences?: UserPreferencesListRelationFilter
     memberships?: OrganisationMemberListRelationFilter
     invitationsSent?: InvitationListRelationFilter
     joinRequests?: OrganisationJoinRequestListRelationFilter
@@ -27290,6 +29836,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -27305,7 +29852,139 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type OrganisationPreferencesWhereInput = {
+    AND?: OrganisationPreferencesWhereInput | OrganisationPreferencesWhereInput[]
+    OR?: OrganisationPreferencesWhereInput[]
+    NOT?: OrganisationPreferencesWhereInput | OrganisationPreferencesWhereInput[]
+    id?: StringFilter<"OrganisationPreferences"> | string
+    defaultStudentRateCents?: IntNullableFilter<"OrganisationPreferences"> | number | null
+    defaultSubjects?: JsonNullableFilter<"OrganisationPreferences">
+    subjectColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    createdAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
+    updatedAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
+    organisationId?: StringFilter<"OrganisationPreferences"> | string
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+  }
+
+  export type OrganisationPreferencesOrderByWithRelationInput = {
+    id?: SortOrder
+    defaultStudentRateCents?: SortOrderInput | SortOrder
+    defaultSubjects?: SortOrderInput | SortOrder
+    subjectColorsJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+  }
+
+  export type OrganisationPreferencesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organisationId?: string
+    AND?: OrganisationPreferencesWhereInput | OrganisationPreferencesWhereInput[]
+    OR?: OrganisationPreferencesWhereInput[]
+    NOT?: OrganisationPreferencesWhereInput | OrganisationPreferencesWhereInput[]
+    defaultStudentRateCents?: IntNullableFilter<"OrganisationPreferences"> | number | null
+    defaultSubjects?: JsonNullableFilter<"OrganisationPreferences">
+    subjectColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    createdAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
+    updatedAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+  }, "id" | "organisationId">
+
+  export type OrganisationPreferencesOrderByWithAggregationInput = {
+    id?: SortOrder
+    defaultStudentRateCents?: SortOrderInput | SortOrder
+    defaultSubjects?: SortOrderInput | SortOrder
+    subjectColorsJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    _count?: OrganisationPreferencesCountOrderByAggregateInput
+    _avg?: OrganisationPreferencesAvgOrderByAggregateInput
+    _max?: OrganisationPreferencesMaxOrderByAggregateInput
+    _min?: OrganisationPreferencesMinOrderByAggregateInput
+    _sum?: OrganisationPreferencesSumOrderByAggregateInput
+  }
+
+  export type OrganisationPreferencesScalarWhereWithAggregatesInput = {
+    AND?: OrganisationPreferencesScalarWhereWithAggregatesInput | OrganisationPreferencesScalarWhereWithAggregatesInput[]
+    OR?: OrganisationPreferencesScalarWhereWithAggregatesInput[]
+    NOT?: OrganisationPreferencesScalarWhereWithAggregatesInput | OrganisationPreferencesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OrganisationPreferences"> | string
+    defaultStudentRateCents?: IntNullableWithAggregatesFilter<"OrganisationPreferences"> | number | null
+    defaultSubjects?: JsonNullableWithAggregatesFilter<"OrganisationPreferences">
+    subjectColorsJson?: JsonNullableWithAggregatesFilter<"OrganisationPreferences">
+    createdAt?: DateTimeWithAggregatesFilter<"OrganisationPreferences"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OrganisationPreferences"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"OrganisationPreferences"> | string
+  }
+
+  export type UserPreferencesWhereInput = {
+    AND?: UserPreferencesWhereInput | UserPreferencesWhereInput[]
+    OR?: UserPreferencesWhereInput[]
+    NOT?: UserPreferencesWhereInput | UserPreferencesWhereInput[]
+    id?: StringFilter<"UserPreferences"> | string
+    studentsTablePrefsJson?: JsonNullableFilter<"UserPreferences">
+    createdAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    userId?: StringFilter<"UserPreferences"> | string
+    organisationId?: StringFilter<"UserPreferences"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+  }
+
+  export type UserPreferencesOrderByWithRelationInput = {
+    id?: SortOrder
+    studentsTablePrefsJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    organisationId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    organisation?: OrganisationOrderByWithRelationInput
+  }
+
+  export type UserPreferencesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_organisationId?: UserPreferencesUserIdOrganisationIdCompoundUniqueInput
+    AND?: UserPreferencesWhereInput | UserPreferencesWhereInput[]
+    OR?: UserPreferencesWhereInput[]
+    NOT?: UserPreferencesWhereInput | UserPreferencesWhereInput[]
+    studentsTablePrefsJson?: JsonNullableFilter<"UserPreferences">
+    createdAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    userId?: StringFilter<"UserPreferences"> | string
+    organisationId?: StringFilter<"UserPreferences"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+  }, "id" | "userId_organisationId">
+
+  export type UserPreferencesOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentsTablePrefsJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    organisationId?: SortOrder
+    _count?: UserPreferencesCountOrderByAggregateInput
+    _max?: UserPreferencesMaxOrderByAggregateInput
+    _min?: UserPreferencesMinOrderByAggregateInput
+  }
+
+  export type UserPreferencesScalarWhereWithAggregatesInput = {
+    AND?: UserPreferencesScalarWhereWithAggregatesInput | UserPreferencesScalarWhereWithAggregatesInput[]
+    OR?: UserPreferencesScalarWhereWithAggregatesInput[]
+    NOT?: UserPreferencesScalarWhereWithAggregatesInput | UserPreferencesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserPreferences"> | string
+    studentsTablePrefsJson?: JsonNullableWithAggregatesFilter<"UserPreferences">
+    createdAt?: DateTimeWithAggregatesFilter<"UserPreferences"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserPreferences"> | Date | string
+    userId?: StringWithAggregatesFilter<"UserPreferences"> | string
+    organisationId?: StringWithAggregatesFilter<"UserPreferences"> | string
   }
 
   export type StudentWhereInput = {
@@ -28592,6 +31271,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -28618,6 +31299,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -28644,6 +31327,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -28670,6 +31355,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -28949,8 +31636,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -28968,8 +31657,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -28987,8 +31678,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -29006,8 +31699,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -29025,6 +31720,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
   }
 
@@ -29034,6 +31730,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -29043,7 +31740,138 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OrganisationPreferencesCreateInput = {
+    id?: string
+    defaultStudentRateCents?: number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutPreferencesInput
+  }
+
+  export type OrganisationPreferencesUncheckedCreateInput = {
+    id?: string
+    defaultStudentRateCents?: number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
+  export type OrganisationPreferencesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutPreferencesNestedInput
+  }
+
+  export type OrganisationPreferencesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrganisationPreferencesCreateManyInput = {
+    id?: string
+    defaultStudentRateCents?: number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
+  export type OrganisationPreferencesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrganisationPreferencesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserPreferencesCreateInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPreferencesInput
+    organisation: OrganisationCreateNestedOneWithoutUserPreferencesInput
+  }
+
+  export type UserPreferencesUncheckedCreateInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    organisationId: string
+  }
+
+  export type UserPreferencesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPreferencesNestedInput
+    organisation?: OrganisationUpdateOneRequiredWithoutUserPreferencesNestedInput
+  }
+
+  export type UserPreferencesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserPreferencesCreateManyInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    organisationId: string
+  }
+
+  export type UserPreferencesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPreferencesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    organisationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StudentCreateInput = {
@@ -30419,6 +33247,17 @@ export namespace Prisma {
     isNot?: UserWhereInput | null
   }
 
+  export type OrganisationPreferencesNullableScalarRelationFilter = {
+    is?: OrganisationPreferencesWhereInput | null
+    isNot?: OrganisationPreferencesWhereInput | null
+  }
+
+  export type UserPreferencesListRelationFilter = {
+    every?: UserPreferencesWhereInput
+    some?: UserPreferencesWhereInput
+    none?: UserPreferencesWhereInput
+  }
+
   export type OrganisationMemberListRelationFilter = {
     every?: OrganisationMemberWhereInput
     some?: OrganisationMemberWhereInput
@@ -30511,6 +33350,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type UserPreferencesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type OrganisationMemberOrderByRelationAggregateInput = {
@@ -30825,6 +33668,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
     passwordHash?: SortOrder
   }
 
@@ -30834,6 +33678,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
     passwordHash?: SortOrder
   }
 
@@ -30843,7 +33688,148 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
     passwordHash?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type OrganisationPreferencesCountOrderByAggregateInput = {
+    id?: SortOrder
+    defaultStudentRateCents?: SortOrder
+    defaultSubjects?: SortOrder
+    subjectColorsJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+  }
+
+  export type OrganisationPreferencesAvgOrderByAggregateInput = {
+    defaultStudentRateCents?: SortOrder
+  }
+
+  export type OrganisationPreferencesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    defaultStudentRateCents?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+  }
+
+  export type OrganisationPreferencesMinOrderByAggregateInput = {
+    id?: SortOrder
+    defaultStudentRateCents?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+  }
+
+  export type OrganisationPreferencesSumOrderByAggregateInput = {
+    defaultStudentRateCents?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type UserPreferencesUserIdOrganisationIdCompoundUniqueInput = {
+    userId: string
+    organisationId: string
+  }
+
+  export type UserPreferencesCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentsTablePrefsJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    organisationId?: SortOrder
+  }
+
+  export type UserPreferencesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    organisationId?: SortOrder
+  }
+
+  export type UserPreferencesMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    organisationId?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -30860,17 +33846,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type ClassNullableScalarRelationFilter = {
@@ -31004,22 +33979,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ClassCountOrderByAggregateInput = {
@@ -31849,6 +34808,19 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type OrganisationPreferencesCreateNestedOneWithoutOrganisationInput = {
+    create?: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+    connectOrCreate?: OrganisationPreferencesCreateOrConnectWithoutOrganisationInput
+    connect?: OrganisationPreferencesWhereUniqueInput
+  }
+
+  export type UserPreferencesCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput> | UserPreferencesCreateWithoutOrganisationInput[] | UserPreferencesUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutOrganisationInput | UserPreferencesCreateOrConnectWithoutOrganisationInput[]
+    createMany?: UserPreferencesCreateManyOrganisationInputEnvelope
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+  }
+
   export type OrganisationMemberCreateNestedManyWithoutOrganisationInput = {
     create?: XOR<OrganisationMemberCreateWithoutOrganisationInput, OrganisationMemberUncheckedCreateWithoutOrganisationInput> | OrganisationMemberCreateWithoutOrganisationInput[] | OrganisationMemberUncheckedCreateWithoutOrganisationInput[]
     connectOrCreate?: OrganisationMemberCreateOrConnectWithoutOrganisationInput | OrganisationMemberCreateOrConnectWithoutOrganisationInput[]
@@ -31951,6 +34923,19 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutOrganisationInput | PaymentCreateOrConnectWithoutOrganisationInput[]
     createMany?: PaymentCreateManyOrganisationInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput = {
+    create?: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+    connectOrCreate?: OrganisationPreferencesCreateOrConnectWithoutOrganisationInput
+    connect?: OrganisationPreferencesWhereUniqueInput
+  }
+
+  export type UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput> | UserPreferencesCreateWithoutOrganisationInput[] | UserPreferencesUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutOrganisationInput | UserPreferencesCreateOrConnectWithoutOrganisationInput[]
+    createMany?: UserPreferencesCreateManyOrganisationInputEnvelope
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
   }
 
   export type OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput = {
@@ -32081,6 +35066,30 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnedWorkspaceInput, UserUpdateWithoutOwnedWorkspaceInput>, UserUncheckedUpdateWithoutOwnedWorkspaceInput>
+  }
+
+  export type OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput = {
+    create?: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+    connectOrCreate?: OrganisationPreferencesCreateOrConnectWithoutOrganisationInput
+    upsert?: OrganisationPreferencesUpsertWithoutOrganisationInput
+    disconnect?: OrganisationPreferencesWhereInput | boolean
+    delete?: OrganisationPreferencesWhereInput | boolean
+    connect?: OrganisationPreferencesWhereUniqueInput
+    update?: XOR<XOR<OrganisationPreferencesUpdateToOneWithWhereWithoutOrganisationInput, OrganisationPreferencesUpdateWithoutOrganisationInput>, OrganisationPreferencesUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput> | UserPreferencesCreateWithoutOrganisationInput[] | UserPreferencesUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutOrganisationInput | UserPreferencesCreateOrConnectWithoutOrganisationInput[]
+    upsert?: UserPreferencesUpsertWithWhereUniqueWithoutOrganisationInput | UserPreferencesUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: UserPreferencesCreateManyOrganisationInputEnvelope
+    set?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    disconnect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    delete?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    update?: UserPreferencesUpdateWithWhereUniqueWithoutOrganisationInput | UserPreferencesUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: UserPreferencesUpdateManyWithWhereWithoutOrganisationInput | UserPreferencesUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
   }
 
   export type OrganisationMemberUpdateManyWithoutOrganisationNestedInput = {
@@ -32287,6 +35296,30 @@ export namespace Prisma {
     update?: PaymentUpdateWithWhereUniqueWithoutOrganisationInput | PaymentUpdateWithWhereUniqueWithoutOrganisationInput[]
     updateMany?: PaymentUpdateManyWithWhereWithoutOrganisationInput | PaymentUpdateManyWithWhereWithoutOrganisationInput[]
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput = {
+    create?: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+    connectOrCreate?: OrganisationPreferencesCreateOrConnectWithoutOrganisationInput
+    upsert?: OrganisationPreferencesUpsertWithoutOrganisationInput
+    disconnect?: OrganisationPreferencesWhereInput | boolean
+    delete?: OrganisationPreferencesWhereInput | boolean
+    connect?: OrganisationPreferencesWhereUniqueInput
+    update?: XOR<XOR<OrganisationPreferencesUpdateToOneWithWhereWithoutOrganisationInput, OrganisationPreferencesUpdateWithoutOrganisationInput>, OrganisationPreferencesUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput> | UserPreferencesCreateWithoutOrganisationInput[] | UserPreferencesUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutOrganisationInput | UserPreferencesCreateOrConnectWithoutOrganisationInput[]
+    upsert?: UserPreferencesUpsertWithWhereUniqueWithoutOrganisationInput | UserPreferencesUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: UserPreferencesCreateManyOrganisationInputEnvelope
+    set?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    disconnect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    delete?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    update?: UserPreferencesUpdateWithWhereUniqueWithoutOrganisationInput | UserPreferencesUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: UserPreferencesUpdateManyWithWhereWithoutOrganisationInput | UserPreferencesUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
   }
 
   export type OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput = {
@@ -32609,6 +35642,13 @@ export namespace Prisma {
     connect?: OrganisationWhereUniqueInput
   }
 
+  export type UserPreferencesCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput> | UserPreferencesCreateWithoutUserInput[] | UserPreferencesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutUserInput | UserPreferencesCreateOrConnectWithoutUserInput[]
+    createMany?: UserPreferencesCreateManyUserInputEnvelope
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+  }
+
   export type OrganisationMemberCreateNestedManyWithoutUserInput = {
     create?: XOR<OrganisationMemberCreateWithoutUserInput, OrganisationMemberUncheckedCreateWithoutUserInput> | OrganisationMemberCreateWithoutUserInput[] | OrganisationMemberUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrganisationMemberCreateOrConnectWithoutUserInput | OrganisationMemberCreateOrConnectWithoutUserInput[]
@@ -32676,6 +35716,13 @@ export namespace Prisma {
     create?: XOR<OrganisationCreateWithoutOwnerInput, OrganisationUncheckedCreateWithoutOwnerInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutOwnerInput
     connect?: OrganisationWhereUniqueInput
+  }
+
+  export type UserPreferencesUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput> | UserPreferencesCreateWithoutUserInput[] | UserPreferencesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutUserInput | UserPreferencesCreateOrConnectWithoutUserInput[]
+    createMany?: UserPreferencesCreateManyUserInputEnvelope
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
   }
 
   export type OrganisationMemberUncheckedCreateNestedManyWithoutUserInput = {
@@ -32749,6 +35796,20 @@ export namespace Prisma {
     delete?: OrganisationWhereInput | boolean
     connect?: OrganisationWhereUniqueInput
     update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutOwnerInput, OrganisationUpdateWithoutOwnerInput>, OrganisationUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type UserPreferencesUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput> | UserPreferencesCreateWithoutUserInput[] | UserPreferencesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutUserInput | UserPreferencesCreateOrConnectWithoutUserInput[]
+    upsert?: UserPreferencesUpsertWithWhereUniqueWithoutUserInput | UserPreferencesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserPreferencesCreateManyUserInputEnvelope
+    set?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    disconnect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    delete?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    update?: UserPreferencesUpdateWithWhereUniqueWithoutUserInput | UserPreferencesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserPreferencesUpdateManyWithWhereWithoutUserInput | UserPreferencesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
   }
 
   export type OrganisationMemberUpdateManyWithoutUserNestedInput = {
@@ -32887,6 +35948,20 @@ export namespace Prisma {
     update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutOwnerInput, OrganisationUpdateWithoutOwnerInput>, OrganisationUncheckedUpdateWithoutOwnerInput>
   }
 
+  export type UserPreferencesUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput> | UserPreferencesCreateWithoutUserInput[] | UserPreferencesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPreferencesCreateOrConnectWithoutUserInput | UserPreferencesCreateOrConnectWithoutUserInput[]
+    upsert?: UserPreferencesUpsertWithWhereUniqueWithoutUserInput | UserPreferencesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserPreferencesCreateManyUserInputEnvelope
+    set?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    disconnect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    delete?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    connect?: UserPreferencesWhereUniqueInput | UserPreferencesWhereUniqueInput[]
+    update?: UserPreferencesUpdateWithWhereUniqueWithoutUserInput | UserPreferencesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserPreferencesUpdateManyWithWhereWithoutUserInput | UserPreferencesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
+  }
+
   export type OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<OrganisationMemberCreateWithoutUserInput, OrganisationMemberUncheckedCreateWithoutUserInput> | OrganisationMemberCreateWithoutUserInput[] | OrganisationMemberUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrganisationMemberCreateOrConnectWithoutUserInput | OrganisationMemberCreateOrConnectWithoutUserInput[]
@@ -33013,6 +36088,56 @@ export namespace Prisma {
     deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
   }
 
+  export type OrganisationCreateNestedOneWithoutPreferencesInput = {
+    create?: XOR<OrganisationCreateWithoutPreferencesInput, OrganisationUncheckedCreateWithoutPreferencesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutPreferencesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutPreferencesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutPreferencesInput, OrganisationUncheckedCreateWithoutPreferencesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutPreferencesInput
+    upsert?: OrganisationUpsertWithoutPreferencesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutPreferencesInput, OrganisationUpdateWithoutPreferencesInput>, OrganisationUncheckedUpdateWithoutPreferencesInput>
+  }
+
+  export type UserCreateNestedOneWithoutPreferencesInput = {
+    create?: XOR<UserCreateWithoutPreferencesInput, UserUncheckedCreateWithoutPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPreferencesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type OrganisationCreateNestedOneWithoutUserPreferencesInput = {
+    create?: XOR<OrganisationCreateWithoutUserPreferencesInput, OrganisationUncheckedCreateWithoutUserPreferencesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutUserPreferencesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPreferencesNestedInput = {
+    create?: XOR<UserCreateWithoutPreferencesInput, UserUncheckedCreateWithoutPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPreferencesInput
+    upsert?: UserUpsertWithoutPreferencesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPreferencesInput, UserUpdateWithoutPreferencesInput>, UserUncheckedUpdateWithoutPreferencesInput>
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutUserPreferencesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutUserPreferencesInput, OrganisationUncheckedCreateWithoutUserPreferencesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutUserPreferencesInput
+    upsert?: OrganisationUpsertWithoutUserPreferencesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutUserPreferencesInput, OrganisationUpdateWithoutUserPreferencesInput>, OrganisationUncheckedUpdateWithoutUserPreferencesInput>
+  }
+
   export type OrganisationCreateNestedOneWithoutStudentsInput = {
     create?: XOR<OrganisationCreateWithoutStudentsInput, OrganisationUncheckedCreateWithoutStudentsInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutStudentsInput
@@ -33133,14 +36258,6 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type OrganisationUpdateOneRequiredWithoutStudentsNestedInput = {
@@ -34325,6 +37442,56 @@ export namespace Prisma {
     _max?: NestedEnumJoinRequestStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -34363,33 +37530,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -34515,7 +37655,9 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -34533,7 +37675,9 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -34548,6 +37692,55 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutOwnedWorkspaceInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutOwnedWorkspaceInput, UserUncheckedCreateWithoutOwnedWorkspaceInput>
+  }
+
+  export type OrganisationPreferencesCreateWithoutOrganisationInput = {
+    id?: string
+    defaultStudentRateCents?: number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OrganisationPreferencesUncheckedCreateWithoutOrganisationInput = {
+    id?: string
+    defaultStudentRateCents?: number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OrganisationPreferencesCreateOrConnectWithoutOrganisationInput = {
+    where: OrganisationPreferencesWhereUniqueInput
+    create: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesCreateWithoutOrganisationInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPreferencesInput
+  }
+
+  export type UserPreferencesUncheckedCreateWithoutOrganisationInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type UserPreferencesCreateOrConnectWithoutOrganisationInput = {
+    where: UserPreferencesWhereUniqueInput
+    create: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesCreateManyOrganisationInputEnvelope = {
+    data: UserPreferencesCreateManyOrganisationInput | UserPreferencesCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
   }
 
   export type OrganisationMemberCreateWithoutOrganisationInput = {
@@ -35109,7 +38302,9 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -35127,7 +38322,9 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -35137,6 +38334,63 @@ export namespace Prisma {
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
     classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type OrganisationPreferencesUpsertWithoutOrganisationInput = {
+    update: XOR<OrganisationPreferencesUpdateWithoutOrganisationInput, OrganisationPreferencesUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<OrganisationPreferencesCreateWithoutOrganisationInput, OrganisationPreferencesUncheckedCreateWithoutOrganisationInput>
+    where?: OrganisationPreferencesWhereInput
+  }
+
+  export type OrganisationPreferencesUpdateToOneWithWhereWithoutOrganisationInput = {
+    where?: OrganisationPreferencesWhereInput
+    data: XOR<OrganisationPreferencesUpdateWithoutOrganisationInput, OrganisationPreferencesUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type OrganisationPreferencesUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrganisationPreferencesUncheckedUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
+    subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPreferencesUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: UserPreferencesWhereUniqueInput
+    update: XOR<UserPreferencesUpdateWithoutOrganisationInput, UserPreferencesUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<UserPreferencesCreateWithoutOrganisationInput, UserPreferencesUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: UserPreferencesWhereUniqueInput
+    data: XOR<UserPreferencesUpdateWithoutOrganisationInput, UserPreferencesUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesUpdateManyWithWhereWithoutOrganisationInput = {
+    where: UserPreferencesScalarWhereInput
+    data: XOR<UserPreferencesUpdateManyMutationInput, UserPreferencesUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type UserPreferencesScalarWhereInput = {
+    AND?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
+    OR?: UserPreferencesScalarWhereInput[]
+    NOT?: UserPreferencesScalarWhereInput | UserPreferencesScalarWhereInput[]
+    id?: StringFilter<"UserPreferences"> | string
+    studentsTablePrefsJson?: JsonNullableFilter<"UserPreferences">
+    createdAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPreferences"> | Date | string
+    userId?: StringFilter<"UserPreferences"> | string
+    organisationId?: StringFilter<"UserPreferences"> | string
   }
 
   export type OrganisationMemberUpsertWithWhereUniqueWithoutOrganisationInput = {
@@ -35634,8 +38888,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
     joinRequestsDecided?: OrganisationJoinRequestCreateNestedManyWithoutDecidedByInput
@@ -35652,8 +38908,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutDecidedByInput
@@ -35678,6 +38936,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
     students?: StudentCreateNestedManyWithoutOrganisationInput
@@ -35703,6 +38963,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -35741,8 +39003,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUpdateManyWithoutDecidedByNestedInput
@@ -35759,8 +39023,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedUpdateManyWithoutDecidedByNestedInput
@@ -35791,6 +39057,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
     students?: StudentUpdateManyWithoutOrganisationNestedInput
@@ -35816,6 +39084,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -35841,6 +39111,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
     students?: StudentCreateNestedManyWithoutOrganisationInput
@@ -35866,6 +39138,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -35893,8 +39167,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
     joinRequestsDecided?: OrganisationJoinRequestCreateNestedManyWithoutDecidedByInput
@@ -35911,8 +39187,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutDecidedByInput
@@ -35948,6 +39226,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
     students?: StudentUpdateManyWithoutOrganisationNestedInput
@@ -35973,6 +39253,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -36006,8 +39288,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUpdateManyWithoutDecidedByNestedInput
@@ -36024,8 +39308,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedUpdateManyWithoutDecidedByNestedInput
@@ -36042,8 +39328,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequestsDecided?: OrganisationJoinRequestCreateNestedManyWithoutDecidedByInput
@@ -36060,8 +39348,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutDecidedByInput
@@ -36086,6 +39376,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     students?: StudentCreateNestedManyWithoutOrganisationInput
@@ -36111,6 +39403,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -36138,8 +39432,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -36156,8 +39452,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -36190,8 +39488,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUpdateManyWithoutDecidedByNestedInput
@@ -36208,8 +39508,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequestsDecided?: OrganisationJoinRequestUncheckedUpdateManyWithoutDecidedByNestedInput
@@ -36240,6 +39542,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     students?: StudentUpdateManyWithoutOrganisationNestedInput
@@ -36265,6 +39569,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -36298,8 +39604,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -36316,8 +39624,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -36336,6 +39646,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -36361,6 +39673,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -36381,6 +39695,32 @@ export namespace Prisma {
   export type OrganisationCreateOrConnectWithoutOwnerInput = {
     where: OrganisationWhereUniqueInput
     create: XOR<OrganisationCreateWithoutOwnerInput, OrganisationUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type UserPreferencesCreateWithoutUserInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutUserPreferencesInput
+  }
+
+  export type UserPreferencesUncheckedCreateWithoutUserInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
+  export type UserPreferencesCreateOrConnectWithoutUserInput = {
+    where: UserPreferencesWhereUniqueInput
+    create: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserPreferencesCreateManyUserInputEnvelope = {
+    data: UserPreferencesCreateManyUserInput | UserPreferencesCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type OrganisationMemberCreateWithoutUserInput = {
@@ -36710,6 +40050,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -36735,6 +40077,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -36750,6 +40094,22 @@ export namespace Prisma {
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type UserPreferencesUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserPreferencesWhereUniqueInput
+    update: XOR<UserPreferencesUpdateWithoutUserInput, UserPreferencesUncheckedUpdateWithoutUserInput>
+    create: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserPreferencesUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserPreferencesWhereUniqueInput
+    data: XOR<UserPreferencesUpdateWithoutUserInput, UserPreferencesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserPreferencesUpdateManyWithWhereWithoutUserInput = {
+    where: UserPreferencesScalarWhereInput
+    data: XOR<UserPreferencesUpdateManyMutationInput, UserPreferencesUncheckedUpdateManyWithoutUserInput>
   }
 
   export type OrganisationMemberUpsertWithWhereUniqueWithoutUserInput = {
@@ -36896,6 +40256,350 @@ export namespace Prisma {
     data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyWithoutCreatedByInput>
   }
 
+  export type OrganisationCreateWithoutPreferencesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutPreferencesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutPreferencesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutPreferencesInput, OrganisationUncheckedCreateWithoutPreferencesInput>
+  }
+
+  export type OrganisationUpsertWithoutPreferencesInput = {
+    update: XOR<OrganisationUpdateWithoutPreferencesInput, OrganisationUncheckedUpdateWithoutPreferencesInput>
+    create: XOR<OrganisationCreateWithoutPreferencesInput, OrganisationUncheckedCreateWithoutPreferencesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutPreferencesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutPreferencesInput, OrganisationUncheckedUpdateWithoutPreferencesInput>
+  }
+
+  export type OrganisationUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type UserCreateWithoutPreferencesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    bio?: string | null
+    passwordHash?: string | null
+    ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
+    joinRequestsDecided?: OrganisationJoinRequestCreateNestedManyWithoutDecidedByInput
+    meetingsCreated?: MeetingCreateNestedManyWithoutCreatedByInput
+    assessmentsLogged?: AssessmentCreateNestedManyWithoutRecordedByInput
+    checkInsAssigned?: CheckInCreateNestedManyWithoutTeacherInput
+    paymentsRecorded?: PaymentCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutPreferencesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    bio?: string | null
+    passwordHash?: string | null
+    ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
+    joinRequestsDecided?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutDecidedByInput
+    meetingsCreated?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    assessmentsLogged?: AssessmentUncheckedCreateNestedManyWithoutRecordedByInput
+    checkInsAssigned?: CheckInUncheckedCreateNestedManyWithoutTeacherInput
+    paymentsRecorded?: PaymentUncheckedCreateNestedManyWithoutRecordedByInput
+    classSessionsCreated?: ClassSessionUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutPreferencesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPreferencesInput, UserUncheckedCreateWithoutPreferencesInput>
+  }
+
+  export type OrganisationCreateWithoutUserPreferencesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutUserPreferencesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutUserPreferencesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutUserPreferencesInput, OrganisationUncheckedCreateWithoutUserPreferencesInput>
+  }
+
+  export type UserUpsertWithoutPreferencesInput = {
+    update: XOR<UserUpdateWithoutPreferencesInput, UserUncheckedUpdateWithoutPreferencesInput>
+    create: XOR<UserCreateWithoutPreferencesInput, UserUncheckedCreateWithoutPreferencesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPreferencesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPreferencesInput, UserUncheckedUpdateWithoutPreferencesInput>
+  }
+
+  export type UserUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
+    joinRequestsDecided?: OrganisationJoinRequestUpdateManyWithoutDecidedByNestedInput
+    meetingsCreated?: MeetingUpdateManyWithoutCreatedByNestedInput
+    assessmentsLogged?: AssessmentUpdateManyWithoutRecordedByNestedInput
+    checkInsAssigned?: CheckInUpdateManyWithoutTeacherNestedInput
+    paymentsRecorded?: PaymentUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    joinRequestsDecided?: OrganisationJoinRequestUncheckedUpdateManyWithoutDecidedByNestedInput
+    meetingsCreated?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
+    checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
+    paymentsRecorded?: PaymentUncheckedUpdateManyWithoutRecordedByNestedInput
+    classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type OrganisationUpsertWithoutUserPreferencesInput = {
+    update: XOR<OrganisationUpdateWithoutUserPreferencesInput, OrganisationUncheckedUpdateWithoutUserPreferencesInput>
+    create: XOR<OrganisationCreateWithoutUserPreferencesInput, OrganisationUncheckedCreateWithoutUserPreferencesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutUserPreferencesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutUserPreferencesInput, OrganisationUncheckedUpdateWithoutUserPreferencesInput>
+  }
+
+  export type OrganisationUpdateWithoutUserPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutUserPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
   export type OrganisationCreateWithoutStudentsInput = {
     id?: string
     name: string
@@ -36905,6 +40609,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -36930,6 +40636,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -37243,6 +40951,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -37268,6 +40978,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -37449,6 +41161,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -37474,6 +41188,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -37623,6 +41339,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -37648,6 +41366,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -37705,6 +41425,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -37730,6 +41452,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -37757,8 +41481,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -37775,8 +41501,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -37922,6 +41650,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -37947,6 +41677,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -37980,8 +41712,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -37998,8 +41732,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38109,6 +41845,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -38134,6 +41872,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -38219,6 +41959,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -38244,6 +41986,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -38285,6 +42029,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -38310,6 +42056,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -38351,6 +42099,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -38376,6 +42126,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -38401,6 +42153,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -38426,6 +42180,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -38553,8 +42309,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -38571,8 +42329,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38608,6 +42368,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -38633,6 +42395,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -38778,8 +42542,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -38796,8 +42562,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38817,6 +42585,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -38842,6 +42612,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -38897,8 +42669,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -38915,8 +42689,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38979,6 +42755,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -39004,6 +42782,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39071,8 +42851,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -39089,8 +42871,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -39126,6 +42910,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -39151,6 +42937,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39290,6 +43078,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -39315,6 +43105,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39450,6 +43242,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -39475,6 +43269,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39570,8 +43366,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -39588,8 +43386,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39625,6 +43425,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -39650,6 +43452,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39757,8 +43561,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -39775,8 +43581,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -39796,6 +43604,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -39821,6 +43631,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39892,6 +43704,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -39917,6 +43731,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -40259,6 +44075,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -40284,6 +44102,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -40461,6 +44281,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -40486,6 +44308,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -40637,6 +44461,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
@@ -40662,6 +44488,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
     members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
@@ -40796,8 +44624,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutUserInput
@@ -40814,8 +44644,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    bio?: string | null
     passwordHash?: string | null
     ownedWorkspace?: OrganisationUncheckedCreateNestedOneWithoutOwnerInput
+    preferences?: UserPreferencesUncheckedCreateNestedManyWithoutUserInput
     memberships?: OrganisationMemberUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
     joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutUserInput
@@ -40851,6 +44683,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
@@ -40876,6 +44710,8 @@ export namespace Prisma {
     joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
     members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -41028,8 +44864,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUpdateManyWithoutUserNestedInput
@@ -41046,8 +44884,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     ownedWorkspace?: OrganisationUncheckedUpdateOneWithoutOwnerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateManyWithoutUserNestedInput
     memberships?: OrganisationMemberUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
     joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -41056,6 +44896,14 @@ export namespace Prisma {
     assessmentsLogged?: AssessmentUncheckedUpdateManyWithoutRecordedByNestedInput
     checkInsAssigned?: CheckInUncheckedUpdateManyWithoutTeacherNestedInput
     classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserPreferencesCreateManyOrganisationInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
   }
 
   export type OrganisationMemberCreateManyOrganisationInput = {
@@ -41236,6 +45084,30 @@ export namespace Prisma {
     studentId: number
     invoiceId?: string | null
     recordedById: string
+  }
+
+  export type UserPreferencesUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPreferencesNestedInput
+  }
+
+  export type UserPreferencesUncheckedUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserPreferencesUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrganisationMemberUpdateWithoutOrganisationInput = {
@@ -41797,6 +45669,14 @@ export namespace Prisma {
     recordedById?: StringFieldUpdateOperationsInput | string
   }
 
+  export type UserPreferencesCreateManyUserInput = {
+    id?: string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
   export type OrganisationMemberCreateManyUserInput = {
     id?: string
     role?: $Enums.Role
@@ -41903,6 +45783,30 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     classId: number
+  }
+
+  export type UserPreferencesUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutUserPreferencesNestedInput
+  }
+
+  export type UserPreferencesUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserPreferencesUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentsTablePrefsJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrganisationMemberUpdateWithoutUserInput = {

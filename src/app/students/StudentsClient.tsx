@@ -66,7 +66,6 @@ const COLUMN_CONFIG: Array<{
 	alwaysVisible?: boolean;
 	editable: boolean;
 }> = [
-	{ id: 'avatar', label: 'Profile', sortKey: null, filterKey: null, defaultVisible: true, alwaysVisible: true, editable: false },
 	{ id: 'firstName', label: 'First Name', sortKey: 'record', filterKey: null, defaultVisible: true, alwaysVisible: true, editable: true },
 	{ id: 'lastName', label: 'Last Name', sortKey: null, filterKey: null, defaultVisible: true, editable: true },
 	{ id: 'subjects', label: 'Subjects', sortKey: 'subjects', filterKey: 'subjects', defaultVisible: true, editable: true },
@@ -79,7 +78,7 @@ const COLUMN_CONFIG: Array<{
 	{ id: 'school', label: 'School', sortKey: 'school', filterKey: 'school', defaultVisible: false, editable: false },
 ];
 
-const DEFAULT_VISIBLE_COLUMN_IDS: ColumnId[] = ['avatar', 'firstName', 'lastName', 'subjects', 'year', 'hourlyRate', 'status'];
+const DEFAULT_VISIBLE_COLUMN_IDS: ColumnId[] = ['firstName', 'lastName', 'subjects', 'year', 'hourlyRate', 'status'];
 
 function formatCurrencyFromCents(valueInCents: number): string {
 	const dollars = (valueInCents / 100).toFixed(2);
@@ -110,22 +109,53 @@ export default function StudentsClient({ students, archivedStudents }: { student
     const [showAddFilter, setShowAddFilter] = useState(false);
 
     const [visibleColumnIds, setVisibleColumnIds] = useState<ColumnId[]>(() => [...DEFAULT_VISIBLE_COLUMN_IDS]);
+    const prefsHydratedRef = useRef(false);
+    const pendingDbWidthsRef = useRef<number[] | null>(null);
+    const saveDbTimerRef = useRef<number | null>(null);
 
-    const visibleColumns = useMemo(() => {
-        const cols = visibleColumnIds
-            .map((id) => COLUMN_CONFIG.find((c) => c.id === id))
-            .filter((c): c is NonNullable<typeof c> => !!c);
-        // Avatar column is always first when present
-        const avatarCol = cols.find((c) => c.id === 'avatar');
-        const rest = cols.filter((c) => c.id !== 'avatar');
-        return avatarCol ? [avatarCol, ...rest] : cols;
-    }, [visibleColumnIds]);
+    const visibleColumns = useMemo(
+        () =>
+            visibleColumnIds
+                .map((id) => COLUMN_CONFIG.find((c) => c.id === id))
+                .filter((c): c is NonNullable<typeof c> => !!c),
+        [visibleColumnIds]
+    );
 
     const [columnWidths, setColumnWidths] = useState<number[]>(() =>
         visibleColumns.map((c) => Math.max(MIN_COLUMN_WIDTH, DEFAULT_COLUMN_WIDTH_BY_ID[c.id] ?? 100))
     );
 
     useEffect(() => {
+        const applyDbPrefs = (prefs: any) => {
+            if (!prefs || typeof prefs !== "object") return;
+
+            if (Array.isArray(prefs.filters)) setFilters(prefs.filters as Filter[]);
+
+            if (prefs.sort && typeof prefs.sort === "object") {
+                const field = (prefs.sort as any).field;
+                const direction = (prefs.sort as any).direction;
+                if (typeof field === "string" && (direction === "asc" || direction === "desc")) {
+                    setSortField(field);
+                    setSortDirection(direction);
+                }
+            }
+
+            if (Array.isArray(prefs.visibleColumnIds) && prefs.visibleColumnIds.length > 0) {
+                const parsed = prefs.visibleColumnIds as string[];
+                const valid = parsed.filter((id): id is ColumnId =>
+                    id !== 'avatar' && COLUMN_CONFIG.some((c) => c.id === id)
+                );
+                if (valid.includes('firstName')) setVisibleColumnIds(valid as ColumnId[]);
+            }
+
+            if (Array.isArray(prefs.columnWidths)) {
+                const widths = (prefs.columnWidths as any[])
+                    .map((w) => Math.max(MIN_COLUMN_WIDTH, Number(w) || MIN_COLUMN_WIDTH));
+                pendingDbWidthsRef.current = widths;
+                if (widths.length === visibleColumns.length) setColumnWidths(widths);
+            }
+        };
+
         try {
             const storedFilters = localStorage.getItem(STORAGE_KEY_FILTERS);
             if (storedFilters) {
@@ -144,16 +174,32 @@ export default function StudentsClient({ students, archivedStudents }: { student
             if (storedCols) {
                 const parsed = JSON.parse(storedCols) as string[];
                 if (Array.isArray(parsed) && parsed.length > 0) {
-                    let valid = parsed.filter((id): id is ColumnId =>
-                        COLUMN_CONFIG.some((c) => c.id === id)
+                    const valid = parsed.filter((id): id is ColumnId =>
+                        id !== 'avatar' && COLUMN_CONFIG.some((c) => c.id === id)
                     );
-                    // Avatar is always first and always included
-                    if (!valid.includes('avatar')) valid = ['avatar', ...valid];
-                    else valid = ['avatar', ...valid.filter((id) => id !== 'avatar')];
                     if (valid.includes('firstName')) setVisibleColumnIds(valid as ColumnId[]);
                 }
             }
         } catch (_) {}
+
+        // Load DB-backed prefs (synced across devices) and apply on top of localStorage.
+        let cancelled = false;
+        (async () => {
+            try {
+                const res = await fetch("/api/me/preferences", { method: "GET" });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) return;
+                if (cancelled) return;
+                applyDbPrefs(data?.studentsTablePrefs);
+            } catch (_) {
+                // ignore (localStorage fallback remains)
+            } finally {
+                if (!cancelled) prefsHydratedRef.current = true;
+            }
+        })();
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     useEffect(() => {
@@ -165,6 +211,11 @@ export default function StudentsClient({ students, archivedStudents }: { student
     useEffect(() => {
         const expectedWidths = visibleColumns.map((c) => Math.max(MIN_COLUMN_WIDTH, DEFAULT_COLUMN_WIDTH_BY_ID[c.id] ?? 100));
         setColumnWidths((prev) => {
+            const pending = pendingDbWidthsRef.current;
+            if (pending && pending.length === visibleColumns.length) {
+                pendingDbWidthsRef.current = null;
+                return pending.map((w) => Math.max(MIN_COLUMN_WIDTH, w));
+            }
             if (prev.length !== visibleColumns.length) return expectedWidths;
             return prev.map((w, i) => Math.max(MIN_COLUMN_WIDTH, w));
         });
@@ -247,6 +298,33 @@ export default function StudentsClient({ students, archivedStudents }: { student
             localStorage.setItem(STORAGE_KEY_FILTERS, JSON.stringify(filters));
         } catch (_) {}
     }, [filters]);
+
+    // Debounce-save prefs to DB so they sync across devices.
+    useEffect(() => {
+        if (!prefsHydratedRef.current) return;
+        if (typeof window === "undefined") return;
+
+        if (saveDbTimerRef.current) window.clearTimeout(saveDbTimerRef.current);
+        saveDbTimerRef.current = window.setTimeout(() => {
+            const payload = {
+                studentsTablePrefs: {
+                    filters,
+                    sort: sortField && sortDirection ? { field: sortField, direction: sortDirection } : null,
+                    visibleColumnIds,
+                    columnWidths,
+                },
+            };
+            fetch("/api/me/preferences", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            }).catch(() => {});
+        }, 600);
+
+        return () => {
+            if (saveDbTimerRef.current) window.clearTimeout(saveDbTimerRef.current);
+        };
+    }, [filters, sortField, sortDirection, visibleColumnIds, columnWidths]);
 
     useEffect(() => {
         if (!tableOptionsOpen) return;
@@ -454,7 +532,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                     lastName: last,
                     subjects: newRow.subjects.trim(),
                     year: newRow.year.trim() ? Number(newRow.year.trim()) : null,
-                    hourlyRate: newRow.hourlyRate.trim() ? Number(newRow.hourlyRate.trim()) : 0,
+                    hourlyRate: newRow.hourlyRate.trim() ? Number(newRow.hourlyRate.trim()) : "",
                 }),
             });
             if (!res.ok) {
@@ -671,33 +749,22 @@ export default function StudentsClient({ students, archivedStudents }: { student
 					<thead className="bg-white border-b border-gray-200">
 						<tr>
 							{visibleColumns.map((col, i) => (
-								col.id === 'avatar' ? (
-									<th
-										key={col.id}
-										style={{ width: columnWidths[i] }}
-										className="relative px-2 py-2.5 bg-white border-b border-gray-200 text-center"
-									>
-										<span className="sr-only">{col.label}</span>
-										<div role="separator" onMouseDown={startResize(i)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
-									</th>
-								) : (
-									<th
-										key={col.id}
-										style={{ width: columnWidths[i] }}
-										className={`relative px-4 py-2.5 font-semibold text-gray-900 ${col.sortKey ? 'cursor-pointer hover:bg-gray-50 transition-colors select-none' : ''}`}
-										onClick={col.sortKey ? () => handleSort(col.sortKey!) : undefined}
-									>
-										<div className="flex items-center gap-2 truncate">
-											<span>{col.label}</span>
-											{col.sortKey && (
-												<span className="text-xs w-3 inline-block text-center shrink-0">
-													{sortField === col.sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
-												</span>
-											)}
-										</div>
-										<div role="separator" onMouseDown={startResize(i)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
-									</th>
-								)
+								<th
+									key={col.id}
+									style={{ width: columnWidths[i] }}
+									className={`relative px-4 py-2.5 font-semibold text-gray-900 ${col.sortKey ? 'cursor-pointer hover:bg-gray-50 transition-colors select-none' : ''}`}
+									onClick={col.sortKey ? () => handleSort(col.sortKey!) : undefined}
+								>
+									<div className="flex items-center gap-2 truncate">
+										<span>{col.label}</span>
+										{col.sortKey && (
+											<span className="text-xs w-3 inline-block text-center shrink-0">
+												{sortField === col.sortKey ? (sortDirection === 'asc' ? '↑' : '↓') : '\u00A0'}
+											</span>
+										)}
+									</div>
+									<div role="separator" onMouseDown={startResize(i)} className="absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#3D4756]/20" title="Resize column" />
+								</th>
 							))}
 						</tr>
 					</thead>
@@ -710,25 +777,60 @@ export default function StudentsClient({ students, archivedStudents }: { student
 								{visibleColumns.map((col) => {
 									const baseTd = "py-2 align-middle min-h-[2.25rem]";
 									const px = "px-4";
-									if (col.id === 'avatar') {
-										return (
-											<td key={col.id} className={`${baseTd} px-2 bg-gray-200 border-t border-gray-200 text-center`}>
-												<div className="opacity-50 group-hover:opacity-100 transition-opacity duration-150 w-fit inline-block">
-													<StudentAvatar
-														firstName={s.firstName}
-														lastName={s.lastName}
-														studentId={s.id}
-													/>
-												</div>
-											</td>
-										);
-									}
 									if (col.id === 'firstName') {
+										const isEditing = editingCell?.id === s.id && editingCell.field === "firstName";
 										return (
-											<td key={col.id} className={`${baseTd} ${px} font-medium text-gray-900 cursor-text`} onClick={() => startEditing(s, "firstName")}>
-												{editingCell?.id === s.id && editingCell.field === "firstName" ? (
-													<input autoFocus value={draftValue} onChange={(e) => setDraftValue(e.target.value)} onBlur={saveEditing} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); void saveEditing(); } else if (e.key === "Escape") { e.preventDefault(); cancelEditing(); } }} className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 p-0 text-sm font-medium text-gray-900" />
-												) : (<span className="block truncate">{s.firstName}</span>)}
+											<td
+												key={col.id}
+												className={`${baseTd} ${px} font-medium text-gray-900 cursor-text`}
+												onClick={() => startEditing(s, "firstName")}
+											>
+												{isEditing ? (
+													<input
+														autoFocus
+														value={draftValue}
+														onChange={(e) => setDraftValue(e.target.value)}
+														onBlur={saveEditing}
+														onKeyDown={(e) => {
+															if (e.key === "Enter") {
+																e.preventDefault();
+																void saveEditing();
+															} else if (e.key === "Escape") {
+																e.preventDefault();
+																cancelEditing();
+															}
+														}}
+														className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 p-0 text-sm font-medium text-gray-900"
+													/>
+												) : (
+													<div className="relative inline-flex items-center">
+														<Link
+															href={`/students/${s.id}`}
+															onClick={(e) => e.stopPropagation()}
+															className="block truncate text-gray-900 hover:underline peer"
+															aria-label={`View profile for ${s.firstName} ${s.lastName ?? ""}`}
+														>
+															{s.firstName}
+														</Link>
+														<div
+															className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 scale-95
+                                                                       transition-all duration-150 ease-out
+                                                                       peer-hover:pointer-events-auto peer-hover:opacity-100 peer-hover:scale-100
+                                                                       peer-focus-visible:pointer-events-auto peer-focus-visible:opacity-100 peer-focus-visible:scale-100"
+														>
+															<div
+																className="pointer-events-auto rounded-xl bg-white shadow-md border border-gray-200 px-2 py-1"
+																onClick={(e) => e.stopPropagation()}
+															>
+																<StudentAvatar
+																	firstName={s.firstName}
+																	lastName={s.lastName}
+																	studentId={s.id}
+																/>
+															</div>
+														</div>
+													</div>
+												)}
 											</td>
 										);
 									}
@@ -799,9 +901,6 @@ export default function StudentsClient({ students, archivedStudents }: { student
 							<tr className="border-t border-gray-200 bg-gray-50/50">
 								{visibleColumns.map((col) => {
 									const base = "py-2 align-middle min-h-[2.25rem]";
-									if (col.id === 'avatar') return (
-										<td key={col.id} className={`${base} px-2 bg-white border-t border-gray-200 text-center`} />
-									);
 									if (col.id === 'firstName') return (
 										<td key={col.id} className={`${base} px-4`}>
 											<input ref={newRowFirstInputRef} placeholder="First name" value={newRow.firstName} onChange={(e) => setNewRow((r) => ({ ...r, firstName: e.target.value }))} onBlur={handleNewRowBlur} onKeyDown={(e) => { if (e.key === "Escape") setShowNewRow(false); if (e.key === "Enter") { e.preventDefault(); (e.target as HTMLInputElement).closest("tr")?.querySelectorAll("input")[1]?.focus(); } }} className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 p-0 text-sm font-medium text-gray-900 placeholder:text-gray-400" />

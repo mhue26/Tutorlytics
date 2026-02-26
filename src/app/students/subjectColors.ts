@@ -62,10 +62,23 @@ export const getCustomSubjectColors = (): Record<string, string> => {
   return stored ? JSON.parse(stored) : {};
 };
 
+const persistOrgSubjectColors = async (colors: Record<string, string>) => {
+  try {
+    await fetch("/api/org/preferences", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subjectColors: colors }),
+    });
+  } catch {
+    // Best-effort: localStorage remains as fallback
+  }
+};
+
 // Save custom subject colors to localStorage
 export const saveCustomSubjectColors = (colors: Record<string, string>) => {
   if (typeof window === 'undefined') return;
   localStorage.setItem('customSubjectColors', JSON.stringify(colors));
+  void persistOrgSubjectColors(colors);
 };
 
 // Get color for a specific subject (custom or default)

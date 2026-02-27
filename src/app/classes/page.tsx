@@ -7,7 +7,16 @@ export default async function ClassesPage() {
 
 	const classes = await prisma.class.findMany({
 		where: { organisationId: ctx.organisationId },
-		include: {
+		select: {
+			id: true,
+			name: true,
+			description: true,
+			color: true,
+			createdAt: true,
+			subject: true,
+			year: true,
+			defaultRateCents: true,
+			format: true,
 			students: {
 				select: { id: true, firstName: true, lastName: true, email: true },
 			},
@@ -15,12 +24,5 @@ export default async function ClassesPage() {
 		orderBy: { createdAt: "desc" },
 	});
 
-	return (
-		<div className="space-y-6 pt-8">
-			<div className="flex items-center justify-between">
-				<h1 className="text-2xl font-semibold text-[#3D4756]">Classes</h1>
-			</div>
-			<ClassesClient classes={classes as any} />
-		</div>
-	);
+	return <ClassesClient classes={classes as any} />;
 }

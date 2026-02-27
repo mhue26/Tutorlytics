@@ -100,7 +100,7 @@ export default async function DashboardPage() {
 		meetingWhere.createdById = ctx.userId;
 	}
 
-	const [analyticsMeetings, upcomingMeetings, pastMeetings, newStudentsThisMonth, invoiceRows] =
+	const [analyticsMeetings, upcomingMeetings, pastMeetings, newStudentsThisMonth, invoiceRows, keyDates] =
 		await Promise.all([
 			prisma.meeting.findMany({
 				where: {
@@ -165,6 +165,17 @@ export default async function DashboardPage() {
 					total: true,
 				},
 			}),
+			// Key dates for countdowns (next 90 days)
+			(prisma as any).keyDate?.findMany({
+				where: {
+					organisationId: ctx.organisationId,
+					date: {
+						gte: today,
+						lte: new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000),
+					},
+				},
+				orderBy: { date: "asc" },
+			}) ?? [],
 		]);
 
 	const formatTime = (date: Date) =>
@@ -233,36 +244,38 @@ export default async function DashboardPage() {
 			value: Number(bucket.value.toFixed(2)),
 		}));
 
-	let lessonsThisWeek = 0;
-	let completedThisWeek = 0;
-	const startOfWeek = (() => {
-		const d = new Date(now);
-		d.setHours(0, 0, 0, 0);
-		const day = d.getDay();
-		const diffToMonday = (day + 6) % 7;
-		d.setDate(d.getDate() - diffToMonday);
-		return d;
-	})();
-	const endOfWeek = new Date(startOfWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
+	// Teaching hours metrics
+	const thisWeekKey = groupByWeek(now).key;
+	const teachingHoursThisWeek = Number(
+		(lessonHoursByWeekMap.get(thisWeekKey)?.value ?? 0).toFixed(1),
+	);
 
-	for (const meeting of analyticsMeetings) {
-		const start = new Date(meeting.startTime);
-		if (start >= startOfWeek && start < endOfWeek) {
-			lessonsThisWeek += 1;
-			if (meeting.isCompleted) {
-				completedThisWeek += 1;
-			}
+	const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+	let monthWeeksCount = 0;
+	let monthHoursTotal = 0;
+	for (const [key, bucket] of lessonHoursByWeekMap.entries()) {
+		const weekDate = new Date(key);
+		if (weekDate >= monthAgo) {
+			monthWeeksCount += 1;
+			monthHoursTotal += bucket.value;
 		}
 	}
+	const avgTeachingHoursLastMonth = monthWeeksCount
+		? Number((monthHoursTotal / monthWeeksCount).toFixed(1))
+		: 0;
 
-	const totalLessonCount = analyticsMeetings.length;
-	const totalLessonHours = analyticsMeetings.reduce((sum, m) => {
-		const start = new Date(m.startTime);
-		const end = new Date(m.endTime);
-		return sum + Math.max(0, (end.getTime() - start.getTime()) / (60 * 60 * 1000));
-	}, 0);
-	const averageLessonLength =
-		totalLessonCount > 0 ? Math.round((totalLessonHours / totalLessonCount) * 60) : 0;
+	const upcomingKeyDates = (keyDates as any[]).map((kd) => {
+		const date = new Date(kd.date);
+		const diffDays = Math.ceil(
+			(date.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)
+		);
+		return {
+			id: kd.id as string,
+			title: kd.title as string,
+			date,
+			diffDays,
+		};
+	});
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
@@ -320,25 +333,58 @@ export default async function DashboardPage() {
 					</div>
 				</AnalyticsCard>
 
+				<AnalyticsCard title="Upcoming key dates">
+					{upcomingKeyDates.length > 0 ? (
+						<ul className="divide-y divide-gray-100">
+							{upcomingKeyDates.slice(0, 5).map((kd) => (
+								<li key={kd.id} className="py-2.5 flex items-center justify-between gap-3">
+									<div className="flex items-center gap-3">
+										<span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+										<div>
+											<p className="text-sm font-medium text-gray-900">
+												{kd.title}
+											</p>
+											<p className="text-xs text-gray-600">
+												{kd.date.toLocaleDateString("en-GB", {
+													weekday: "short",
+													day: "numeric",
+													month: "short",
+												})}
+											</p>
+										</div>
+									</div>
+									<div className="text-right text-xs text-gray-600 whitespace-nowrap">
+										{kd.diffDays > 0
+											? `In ${kd.diffDays} day${kd.diffDays === 1 ? "" : "s"}`
+											: kd.diffDays === 0
+											? "Today"
+											: `${Math.abs(kd.diffDays)} day${kd.diffDays === -1 ? "" : "s"} ago`}
+									</div>
+								</li>
+							))}
+						</ul>
+					) : (
+						<p className="text-sm text-gray-500">
+							No key dates in the next 90 days.
+						</p>
+					)}
+				</AnalyticsCard>
+
 				<AnalyticsCard title="Tutor Analytics">
 					<div className="flex items-end justify-between gap-4">
 						<div className="flex-1 flex gap-6">
 							<div>
-								<p className="text-sm text-gray-600">Lessons this week</p>
+								<p className="text-sm text-gray-600">Teaching hours this week</p>
 								<p className="text-3xl font-semibold text-gray-900">
-									{lessonsThisWeek}
+									{teachingHoursThisWeek}
+									<span className="text-base text-gray-500 ml-1">hrs</span>
 								</p>
-								{lessonsThisWeek > 0 && (
-									<p className="text-xs text-gray-500 mt-0.5">
-										{completedThisWeek} completed
-									</p>
-								)}
 							</div>
 							<div>
-								<p className="text-sm text-gray-600">Avg. lesson length</p>
+								<p className="text-sm text-gray-600">Avg. teaching hours (last month)</p>
 								<p className="text-3xl font-semibold text-gray-900">
-									{averageLessonLength}
-									<span className="text-base text-gray-500 ml-1">min</span>
+									{avgTeachingHoursLastMonth}
+									<span className="text-base text-gray-500 ml-1">hrs / week</span>
 								</p>
 							</div>
 						</div>

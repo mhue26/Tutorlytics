@@ -179,6 +179,8 @@ exports.Prisma.OrganisationPreferencesScalarFieldEnum = {
   defaultStudentRateCents: 'defaultStudentRateCents',
   defaultSubjects: 'defaultSubjects',
   subjectColorsJson: 'subjectColorsJson',
+  calendarEventColorsJson: 'calendarEventColorsJson',
+  studentYearLastPromoted: 'studentYearLastPromoted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organisationId: 'organisationId'
@@ -226,6 +228,10 @@ exports.Prisma.ClassScalarFieldEnum = {
   color: 'color',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  subject: 'subject',
+  year: 'year',
+  defaultRateCents: 'defaultRateCents',
+  format: 'format',
   organisationId: 'organisationId',
   teacherId: 'teacherId'
 };
@@ -267,6 +273,21 @@ exports.Prisma.HolidayScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organisationId: 'organisationId'
+};
+
+exports.Prisma.KeyDateScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  date: 'date',
+  allDay: 'allDay',
+  description: 'description',
+  color: 'color',
+  scope: 'scope',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  classId: 'classId'
 };
 
 exports.Prisma.AssessmentScalarFieldEnum = {
@@ -319,7 +340,22 @@ exports.Prisma.CheckInScalarFieldEnum = {
   updatedAt: 'updatedAt',
   organisationId: 'organisationId',
   studentId: 'studentId',
-  teacherId: 'teacherId'
+  teacherId: 'teacherId',
+  ruleId: 'ruleId'
+};
+
+exports.Prisma.CheckInRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  recurrence: 'recurrence',
+  anchor: 'anchor',
+  notesTemplate: 'notesTemplate',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  classId: 'classId'
 };
 
 exports.Prisma.BillingSettingsScalarFieldEnum = {
@@ -417,6 +453,18 @@ exports.JoinRequestStatus = exports.$Enums.JoinRequestStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.ClassFormat = exports.$Enums.ClassFormat = {
+  IN_PERSON: 'IN_PERSON',
+  ONLINE: 'ONLINE',
+  HYBRID: 'HYBRID'
+};
+
+exports.KeyDateScope = exports.$Enums.KeyDateScope = {
+  ORGANISATION: 'ORGANISATION',
+  CLASS: 'CLASS',
+  YEAR_LEVEL: 'YEAR_LEVEL'
+};
+
 exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
   PRESENT: 'PRESENT',
   ABSENT: 'ABSENT',
@@ -429,6 +477,13 @@ exports.CheckInStatus = exports.$Enums.CheckInStatus = {
   COMPLETED: 'COMPLETED',
   MISSED: 'MISSED',
   CANCELLED: 'CANCELLED'
+};
+
+exports.CheckInRecurrence = exports.$Enums.CheckInRecurrence = {
+  TERM: 'TERM',
+  MONTH: 'MONTH',
+  QUARTER: 'QUARTER',
+  YEAR: 'YEAR'
 };
 
 exports.DiscountType = exports.$Enums.DiscountType = {
@@ -465,10 +520,12 @@ exports.Prisma.ModelName = {
   Meeting: 'Meeting',
   Term: 'Term',
   Holiday: 'Holiday',
+  KeyDate: 'KeyDate',
   Assessment: 'Assessment',
   ClassSession: 'ClassSession',
   ClassSessionAttendance: 'ClassSessionAttendance',
   CheckIn: 'CheckIn',
+  CheckInRule: 'CheckInRule',
   BillingSettings: 'BillingSettings',
   Discount: 'Discount',
   StudentDiscount: 'StudentDiscount',

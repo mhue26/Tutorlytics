@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
+import AddStudentsPicker from "./AddStudentsPicker";
+import { redirect } from "next/navigation";
 
 export default async function ClassDetailPage({
 	params,
@@ -13,6 +15,36 @@ export default async function ClassDetailPage({
 	if (Number.isNaN(classId)) notFound();
 
 	const ctx = await requireOrgContext();
+
+	async function assignStudentsToClass(formData: FormData) {
+		"use server";
+		const innerCtx = await requireOrgContext();
+		const classIdRaw = parseInt(String(formData.get("classId") || ""), 10);
+		const studentIdsRaw = formData.getAll("studentIds").map((v) => parseInt(String(v), 10)).filter((n) => !Number.isNaN(n));
+
+		if (!classIdRaw || studentIdsRaw.length === 0) {
+			redirect(`/classes/${classId}`);
+		}
+
+		const classExists = await prisma.class.findFirst({
+			where: { id: classIdRaw, organisationId: innerCtx.organisationId },
+			select: { id: true },
+		});
+		if (!classExists) {
+			redirect("/classes");
+		}
+
+		await prisma.student.updateMany({
+			where: {
+				id: { in: studentIdsRaw },
+				organisationId: innerCtx.organisationId,
+				isArchived: false,
+			},
+			data: { classId: classIdRaw },
+		});
+
+		redirect(`/classes/${classIdRaw}`);
+	}
 
 	const classRecord = await prisma.class.findFirst({
 		where: { id: classId, organisationId: ctx.organisationId },
@@ -45,6 +77,16 @@ export default async function ClassDetailPage({
 
 	const nextSession =
 		upcomingSessions.length > 0 ? upcomingSessions[0] : null;
+
+	const eligibleStudents = await prisma.student.findMany({
+		where: {
+			organisationId: ctx.organisationId,
+			isArchived: false,
+			OR: [{ classId: null }, { classId: { not: classId } }],
+		},
+		orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
+		select: { id: true, firstName: true, lastName: true },
+	});
 
 	return (
 		<div className="space-y-6 pt-8">
@@ -115,12 +157,11 @@ export default async function ClassDetailPage({
 					<h2 className="text-lg font-medium text-gray-900">
 						Students
 					</h2>
-					<Link
-						href="/students/new"
-						className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
-					>
-						Add student
-					</Link>
+					<AddStudentsPicker
+						classId={classId}
+						eligibleStudents={eligibleStudents}
+						assignStudentsAction={assignStudentsToClass}
+					/>
 				</div>
 				{classRecord.students.length === 0 ? (
 					<p className="text-gray-500 text-sm">

@@ -143,8 +143,8 @@ export default function NiceDatePicker({
 			</button>
 
 			{open && (
-				<div className="absolute mt-2 z-40">
-					<div className="rounded-3xl shadow-lg border border-gray-200 bg-white overflow-hidden">
+				<div className="absolute left-0 mt-2 z-40">
+					<div className="rounded-3xl shadow-lg border border-gray-200 bg-white overflow-hidden w-80">
 						<div className="px-4 pt-3 pb-2 flex items-center justify-between">
 							<button
 								type="button"
@@ -218,7 +218,7 @@ export default function NiceDatePicker({
 									let baseClasses =
 										"mx-auto flex h-8 w-8 items-center justify-center rounded-full cursor-pointer transition-colors";
 
-									let textClasses = "";
+									const textClasses = "";
 
 									if (isSelected) {
 										baseClasses += " bg-blue-500 text-white";

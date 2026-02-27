@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import type { CalendarEventDTO } from "./getCalendarEvents";
 
 interface Meeting {
   id: string;
@@ -33,9 +34,10 @@ interface CalendarGridProps {
   onDateSelect?: (date: Date) => void;
   isFormOpen?: boolean;
   teachingPeriods?: TeachingPeriod[];
+  calendarEvents?: CalendarEventDTO[];
 }
 
-export default function CalendarGrid({ meetings, currentYear, currentMonth, onDateSelect, isFormOpen, teachingPeriods = [] }: CalendarGridProps) {
+export default function CalendarGrid({ meetings, currentYear, currentMonth, onDateSelect, isFormOpen, teachingPeriods = [], calendarEvents = [] }: CalendarGridProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -62,6 +64,30 @@ export default function CalendarGrid({ meetings, currentYear, currentMonth, onDa
       const normalizedEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
       
       return normalizedDate >= normalizedStartDate && normalizedDate <= normalizedEndDate;
+    });
+  };
+
+  const isSameDay = (a: Date, b: Date) => {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  };
+
+  const getDayKeyDates = (date: Date) => {
+    return calendarEvents.filter((event) => {
+      if (event.type !== "KEY_DATE") return false;
+      const eventDate = new Date(event.start);
+      return isSameDay(eventDate, date);
+    });
+  };
+
+  const getDayCheckIns = (date: Date) => {
+    return calendarEvents.filter((event) => {
+      if (event.type !== "CHECK_IN") return false;
+      const eventDate = new Date(event.start);
+      return isSameDay(eventDate, date);
     });
   };
 
@@ -294,6 +320,8 @@ export default function CalendarGrid({ meetings, currentYear, currentMonth, onDa
                 
                 const dayMeetings = getDayMeetings(date);
                 const dayTeachingPeriods = getDayTeachingPeriods(date);
+                const dayKeyDates = getDayKeyDates(date);
+                const dayCheckIns = getDayCheckIns(date);
                 const isCurrentMonth = date.getMonth() === currentMonth;
                 const isToday = date.toDateString() === new Date().toDateString();
                 const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
@@ -317,10 +345,37 @@ export default function CalendarGrid({ meetings, currentYear, currentMonth, onDa
                       borderColor: backgroundColor ? backgroundColor : undefined
                     }}
                   >
-                    <div className={`text-sm font-medium mb-2 ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}`}>
-                      {date.getDate()}
+                    <div className="flex items-center justify-between mb-1">
+                      <div className={`text-sm font-medium ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}`}>
+                        {date.getDate()}
+                      </div>
                     </div>
                     <div className="space-y-1">
+                      {dayKeyDates.slice(0, 2).map((event) => (
+                        <div
+                          key={event.id}
+                          className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium truncate"
+                          title={event.title}
+                        >
+                          {event.title}
+                        </div>
+                      ))}
+                      {dayKeyDates.length > 2 && (
+                        <div className="text-[10px] text-amber-700 font-medium">
+                          +{dayKeyDates.length - 2} more key dates
+                        </div>
+                      )}
+
+                      {dayCheckIns.slice(0, 2).map((event) => (
+                        <div
+                          key={event.id}
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 truncate"
+                          title={event.title}
+                        >
+                          {event.title}
+                        </div>
+                      ))}
+
                       {dayMeetings.slice(0, 3).map((meeting) => (
                         <div
                           key={meeting.id}

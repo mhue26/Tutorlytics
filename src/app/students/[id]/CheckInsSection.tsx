@@ -15,6 +15,8 @@ export default function CheckInsSection({ studentId }: { studentId: number }) {
 	const [showForm, setShowForm] = useState(false);
 	const [formDate, setFormDate] = useState("");
 	const [formNotes, setFormNotes] = useState("");
+	const [isRecurring, setIsRecurring] = useState(false);
+	const [recurrence, setRecurrence] = useState<"TERM" | "MONTH" | "YEAR">("TERM");
 	const [loading, setLoading] = useState(false);
 
 	const loadCheckIns = async () => {
@@ -29,13 +31,28 @@ export default function CheckInsSection({ studentId }: { studentId: number }) {
 	const handleCreate = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
-		await fetch("/api/checkins", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ studentId, scheduledDate: formDate, notes: formNotes }),
-		});
+		if (isRecurring) {
+			await fetch("/api/checkin-rules", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					studentId,
+					anchor: formDate,
+					recurrence,
+					name: "Recurring check-in",
+					notesTemplate: formNotes,
+				}),
+			});
+		} else {
+			await fetch("/api/checkins", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ studentId, scheduledDate: formDate, notes: formNotes }),
+			});
+		}
 		setFormDate("");
 		setFormNotes("");
+		setIsRecurring(false);
 		setShowForm(false);
 		setLoading(false);
 		loadCheckIns();
@@ -97,6 +114,30 @@ export default function CheckInsSection({ studentId }: { studentId: number }) {
 						onChange={(e) => setFormNotes(e.target.value)}
 						className="w-full border rounded-lg px-3 py-2 text-sm"
 					/>
+					<div className="flex items-center justify-between gap-3">
+						<label className="flex items-center gap-2 text-xs text-gray-600">
+							<input
+								type="checkbox"
+								checked={isRecurring}
+								onChange={(e) => setIsRecurring(e.target.checked)}
+								className="h-3 w-3 text-blue-600 border-gray-300 rounded"
+							/>
+							<span>Make this a recurring check-in</span>
+						</label>
+						{isRecurring && (
+							<select
+								value={recurrence}
+								onChange={(e) =>
+									setRecurrence(e.target.value as "TERM" | "MONTH" | "YEAR")
+								}
+								className="text-xs border rounded-lg px-2 py-1 bg-white"
+							>
+								<option value="TERM">Per term</option>
+								<option value="MONTH">Monthly</option>
+								<option value="YEAR">Yearly</option>
+							</select>
+						)}
+					</div>
 					<div className="flex gap-2">
 						<button
 							type="submit"

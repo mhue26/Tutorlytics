@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import CalendarClient from "./CalendarClient";
 import { createMeeting } from "./actions";
+import { getCalendarEvents } from "./getCalendarEvents";
 
 interface CalendarSearchParams {
   month?: string;
@@ -25,19 +26,14 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 	const queryEnd = new Date(endOfMonth);
 	queryEnd.setDate(queryEnd.getDate() + 7);
 
-	const meetingWhere: any = {
-		organisationId: ctx.organisationId,
-		startTime: { gte: queryStart, lte: queryEnd },
-	};
-	if (ctx.role === "TEACHER") {
-		meetingWhere.createdById = ctx.userId;
-	}
-
-	const meetings = await prisma.meeting.findMany({
-		where: meetingWhere,
-		include: { student: true },
-		orderBy: { startTime: "asc" },
-	});
+	const { events, meetings } = await getCalendarEvents(
+		{
+			organisationId: ctx.organisationId,
+			userId: ctx.userId,
+			role: ctx.role,
+		},
+		{ from: queryStart, to: queryEnd }
+	);
 
 	const upcomingStart = new Date();
 	const upcomingEnd = new Date();
@@ -69,6 +65,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 			upcomingMeetings={upcomingMeetings as any}
 			currentYear={currentYear}
 			currentMonth={currentMonth}
+			calendarEvents={events}
 			initialView={params.view ?? "month"}
 			students={students}
 			createMeeting={createMeeting}

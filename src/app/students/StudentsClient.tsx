@@ -107,6 +107,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
     const [addFilterCondition, setAddFilterCondition] = useState<Filter['condition']>('contains');
     const [addFilterValue, setAddFilterValue] = useState('');
     const [showAddFilter, setShowAddFilter] = useState(false);
+    const [hoverAvatar, setHoverAvatar] = useState<{ student: StudentItem; x: number; y: number } | null>(null);
 
     const [visibleColumnIds, setVisibleColumnIds] = useState<ColumnId[]>(() => [...DEFAULT_VISIBLE_COLUMN_IDS]);
     const prefsHydratedRef = useRef(false);
@@ -585,7 +586,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<div className="flex items-center justify-between">
+				<div className="flex items-center justify-between">
 				<h2 className="text-2xl font-semibold text-[#3D4756]">Students</h2>
 				<div className="flex items-center gap-3">
                     {savingCell ? <span className="text-xs text-gray-500">Saving...</span> : null}
@@ -600,18 +601,63 @@ export default function StudentsClient({ students, archivedStudents }: { student
                         <button
                             type="button"
                             onClick={() => setTableOptionsOpen((o) => !o)}
-                            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:ring-offset-1"
+                            className={`inline-flex items-center justify-center rounded-full border border-gray-300 bg-white p-2.5 text-gray-500 hover:bg-gray-50 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:ring-offset-1 transition-colors ${tableOptionsOpen ? "bg-gray-50 text-gray-800" : ""}`}
                             aria-expanded={tableOptionsOpen}
                             aria-haspopup="true"
                             aria-label="Table options: sort, filters, and columns"
                         >
-                            Table options
+                            <svg
+                                className="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <circle cx="4" cy="10" r="1.6" />
+                                <circle cx="10" cy="10" r="1.6" />
+                                <circle cx="16" cy="10" r="1.6" />
+                            </svg>
                         </button>
                         {tableOptionsOpen && (
-                            <div role="dialog" aria-label="Table options" className="absolute right-0 top-full z-50 mt-1 w-80 max-h-[70vh] overflow-y-auto rounded-lg border border-gray-200 bg-white py-3 shadow-lg">
-                                <div className="px-4 space-y-4">
+                            <div
+                                role="dialog"
+                                aria-label="Table options"
+                                className="absolute right-0 top-full z-50 mt-2 w-80 max-h-[70vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white py-3 shadow-xl"
+                            >
+                                <div className="px-4 pb-2 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                                            Table options
+                                        </p>
+                                        <p className="text-[11px] text-gray-400">
+                                            Sort, filter, and choose columns
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setTableOptionsOpen(false)}
+                                        className="p-1 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                                        aria-label="Close table options"
+                                    >
+                                        <svg
+                                            className="w-3.5 h-3.5"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div className="px-4 pt-1 pb-3 space-y-4 border-t border-gray-100">
                                     <section>
-                                        <h3 className="text-xs font-semibold uppercase tracking text-gray-500 mb-2">Sort</h3>
+                                        <h3 className="text-[11px] font-semibold uppercase tracking text-gray-500 mb-2">
+                                            Sort
+                                        </h3>
                                         <div className="flex flex-wrap gap-2">
                                             <select
                                                 value={sortField ?? ''}
@@ -636,21 +682,27 @@ export default function StudentsClient({ students, archivedStudents }: { student
                                         </div>
                                     </section>
                                     <section>
-                                        <h3 className="text-xs font-semibold uppercase tracking text-gray-500 mb-2">Filters</h3>
+                                        <h3 className="text-[11px] font-semibold uppercase tracking text-gray-500 mb-2">
+                                            Filters
+                                        </h3>
                                         {filters.length > 0 && (
                                             <ul className="space-y-1 mb-2">
                                                 {filters.map((f) => (
-                                                    <li key={f.id} className="flex items-center justify-between gap-2 rounded bg-gray-100 px-2 py-1 text-xs">
-                                                        <span>{f.field} {f.condition} {String(f.value)}</span>
+                                                    <li key={f.id} className="flex items-center justify-between gap-2 rounded-lg bg-gray-50 px-2.5 py-1.5 text-[11px] text-gray-700">
+                                                        <span className="truncate">
+                                                            {f.field} {f.condition} {String(f.value)}
+                                                        </span>
                                                         <button type="button" onClick={() => setFilters((prev) => prev.filter(x => x.id !== f.id))} className="text-gray-500 hover:text-gray-800" aria-label="Remove filter">&times;</button>
                                                     </li>
                                                 ))}
                                             </ul>
                                         )}
                                         {!showAddFilter ? (
-                                            <button type="button" onClick={() => setShowAddFilter(true)} className="text-sm text-[#3D4756] hover:underline">Add filter</button>
+                                            <button type="button" onClick={() => setShowAddFilter(true)} className="text-xs font-medium text-[#3D4756] hover:underline">
+                                                Add filter
+                                            </button>
                                         ) : (
-                                            <div className="space-y-2 rounded border border-gray-200 p-2">
+                                            <div className="space-y-2 rounded-xl border border-gray-200 p-2.5 bg-gray-50">
                                                 <select value={addFilterField} onChange={(e) => setAddFilterField(e.target.value as FilterableField)} className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm">
                                                     <option value="year">Year</option>
                                                     <option value="subjects">Subjects</option>
@@ -677,7 +729,9 @@ export default function StudentsClient({ students, archivedStudents }: { student
                                         )}
                                     </section>
                                     <section>
-                                        <h3 className="text-xs font-semibold uppercase tracking text-gray-500 mb-2">Columns</h3>
+                                        <h3 className="text-[11px] font-semibold uppercase tracking text-gray-500 mb-2">
+                                            Columns
+                                        </h3>
                                         <ul className="space-y-1">
                                             {COLUMN_CONFIG.map((col) => (
                                                 <li key={col.id} className="flex items-center gap-2">
@@ -803,33 +857,26 @@ export default function StudentsClient({ students, archivedStudents }: { student
 														className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 p-0 text-sm font-medium text-gray-900"
 													/>
 												) : (
-													<div className="relative inline-flex items-center">
-														<Link
-															href={`/students/${s.id}`}
-															onClick={(e) => e.stopPropagation()}
-															className="block truncate text-gray-900 hover:underline peer"
-															aria-label={`View profile for ${s.firstName} ${s.lastName ?? ""}`}
-														>
-															{s.firstName}
-														</Link>
-														<div
-															className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 scale-95
-                                                                       transition-all duration-150 ease-out
-                                                                       peer-hover:pointer-events-auto peer-hover:opacity-100 peer-hover:scale-100
-                                                                       peer-focus-visible:pointer-events-auto peer-focus-visible:opacity-100 peer-focus-visible:scale-100"
-														>
-															<div
-																className="pointer-events-auto rounded-xl bg-white shadow-md border border-gray-200 px-2 py-1"
-																onClick={(e) => e.stopPropagation()}
-															>
-																<StudentAvatar
-																	firstName={s.firstName}
-																	lastName={s.lastName}
-																	studentId={s.id}
-																/>
-															</div>
-														</div>
-													</div>
+													<Link
+														href={`/students/${s.id}`}
+														onClick={(e) => e.stopPropagation()}
+														onMouseEnter={(e) => setHoverAvatar({ student: s, x: e.clientX, y: e.clientY })}
+														onMouseMove={(e) => setHoverAvatar({ student: s, x: e.clientX, y: e.clientY })}
+														onMouseLeave={() => setHoverAvatar(null)}
+														onFocus={(e) => {
+															const rect = e.currentTarget.getBoundingClientRect();
+															setHoverAvatar({
+																student: s,
+																x: rect.left + rect.width / 2,
+																y: rect.top,
+															});
+														}}
+														onBlur={() => setHoverAvatar(null)}
+														className="block truncate text-gray-900 hover:underline"
+														aria-label={`View profile for ${s.firstName} ${s.lastName ?? ""}`}
+													>
+														{s.firstName}
+													</Link>
 												)}
 											</td>
 										);
@@ -857,7 +904,11 @@ export default function StudentsClient({ students, archivedStudents }: { student
 											<td key={col.id} className={`${baseTd} ${px} text-sm text-gray-900 cursor-text`} onClick={() => startEditing(s, "year")}>
 												{editingCell?.id === s.id && editingCell.field === "year" ? (
 													<input autoFocus value={draftValue} onChange={(e) => setDraftValue(e.target.value)} onBlur={saveEditing} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); void saveEditing(); } else if (e.key === "Escape") { e.preventDefault(); cancelEditing(); } }} className="inline-cell-input w-full min-w-0 bg-transparent border-none outline-none focus:ring-0 p-0 text-sm text-gray-900" />
-												) : (<span className="block truncate">{s.year ?? "—"}</span>)}
+												) : (
+													<span className="block truncate">
+														{s.year == null ? "—" : s.year >= 13 ? "Graduated" : s.year}
+													</span>
+												)}
 											</td>
 										);
 									}
@@ -938,6 +989,24 @@ export default function StudentsClient({ students, archivedStudents }: { student
 					</tbody>
 				</table>
 			</div>
+			{hoverAvatar && (
+				<div
+					className="fixed z-40 pointer-events-none transition-all duration-100 ease-out"
+					style={{
+						left: hoverAvatar.x,
+						top: hoverAvatar.y - 8,
+						transform: "translate(-50%, -100%)",
+					}}
+				>
+					<div className="rounded-xl bg-white shadow-md border border-gray-200 px-2 py-1">
+						<StudentAvatar
+							firstName={hoverAvatar.student.firstName}
+							lastName={hoverAvatar.student.lastName}
+							studentId={hoverAvatar.student.id}
+						/>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

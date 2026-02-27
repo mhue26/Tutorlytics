@@ -7,6 +7,7 @@ import CalendarGrid from "./CalendarGrid";
 import CalendarTimeGrid from "./CalendarTimeGrid";
 import TeachingPeriodsModal from "./TermsHolidaysModal";
 import { useModal } from "../contexts/ModalContext";
+import type { CalendarEventDTO } from "./getCalendarEvents";
 
 interface Student {
   id: number;
@@ -29,6 +30,7 @@ interface CalendarClientProps {
   upcomingMeetings: Meeting[];
   currentYear: number;
   currentMonth: number;
+  calendarEvents: CalendarEventDTO[];
   initialView?: "month" | "week" | "fiveday" | "threeday" | "day";
   students: Student[];
   createMeeting: (formData: FormData) => Promise<void>;
@@ -40,6 +42,7 @@ export default function CalendarClient({
   upcomingMeetings, 
   currentYear, 
   currentMonth, 
+  calendarEvents,
   initialView = "month",
   students,
   createMeeting,
@@ -308,12 +311,14 @@ export default function CalendarClient({
                 currentYear={currentYear} 
                 currentMonth={currentMonth}
                 teachingPeriods={teachingPeriods}
+                calendarEvents={calendarEvents}
               />
             ) : (
               <CalendarTimeGrid
                 meetings={meetings}
                 currentDate={currentDate}
                 view={view as "week" | "fiveday" | "threeday" | "day"}
+                calendarEvents={calendarEvents}
               />
             )}
           </div>

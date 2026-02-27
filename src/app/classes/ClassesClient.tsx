@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 
 interface Student {
@@ -16,6 +16,10 @@ interface Class {
   description: string | null;
   color: string;
   createdAt: Date;
+  subject?: string | null;
+  year?: number | null;
+  defaultRateCents?: number | null;
+  format?: "IN_PERSON" | "ONLINE" | "HYBRID";
   students: Student[];
 }
 
@@ -24,136 +28,145 @@ interface ClassesClientProps {
 }
 
 export default function ClassesClient({ classes }: ClassesClientProps) {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const formatRate = (cents?: number | null) => {
+    if (!cents || cents <= 0) return "—";
+    return `$${(cents / 100).toFixed(2)}`;
+  };
+
+  const formatFormat = (format?: Class["format"]) => {
+    if (!format) return "—";
+    if (format === "IN_PERSON") return "In person";
+    if (format === "ONLINE") return "Online";
+    if (format === "HYBRID") return "Hybrid";
+    return "—";
+  };
+
+  const filteredClasses = useMemo(() => {
+    if (!searchTerm.trim()) return classes;
+    const q = searchTerm.toLowerCase().trim();
+    return classes.filter((c) => {
+      const name = (c.name || "").toLowerCase();
+      const desc = (c.description || "").toLowerCase();
+      const subject = (c.subject || "").toLowerCase();
+      return name.includes(q) || desc.includes(q) || subject.includes(q);
+    });
+  }, [classes, searchTerm]);
 
   if (classes.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="text-gray-500 mb-4">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
+      <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-[#3D4756]">Classes</h2>
         </div>
-        <h3 className="text-lg font-medium mb-8" style={{ color: '#A1ACBD' }}>No classes yet</h3>
-        <Link 
-          href="/classes/new"
-          className="bg-[#3D4756] text-white px-6 py-3 rounded-2xl font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
-        >
-          Create Class
-        </Link>
+        <div className="text-center py-12">
+          <div className="text-gray-500 mb-4">
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium mb-8" style={{ color: "#A1ACBD" }}>
+            No classes yet
+          </h3>
+          <Link
+            href="/classes/new"
+            className="inline-flex items-center gap-2 rounded-md bg-[#3D4756] text-white p-2 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Create Class
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      {/* View Toggle */}
-      <div className="flex justify-end">
-        <div className="flex rounded-md shadow-sm">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`px-3 py-1 text-sm font-medium rounded-l-md ${
-              viewMode === 'grid'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
+    <div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-[#3D4756]">Classes</h2>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search"
+            className="w-56 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+          />
+          <Link
+            className="rounded-md bg-[#3D4756] text-white p-2 font-semibold text-base hover:bg-[#2A3441] transition-colors duration-200"
+            href="/classes/new"
+            title="Create Class"
           >
-            Grid
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`px-3 py-1 text-sm font-medium rounded-r-md ${
-              viewMode === 'list'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            List
-          </button>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </Link>
         </div>
       </div>
 
-      {/* Classes Display */}
-      {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {classes.map((classItem) => (
-            <div key={classItem.id} className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
-              <div className="mb-4">
-                <Link
-                  href={`/classes/${classItem.id}`}
-                  className="flex items-center gap-3 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
-                >
-                  <div
-                    className="w-4 h-4 rounded-full shrink-0"
-                    style={{ backgroundColor: classItem.color }}
-                  />
-                  <h3 className="text-lg font-medium text-gray-900 hover:underline">{classItem.name}</h3>
-                </Link>
-              </div>
-              
-              {classItem.description && (
-                <p className="text-gray-600 text-sm mb-4">{classItem.description}</p>
-              )}
-              
-              <div className="space-y-2">
-                <div className="text-sm text-gray-500">
-                  {classItem.students.length} student{classItem.students.length !== 1 ? 's' : ''}
-                </div>
-                <div className="text-xs text-gray-400">
-                  Created {new Date(classItem.createdAt).toLocaleDateString()}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Class
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Students
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created
-                </th>
+      <div className="bg-white rounded-lg border-x border-t border-gray-200 overflow-hidden">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-white border-b border-gray-200">
+            <tr>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Class</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Subject</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Year</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Rate</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Format</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Students</th>
+              <th className="px-4 py-2.5 font-semibold text-gray-900">Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredClasses.map((classItem) => (
+              <tr key={classItem.id} className="group border-t border-gray-200 hover:bg-gray-50">
+                <td className="px-4 py-2 align-middle">
+                  <Link
+                    href={`/classes/${classItem.id}`}
+                    className="flex items-center gap-2 text-gray-900 hover:underline"
+                  >
+                    <div
+                      className="w-3 h-3 rounded-full shrink-0"
+                      style={{ backgroundColor: classItem.color }}
+                    />
+                    <div>
+                      <span className="font-medium">{classItem.name}</span>
+                      {classItem.description && (
+                        <span className="block text-xs text-gray-500 truncate max-w-[200px]">
+                          {classItem.description}
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-900">
+                  <span className="block truncate max-w-[220px]">
+                    {classItem.subject || "—"}
+                  </span>
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-900">
+                  {classItem.year ? `Year ${classItem.year}` : "—"}
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-900">
+                  {formatRate(classItem.defaultRateCents)}
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-900">
+                  {formatFormat(classItem.format)}
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-900">
+                  {classItem.students.length}
+                </td>
+                <td className="px-4 py-2 align-middle text-gray-500">
+                  {new Date(classItem.createdAt).toLocaleDateString("en-GB")}
+                </td>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {classes.map((classItem) => (
-                <tr key={classItem.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Link
-                      href={`/classes/${classItem.id}`}
-                      className="flex items-center gap-3 text-gray-900 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
-                    >
-                      <div
-                        className="w-3 h-3 rounded-full shrink-0"
-                        style={{ backgroundColor: classItem.color }}
-                      />
-                      <div>
-                        <div className="text-sm font-medium hover:underline">{classItem.name}</div>
-                        {classItem.description && (
-                          <div className="text-sm text-gray-500">{classItem.description}</div>
-                        )}
-                      </div>
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {classItem.students.length}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(classItem.createdAt).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

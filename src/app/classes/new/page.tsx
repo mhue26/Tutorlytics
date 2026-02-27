@@ -11,6 +11,15 @@ async function createClass(formData: FormData) {
 	const description = String(formData.get("description") || "").trim() || null;
 	const color = String(formData.get("color") || "#3B82F6").trim();
 	const teacherId = String(formData.get("teacherId") || "").trim() || null;
+	const subject = String(formData.get("subject") || "").trim() || null;
+	const yearRaw = String(formData.get("year") || "").trim();
+	const year = yearRaw ? Number(yearRaw) : null;
+	const defaultRate = parseFloat(String(formData.get("defaultRate") || "0"));
+	const defaultRateCents =
+		Number.isFinite(defaultRate) && defaultRate > 0
+			? Math.round(defaultRate * 100)
+			: null;
+	const format = String(formData.get("format") || "IN_PERSON").trim();
 
 	await prisma.class.create({
 		data: {
@@ -19,6 +28,10 @@ async function createClass(formData: FormData) {
 			color,
 			organisationId: ctx.organisationId,
 			teacherId,
+			subject,
+			year: year && year > 0 ? year : null,
+			defaultRateCents,
+			format: format as any,
 		},
 	});
 
@@ -51,6 +64,57 @@ export default async function NewClassPage() {
 					<div>
 						<label className="block text-sm text-gray-700 mb-2">Description (Optional)</label>
 						<textarea name="description" rows={3} className="w-full border-0 bg-gray-50 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:bg-white resize-none" placeholder="Enter class description" />
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div>
+							<label className="block text-sm text-gray-700 mb-2">Subject</label>
+							<input
+								name="subject"
+								type="text"
+								className="w-full border-0 bg-gray-50 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:bg-white"
+								placeholder="e.g. English"
+							/>
+						</div>
+						<div>
+							<label className="block text-sm text-gray-700 mb-2">Year level</label>
+							<select
+								name="year"
+								className="w-full border-0 bg-gray-50 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:bg-white"
+								defaultValue=""
+							>
+								<option value="">Mixed / not set</option>
+								{Array.from({ length: 12 }, (_, i) => i + 1).map((y) => (
+									<option key={y} value={y}>Year {y}</option>
+								))}
+							</select>
+						</div>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div>
+							<label className="block text-sm text-gray-700 mb-2">Default rate ($)</label>
+							<input
+								name="defaultRate"
+								type="number"
+								step="0.01"
+								min="0"
+								className="w-full border-0 bg-gray-50 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+								placeholder="e.g. 75"
+							/>
+						</div>
+						<div>
+							<label className="block text-sm text-gray-700 mb-2">Format</label>
+							<select
+								name="format"
+								className="w-full border-0 bg-gray-50 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:bg-white"
+								defaultValue="IN_PERSON"
+							>
+								<option value="IN_PERSON">In person</option>
+								<option value="ONLINE">Online</option>
+								<option value="HYBRID">Hybrid</option>
+							</select>
+						</div>
 					</div>
 
 					<div>

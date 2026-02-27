@@ -58,6 +58,12 @@
 
 ---
 
+## Planned features
+
+- **View toggle**: Toggling card/list visibility for Classes and other list views will be implemented later.
+
+---
+
 ## Technical debt & security
 
 - **DB**: Migrate SQLite → PostgreSQL before production

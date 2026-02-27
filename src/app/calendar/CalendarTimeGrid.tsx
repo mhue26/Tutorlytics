@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import type { CalendarEventDTO } from "./getCalendarEvents";
 
 interface Meeting {
   id: string;
@@ -21,6 +22,7 @@ interface CalendarTimeGridProps {
   meetings: Meeting[];
   currentDate: Date;
   view: TimeGridView;
+  calendarEvents?: CalendarEventDTO[];
 }
 
 const VISIBLE_START_HOUR = 8;
@@ -75,7 +77,7 @@ function isSameDay(a: Date, b: Date) {
   );
 }
 
-export default function CalendarTimeGrid({ meetings, currentDate, view }: CalendarTimeGridProps) {
+export default function CalendarTimeGrid({ meetings, currentDate, view, calendarEvents = [] }: CalendarTimeGridProps) {
   const days = useMemo(() => getVisibleDays(currentDate, view), [currentDate, view]);
 
   const hours = useMemo(
@@ -106,9 +108,27 @@ export default function CalendarTimeGrid({ meetings, currentDate, view }: Calend
             new Date(b.startTime).getTime()
         );
 
-        return { day, meetings: meetingsForDay };
+        const checkInsForDay = calendarEvents
+          .filter((event) => event.type === "CHECK_IN")
+          .filter((event) => {
+            const start = new Date(event.start);
+            return start >= startOfDay && start < endOfDay;
+          })
+          .sort(
+            (a, b) =>
+              new Date(a.start).getTime() - new Date(b.start).getTime()
+          );
+
+        const keyDatesForDay = calendarEvents
+          .filter((event) => event.type === "KEY_DATE")
+          .filter((event) => {
+            const start = new Date(event.start);
+            return isSameDay(start, day);
+          });
+
+        return { day, meetings: meetingsForDay, checkIns: checkInsForDay, keyDates: keyDatesForDay };
       }),
-    [days, meetings]
+    [days, meetings, calendarEvents]
   );
 
   const minutesPerPixel = 60 / HOUR_SLOT_HEIGHT_PX;
@@ -173,7 +193,7 @@ export default function CalendarTimeGrid({ meetings, currentDate, view }: Calend
               gridTemplateColumns: `repeat(${days.length}, minmax(0, 1fr))`,
             }}
           >
-            {dayMeetings.map(({ day, meetings: dayEvents }) => {
+            {dayMeetings.map(({ day, meetings: dayEvents, checkIns, keyDates }) => {
               const isToday = isSameDay(day, today);
               return (
                 <div
@@ -181,6 +201,21 @@ export default function CalendarTimeGrid({ meetings, currentDate, view }: Calend
                   className={`relative border-l border-gray-100`}
                   style={{ height: timelineHeight }}
                 >
+                  {/* All-day key dates row at top */}
+                  {keyDates.length > 0 && (
+                    <div className="absolute inset-x-1 top-1 flex flex-col gap-1 z-20">
+                      {keyDates.slice(0, 2).map((event) => (
+                        <div
+                          key={event.id}
+                          className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium truncate shadow-sm"
+                          title={event.title}
+                        >
+                          {event.title}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   {hours.map((hour) => (
                     <div
                       key={hour}
@@ -246,6 +281,50 @@ export default function CalendarTimeGrid({ meetings, currentDate, view }: Calend
                           {meeting.student.firstName}{" "}
                           {meeting.student.lastName}
                         </div>
+                      </div>
+                    );
+                  })}
+
+                  {checkIns.map((event) => {
+                    const start = new Date(event.start);
+                    const startMinutes =
+                      start.getHours() * 60 + start.getMinutes();
+                    const visibleStartMinutes = VISIBLE_START_HOUR * 60;
+                    const visibleEndMinutes = (VISIBLE_END_HOUR + 1) * 60;
+
+                    const clampedStart = Math.max(
+                      startMinutes,
+                      visibleStartMinutes
+                    );
+                    const clampedEnd = Math.min(
+                      clampedStart + 30,
+                      visibleEndMinutes
+                    );
+
+                    const topPx =
+                      ((clampedStart - visibleStartMinutes) /
+                        minutesPerPixel) /
+                      60 *
+                      HOUR_SLOT_HEIGHT_PX;
+                    const heightPx =
+                      ((clampedEnd - clampedStart) /
+                        minutesPerPixel) /
+                      60 *
+                      HOUR_SLOT_HEIGHT_PX;
+
+                    return (
+                      <div
+                        key={event.id}
+                        className={`absolute inset-x-6 rounded-md px-2 py-1 text-[11px] shadow-sm bg-emerald-100 text-emerald-900 border border-emerald-200 ${
+                          isToday ? "ring-1 ring-emerald-200" : ""
+                        }`}
+                        style={{
+                          top: topPx,
+                          height: heightPx,
+                        }}
+                        title={event.title}
+                      >
+                        <div className="truncate">{event.title}</div>
                       </div>
                     );
                   })}

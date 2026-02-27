@@ -37,6 +37,25 @@ enum PaymentMethod {
   OTHER
 }
 
+enum CalendarEventType {
+  LESSON
+  CHECK_IN
+  KEY_DATE
+}
+
+enum CheckInRecurrence {
+  TERM
+  MONTH
+  QUARTER
+  YEAR
+}
+
+enum KeyDateScope {
+  ORGANISATION
+  CLASS
+  YEAR_LEVEL
+}
+
 enum CheckInStatus {
   SCHEDULED
   COMPLETED
@@ -55,6 +74,12 @@ enum JoinRequestStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum ClassFormat {
+  IN_PERSON
+  ONLINE
+  HYBRID
 }
 
 // ─── Organisation ────────────────────────────────────────────────────────────
@@ -84,6 +109,8 @@ model Organisation {
   holidays                Holiday[]
   assessments             Assessment[]
   checkIns                CheckIn[]
+  checkInRules            CheckInRule[]
+  keyDates                KeyDate[]
   billingSettings         BillingSettings?
   invoices                Invoice[]
   payments                Payment[]
@@ -165,6 +192,8 @@ model OrganisationPreferences {
   defaultStudentRateCents Int?
   defaultSubjects         Json?
   subjectColorsJson       Json?
+  calendarEventColorsJson Json?
+  studentYearLastPromoted Int?
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
@@ -223,23 +252,30 @@ model Student {
   payments                Payment[]
   discounts               StudentDiscount[]
   classSessionAttendances ClassSessionAttendance[]
+  checkInRules            CheckInRule[]
 }
 
 // ─── Class ───────────────────────────────────────────────────────────────────
 
 model Class {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  color       String   @default("#3B82F6")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               Int         @id @default(autoincrement())
+  name             String
+  description      String?
+  color            String      @default("#3B82F6")
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  subject          String?
+  year             Int?
+  defaultRateCents Int?
+  format           ClassFormat @default(IN_PERSON)
 
   organisationId String
   teacherId      String?
   organisation   Organisation   @relation(fields: [organisationId], references: [id], onDelete: Cascade)
   students       Student[]
   classSessions  ClassSession[]
+  keyDates       KeyDate[]
+  checkInRules   CheckInRule[]
 }
 
 // ─── Meeting ─────────────────────────────────────────────────────────────────
@@ -295,6 +331,24 @@ model Holiday {
 
   organisationId String
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+}
+
+model KeyDate {
+  id          String       @id @default(cuid())
+  title       String
+  date        DateTime
+  allDay      Boolean      @default(true)
+  description String?
+  color       String?
+  scope       KeyDateScope
+  year        Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  organisationId String
+  classId        Int?
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  class          Class?       @relation(fields: [classId], references: [id], onDelete: SetNull)
 }
 
 // ─── Assessment / Performance ────────────────────────────────────────────────
@@ -372,9 +426,31 @@ model CheckIn {
   organisationId String
   studentId      Int
   teacherId      String
+  ruleId         String?
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
   student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
   teacher        User         @relation(fields: [teacherId], references: [id])
+  rule           CheckInRule? @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+}
+
+model CheckInRule {
+  id            String            @id @default(cuid())
+  name          String
+  recurrence    CheckInRecurrence
+  anchor        DateTime
+  notesTemplate String?
+  active        Boolean           @default(true)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  organisationId String
+  studentId      Int?
+  classId        Int?
+
+  organisation Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student      Student?     @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  class        Class?       @relation(fields: [classId], references: [id], onDelete: SetNull)
+  checkIns     CheckIn[]
 }
 
 // ─── Billing ─────────────────────────────────────────────────────────────────

@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
-import Link from "next/link";
 import BillingClient from "./BillingClient";
 
 export default async function BillingPage() {
@@ -55,14 +54,6 @@ export default async function BillingPage() {
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
 			<div className="flex items-center justify-between">
 				<h1 className="text-2xl font-semibold text-[#3D4756]">Billing</h1>
-				{canManage && (
-					<Link
-						href="/settings/billing"
-						className="text-sm text-gray-500 hover:text-gray-700"
-					>
-						Billing Settings
-					</Link>
-				)}
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -12,7 +12,13 @@ export async function createMeeting(formData: FormData) {
 	const meetingDate = formData.get("meetingDate") as string;
 	const startTime = formData.get("startTime") as string;
 	const endTime = formData.get("endTime") as string;
-	const description = formData.get("description") as string;
+	const description = (formData.get("description") as string) || "";
+	const lessonSubjectsRaw = (formData.get("lessonSubjects") as string | null) ?? "";
+	const lessonSubjects = lessonSubjectsRaw.trim();
+	const combinedDescription =
+		lessonSubjects.length > 0
+			? `Subjects: ${lessonSubjects}${description ? `\n\n${description}` : ""}`
+			: description || null;
 	const isCompleted = formData.get("isCompleted") === "on";
 	const isRepeating = formData.get("isRepeating") === "on";
 	const repeatType = formData.get("repeatType") as string;
@@ -53,7 +59,7 @@ export async function createMeeting(formData: FormData) {
 			}
 			meetings.push({
 				title: i === 0 ? title : `${title} (${i + 1}/${repeatCount})`,
-				description: description || null,
+				description: combinedDescription,
 				startTime: meetingStartTime,
 				endTime: meetingEndTime,
 				isCompleted: false,
@@ -67,7 +73,7 @@ export async function createMeeting(formData: FormData) {
 		await prisma.meeting.create({
 			data: {
 				title,
-				description: description || null,
+				description: combinedDescription,
 				startTime: baseStartTime,
 				endTime: baseEndTime,
 				isCompleted,

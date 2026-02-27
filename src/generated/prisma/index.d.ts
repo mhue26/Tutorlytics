@@ -74,6 +74,11 @@ export type Term = $Result.DefaultSelection<Prisma.$TermPayload>
  */
 export type Holiday = $Result.DefaultSelection<Prisma.$HolidayPayload>
 /**
+ * Model KeyDate
+ * 
+ */
+export type KeyDate = $Result.DefaultSelection<Prisma.$KeyDatePayload>
+/**
  * Model Assessment
  * 
  */
@@ -93,6 +98,11 @@ export type ClassSessionAttendance = $Result.DefaultSelection<Prisma.$ClassSessi
  * 
  */
 export type CheckIn = $Result.DefaultSelection<Prisma.$CheckInPayload>
+/**
+ * Model CheckInRule
+ * 
+ */
+export type CheckInRule = $Result.DefaultSelection<Prisma.$CheckInRulePayload>
 /**
  * Model BillingSettings
  * 
@@ -162,6 +172,34 @@ export const PaymentMethod: {
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
+export const CalendarEventType: {
+  LESSON: 'LESSON',
+  CHECK_IN: 'CHECK_IN',
+  KEY_DATE: 'KEY_DATE'
+};
+
+export type CalendarEventType = (typeof CalendarEventType)[keyof typeof CalendarEventType]
+
+
+export const CheckInRecurrence: {
+  TERM: 'TERM',
+  MONTH: 'MONTH',
+  QUARTER: 'QUARTER',
+  YEAR: 'YEAR'
+};
+
+export type CheckInRecurrence = (typeof CheckInRecurrence)[keyof typeof CheckInRecurrence]
+
+
+export const KeyDateScope: {
+  ORGANISATION: 'ORGANISATION',
+  CLASS: 'CLASS',
+  YEAR_LEVEL: 'YEAR_LEVEL'
+};
+
+export type KeyDateScope = (typeof KeyDateScope)[keyof typeof KeyDateScope]
+
+
 export const CheckInStatus: {
   SCHEDULED: 'SCHEDULED',
   COMPLETED: 'COMPLETED',
@@ -190,6 +228,15 @@ export const JoinRequestStatus: {
 
 export type JoinRequestStatus = (typeof JoinRequestStatus)[keyof typeof JoinRequestStatus]
 
+
+export const ClassFormat: {
+  IN_PERSON: 'IN_PERSON',
+  ONLINE: 'ONLINE',
+  HYBRID: 'HYBRID'
+};
+
+export type ClassFormat = (typeof ClassFormat)[keyof typeof ClassFormat]
+
 }
 
 export type Role = $Enums.Role
@@ -208,6 +255,18 @@ export type PaymentMethod = $Enums.PaymentMethod
 
 export const PaymentMethod: typeof $Enums.PaymentMethod
 
+export type CalendarEventType = $Enums.CalendarEventType
+
+export const CalendarEventType: typeof $Enums.CalendarEventType
+
+export type CheckInRecurrence = $Enums.CheckInRecurrence
+
+export const CheckInRecurrence: typeof $Enums.CheckInRecurrence
+
+export type KeyDateScope = $Enums.KeyDateScope
+
+export const KeyDateScope: typeof $Enums.KeyDateScope
+
 export type CheckInStatus = $Enums.CheckInStatus
 
 export const CheckInStatus: typeof $Enums.CheckInStatus
@@ -219,6 +278,10 @@ export const AttendanceStatus: typeof $Enums.AttendanceStatus
 export type JoinRequestStatus = $Enums.JoinRequestStatus
 
 export const JoinRequestStatus: typeof $Enums.JoinRequestStatus
+
+export type ClassFormat = $Enums.ClassFormat
+
+export const ClassFormat: typeof $Enums.ClassFormat
 
 /**
  * ##  Prisma Client ʲˢ
@@ -459,6 +522,16 @@ export class PrismaClient<
   get holiday(): Prisma.HolidayDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.keyDate`: Exposes CRUD operations for the **KeyDate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KeyDates
+    * const keyDates = await prisma.keyDate.findMany()
+    * ```
+    */
+  get keyDate(): Prisma.KeyDateDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.assessment`: Exposes CRUD operations for the **Assessment** model.
     * Example usage:
     * ```ts
@@ -497,6 +570,16 @@ export class PrismaClient<
     * ```
     */
   get checkIn(): Prisma.CheckInDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.checkInRule`: Exposes CRUD operations for the **CheckInRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CheckInRules
+    * const checkInRules = await prisma.checkInRule.findMany()
+    * ```
+    */
+  get checkInRule(): Prisma.CheckInRuleDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.billingSettings`: Exposes CRUD operations for the **BillingSettings** model.
@@ -999,10 +1082,12 @@ export namespace Prisma {
     Meeting: 'Meeting',
     Term: 'Term',
     Holiday: 'Holiday',
+    KeyDate: 'KeyDate',
     Assessment: 'Assessment',
     ClassSession: 'ClassSession',
     ClassSessionAttendance: 'ClassSessionAttendance',
     CheckIn: 'CheckIn',
+    CheckInRule: 'CheckInRule',
     BillingSettings: 'BillingSettings',
     Discount: 'Discount',
     StudentDiscount: 'StudentDiscount',
@@ -1026,7 +1111,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "organisationPreferences" | "userPreferences" | "student" | "class" | "meeting" | "term" | "holiday" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
+      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "organisationPreferences" | "userPreferences" | "student" | "class" | "meeting" | "term" | "holiday" | "keyDate" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "checkInRule" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1918,6 +2003,80 @@ export namespace Prisma {
           }
         }
       }
+      KeyDate: {
+        payload: Prisma.$KeyDatePayload<ExtArgs>
+        fields: Prisma.KeyDateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KeyDateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KeyDateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          findFirst: {
+            args: Prisma.KeyDateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KeyDateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          findMany: {
+            args: Prisma.KeyDateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>[]
+          }
+          create: {
+            args: Prisma.KeyDateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          createMany: {
+            args: Prisma.KeyDateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KeyDateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>[]
+          }
+          delete: {
+            args: Prisma.KeyDateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          update: {
+            args: Prisma.KeyDateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          deleteMany: {
+            args: Prisma.KeyDateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KeyDateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KeyDateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>[]
+          }
+          upsert: {
+            args: Prisma.KeyDateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyDatePayload>
+          }
+          aggregate: {
+            args: Prisma.KeyDateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKeyDate>
+          }
+          groupBy: {
+            args: Prisma.KeyDateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KeyDateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KeyDateCountArgs<ExtArgs>
+            result: $Utils.Optional<KeyDateCountAggregateOutputType> | number
+          }
+        }
+      }
       Assessment: {
         payload: Prisma.$AssessmentPayload<ExtArgs>
         fields: Prisma.AssessmentFieldRefs
@@ -2211,6 +2370,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CheckInCountArgs<ExtArgs>
             result: $Utils.Optional<CheckInCountAggregateOutputType> | number
+          }
+        }
+      }
+      CheckInRule: {
+        payload: Prisma.$CheckInRulePayload<ExtArgs>
+        fields: Prisma.CheckInRuleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CheckInRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CheckInRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          findFirst: {
+            args: Prisma.CheckInRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CheckInRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          findMany: {
+            args: Prisma.CheckInRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>[]
+          }
+          create: {
+            args: Prisma.CheckInRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          createMany: {
+            args: Prisma.CheckInRuleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CheckInRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>[]
+          }
+          delete: {
+            args: Prisma.CheckInRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          update: {
+            args: Prisma.CheckInRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          deleteMany: {
+            args: Prisma.CheckInRuleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CheckInRuleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CheckInRuleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>[]
+          }
+          upsert: {
+            args: Prisma.CheckInRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CheckInRulePayload>
+          }
+          aggregate: {
+            args: Prisma.CheckInRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCheckInRule>
+          }
+          groupBy: {
+            args: Prisma.CheckInRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CheckInRuleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CheckInRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<CheckInRuleCountAggregateOutputType> | number
           }
         }
       }
@@ -2692,10 +2925,12 @@ export namespace Prisma {
     meeting?: MeetingOmit
     term?: TermOmit
     holiday?: HolidayOmit
+    keyDate?: KeyDateOmit
     assessment?: AssessmentOmit
     classSession?: ClassSessionOmit
     classSessionAttendance?: ClassSessionAttendanceOmit
     checkIn?: CheckInOmit
+    checkInRule?: CheckInRuleOmit
     billingSettings?: BillingSettingsOmit
     discount?: DiscountOmit
     studentDiscount?: StudentDiscountOmit
@@ -2794,6 +3029,8 @@ export namespace Prisma {
     holidays: number
     assessments: number
     checkIns: number
+    checkInRules: number
+    keyDates: number
     invoices: number
     payments: number
   }
@@ -2812,6 +3049,8 @@ export namespace Prisma {
     holidays?: boolean | OrganisationCountOutputTypeCountHolidaysArgs
     assessments?: boolean | OrganisationCountOutputTypeCountAssessmentsArgs
     checkIns?: boolean | OrganisationCountOutputTypeCountCheckInsArgs
+    checkInRules?: boolean | OrganisationCountOutputTypeCountCheckInRulesArgs
+    keyDates?: boolean | OrganisationCountOutputTypeCountKeyDatesArgs
     invoices?: boolean | OrganisationCountOutputTypeCountInvoicesArgs
     payments?: boolean | OrganisationCountOutputTypeCountPaymentsArgs
   }
@@ -2916,6 +3155,20 @@ export namespace Prisma {
    */
   export type OrganisationCountOutputTypeCountCheckInsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CheckInWhereInput
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
+  export type OrganisationCountOutputTypeCountCheckInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CheckInRuleWhereInput
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
+  export type OrganisationCountOutputTypeCountKeyDatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeyDateWhereInput
   }
 
   /**
@@ -3057,6 +3310,7 @@ export namespace Prisma {
     payments: number
     discounts: number
     classSessionAttendances: number
+    checkInRules: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3067,6 +3321,7 @@ export namespace Prisma {
     payments?: boolean | StudentCountOutputTypeCountPaymentsArgs
     discounts?: boolean | StudentCountOutputTypeCountDiscountsArgs
     classSessionAttendances?: boolean | StudentCountOutputTypeCountClassSessionAttendancesArgs
+    checkInRules?: boolean | StudentCountOutputTypeCountCheckInRulesArgs
   }
 
   // Custom InputTypes
@@ -3129,6 +3384,13 @@ export namespace Prisma {
     where?: ClassSessionAttendanceWhereInput
   }
 
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountCheckInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CheckInRuleWhereInput
+  }
+
 
   /**
    * Count Type ClassCountOutputType
@@ -3137,11 +3399,15 @@ export namespace Prisma {
   export type ClassCountOutputType = {
     students: number
     classSessions: number
+    keyDates: number
+    checkInRules: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     students?: boolean | ClassCountOutputTypeCountStudentsArgs
     classSessions?: boolean | ClassCountOutputTypeCountClassSessionsArgs
+    keyDates?: boolean | ClassCountOutputTypeCountKeyDatesArgs
+    checkInRules?: boolean | ClassCountOutputTypeCountCheckInRulesArgs
   }
 
   // Custom InputTypes
@@ -3167,6 +3433,20 @@ export namespace Prisma {
    */
   export type ClassCountOutputTypeCountClassSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClassSessionWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountKeyDatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeyDateWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountCheckInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CheckInRuleWhereInput
   }
 
 
@@ -3260,6 +3540,37 @@ export namespace Prisma {
    */
   export type ClassSessionCountOutputTypeCountAttendanceRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClassSessionAttendanceWhereInput
+  }
+
+
+  /**
+   * Count Type CheckInRuleCountOutputType
+   */
+
+  export type CheckInRuleCountOutputType = {
+    checkIns: number
+  }
+
+  export type CheckInRuleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    checkIns?: boolean | CheckInRuleCountOutputTypeCountCheckInsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CheckInRuleCountOutputType without action
+   */
+  export type CheckInRuleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRuleCountOutputType
+     */
+    select?: CheckInRuleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CheckInRuleCountOutputType without action
+   */
+  export type CheckInRuleCountOutputTypeCountCheckInsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CheckInWhereInput
   }
 
 
@@ -3563,6 +3874,8 @@ export namespace Prisma {
     holidays?: boolean | Organisation$holidaysArgs<ExtArgs>
     assessments?: boolean | Organisation$assessmentsArgs<ExtArgs>
     checkIns?: boolean | Organisation$checkInsArgs<ExtArgs>
+    checkInRules?: boolean | Organisation$checkInRulesArgs<ExtArgs>
+    keyDates?: boolean | Organisation$keyDatesArgs<ExtArgs>
     billingSettings?: boolean | Organisation$billingSettingsArgs<ExtArgs>
     invoices?: boolean | Organisation$invoicesArgs<ExtArgs>
     payments?: boolean | Organisation$paymentsArgs<ExtArgs>
@@ -3621,6 +3934,8 @@ export namespace Prisma {
     holidays?: boolean | Organisation$holidaysArgs<ExtArgs>
     assessments?: boolean | Organisation$assessmentsArgs<ExtArgs>
     checkIns?: boolean | Organisation$checkInsArgs<ExtArgs>
+    checkInRules?: boolean | Organisation$checkInRulesArgs<ExtArgs>
+    keyDates?: boolean | Organisation$keyDatesArgs<ExtArgs>
     billingSettings?: boolean | Organisation$billingSettingsArgs<ExtArgs>
     invoices?: boolean | Organisation$invoicesArgs<ExtArgs>
     payments?: boolean | Organisation$paymentsArgs<ExtArgs>
@@ -3651,6 +3966,8 @@ export namespace Prisma {
       holidays: Prisma.$HolidayPayload<ExtArgs>[]
       assessments: Prisma.$AssessmentPayload<ExtArgs>[]
       checkIns: Prisma.$CheckInPayload<ExtArgs>[]
+      checkInRules: Prisma.$CheckInRulePayload<ExtArgs>[]
+      keyDates: Prisma.$KeyDatePayload<ExtArgs>[]
       billingSettings: Prisma.$BillingSettingsPayload<ExtArgs> | null
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
@@ -4073,6 +4390,8 @@ export namespace Prisma {
     holidays<T extends Organisation$holidaysArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assessments<T extends Organisation$assessmentsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     checkIns<T extends Organisation$checkInsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checkInRules<T extends Organisation$checkInRulesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$checkInRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    keyDates<T extends Organisation$keyDatesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$keyDatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     billingSettings<T extends Organisation$billingSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$billingSettingsArgs<ExtArgs>>): Prisma__BillingSettingsClient<$Result.GetResult<Prisma.$BillingSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     invoices<T extends Organisation$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Organisation$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4856,6 +5175,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CheckInScalarFieldEnum | CheckInScalarFieldEnum[]
+  }
+
+  /**
+   * Organisation.checkInRules
+   */
+  export type Organisation$checkInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    where?: CheckInRuleWhereInput
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    cursor?: CheckInRuleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
+  }
+
+  /**
+   * Organisation.keyDates
+   */
+  export type Organisation$keyDatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    where?: KeyDateWhereInput
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    cursor?: KeyDateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KeyDateScalarFieldEnum | KeyDateScalarFieldEnum[]
   }
 
   /**
@@ -9671,15 +10038,18 @@ export namespace Prisma {
 
   export type OrganisationPreferencesAvgAggregateOutputType = {
     defaultStudentRateCents: number | null
+    studentYearLastPromoted: number | null
   }
 
   export type OrganisationPreferencesSumAggregateOutputType = {
     defaultStudentRateCents: number | null
+    studentYearLastPromoted: number | null
   }
 
   export type OrganisationPreferencesMinAggregateOutputType = {
     id: string | null
     defaultStudentRateCents: number | null
+    studentYearLastPromoted: number | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -9688,6 +10058,7 @@ export namespace Prisma {
   export type OrganisationPreferencesMaxAggregateOutputType = {
     id: string | null
     defaultStudentRateCents: number | null
+    studentYearLastPromoted: number | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -9698,6 +10069,8 @@ export namespace Prisma {
     defaultStudentRateCents: number
     defaultSubjects: number
     subjectColorsJson: number
+    calendarEventColorsJson: number
+    studentYearLastPromoted: number
     createdAt: number
     updatedAt: number
     organisationId: number
@@ -9707,15 +10080,18 @@ export namespace Prisma {
 
   export type OrganisationPreferencesAvgAggregateInputType = {
     defaultStudentRateCents?: true
+    studentYearLastPromoted?: true
   }
 
   export type OrganisationPreferencesSumAggregateInputType = {
     defaultStudentRateCents?: true
+    studentYearLastPromoted?: true
   }
 
   export type OrganisationPreferencesMinAggregateInputType = {
     id?: true
     defaultStudentRateCents?: true
+    studentYearLastPromoted?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -9724,6 +10100,7 @@ export namespace Prisma {
   export type OrganisationPreferencesMaxAggregateInputType = {
     id?: true
     defaultStudentRateCents?: true
+    studentYearLastPromoted?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -9734,6 +10111,8 @@ export namespace Prisma {
     defaultStudentRateCents?: true
     defaultSubjects?: true
     subjectColorsJson?: true
+    calendarEventColorsJson?: true
+    studentYearLastPromoted?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -9831,6 +10210,8 @@ export namespace Prisma {
     defaultStudentRateCents: number | null
     defaultSubjects: JsonValue | null
     subjectColorsJson: JsonValue | null
+    calendarEventColorsJson: JsonValue | null
+    studentYearLastPromoted: number | null
     createdAt: Date
     updatedAt: Date
     organisationId: string
@@ -9860,6 +10241,8 @@ export namespace Prisma {
     defaultStudentRateCents?: boolean
     defaultSubjects?: boolean
     subjectColorsJson?: boolean
+    calendarEventColorsJson?: boolean
+    studentYearLastPromoted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -9871,6 +10254,8 @@ export namespace Prisma {
     defaultStudentRateCents?: boolean
     defaultSubjects?: boolean
     subjectColorsJson?: boolean
+    calendarEventColorsJson?: boolean
+    studentYearLastPromoted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -9882,6 +10267,8 @@ export namespace Prisma {
     defaultStudentRateCents?: boolean
     defaultSubjects?: boolean
     subjectColorsJson?: boolean
+    calendarEventColorsJson?: boolean
+    studentYearLastPromoted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -9893,12 +10280,14 @@ export namespace Prisma {
     defaultStudentRateCents?: boolean
     defaultSubjects?: boolean
     subjectColorsJson?: boolean
+    calendarEventColorsJson?: boolean
+    studentYearLastPromoted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
   }
 
-  export type OrganisationPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultStudentRateCents" | "defaultSubjects" | "subjectColorsJson" | "createdAt" | "updatedAt" | "organisationId", ExtArgs["result"]["organisationPreferences"]>
+  export type OrganisationPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultStudentRateCents" | "defaultSubjects" | "subjectColorsJson" | "calendarEventColorsJson" | "studentYearLastPromoted" | "createdAt" | "updatedAt" | "organisationId", ExtArgs["result"]["organisationPreferences"]>
   export type OrganisationPreferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
   }
@@ -9919,6 +10308,8 @@ export namespace Prisma {
       defaultStudentRateCents: number | null
       defaultSubjects: Prisma.JsonValue | null
       subjectColorsJson: Prisma.JsonValue | null
+      calendarEventColorsJson: Prisma.JsonValue | null
+      studentYearLastPromoted: number | null
       createdAt: Date
       updatedAt: Date
       organisationId: string
@@ -10350,6 +10741,8 @@ export namespace Prisma {
     readonly defaultStudentRateCents: FieldRef<"OrganisationPreferences", 'Int'>
     readonly defaultSubjects: FieldRef<"OrganisationPreferences", 'Json'>
     readonly subjectColorsJson: FieldRef<"OrganisationPreferences", 'Json'>
+    readonly calendarEventColorsJson: FieldRef<"OrganisationPreferences", 'Json'>
+    readonly studentYearLastPromoted: FieldRef<"OrganisationPreferences", 'Int'>
     readonly createdAt: FieldRef<"OrganisationPreferences", 'DateTime'>
     readonly updatedAt: FieldRef<"OrganisationPreferences", 'DateTime'>
     readonly organisationId: FieldRef<"OrganisationPreferences", 'String'>
@@ -12209,6 +12602,7 @@ export namespace Prisma {
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
     classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
+    checkInRules?: boolean | Student$checkInRulesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -12305,6 +12699,7 @@ export namespace Prisma {
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
     classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
+    checkInRules?: boolean | Student$checkInRulesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12328,6 +12723,7 @@ export namespace Prisma {
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       discounts: Prisma.$StudentDiscountPayload<ExtArgs>[]
       classSessionAttendances: Prisma.$ClassSessionAttendancePayload<ExtArgs>[]
+      checkInRules: Prisma.$CheckInRulePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -12756,6 +13152,7 @@ export namespace Prisma {
     payments<T extends Student$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discounts<T extends Student$discountsArgs<ExtArgs> = {}>(args?: Subset<T, Student$discountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDiscountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classSessionAttendances<T extends Student$classSessionAttendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$classSessionAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checkInRules<T extends Student$checkInRulesArgs<ExtArgs> = {}>(args?: Subset<T, Student$checkInRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13391,6 +13788,30 @@ export namespace Prisma {
   }
 
   /**
+   * Student.checkInRules
+   */
+  export type Student$checkInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    where?: CheckInRuleWhereInput
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    cursor?: CheckInRuleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
+  }
+
+  /**
    * Student without action
    */
   export type StudentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13423,10 +13844,14 @@ export namespace Prisma {
 
   export type ClassAvgAggregateOutputType = {
     id: number | null
+    year: number | null
+    defaultRateCents: number | null
   }
 
   export type ClassSumAggregateOutputType = {
     id: number | null
+    year: number | null
+    defaultRateCents: number | null
   }
 
   export type ClassMinAggregateOutputType = {
@@ -13436,6 +13861,10 @@ export namespace Prisma {
     color: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    subject: string | null
+    year: number | null
+    defaultRateCents: number | null
+    format: $Enums.ClassFormat | null
     organisationId: string | null
     teacherId: string | null
   }
@@ -13447,6 +13876,10 @@ export namespace Prisma {
     color: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    subject: string | null
+    year: number | null
+    defaultRateCents: number | null
+    format: $Enums.ClassFormat | null
     organisationId: string | null
     teacherId: string | null
   }
@@ -13458,6 +13891,10 @@ export namespace Prisma {
     color: number
     createdAt: number
     updatedAt: number
+    subject: number
+    year: number
+    defaultRateCents: number
+    format: number
     organisationId: number
     teacherId: number
     _all: number
@@ -13466,10 +13903,14 @@ export namespace Prisma {
 
   export type ClassAvgAggregateInputType = {
     id?: true
+    year?: true
+    defaultRateCents?: true
   }
 
   export type ClassSumAggregateInputType = {
     id?: true
+    year?: true
+    defaultRateCents?: true
   }
 
   export type ClassMinAggregateInputType = {
@@ -13479,6 +13920,10 @@ export namespace Prisma {
     color?: true
     createdAt?: true
     updatedAt?: true
+    subject?: true
+    year?: true
+    defaultRateCents?: true
+    format?: true
     organisationId?: true
     teacherId?: true
   }
@@ -13490,6 +13935,10 @@ export namespace Prisma {
     color?: true
     createdAt?: true
     updatedAt?: true
+    subject?: true
+    year?: true
+    defaultRateCents?: true
+    format?: true
     organisationId?: true
     teacherId?: true
   }
@@ -13501,6 +13950,10 @@ export namespace Prisma {
     color?: true
     createdAt?: true
     updatedAt?: true
+    subject?: true
+    year?: true
+    defaultRateCents?: true
+    format?: true
     organisationId?: true
     teacherId?: true
     _all?: true
@@ -13599,6 +14052,10 @@ export namespace Prisma {
     color: string
     createdAt: Date
     updatedAt: Date
+    subject: string | null
+    year: number | null
+    defaultRateCents: number | null
+    format: $Enums.ClassFormat
     organisationId: string
     teacherId: string | null
     _count: ClassCountAggregateOutputType | null
@@ -13629,11 +14086,17 @@ export namespace Prisma {
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    subject?: boolean
+    year?: boolean
+    defaultRateCents?: boolean
+    format?: boolean
     organisationId?: boolean
     teacherId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     classSessions?: boolean | Class$classSessionsArgs<ExtArgs>
+    keyDates?: boolean | Class$keyDatesArgs<ExtArgs>
+    checkInRules?: boolean | Class$checkInRulesArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -13644,6 +14107,10 @@ export namespace Prisma {
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    subject?: boolean
+    year?: boolean
+    defaultRateCents?: boolean
+    format?: boolean
     organisationId?: boolean
     teacherId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
@@ -13656,6 +14123,10 @@ export namespace Prisma {
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    subject?: boolean
+    year?: boolean
+    defaultRateCents?: boolean
+    format?: boolean
     organisationId?: boolean
     teacherId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
@@ -13668,15 +14139,21 @@ export namespace Prisma {
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    subject?: boolean
+    year?: boolean
+    defaultRateCents?: boolean
+    format?: boolean
     organisationId?: boolean
     teacherId?: boolean
   }
 
-  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "color" | "createdAt" | "updatedAt" | "organisationId" | "teacherId", ExtArgs["result"]["class"]>
+  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "color" | "createdAt" | "updatedAt" | "subject" | "year" | "defaultRateCents" | "format" | "organisationId" | "teacherId", ExtArgs["result"]["class"]>
   export type ClassInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     classSessions?: boolean | Class$classSessionsArgs<ExtArgs>
+    keyDates?: boolean | Class$keyDatesArgs<ExtArgs>
+    checkInRules?: boolean | Class$checkInRulesArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13692,6 +14169,8 @@ export namespace Prisma {
       organisation: Prisma.$OrganisationPayload<ExtArgs>
       students: Prisma.$StudentPayload<ExtArgs>[]
       classSessions: Prisma.$ClassSessionPayload<ExtArgs>[]
+      keyDates: Prisma.$KeyDatePayload<ExtArgs>[]
+      checkInRules: Prisma.$CheckInRulePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -13700,6 +14179,10 @@ export namespace Prisma {
       color: string
       createdAt: Date
       updatedAt: Date
+      subject: string | null
+      year: number | null
+      defaultRateCents: number | null
+      format: $Enums.ClassFormat
       organisationId: string
       teacherId: string | null
     }, ExtArgs["result"]["class"]>
@@ -14099,6 +14582,8 @@ export namespace Prisma {
     organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     students<T extends Class$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classSessions<T extends Class$classSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Class$classSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    keyDates<T extends Class$keyDatesArgs<ExtArgs> = {}>(args?: Subset<T, Class$keyDatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checkInRules<T extends Class$checkInRulesArgs<ExtArgs> = {}>(args?: Subset<T, Class$checkInRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14134,6 +14619,10 @@ export namespace Prisma {
     readonly color: FieldRef<"Class", 'String'>
     readonly createdAt: FieldRef<"Class", 'DateTime'>
     readonly updatedAt: FieldRef<"Class", 'DateTime'>
+    readonly subject: FieldRef<"Class", 'String'>
+    readonly year: FieldRef<"Class", 'Int'>
+    readonly defaultRateCents: FieldRef<"Class", 'Int'>
+    readonly format: FieldRef<"Class", 'ClassFormat'>
     readonly organisationId: FieldRef<"Class", 'String'>
     readonly teacherId: FieldRef<"Class", 'String'>
   }
@@ -14577,6 +15066,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClassSessionScalarFieldEnum | ClassSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Class.keyDates
+   */
+  export type Class$keyDatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    where?: KeyDateWhereInput
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    cursor?: KeyDateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KeyDateScalarFieldEnum | KeyDateScalarFieldEnum[]
+  }
+
+  /**
+   * Class.checkInRules
+   */
+  export type Class$checkInRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    where?: CheckInRuleWhereInput
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    cursor?: CheckInRuleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
   }
 
   /**
@@ -18154,6 +18691,1220 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: HolidayInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KeyDate
+   */
+
+  export type AggregateKeyDate = {
+    _count: KeyDateCountAggregateOutputType | null
+    _avg: KeyDateAvgAggregateOutputType | null
+    _sum: KeyDateSumAggregateOutputType | null
+    _min: KeyDateMinAggregateOutputType | null
+    _max: KeyDateMaxAggregateOutputType | null
+  }
+
+  export type KeyDateAvgAggregateOutputType = {
+    year: number | null
+    classId: number | null
+  }
+
+  export type KeyDateSumAggregateOutputType = {
+    year: number | null
+    classId: number | null
+  }
+
+  export type KeyDateMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    date: Date | null
+    allDay: boolean | null
+    description: string | null
+    color: string | null
+    scope: $Enums.KeyDateScope | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classId: number | null
+  }
+
+  export type KeyDateMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    date: Date | null
+    allDay: boolean | null
+    description: string | null
+    color: string | null
+    scope: $Enums.KeyDateScope | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    classId: number | null
+  }
+
+  export type KeyDateCountAggregateOutputType = {
+    id: number
+    title: number
+    date: number
+    allDay: number
+    description: number
+    color: number
+    scope: number
+    year: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    classId: number
+    _all: number
+  }
+
+
+  export type KeyDateAvgAggregateInputType = {
+    year?: true
+    classId?: true
+  }
+
+  export type KeyDateSumAggregateInputType = {
+    year?: true
+    classId?: true
+  }
+
+  export type KeyDateMinAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    allDay?: true
+    description?: true
+    color?: true
+    scope?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+  }
+
+  export type KeyDateMaxAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    allDay?: true
+    description?: true
+    color?: true
+    scope?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+  }
+
+  export type KeyDateCountAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    allDay?: true
+    description?: true
+    color?: true
+    scope?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    classId?: true
+    _all?: true
+  }
+
+  export type KeyDateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeyDate to aggregate.
+     */
+    where?: KeyDateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyDates to fetch.
+     */
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KeyDateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyDates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyDates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KeyDates
+    **/
+    _count?: true | KeyDateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KeyDateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KeyDateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KeyDateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KeyDateMaxAggregateInputType
+  }
+
+  export type GetKeyDateAggregateType<T extends KeyDateAggregateArgs> = {
+        [P in keyof T & keyof AggregateKeyDate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKeyDate[P]>
+      : GetScalarType<T[P], AggregateKeyDate[P]>
+  }
+
+
+
+
+  export type KeyDateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeyDateWhereInput
+    orderBy?: KeyDateOrderByWithAggregationInput | KeyDateOrderByWithAggregationInput[]
+    by: KeyDateScalarFieldEnum[] | KeyDateScalarFieldEnum
+    having?: KeyDateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KeyDateCountAggregateInputType | true
+    _avg?: KeyDateAvgAggregateInputType
+    _sum?: KeyDateSumAggregateInputType
+    _min?: KeyDateMinAggregateInputType
+    _max?: KeyDateMaxAggregateInputType
+  }
+
+  export type KeyDateGroupByOutputType = {
+    id: string
+    title: string
+    date: Date
+    allDay: boolean
+    description: string | null
+    color: string | null
+    scope: $Enums.KeyDateScope
+    year: number | null
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    classId: number | null
+    _count: KeyDateCountAggregateOutputType | null
+    _avg: KeyDateAvgAggregateOutputType | null
+    _sum: KeyDateSumAggregateOutputType | null
+    _min: KeyDateMinAggregateOutputType | null
+    _max: KeyDateMaxAggregateOutputType | null
+  }
+
+  type GetKeyDateGroupByPayload<T extends KeyDateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KeyDateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KeyDateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KeyDateGroupByOutputType[P]>
+            : GetScalarType<T[P], KeyDateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KeyDateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    allDay?: boolean
+    description?: boolean
+    color?: boolean
+    scope?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }, ExtArgs["result"]["keyDate"]>
+
+  export type KeyDateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    allDay?: boolean
+    description?: boolean
+    color?: boolean
+    scope?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }, ExtArgs["result"]["keyDate"]>
+
+  export type KeyDateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    allDay?: boolean
+    description?: boolean
+    color?: boolean
+    scope?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }, ExtArgs["result"]["keyDate"]>
+
+  export type KeyDateSelectScalar = {
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    allDay?: boolean
+    description?: boolean
+    color?: boolean
+    scope?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    classId?: boolean
+  }
+
+  export type KeyDateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "allDay" | "description" | "color" | "scope" | "year" | "createdAt" | "updatedAt" | "organisationId" | "classId", ExtArgs["result"]["keyDate"]>
+  export type KeyDateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }
+  export type KeyDateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }
+  export type KeyDateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    class?: boolean | KeyDate$classArgs<ExtArgs>
+  }
+
+  export type $KeyDatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KeyDate"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+      class: Prisma.$ClassPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      date: Date
+      allDay: boolean
+      description: string | null
+      color: string | null
+      scope: $Enums.KeyDateScope
+      year: number | null
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+      classId: number | null
+    }, ExtArgs["result"]["keyDate"]>
+    composites: {}
+  }
+
+  type KeyDateGetPayload<S extends boolean | null | undefined | KeyDateDefaultArgs> = $Result.GetResult<Prisma.$KeyDatePayload, S>
+
+  type KeyDateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KeyDateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KeyDateCountAggregateInputType | true
+    }
+
+  export interface KeyDateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KeyDate'], meta: { name: 'KeyDate' } }
+    /**
+     * Find zero or one KeyDate that matches the filter.
+     * @param {KeyDateFindUniqueArgs} args - Arguments to find a KeyDate
+     * @example
+     * // Get one KeyDate
+     * const keyDate = await prisma.keyDate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KeyDateFindUniqueArgs>(args: SelectSubset<T, KeyDateFindUniqueArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KeyDate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KeyDateFindUniqueOrThrowArgs} args - Arguments to find a KeyDate
+     * @example
+     * // Get one KeyDate
+     * const keyDate = await prisma.keyDate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KeyDateFindUniqueOrThrowArgs>(args: SelectSubset<T, KeyDateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeyDate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateFindFirstArgs} args - Arguments to find a KeyDate
+     * @example
+     * // Get one KeyDate
+     * const keyDate = await prisma.keyDate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KeyDateFindFirstArgs>(args?: SelectSubset<T, KeyDateFindFirstArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeyDate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateFindFirstOrThrowArgs} args - Arguments to find a KeyDate
+     * @example
+     * // Get one KeyDate
+     * const keyDate = await prisma.keyDate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KeyDateFindFirstOrThrowArgs>(args?: SelectSubset<T, KeyDateFindFirstOrThrowArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KeyDates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KeyDates
+     * const keyDates = await prisma.keyDate.findMany()
+     * 
+     * // Get first 10 KeyDates
+     * const keyDates = await prisma.keyDate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const keyDateWithIdOnly = await prisma.keyDate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KeyDateFindManyArgs>(args?: SelectSubset<T, KeyDateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KeyDate.
+     * @param {KeyDateCreateArgs} args - Arguments to create a KeyDate.
+     * @example
+     * // Create one KeyDate
+     * const KeyDate = await prisma.keyDate.create({
+     *   data: {
+     *     // ... data to create a KeyDate
+     *   }
+     * })
+     * 
+     */
+    create<T extends KeyDateCreateArgs>(args: SelectSubset<T, KeyDateCreateArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KeyDates.
+     * @param {KeyDateCreateManyArgs} args - Arguments to create many KeyDates.
+     * @example
+     * // Create many KeyDates
+     * const keyDate = await prisma.keyDate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KeyDateCreateManyArgs>(args?: SelectSubset<T, KeyDateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KeyDates and returns the data saved in the database.
+     * @param {KeyDateCreateManyAndReturnArgs} args - Arguments to create many KeyDates.
+     * @example
+     * // Create many KeyDates
+     * const keyDate = await prisma.keyDate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KeyDates and only return the `id`
+     * const keyDateWithIdOnly = await prisma.keyDate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KeyDateCreateManyAndReturnArgs>(args?: SelectSubset<T, KeyDateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KeyDate.
+     * @param {KeyDateDeleteArgs} args - Arguments to delete one KeyDate.
+     * @example
+     * // Delete one KeyDate
+     * const KeyDate = await prisma.keyDate.delete({
+     *   where: {
+     *     // ... filter to delete one KeyDate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KeyDateDeleteArgs>(args: SelectSubset<T, KeyDateDeleteArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KeyDate.
+     * @param {KeyDateUpdateArgs} args - Arguments to update one KeyDate.
+     * @example
+     * // Update one KeyDate
+     * const keyDate = await prisma.keyDate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KeyDateUpdateArgs>(args: SelectSubset<T, KeyDateUpdateArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KeyDates.
+     * @param {KeyDateDeleteManyArgs} args - Arguments to filter KeyDates to delete.
+     * @example
+     * // Delete a few KeyDates
+     * const { count } = await prisma.keyDate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KeyDateDeleteManyArgs>(args?: SelectSubset<T, KeyDateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeyDates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KeyDates
+     * const keyDate = await prisma.keyDate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KeyDateUpdateManyArgs>(args: SelectSubset<T, KeyDateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeyDates and returns the data updated in the database.
+     * @param {KeyDateUpdateManyAndReturnArgs} args - Arguments to update many KeyDates.
+     * @example
+     * // Update many KeyDates
+     * const keyDate = await prisma.keyDate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KeyDates and only return the `id`
+     * const keyDateWithIdOnly = await prisma.keyDate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KeyDateUpdateManyAndReturnArgs>(args: SelectSubset<T, KeyDateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KeyDate.
+     * @param {KeyDateUpsertArgs} args - Arguments to update or create a KeyDate.
+     * @example
+     * // Update or create a KeyDate
+     * const keyDate = await prisma.keyDate.upsert({
+     *   create: {
+     *     // ... data to create a KeyDate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KeyDate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KeyDateUpsertArgs>(args: SelectSubset<T, KeyDateUpsertArgs<ExtArgs>>): Prisma__KeyDateClient<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KeyDates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateCountArgs} args - Arguments to filter KeyDates to count.
+     * @example
+     * // Count the number of KeyDates
+     * const count = await prisma.keyDate.count({
+     *   where: {
+     *     // ... the filter for the KeyDates we want to count
+     *   }
+     * })
+    **/
+    count<T extends KeyDateCountArgs>(
+      args?: Subset<T, KeyDateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KeyDateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KeyDate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KeyDateAggregateArgs>(args: Subset<T, KeyDateAggregateArgs>): Prisma.PrismaPromise<GetKeyDateAggregateType<T>>
+
+    /**
+     * Group by KeyDate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyDateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KeyDateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KeyDateGroupByArgs['orderBy'] }
+        : { orderBy?: KeyDateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KeyDateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKeyDateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KeyDate model
+   */
+  readonly fields: KeyDateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KeyDate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KeyDateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    class<T extends KeyDate$classArgs<ExtArgs> = {}>(args?: Subset<T, KeyDate$classArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KeyDate model
+   */
+  interface KeyDateFieldRefs {
+    readonly id: FieldRef<"KeyDate", 'String'>
+    readonly title: FieldRef<"KeyDate", 'String'>
+    readonly date: FieldRef<"KeyDate", 'DateTime'>
+    readonly allDay: FieldRef<"KeyDate", 'Boolean'>
+    readonly description: FieldRef<"KeyDate", 'String'>
+    readonly color: FieldRef<"KeyDate", 'String'>
+    readonly scope: FieldRef<"KeyDate", 'KeyDateScope'>
+    readonly year: FieldRef<"KeyDate", 'Int'>
+    readonly createdAt: FieldRef<"KeyDate", 'DateTime'>
+    readonly updatedAt: FieldRef<"KeyDate", 'DateTime'>
+    readonly organisationId: FieldRef<"KeyDate", 'String'>
+    readonly classId: FieldRef<"KeyDate", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KeyDate findUnique
+   */
+  export type KeyDateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyDate to fetch.
+     */
+    where: KeyDateWhereUniqueInput
+  }
+
+  /**
+   * KeyDate findUniqueOrThrow
+   */
+  export type KeyDateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyDate to fetch.
+     */
+    where: KeyDateWhereUniqueInput
+  }
+
+  /**
+   * KeyDate findFirst
+   */
+  export type KeyDateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyDate to fetch.
+     */
+    where?: KeyDateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyDates to fetch.
+     */
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeyDates.
+     */
+    cursor?: KeyDateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyDates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyDates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeyDates.
+     */
+    distinct?: KeyDateScalarFieldEnum | KeyDateScalarFieldEnum[]
+  }
+
+  /**
+   * KeyDate findFirstOrThrow
+   */
+  export type KeyDateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyDate to fetch.
+     */
+    where?: KeyDateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyDates to fetch.
+     */
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeyDates.
+     */
+    cursor?: KeyDateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyDates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyDates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeyDates.
+     */
+    distinct?: KeyDateScalarFieldEnum | KeyDateScalarFieldEnum[]
+  }
+
+  /**
+   * KeyDate findMany
+   */
+  export type KeyDateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyDates to fetch.
+     */
+    where?: KeyDateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyDates to fetch.
+     */
+    orderBy?: KeyDateOrderByWithRelationInput | KeyDateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KeyDates.
+     */
+    cursor?: KeyDateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyDates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyDates.
+     */
+    skip?: number
+    distinct?: KeyDateScalarFieldEnum | KeyDateScalarFieldEnum[]
+  }
+
+  /**
+   * KeyDate create
+   */
+  export type KeyDateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KeyDate.
+     */
+    data: XOR<KeyDateCreateInput, KeyDateUncheckedCreateInput>
+  }
+
+  /**
+   * KeyDate createMany
+   */
+  export type KeyDateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KeyDates.
+     */
+    data: KeyDateCreateManyInput | KeyDateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KeyDate createManyAndReturn
+   */
+  export type KeyDateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * The data used to create many KeyDates.
+     */
+    data: KeyDateCreateManyInput | KeyDateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeyDate update
+   */
+  export type KeyDateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KeyDate.
+     */
+    data: XOR<KeyDateUpdateInput, KeyDateUncheckedUpdateInput>
+    /**
+     * Choose, which KeyDate to update.
+     */
+    where: KeyDateWhereUniqueInput
+  }
+
+  /**
+   * KeyDate updateMany
+   */
+  export type KeyDateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KeyDates.
+     */
+    data: XOR<KeyDateUpdateManyMutationInput, KeyDateUncheckedUpdateManyInput>
+    /**
+     * Filter which KeyDates to update
+     */
+    where?: KeyDateWhereInput
+    /**
+     * Limit how many KeyDates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeyDate updateManyAndReturn
+   */
+  export type KeyDateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * The data used to update KeyDates.
+     */
+    data: XOR<KeyDateUpdateManyMutationInput, KeyDateUncheckedUpdateManyInput>
+    /**
+     * Filter which KeyDates to update
+     */
+    where?: KeyDateWhereInput
+    /**
+     * Limit how many KeyDates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeyDate upsert
+   */
+  export type KeyDateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KeyDate to update in case it exists.
+     */
+    where: KeyDateWhereUniqueInput
+    /**
+     * In case the KeyDate found by the `where` argument doesn't exist, create a new KeyDate with this data.
+     */
+    create: XOR<KeyDateCreateInput, KeyDateUncheckedCreateInput>
+    /**
+     * In case the KeyDate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KeyDateUpdateInput, KeyDateUncheckedUpdateInput>
+  }
+
+  /**
+   * KeyDate delete
+   */
+  export type KeyDateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
+    /**
+     * Filter which KeyDate to delete.
+     */
+    where: KeyDateWhereUniqueInput
+  }
+
+  /**
+   * KeyDate deleteMany
+   */
+  export type KeyDateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeyDates to delete
+     */
+    where?: KeyDateWhereInput
+    /**
+     * Limit how many KeyDates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeyDate.class
+   */
+  export type KeyDate$classArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Class
+     */
+    select?: ClassSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Class
+     */
+    omit?: ClassOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassInclude<ExtArgs> | null
+    where?: ClassWhereInput
+  }
+
+  /**
+   * KeyDate without action
+   */
+  export type KeyDateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyDate
+     */
+    select?: KeyDateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyDate
+     */
+    omit?: KeyDateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyDateInclude<ExtArgs> | null
   }
 
 
@@ -21820,6 +23571,7 @@ export namespace Prisma {
     organisationId: string | null
     studentId: number | null
     teacherId: string | null
+    ruleId: string | null
   }
 
   export type CheckInMaxAggregateOutputType = {
@@ -21833,6 +23585,7 @@ export namespace Prisma {
     organisationId: string | null
     studentId: number | null
     teacherId: string | null
+    ruleId: string | null
   }
 
   export type CheckInCountAggregateOutputType = {
@@ -21846,6 +23599,7 @@ export namespace Prisma {
     organisationId: number
     studentId: number
     teacherId: number
+    ruleId: number
     _all: number
   }
 
@@ -21869,6 +23623,7 @@ export namespace Prisma {
     organisationId?: true
     studentId?: true
     teacherId?: true
+    ruleId?: true
   }
 
   export type CheckInMaxAggregateInputType = {
@@ -21882,6 +23637,7 @@ export namespace Prisma {
     organisationId?: true
     studentId?: true
     teacherId?: true
+    ruleId?: true
   }
 
   export type CheckInCountAggregateInputType = {
@@ -21895,6 +23651,7 @@ export namespace Prisma {
     organisationId?: true
     studentId?: true
     teacherId?: true
+    ruleId?: true
     _all?: true
   }
 
@@ -21995,6 +23752,7 @@ export namespace Prisma {
     organisationId: string
     studentId: number
     teacherId: string
+    ruleId: string | null
     _count: CheckInCountAggregateOutputType | null
     _avg: CheckInAvgAggregateOutputType | null
     _sum: CheckInSumAggregateOutputType | null
@@ -22027,9 +23785,11 @@ export namespace Prisma {
     organisationId?: boolean
     studentId?: boolean
     teacherId?: boolean
+    ruleId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }, ExtArgs["result"]["checkIn"]>
 
   export type CheckInSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22043,9 +23803,11 @@ export namespace Prisma {
     organisationId?: boolean
     studentId?: boolean
     teacherId?: boolean
+    ruleId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }, ExtArgs["result"]["checkIn"]>
 
   export type CheckInSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22059,9 +23821,11 @@ export namespace Prisma {
     organisationId?: boolean
     studentId?: boolean
     teacherId?: boolean
+    ruleId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }, ExtArgs["result"]["checkIn"]>
 
   export type CheckInSelectScalar = {
@@ -22075,23 +23839,27 @@ export namespace Prisma {
     organisationId?: boolean
     studentId?: boolean
     teacherId?: boolean
+    ruleId?: boolean
   }
 
-  export type CheckInOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scheduledDate" | "completedDate" | "status" | "notes" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "teacherId", ExtArgs["result"]["checkIn"]>
+  export type CheckInOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scheduledDate" | "completedDate" | "status" | "notes" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "teacherId" | "ruleId", ExtArgs["result"]["checkIn"]>
   export type CheckInInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }
   export type CheckInIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }
   export type CheckInIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     teacher?: boolean | UserDefaultArgs<ExtArgs>
+    rule?: boolean | CheckIn$ruleArgs<ExtArgs>
   }
 
   export type $CheckInPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22100,6 +23868,7 @@ export namespace Prisma {
       organisation: Prisma.$OrganisationPayload<ExtArgs>
       student: Prisma.$StudentPayload<ExtArgs>
       teacher: Prisma.$UserPayload<ExtArgs>
+      rule: Prisma.$CheckInRulePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22112,6 +23881,7 @@ export namespace Prisma {
       organisationId: string
       studentId: number
       teacherId: string
+      ruleId: string | null
     }, ExtArgs["result"]["checkIn"]>
     composites: {}
   }
@@ -22509,6 +24279,7 @@ export namespace Prisma {
     organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     teacher<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rule<T extends CheckIn$ruleArgs<ExtArgs> = {}>(args?: Subset<T, CheckIn$ruleArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22548,6 +24319,7 @@ export namespace Prisma {
     readonly organisationId: FieldRef<"CheckIn", 'String'>
     readonly studentId: FieldRef<"CheckIn", 'Int'>
     readonly teacherId: FieldRef<"CheckIn", 'String'>
+    readonly ruleId: FieldRef<"CheckIn", 'String'>
   }
     
 
@@ -22944,6 +24716,25 @@ export namespace Prisma {
   }
 
   /**
+   * CheckIn.rule
+   */
+  export type CheckIn$ruleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    where?: CheckInRuleWhereInput
+  }
+
+  /**
    * CheckIn without action
    */
   export type CheckInDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22959,6 +24750,1264 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CheckInInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CheckInRule
+   */
+
+  export type AggregateCheckInRule = {
+    _count: CheckInRuleCountAggregateOutputType | null
+    _avg: CheckInRuleAvgAggregateOutputType | null
+    _sum: CheckInRuleSumAggregateOutputType | null
+    _min: CheckInRuleMinAggregateOutputType | null
+    _max: CheckInRuleMaxAggregateOutputType | null
+  }
+
+  export type CheckInRuleAvgAggregateOutputType = {
+    studentId: number | null
+    classId: number | null
+  }
+
+  export type CheckInRuleSumAggregateOutputType = {
+    studentId: number | null
+    classId: number | null
+  }
+
+  export type CheckInRuleMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    recurrence: $Enums.CheckInRecurrence | null
+    anchor: Date | null
+    notesTemplate: string | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    studentId: number | null
+    classId: number | null
+  }
+
+  export type CheckInRuleMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    recurrence: $Enums.CheckInRecurrence | null
+    anchor: Date | null
+    notesTemplate: string | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    studentId: number | null
+    classId: number | null
+  }
+
+  export type CheckInRuleCountAggregateOutputType = {
+    id: number
+    name: number
+    recurrence: number
+    anchor: number
+    notesTemplate: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    studentId: number
+    classId: number
+    _all: number
+  }
+
+
+  export type CheckInRuleAvgAggregateInputType = {
+    studentId?: true
+    classId?: true
+  }
+
+  export type CheckInRuleSumAggregateInputType = {
+    studentId?: true
+    classId?: true
+  }
+
+  export type CheckInRuleMinAggregateInputType = {
+    id?: true
+    name?: true
+    recurrence?: true
+    anchor?: true
+    notesTemplate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    classId?: true
+  }
+
+  export type CheckInRuleMaxAggregateInputType = {
+    id?: true
+    name?: true
+    recurrence?: true
+    anchor?: true
+    notesTemplate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    classId?: true
+  }
+
+  export type CheckInRuleCountAggregateInputType = {
+    id?: true
+    name?: true
+    recurrence?: true
+    anchor?: true
+    notesTemplate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    classId?: true
+    _all?: true
+  }
+
+  export type CheckInRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CheckInRule to aggregate.
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CheckInRules to fetch.
+     */
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CheckInRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CheckInRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CheckInRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CheckInRules
+    **/
+    _count?: true | CheckInRuleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CheckInRuleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CheckInRuleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CheckInRuleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CheckInRuleMaxAggregateInputType
+  }
+
+  export type GetCheckInRuleAggregateType<T extends CheckInRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregateCheckInRule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCheckInRule[P]>
+      : GetScalarType<T[P], AggregateCheckInRule[P]>
+  }
+
+
+
+
+  export type CheckInRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CheckInRuleWhereInput
+    orderBy?: CheckInRuleOrderByWithAggregationInput | CheckInRuleOrderByWithAggregationInput[]
+    by: CheckInRuleScalarFieldEnum[] | CheckInRuleScalarFieldEnum
+    having?: CheckInRuleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CheckInRuleCountAggregateInputType | true
+    _avg?: CheckInRuleAvgAggregateInputType
+    _sum?: CheckInRuleSumAggregateInputType
+    _min?: CheckInRuleMinAggregateInputType
+    _max?: CheckInRuleMaxAggregateInputType
+  }
+
+  export type CheckInRuleGroupByOutputType = {
+    id: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date
+    notesTemplate: string | null
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    studentId: number | null
+    classId: number | null
+    _count: CheckInRuleCountAggregateOutputType | null
+    _avg: CheckInRuleAvgAggregateOutputType | null
+    _sum: CheckInRuleSumAggregateOutputType | null
+    _min: CheckInRuleMinAggregateOutputType | null
+    _max: CheckInRuleMaxAggregateOutputType | null
+  }
+
+  type GetCheckInRuleGroupByPayload<T extends CheckInRuleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CheckInRuleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CheckInRuleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CheckInRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], CheckInRuleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CheckInRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    recurrence?: boolean
+    anchor?: boolean
+    notesTemplate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+    checkIns?: boolean | CheckInRule$checkInsArgs<ExtArgs>
+    _count?: boolean | CheckInRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["checkInRule"]>
+
+  export type CheckInRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    recurrence?: boolean
+    anchor?: boolean
+    notesTemplate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+  }, ExtArgs["result"]["checkInRule"]>
+
+  export type CheckInRuleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    recurrence?: boolean
+    anchor?: boolean
+    notesTemplate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    classId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+  }, ExtArgs["result"]["checkInRule"]>
+
+  export type CheckInRuleSelectScalar = {
+    id?: boolean
+    name?: boolean
+    recurrence?: boolean
+    anchor?: boolean
+    notesTemplate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    classId?: boolean
+  }
+
+  export type CheckInRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "recurrence" | "anchor" | "notesTemplate" | "active" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "classId", ExtArgs["result"]["checkInRule"]>
+  export type CheckInRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+    checkIns?: boolean | CheckInRule$checkInsArgs<ExtArgs>
+    _count?: boolean | CheckInRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CheckInRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+  }
+  export type CheckInRuleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | CheckInRule$studentArgs<ExtArgs>
+    class?: boolean | CheckInRule$classArgs<ExtArgs>
+  }
+
+  export type $CheckInRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CheckInRule"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs> | null
+      class: Prisma.$ClassPayload<ExtArgs> | null
+      checkIns: Prisma.$CheckInPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      recurrence: $Enums.CheckInRecurrence
+      anchor: Date
+      notesTemplate: string | null
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+      studentId: number | null
+      classId: number | null
+    }, ExtArgs["result"]["checkInRule"]>
+    composites: {}
+  }
+
+  type CheckInRuleGetPayload<S extends boolean | null | undefined | CheckInRuleDefaultArgs> = $Result.GetResult<Prisma.$CheckInRulePayload, S>
+
+  type CheckInRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CheckInRuleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CheckInRuleCountAggregateInputType | true
+    }
+
+  export interface CheckInRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CheckInRule'], meta: { name: 'CheckInRule' } }
+    /**
+     * Find zero or one CheckInRule that matches the filter.
+     * @param {CheckInRuleFindUniqueArgs} args - Arguments to find a CheckInRule
+     * @example
+     * // Get one CheckInRule
+     * const checkInRule = await prisma.checkInRule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CheckInRuleFindUniqueArgs>(args: SelectSubset<T, CheckInRuleFindUniqueArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CheckInRule that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CheckInRuleFindUniqueOrThrowArgs} args - Arguments to find a CheckInRule
+     * @example
+     * // Get one CheckInRule
+     * const checkInRule = await prisma.checkInRule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CheckInRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, CheckInRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CheckInRule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleFindFirstArgs} args - Arguments to find a CheckInRule
+     * @example
+     * // Get one CheckInRule
+     * const checkInRule = await prisma.checkInRule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CheckInRuleFindFirstArgs>(args?: SelectSubset<T, CheckInRuleFindFirstArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CheckInRule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleFindFirstOrThrowArgs} args - Arguments to find a CheckInRule
+     * @example
+     * // Get one CheckInRule
+     * const checkInRule = await prisma.checkInRule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CheckInRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, CheckInRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CheckInRules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CheckInRules
+     * const checkInRules = await prisma.checkInRule.findMany()
+     * 
+     * // Get first 10 CheckInRules
+     * const checkInRules = await prisma.checkInRule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const checkInRuleWithIdOnly = await prisma.checkInRule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CheckInRuleFindManyArgs>(args?: SelectSubset<T, CheckInRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CheckInRule.
+     * @param {CheckInRuleCreateArgs} args - Arguments to create a CheckInRule.
+     * @example
+     * // Create one CheckInRule
+     * const CheckInRule = await prisma.checkInRule.create({
+     *   data: {
+     *     // ... data to create a CheckInRule
+     *   }
+     * })
+     * 
+     */
+    create<T extends CheckInRuleCreateArgs>(args: SelectSubset<T, CheckInRuleCreateArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CheckInRules.
+     * @param {CheckInRuleCreateManyArgs} args - Arguments to create many CheckInRules.
+     * @example
+     * // Create many CheckInRules
+     * const checkInRule = await prisma.checkInRule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CheckInRuleCreateManyArgs>(args?: SelectSubset<T, CheckInRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CheckInRules and returns the data saved in the database.
+     * @param {CheckInRuleCreateManyAndReturnArgs} args - Arguments to create many CheckInRules.
+     * @example
+     * // Create many CheckInRules
+     * const checkInRule = await prisma.checkInRule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CheckInRules and only return the `id`
+     * const checkInRuleWithIdOnly = await prisma.checkInRule.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CheckInRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, CheckInRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CheckInRule.
+     * @param {CheckInRuleDeleteArgs} args - Arguments to delete one CheckInRule.
+     * @example
+     * // Delete one CheckInRule
+     * const CheckInRule = await prisma.checkInRule.delete({
+     *   where: {
+     *     // ... filter to delete one CheckInRule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CheckInRuleDeleteArgs>(args: SelectSubset<T, CheckInRuleDeleteArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CheckInRule.
+     * @param {CheckInRuleUpdateArgs} args - Arguments to update one CheckInRule.
+     * @example
+     * // Update one CheckInRule
+     * const checkInRule = await prisma.checkInRule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CheckInRuleUpdateArgs>(args: SelectSubset<T, CheckInRuleUpdateArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CheckInRules.
+     * @param {CheckInRuleDeleteManyArgs} args - Arguments to filter CheckInRules to delete.
+     * @example
+     * // Delete a few CheckInRules
+     * const { count } = await prisma.checkInRule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CheckInRuleDeleteManyArgs>(args?: SelectSubset<T, CheckInRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CheckInRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CheckInRules
+     * const checkInRule = await prisma.checkInRule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CheckInRuleUpdateManyArgs>(args: SelectSubset<T, CheckInRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CheckInRules and returns the data updated in the database.
+     * @param {CheckInRuleUpdateManyAndReturnArgs} args - Arguments to update many CheckInRules.
+     * @example
+     * // Update many CheckInRules
+     * const checkInRule = await prisma.checkInRule.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CheckInRules and only return the `id`
+     * const checkInRuleWithIdOnly = await prisma.checkInRule.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CheckInRuleUpdateManyAndReturnArgs>(args: SelectSubset<T, CheckInRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CheckInRule.
+     * @param {CheckInRuleUpsertArgs} args - Arguments to update or create a CheckInRule.
+     * @example
+     * // Update or create a CheckInRule
+     * const checkInRule = await prisma.checkInRule.upsert({
+     *   create: {
+     *     // ... data to create a CheckInRule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CheckInRule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CheckInRuleUpsertArgs>(args: SelectSubset<T, CheckInRuleUpsertArgs<ExtArgs>>): Prisma__CheckInRuleClient<$Result.GetResult<Prisma.$CheckInRulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CheckInRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleCountArgs} args - Arguments to filter CheckInRules to count.
+     * @example
+     * // Count the number of CheckInRules
+     * const count = await prisma.checkInRule.count({
+     *   where: {
+     *     // ... the filter for the CheckInRules we want to count
+     *   }
+     * })
+    **/
+    count<T extends CheckInRuleCountArgs>(
+      args?: Subset<T, CheckInRuleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CheckInRuleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CheckInRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CheckInRuleAggregateArgs>(args: Subset<T, CheckInRuleAggregateArgs>): Prisma.PrismaPromise<GetCheckInRuleAggregateType<T>>
+
+    /**
+     * Group by CheckInRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckInRuleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CheckInRuleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CheckInRuleGroupByArgs['orderBy'] }
+        : { orderBy?: CheckInRuleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CheckInRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCheckInRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CheckInRule model
+   */
+  readonly fields: CheckInRuleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CheckInRule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CheckInRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends CheckInRule$studentArgs<ExtArgs> = {}>(args?: Subset<T, CheckInRule$studentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    class<T extends CheckInRule$classArgs<ExtArgs> = {}>(args?: Subset<T, CheckInRule$classArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    checkIns<T extends CheckInRule$checkInsArgs<ExtArgs> = {}>(args?: Subset<T, CheckInRule$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CheckInRule model
+   */
+  interface CheckInRuleFieldRefs {
+    readonly id: FieldRef<"CheckInRule", 'String'>
+    readonly name: FieldRef<"CheckInRule", 'String'>
+    readonly recurrence: FieldRef<"CheckInRule", 'CheckInRecurrence'>
+    readonly anchor: FieldRef<"CheckInRule", 'DateTime'>
+    readonly notesTemplate: FieldRef<"CheckInRule", 'String'>
+    readonly active: FieldRef<"CheckInRule", 'Boolean'>
+    readonly createdAt: FieldRef<"CheckInRule", 'DateTime'>
+    readonly updatedAt: FieldRef<"CheckInRule", 'DateTime'>
+    readonly organisationId: FieldRef<"CheckInRule", 'String'>
+    readonly studentId: FieldRef<"CheckInRule", 'Int'>
+    readonly classId: FieldRef<"CheckInRule", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CheckInRule findUnique
+   */
+  export type CheckInRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which CheckInRule to fetch.
+     */
+    where: CheckInRuleWhereUniqueInput
+  }
+
+  /**
+   * CheckInRule findUniqueOrThrow
+   */
+  export type CheckInRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which CheckInRule to fetch.
+     */
+    where: CheckInRuleWhereUniqueInput
+  }
+
+  /**
+   * CheckInRule findFirst
+   */
+  export type CheckInRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which CheckInRule to fetch.
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CheckInRules to fetch.
+     */
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CheckInRules.
+     */
+    cursor?: CheckInRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CheckInRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CheckInRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CheckInRules.
+     */
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
+  }
+
+  /**
+   * CheckInRule findFirstOrThrow
+   */
+  export type CheckInRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which CheckInRule to fetch.
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CheckInRules to fetch.
+     */
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CheckInRules.
+     */
+    cursor?: CheckInRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CheckInRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CheckInRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CheckInRules.
+     */
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
+  }
+
+  /**
+   * CheckInRule findMany
+   */
+  export type CheckInRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which CheckInRules to fetch.
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CheckInRules to fetch.
+     */
+    orderBy?: CheckInRuleOrderByWithRelationInput | CheckInRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CheckInRules.
+     */
+    cursor?: CheckInRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CheckInRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CheckInRules.
+     */
+    skip?: number
+    distinct?: CheckInRuleScalarFieldEnum | CheckInRuleScalarFieldEnum[]
+  }
+
+  /**
+   * CheckInRule create
+   */
+  export type CheckInRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CheckInRule.
+     */
+    data: XOR<CheckInRuleCreateInput, CheckInRuleUncheckedCreateInput>
+  }
+
+  /**
+   * CheckInRule createMany
+   */
+  export type CheckInRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CheckInRules.
+     */
+    data: CheckInRuleCreateManyInput | CheckInRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CheckInRule createManyAndReturn
+   */
+  export type CheckInRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * The data used to create many CheckInRules.
+     */
+    data: CheckInRuleCreateManyInput | CheckInRuleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CheckInRule update
+   */
+  export type CheckInRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CheckInRule.
+     */
+    data: XOR<CheckInRuleUpdateInput, CheckInRuleUncheckedUpdateInput>
+    /**
+     * Choose, which CheckInRule to update.
+     */
+    where: CheckInRuleWhereUniqueInput
+  }
+
+  /**
+   * CheckInRule updateMany
+   */
+  export type CheckInRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CheckInRules.
+     */
+    data: XOR<CheckInRuleUpdateManyMutationInput, CheckInRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which CheckInRules to update
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * Limit how many CheckInRules to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CheckInRule updateManyAndReturn
+   */
+  export type CheckInRuleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * The data used to update CheckInRules.
+     */
+    data: XOR<CheckInRuleUpdateManyMutationInput, CheckInRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which CheckInRules to update
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * Limit how many CheckInRules to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CheckInRule upsert
+   */
+  export type CheckInRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CheckInRule to update in case it exists.
+     */
+    where: CheckInRuleWhereUniqueInput
+    /**
+     * In case the CheckInRule found by the `where` argument doesn't exist, create a new CheckInRule with this data.
+     */
+    create: XOR<CheckInRuleCreateInput, CheckInRuleUncheckedCreateInput>
+    /**
+     * In case the CheckInRule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CheckInRuleUpdateInput, CheckInRuleUncheckedUpdateInput>
+  }
+
+  /**
+   * CheckInRule delete
+   */
+  export type CheckInRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
+    /**
+     * Filter which CheckInRule to delete.
+     */
+    where: CheckInRuleWhereUniqueInput
+  }
+
+  /**
+   * CheckInRule deleteMany
+   */
+  export type CheckInRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CheckInRules to delete
+     */
+    where?: CheckInRuleWhereInput
+    /**
+     * Limit how many CheckInRules to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CheckInRule.student
+   */
+  export type CheckInRule$studentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Student
+     */
+    select?: StudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Student
+     */
+    omit?: StudentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentInclude<ExtArgs> | null
+    where?: StudentWhereInput
+  }
+
+  /**
+   * CheckInRule.class
+   */
+  export type CheckInRule$classArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Class
+     */
+    select?: ClassSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Class
+     */
+    omit?: ClassOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassInclude<ExtArgs> | null
+    where?: ClassWhereInput
+  }
+
+  /**
+   * CheckInRule.checkIns
+   */
+  export type CheckInRule$checkInsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckIn
+     */
+    select?: CheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckIn
+     */
+    omit?: CheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInInclude<ExtArgs> | null
+    where?: CheckInWhereInput
+    orderBy?: CheckInOrderByWithRelationInput | CheckInOrderByWithRelationInput[]
+    cursor?: CheckInWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CheckInScalarFieldEnum | CheckInScalarFieldEnum[]
+  }
+
+  /**
+   * CheckInRule without action
+   */
+  export type CheckInRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CheckInRule
+     */
+    select?: CheckInRuleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CheckInRule
+     */
+    omit?: CheckInRuleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CheckInRuleInclude<ExtArgs> | null
   }
 
 
@@ -28944,6 +31993,8 @@ export namespace Prisma {
     defaultStudentRateCents: 'defaultStudentRateCents',
     defaultSubjects: 'defaultSubjects',
     subjectColorsJson: 'subjectColorsJson',
+    calendarEventColorsJson: 'calendarEventColorsJson',
+    studentYearLastPromoted: 'studentYearLastPromoted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     organisationId: 'organisationId'
@@ -29000,6 +32051,10 @@ export namespace Prisma {
     color: 'color',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    subject: 'subject',
+    year: 'year',
+    defaultRateCents: 'defaultRateCents',
+    format: 'format',
     organisationId: 'organisationId',
     teacherId: 'teacherId'
   };
@@ -29053,6 +32108,24 @@ export namespace Prisma {
   };
 
   export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
+
+
+  export const KeyDateScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    date: 'date',
+    allDay: 'allDay',
+    description: 'description',
+    color: 'color',
+    scope: 'scope',
+    year: 'year',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId',
+    classId: 'classId'
+  };
+
+  export type KeyDateScalarFieldEnum = (typeof KeyDateScalarFieldEnum)[keyof typeof KeyDateScalarFieldEnum]
 
 
   export const AssessmentScalarFieldEnum: {
@@ -29114,10 +32187,28 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     organisationId: 'organisationId',
     studentId: 'studentId',
-    teacherId: 'teacherId'
+    teacherId: 'teacherId',
+    ruleId: 'ruleId'
   };
 
   export type CheckInScalarFieldEnum = (typeof CheckInScalarFieldEnum)[keyof typeof CheckInScalarFieldEnum]
+
+
+  export const CheckInRuleScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    recurrence: 'recurrence',
+    anchor: 'anchor',
+    notesTemplate: 'notesTemplate',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId',
+    studentId: 'studentId',
+    classId: 'classId'
+  };
+
+  export type CheckInRuleScalarFieldEnum = (typeof CheckInRuleScalarFieldEnum)[keyof typeof CheckInRuleScalarFieldEnum]
 
 
   export const BillingSettingsScalarFieldEnum: {
@@ -29331,6 +32422,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ClassFormat'
+   */
+  export type EnumClassFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClassFormat'>
+    
+
+
+  /**
+   * Reference to a field of type 'ClassFormat[]'
+   */
+  export type ListEnumClassFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClassFormat[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeyDateScope'
+   */
+  export type EnumKeyDateScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeyDateScope'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeyDateScope[]'
+   */
+  export type ListEnumKeyDateScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeyDateScope[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -29369,6 +32488,20 @@ export namespace Prisma {
    * Reference to a field of type 'CheckInStatus[]'
    */
   export type ListEnumCheckInStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckInStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CheckInRecurrence'
+   */
+  export type EnumCheckInRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckInRecurrence'>
+    
+
+
+  /**
+   * Reference to a field of type 'CheckInRecurrence[]'
+   */
+  export type ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckInRecurrence[]'>
     
 
 
@@ -29444,6 +32577,8 @@ export namespace Prisma {
     holidays?: HolidayListRelationFilter
     assessments?: AssessmentListRelationFilter
     checkIns?: CheckInListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
+    keyDates?: KeyDateListRelationFilter
     billingSettings?: XOR<BillingSettingsNullableScalarRelationFilter, BillingSettingsWhereInput> | null
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
@@ -29473,6 +32608,8 @@ export namespace Prisma {
     holidays?: HolidayOrderByRelationAggregateInput
     assessments?: AssessmentOrderByRelationAggregateInput
     checkIns?: CheckInOrderByRelationAggregateInput
+    checkInRules?: CheckInRuleOrderByRelationAggregateInput
+    keyDates?: KeyDateOrderByRelationAggregateInput
     billingSettings?: BillingSettingsOrderByWithRelationInput
     invoices?: InvoiceOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
@@ -29505,6 +32642,8 @@ export namespace Prisma {
     holidays?: HolidayListRelationFilter
     assessments?: AssessmentListRelationFilter
     checkIns?: CheckInListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
+    keyDates?: KeyDateListRelationFilter
     billingSettings?: XOR<BillingSettingsNullableScalarRelationFilter, BillingSettingsWhereInput> | null
     invoices?: InvoiceListRelationFilter
     payments?: PaymentListRelationFilter
@@ -29864,6 +33003,8 @@ export namespace Prisma {
     defaultStudentRateCents?: IntNullableFilter<"OrganisationPreferences"> | number | null
     defaultSubjects?: JsonNullableFilter<"OrganisationPreferences">
     subjectColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    calendarEventColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    studentYearLastPromoted?: IntNullableFilter<"OrganisationPreferences"> | number | null
     createdAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
     updatedAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
     organisationId?: StringFilter<"OrganisationPreferences"> | string
@@ -29875,6 +33016,8 @@ export namespace Prisma {
     defaultStudentRateCents?: SortOrderInput | SortOrder
     defaultSubjects?: SortOrderInput | SortOrder
     subjectColorsJson?: SortOrderInput | SortOrder
+    calendarEventColorsJson?: SortOrderInput | SortOrder
+    studentYearLastPromoted?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -29890,6 +33033,8 @@ export namespace Prisma {
     defaultStudentRateCents?: IntNullableFilter<"OrganisationPreferences"> | number | null
     defaultSubjects?: JsonNullableFilter<"OrganisationPreferences">
     subjectColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    calendarEventColorsJson?: JsonNullableFilter<"OrganisationPreferences">
+    studentYearLastPromoted?: IntNullableFilter<"OrganisationPreferences"> | number | null
     createdAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
     updatedAt?: DateTimeFilter<"OrganisationPreferences"> | Date | string
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
@@ -29900,6 +33045,8 @@ export namespace Prisma {
     defaultStudentRateCents?: SortOrderInput | SortOrder
     defaultSubjects?: SortOrderInput | SortOrder
     subjectColorsJson?: SortOrderInput | SortOrder
+    calendarEventColorsJson?: SortOrderInput | SortOrder
+    studentYearLastPromoted?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -29918,6 +33065,8 @@ export namespace Prisma {
     defaultStudentRateCents?: IntNullableWithAggregatesFilter<"OrganisationPreferences"> | number | null
     defaultSubjects?: JsonNullableWithAggregatesFilter<"OrganisationPreferences">
     subjectColorsJson?: JsonNullableWithAggregatesFilter<"OrganisationPreferences">
+    calendarEventColorsJson?: JsonNullableWithAggregatesFilter<"OrganisationPreferences">
+    studentYearLastPromoted?: IntNullableWithAggregatesFilter<"OrganisationPreferences"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"OrganisationPreferences"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"OrganisationPreferences"> | Date | string
     organisationId?: StringWithAggregatesFilter<"OrganisationPreferences"> | string
@@ -30023,6 +33172,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
     classSessionAttendances?: ClassSessionAttendanceListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -30058,6 +33208,7 @@ export namespace Prisma {
     payments?: PaymentOrderByRelationAggregateInput
     discounts?: StudentDiscountOrderByRelationAggregateInput
     classSessionAttendances?: ClassSessionAttendanceOrderByRelationAggregateInput
+    checkInRules?: CheckInRuleOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -30096,6 +33247,7 @@ export namespace Prisma {
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
     classSessionAttendances?: ClassSessionAttendanceListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
   }, "id">
 
   export type StudentOrderByWithAggregationInput = {
@@ -30168,11 +33320,17 @@ export namespace Prisma {
     color?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
     updatedAt?: DateTimeFilter<"Class"> | Date | string
+    subject?: StringNullableFilter<"Class"> | string | null
+    year?: IntNullableFilter<"Class"> | number | null
+    defaultRateCents?: IntNullableFilter<"Class"> | number | null
+    format?: EnumClassFormatFilter<"Class"> | $Enums.ClassFormat
     organisationId?: StringFilter<"Class"> | string
     teacherId?: StringNullableFilter<"Class"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     students?: StudentListRelationFilter
     classSessions?: ClassSessionListRelationFilter
+    keyDates?: KeyDateListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -30182,11 +33340,17 @@ export namespace Prisma {
     color?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    defaultRateCents?: SortOrderInput | SortOrder
+    format?: SortOrder
     organisationId?: SortOrder
     teacherId?: SortOrderInput | SortOrder
     organisation?: OrganisationOrderByWithRelationInput
     students?: StudentOrderByRelationAggregateInput
     classSessions?: ClassSessionOrderByRelationAggregateInput
+    keyDates?: KeyDateOrderByRelationAggregateInput
+    checkInRules?: CheckInRuleOrderByRelationAggregateInput
   }
 
   export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -30199,11 +33363,17 @@ export namespace Prisma {
     color?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
     updatedAt?: DateTimeFilter<"Class"> | Date | string
+    subject?: StringNullableFilter<"Class"> | string | null
+    year?: IntNullableFilter<"Class"> | number | null
+    defaultRateCents?: IntNullableFilter<"Class"> | number | null
+    format?: EnumClassFormatFilter<"Class"> | $Enums.ClassFormat
     organisationId?: StringFilter<"Class"> | string
     teacherId?: StringNullableFilter<"Class"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     students?: StudentListRelationFilter
     classSessions?: ClassSessionListRelationFilter
+    keyDates?: KeyDateListRelationFilter
+    checkInRules?: CheckInRuleListRelationFilter
   }, "id">
 
   export type ClassOrderByWithAggregationInput = {
@@ -30213,6 +33383,10 @@ export namespace Prisma {
     color?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    defaultRateCents?: SortOrderInput | SortOrder
+    format?: SortOrder
     organisationId?: SortOrder
     teacherId?: SortOrderInput | SortOrder
     _count?: ClassCountOrderByAggregateInput
@@ -30232,6 +33406,10 @@ export namespace Prisma {
     color?: StringWithAggregatesFilter<"Class"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Class"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Class"> | Date | string
+    subject?: StringNullableWithAggregatesFilter<"Class"> | string | null
+    year?: IntNullableWithAggregatesFilter<"Class"> | number | null
+    defaultRateCents?: IntNullableWithAggregatesFilter<"Class"> | number | null
+    format?: EnumClassFormatWithAggregatesFilter<"Class"> | $Enums.ClassFormat
     organisationId?: StringWithAggregatesFilter<"Class"> | string
     teacherId?: StringNullableWithAggregatesFilter<"Class"> | string | null
   }
@@ -30492,6 +33670,101 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Holiday"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Holiday"> | Date | string
     organisationId?: StringWithAggregatesFilter<"Holiday"> | string
+  }
+
+  export type KeyDateWhereInput = {
+    AND?: KeyDateWhereInput | KeyDateWhereInput[]
+    OR?: KeyDateWhereInput[]
+    NOT?: KeyDateWhereInput | KeyDateWhereInput[]
+    id?: StringFilter<"KeyDate"> | string
+    title?: StringFilter<"KeyDate"> | string
+    date?: DateTimeFilter<"KeyDate"> | Date | string
+    allDay?: BoolFilter<"KeyDate"> | boolean
+    description?: StringNullableFilter<"KeyDate"> | string | null
+    color?: StringNullableFilter<"KeyDate"> | string | null
+    scope?: EnumKeyDateScopeFilter<"KeyDate"> | $Enums.KeyDateScope
+    year?: IntNullableFilter<"KeyDate"> | number | null
+    createdAt?: DateTimeFilter<"KeyDate"> | Date | string
+    updatedAt?: DateTimeFilter<"KeyDate"> | Date | string
+    organisationId?: StringFilter<"KeyDate"> | string
+    classId?: IntNullableFilter<"KeyDate"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+  }
+
+  export type KeyDateOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    allDay?: SortOrder
+    description?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    scope?: SortOrder
+    year?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrderInput | SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+    class?: ClassOrderByWithRelationInput
+  }
+
+  export type KeyDateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: KeyDateWhereInput | KeyDateWhereInput[]
+    OR?: KeyDateWhereInput[]
+    NOT?: KeyDateWhereInput | KeyDateWhereInput[]
+    title?: StringFilter<"KeyDate"> | string
+    date?: DateTimeFilter<"KeyDate"> | Date | string
+    allDay?: BoolFilter<"KeyDate"> | boolean
+    description?: StringNullableFilter<"KeyDate"> | string | null
+    color?: StringNullableFilter<"KeyDate"> | string | null
+    scope?: EnumKeyDateScopeFilter<"KeyDate"> | $Enums.KeyDateScope
+    year?: IntNullableFilter<"KeyDate"> | number | null
+    createdAt?: DateTimeFilter<"KeyDate"> | Date | string
+    updatedAt?: DateTimeFilter<"KeyDate"> | Date | string
+    organisationId?: StringFilter<"KeyDate"> | string
+    classId?: IntNullableFilter<"KeyDate"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+  }, "id">
+
+  export type KeyDateOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    allDay?: SortOrder
+    description?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    scope?: SortOrder
+    year?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrderInput | SortOrder
+    _count?: KeyDateCountOrderByAggregateInput
+    _avg?: KeyDateAvgOrderByAggregateInput
+    _max?: KeyDateMaxOrderByAggregateInput
+    _min?: KeyDateMinOrderByAggregateInput
+    _sum?: KeyDateSumOrderByAggregateInput
+  }
+
+  export type KeyDateScalarWhereWithAggregatesInput = {
+    AND?: KeyDateScalarWhereWithAggregatesInput | KeyDateScalarWhereWithAggregatesInput[]
+    OR?: KeyDateScalarWhereWithAggregatesInput[]
+    NOT?: KeyDateScalarWhereWithAggregatesInput | KeyDateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"KeyDate"> | string
+    title?: StringWithAggregatesFilter<"KeyDate"> | string
+    date?: DateTimeWithAggregatesFilter<"KeyDate"> | Date | string
+    allDay?: BoolWithAggregatesFilter<"KeyDate"> | boolean
+    description?: StringNullableWithAggregatesFilter<"KeyDate"> | string | null
+    color?: StringNullableWithAggregatesFilter<"KeyDate"> | string | null
+    scope?: EnumKeyDateScopeWithAggregatesFilter<"KeyDate"> | $Enums.KeyDateScope
+    year?: IntNullableWithAggregatesFilter<"KeyDate"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"KeyDate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"KeyDate"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"KeyDate"> | string
+    classId?: IntNullableWithAggregatesFilter<"KeyDate"> | number | null
   }
 
   export type AssessmentWhereInput = {
@@ -30784,9 +34057,11 @@ export namespace Prisma {
     organisationId?: StringFilter<"CheckIn"> | string
     studentId?: IntFilter<"CheckIn"> | number
     teacherId?: StringFilter<"CheckIn"> | string
+    ruleId?: StringNullableFilter<"CheckIn"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rule?: XOR<CheckInRuleNullableScalarRelationFilter, CheckInRuleWhereInput> | null
   }
 
   export type CheckInOrderByWithRelationInput = {
@@ -30800,9 +34075,11 @@ export namespace Prisma {
     organisationId?: SortOrder
     studentId?: SortOrder
     teacherId?: SortOrder
+    ruleId?: SortOrderInput | SortOrder
     organisation?: OrganisationOrderByWithRelationInput
     student?: StudentOrderByWithRelationInput
     teacher?: UserOrderByWithRelationInput
+    rule?: CheckInRuleOrderByWithRelationInput
   }
 
   export type CheckInWhereUniqueInput = Prisma.AtLeast<{
@@ -30819,9 +34096,11 @@ export namespace Prisma {
     organisationId?: StringFilter<"CheckIn"> | string
     studentId?: IntFilter<"CheckIn"> | number
     teacherId?: StringFilter<"CheckIn"> | string
+    ruleId?: StringNullableFilter<"CheckIn"> | string | null
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rule?: XOR<CheckInRuleNullableScalarRelationFilter, CheckInRuleWhereInput> | null
   }, "id">
 
   export type CheckInOrderByWithAggregationInput = {
@@ -30835,6 +34114,7 @@ export namespace Prisma {
     organisationId?: SortOrder
     studentId?: SortOrder
     teacherId?: SortOrder
+    ruleId?: SortOrderInput | SortOrder
     _count?: CheckInCountOrderByAggregateInput
     _avg?: CheckInAvgOrderByAggregateInput
     _max?: CheckInMaxOrderByAggregateInput
@@ -30856,6 +34136,103 @@ export namespace Prisma {
     organisationId?: StringWithAggregatesFilter<"CheckIn"> | string
     studentId?: IntWithAggregatesFilter<"CheckIn"> | number
     teacherId?: StringWithAggregatesFilter<"CheckIn"> | string
+    ruleId?: StringNullableWithAggregatesFilter<"CheckIn"> | string | null
+  }
+
+  export type CheckInRuleWhereInput = {
+    AND?: CheckInRuleWhereInput | CheckInRuleWhereInput[]
+    OR?: CheckInRuleWhereInput[]
+    NOT?: CheckInRuleWhereInput | CheckInRuleWhereInput[]
+    id?: StringFilter<"CheckInRule"> | string
+    name?: StringFilter<"CheckInRule"> | string
+    recurrence?: EnumCheckInRecurrenceFilter<"CheckInRule"> | $Enums.CheckInRecurrence
+    anchor?: DateTimeFilter<"CheckInRule"> | Date | string
+    notesTemplate?: StringNullableFilter<"CheckInRule"> | string | null
+    active?: BoolFilter<"CheckInRule"> | boolean
+    createdAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    updatedAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    organisationId?: StringFilter<"CheckInRule"> | string
+    studentId?: IntNullableFilter<"CheckInRule"> | number | null
+    classId?: IntNullableFilter<"CheckInRule"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+    class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+    checkIns?: CheckInListRelationFilter
+  }
+
+  export type CheckInRuleOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    recurrence?: SortOrder
+    anchor?: SortOrder
+    notesTemplate?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrderInput | SortOrder
+    classId?: SortOrderInput | SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+    class?: ClassOrderByWithRelationInput
+    checkIns?: CheckInOrderByRelationAggregateInput
+  }
+
+  export type CheckInRuleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CheckInRuleWhereInput | CheckInRuleWhereInput[]
+    OR?: CheckInRuleWhereInput[]
+    NOT?: CheckInRuleWhereInput | CheckInRuleWhereInput[]
+    name?: StringFilter<"CheckInRule"> | string
+    recurrence?: EnumCheckInRecurrenceFilter<"CheckInRule"> | $Enums.CheckInRecurrence
+    anchor?: DateTimeFilter<"CheckInRule"> | Date | string
+    notesTemplate?: StringNullableFilter<"CheckInRule"> | string | null
+    active?: BoolFilter<"CheckInRule"> | boolean
+    createdAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    updatedAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    organisationId?: StringFilter<"CheckInRule"> | string
+    studentId?: IntNullableFilter<"CheckInRule"> | number | null
+    classId?: IntNullableFilter<"CheckInRule"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+    class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+    checkIns?: CheckInListRelationFilter
+  }, "id">
+
+  export type CheckInRuleOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    recurrence?: SortOrder
+    anchor?: SortOrder
+    notesTemplate?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrderInput | SortOrder
+    classId?: SortOrderInput | SortOrder
+    _count?: CheckInRuleCountOrderByAggregateInput
+    _avg?: CheckInRuleAvgOrderByAggregateInput
+    _max?: CheckInRuleMaxOrderByAggregateInput
+    _min?: CheckInRuleMinOrderByAggregateInput
+    _sum?: CheckInRuleSumOrderByAggregateInput
+  }
+
+  export type CheckInRuleScalarWhereWithAggregatesInput = {
+    AND?: CheckInRuleScalarWhereWithAggregatesInput | CheckInRuleScalarWhereWithAggregatesInput[]
+    OR?: CheckInRuleScalarWhereWithAggregatesInput[]
+    NOT?: CheckInRuleScalarWhereWithAggregatesInput | CheckInRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CheckInRule"> | string
+    name?: StringWithAggregatesFilter<"CheckInRule"> | string
+    recurrence?: EnumCheckInRecurrenceWithAggregatesFilter<"CheckInRule"> | $Enums.CheckInRecurrence
+    anchor?: DateTimeWithAggregatesFilter<"CheckInRule"> | Date | string
+    notesTemplate?: StringNullableWithAggregatesFilter<"CheckInRule"> | string | null
+    active?: BoolWithAggregatesFilter<"CheckInRule"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CheckInRule"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CheckInRule"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"CheckInRule"> | string
+    studentId?: IntNullableWithAggregatesFilter<"CheckInRule"> | number | null
+    classId?: IntNullableWithAggregatesFilter<"CheckInRule"> | number | null
   }
 
   export type BillingSettingsWhereInput = {
@@ -31285,6 +34662,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -31313,6 +34692,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -31341,6 +34722,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -31369,6 +34752,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -31749,6 +35134,8 @@ export namespace Prisma {
     defaultStudentRateCents?: number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutPreferencesInput
@@ -31759,6 +35146,8 @@ export namespace Prisma {
     defaultStudentRateCents?: number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -31769,6 +35158,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutPreferencesNestedInput
@@ -31779,6 +35170,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -31789,6 +35182,8 @@ export namespace Prisma {
     defaultStudentRateCents?: number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -31799,6 +35194,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31808,6 +35205,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -31904,6 +35303,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -31937,6 +35337,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -31969,6 +35370,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -32002,6 +35404,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -32085,10 +35488,16 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
     organisation: OrganisationCreateNestedOneWithoutClassesInput
     students?: StudentCreateNestedManyWithoutClassInput
     classSessions?: ClassSessionCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -32098,10 +35507,16 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     organisationId: string
     teacherId?: string | null
     students?: StudentUncheckedCreateNestedManyWithoutClassInput
     classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -32110,10 +35525,16 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
     students?: StudentUpdateManyWithoutClassNestedInput
     classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -32123,10 +35544,16 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUncheckedUpdateManyWithoutClassNestedInput
     classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -32136,6 +35563,10 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     organisationId: string
     teacherId?: string | null
   }
@@ -32146,6 +35577,10 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -32156,6 +35591,10 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -32425,6 +35864,109 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KeyDateCreateInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutKeyDatesInput
+    class?: ClassCreateNestedOneWithoutKeyDatesInput
+  }
+
+  export type KeyDateUncheckedCreateInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId?: number | null
+  }
+
+  export type KeyDateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutKeyDatesNestedInput
+    class?: ClassUpdateOneWithoutKeyDatesNestedInput
+  }
+
+  export type KeyDateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type KeyDateCreateManyInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId?: number | null
+  }
+
+  export type KeyDateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyDateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AssessmentCreateInput = {
@@ -32706,6 +36248,7 @@ export namespace Prisma {
     organisation: OrganisationCreateNestedOneWithoutCheckInsInput
     student: StudentCreateNestedOneWithoutCheckInsInput
     teacher: UserCreateNestedOneWithoutCheckInsAssignedInput
+    rule?: CheckInRuleCreateNestedOneWithoutCheckInsInput
   }
 
   export type CheckInUncheckedCreateInput = {
@@ -32719,6 +36262,7 @@ export namespace Prisma {
     organisationId: string
     studentId: number
     teacherId: string
+    ruleId?: string | null
   }
 
   export type CheckInUpdateInput = {
@@ -32732,6 +36276,7 @@ export namespace Prisma {
     organisation?: OrganisationUpdateOneRequiredWithoutCheckInsNestedInput
     student?: StudentUpdateOneRequiredWithoutCheckInsNestedInput
     teacher?: UserUpdateOneRequiredWithoutCheckInsAssignedNestedInput
+    rule?: CheckInRuleUpdateOneWithoutCheckInsNestedInput
   }
 
   export type CheckInUncheckedUpdateInput = {
@@ -32745,6 +36290,7 @@ export namespace Prisma {
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CheckInCreateManyInput = {
@@ -32758,6 +36304,7 @@ export namespace Prisma {
     organisationId: string
     studentId: number
     teacherId: string
+    ruleId?: string | null
   }
 
   export type CheckInUpdateManyMutationInput = {
@@ -32781,6 +36328,106 @@ export namespace Prisma {
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CheckInRuleCreateInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutCheckInRulesInput
+    student?: StudentCreateNestedOneWithoutCheckInRulesInput
+    class?: ClassCreateNestedOneWithoutCheckInRulesInput
+    checkIns?: CheckInCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleUncheckedCreateInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId?: number | null
+    classId?: number | null
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutCheckInRulesNestedInput
+    student?: StudentUpdateOneWithoutCheckInRulesNestedInput
+    class?: ClassUpdateOneWithoutCheckInRulesNestedInput
+    checkIns?: CheckInUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    checkIns?: CheckInUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleCreateManyInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId?: number | null
+    classId?: number | null
+  }
+
+  export type CheckInRuleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckInRuleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type BillingSettingsCreateInput = {
@@ -33330,6 +36977,18 @@ export namespace Prisma {
     none?: CheckInWhereInput
   }
 
+  export type CheckInRuleListRelationFilter = {
+    every?: CheckInRuleWhereInput
+    some?: CheckInRuleWhereInput
+    none?: CheckInRuleWhereInput
+  }
+
+  export type KeyDateListRelationFilter = {
+    every?: KeyDateWhereInput
+    some?: KeyDateWhereInput
+    none?: KeyDateWhereInput
+  }
+
   export type BillingSettingsNullableScalarRelationFilter = {
     is?: BillingSettingsWhereInput | null
     isNot?: BillingSettingsWhereInput | null
@@ -33401,6 +37060,14 @@ export namespace Prisma {
   }
 
   export type CheckInOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CheckInRuleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KeyDateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33731,6 +37398,8 @@ export namespace Prisma {
     defaultStudentRateCents?: SortOrder
     defaultSubjects?: SortOrder
     subjectColorsJson?: SortOrder
+    calendarEventColorsJson?: SortOrder
+    studentYearLastPromoted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -33738,11 +37407,13 @@ export namespace Prisma {
 
   export type OrganisationPreferencesAvgOrderByAggregateInput = {
     defaultStudentRateCents?: SortOrder
+    studentYearLastPromoted?: SortOrder
   }
 
   export type OrganisationPreferencesMaxOrderByAggregateInput = {
     id?: SortOrder
     defaultStudentRateCents?: SortOrder
+    studentYearLastPromoted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -33751,6 +37422,7 @@ export namespace Prisma {
   export type OrganisationPreferencesMinOrderByAggregateInput = {
     id?: SortOrder
     defaultStudentRateCents?: SortOrder
+    studentYearLastPromoted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -33758,6 +37430,7 @@ export namespace Prisma {
 
   export type OrganisationPreferencesSumOrderByAggregateInput = {
     defaultStudentRateCents?: SortOrder
+    studentYearLastPromoted?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -33981,6 +37654,13 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumClassFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClassFormat | EnumClassFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumClassFormatFilter<$PrismaModel> | $Enums.ClassFormat
+  }
+
   export type ClassCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -33988,12 +37668,18 @@ export namespace Prisma {
     color?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    subject?: SortOrder
+    year?: SortOrder
+    defaultRateCents?: SortOrder
+    format?: SortOrder
     organisationId?: SortOrder
     teacherId?: SortOrder
   }
 
   export type ClassAvgOrderByAggregateInput = {
     id?: SortOrder
+    year?: SortOrder
+    defaultRateCents?: SortOrder
   }
 
   export type ClassMaxOrderByAggregateInput = {
@@ -34003,6 +37689,10 @@ export namespace Prisma {
     color?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    subject?: SortOrder
+    year?: SortOrder
+    defaultRateCents?: SortOrder
+    format?: SortOrder
     organisationId?: SortOrder
     teacherId?: SortOrder
   }
@@ -34014,12 +37704,28 @@ export namespace Prisma {
     color?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    subject?: SortOrder
+    year?: SortOrder
+    defaultRateCents?: SortOrder
+    format?: SortOrder
     organisationId?: SortOrder
     teacherId?: SortOrder
   }
 
   export type ClassSumOrderByAggregateInput = {
     id?: SortOrder
+    year?: SortOrder
+    defaultRateCents?: SortOrder
+  }
+
+  export type EnumClassFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClassFormat | EnumClassFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumClassFormatWithAggregatesFilter<$PrismaModel> | $Enums.ClassFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClassFormatFilter<$PrismaModel>
+    _max?: NestedEnumClassFormatFilter<$PrismaModel>
   }
 
   export type StudentScalarRelationFilter = {
@@ -34172,6 +37878,78 @@ export namespace Prisma {
   export type HolidaySumOrderByAggregateInput = {
     id?: SortOrder
     year?: SortOrder
+  }
+
+  export type EnumKeyDateScopeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyDateScope | EnumKeyDateScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeyDateScopeFilter<$PrismaModel> | $Enums.KeyDateScope
+  }
+
+  export type KeyDateCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    allDay?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    scope?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type KeyDateAvgOrderByAggregateInput = {
+    year?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type KeyDateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    allDay?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    scope?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type KeyDateMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    allDay?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    scope?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type KeyDateSumOrderByAggregateInput = {
+    year?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type EnumKeyDateScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyDateScope | EnumKeyDateScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeyDateScopeWithAggregatesFilter<$PrismaModel> | $Enums.KeyDateScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeyDateScopeFilter<$PrismaModel>
+    _max?: NestedEnumKeyDateScopeFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -34401,6 +38179,11 @@ export namespace Prisma {
     not?: NestedEnumCheckInStatusFilter<$PrismaModel> | $Enums.CheckInStatus
   }
 
+  export type CheckInRuleNullableScalarRelationFilter = {
+    is?: CheckInRuleWhereInput | null
+    isNot?: CheckInRuleWhereInput | null
+  }
+
   export type CheckInCountOrderByAggregateInput = {
     id?: SortOrder
     scheduledDate?: SortOrder
@@ -34412,6 +38195,7 @@ export namespace Prisma {
     organisationId?: SortOrder
     studentId?: SortOrder
     teacherId?: SortOrder
+    ruleId?: SortOrder
   }
 
   export type CheckInAvgOrderByAggregateInput = {
@@ -34429,6 +38213,7 @@ export namespace Prisma {
     organisationId?: SortOrder
     studentId?: SortOrder
     teacherId?: SortOrder
+    ruleId?: SortOrder
   }
 
   export type CheckInMinOrderByAggregateInput = {
@@ -34442,6 +38227,7 @@ export namespace Prisma {
     organisationId?: SortOrder
     studentId?: SortOrder
     teacherId?: SortOrder
+    ruleId?: SortOrder
   }
 
   export type CheckInSumOrderByAggregateInput = {
@@ -34456,6 +38242,80 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCheckInStatusFilter<$PrismaModel>
     _max?: NestedEnumCheckInStatusFilter<$PrismaModel>
+  }
+
+  export type EnumCheckInRecurrenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.CheckInRecurrence | EnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumCheckInRecurrenceFilter<$PrismaModel> | $Enums.CheckInRecurrence
+  }
+
+  export type StudentNullableScalarRelationFilter = {
+    is?: StudentWhereInput | null
+    isNot?: StudentWhereInput | null
+  }
+
+  export type CheckInRuleCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    recurrence?: SortOrder
+    anchor?: SortOrder
+    notesTemplate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type CheckInRuleAvgOrderByAggregateInput = {
+    studentId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type CheckInRuleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    recurrence?: SortOrder
+    anchor?: SortOrder
+    notesTemplate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type CheckInRuleMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    recurrence?: SortOrder
+    anchor?: SortOrder
+    notesTemplate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type CheckInRuleSumOrderByAggregateInput = {
+    studentId?: SortOrder
+    classId?: SortOrder
+  }
+
+  export type EnumCheckInRecurrenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CheckInRecurrence | EnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumCheckInRecurrenceWithAggregatesFilter<$PrismaModel> | $Enums.CheckInRecurrence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
+    _max?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
   }
 
   export type DiscountListRelationFilter = {
@@ -34905,6 +38765,20 @@ export namespace Prisma {
     connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
   }
 
+  export type CheckInRuleCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput> | CheckInRuleCreateWithoutOrganisationInput[] | CheckInRuleUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutOrganisationInput | CheckInRuleCreateOrConnectWithoutOrganisationInput[]
+    createMany?: CheckInRuleCreateManyOrganisationInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+  }
+
+  export type KeyDateCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput> | KeyDateCreateWithoutOrganisationInput[] | KeyDateUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutOrganisationInput | KeyDateCreateOrConnectWithoutOrganisationInput[]
+    createMany?: KeyDateCreateManyOrganisationInputEnvelope
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+  }
+
   export type BillingSettingsCreateNestedOneWithoutOrganisationInput = {
     create?: XOR<BillingSettingsCreateWithoutOrganisationInput, BillingSettingsUncheckedCreateWithoutOrganisationInput>
     connectOrCreate?: BillingSettingsCreateOrConnectWithoutOrganisationInput
@@ -35020,6 +38894,20 @@ export namespace Prisma {
     connectOrCreate?: CheckInCreateOrConnectWithoutOrganisationInput | CheckInCreateOrConnectWithoutOrganisationInput[]
     createMany?: CheckInCreateManyOrganisationInputEnvelope
     connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+  }
+
+  export type CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput> | CheckInRuleCreateWithoutOrganisationInput[] | CheckInRuleUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutOrganisationInput | CheckInRuleCreateOrConnectWithoutOrganisationInput[]
+    createMany?: CheckInRuleCreateManyOrganisationInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+  }
+
+  export type KeyDateUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput> | KeyDateCreateWithoutOrganisationInput[] | KeyDateUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutOrganisationInput | KeyDateCreateOrConnectWithoutOrganisationInput[]
+    createMany?: KeyDateCreateManyOrganisationInputEnvelope
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
   }
 
   export type BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput = {
@@ -35260,6 +39148,34 @@ export namespace Prisma {
     deleteMany?: CheckInScalarWhereInput | CheckInScalarWhereInput[]
   }
 
+  export type CheckInRuleUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput> | CheckInRuleCreateWithoutOrganisationInput[] | CheckInRuleUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutOrganisationInput | CheckInRuleCreateOrConnectWithoutOrganisationInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutOrganisationInput | CheckInRuleUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: CheckInRuleCreateManyOrganisationInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutOrganisationInput | CheckInRuleUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutOrganisationInput | CheckInRuleUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+  }
+
+  export type KeyDateUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput> | KeyDateCreateWithoutOrganisationInput[] | KeyDateUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutOrganisationInput | KeyDateCreateOrConnectWithoutOrganisationInput[]
+    upsert?: KeyDateUpsertWithWhereUniqueWithoutOrganisationInput | KeyDateUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: KeyDateCreateManyOrganisationInputEnvelope
+    set?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    disconnect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    delete?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    update?: KeyDateUpdateWithWhereUniqueWithoutOrganisationInput | KeyDateUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: KeyDateUpdateManyWithWhereWithoutOrganisationInput | KeyDateUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
+  }
+
   export type BillingSettingsUpdateOneWithoutOrganisationNestedInput = {
     create?: XOR<BillingSettingsCreateWithoutOrganisationInput, BillingSettingsUncheckedCreateWithoutOrganisationInput>
     connectOrCreate?: BillingSettingsCreateOrConnectWithoutOrganisationInput
@@ -35488,6 +39404,34 @@ export namespace Prisma {
     update?: CheckInUpdateWithWhereUniqueWithoutOrganisationInput | CheckInUpdateWithWhereUniqueWithoutOrganisationInput[]
     updateMany?: CheckInUpdateManyWithWhereWithoutOrganisationInput | CheckInUpdateManyWithWhereWithoutOrganisationInput[]
     deleteMany?: CheckInScalarWhereInput | CheckInScalarWhereInput[]
+  }
+
+  export type CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput> | CheckInRuleCreateWithoutOrganisationInput[] | CheckInRuleUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutOrganisationInput | CheckInRuleCreateOrConnectWithoutOrganisationInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutOrganisationInput | CheckInRuleUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: CheckInRuleCreateManyOrganisationInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutOrganisationInput | CheckInRuleUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutOrganisationInput | CheckInRuleUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+  }
+
+  export type KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput> | KeyDateCreateWithoutOrganisationInput[] | KeyDateUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutOrganisationInput | KeyDateCreateOrConnectWithoutOrganisationInput[]
+    upsert?: KeyDateUpsertWithWhereUniqueWithoutOrganisationInput | KeyDateUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: KeyDateCreateManyOrganisationInputEnvelope
+    set?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    disconnect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    delete?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    update?: KeyDateUpdateWithWhereUniqueWithoutOrganisationInput | KeyDateUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: KeyDateUpdateManyWithWhereWithoutOrganisationInput | KeyDateUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
   }
 
   export type BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput = {
@@ -36199,6 +40143,13 @@ export namespace Prisma {
     connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
   }
 
+  export type CheckInRuleCreateNestedManyWithoutStudentInput = {
+    create?: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput> | CheckInRuleCreateWithoutStudentInput[] | CheckInRuleUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutStudentInput | CheckInRuleCreateOrConnectWithoutStudentInput[]
+    createMany?: CheckInRuleCreateManyStudentInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+  }
+
   export type MeetingUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<MeetingCreateWithoutStudentInput, MeetingUncheckedCreateWithoutStudentInput> | MeetingCreateWithoutStudentInput[] | MeetingUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: MeetingCreateOrConnectWithoutStudentInput | MeetingCreateOrConnectWithoutStudentInput[]
@@ -36246,6 +40197,13 @@ export namespace Prisma {
     connectOrCreate?: ClassSessionAttendanceCreateOrConnectWithoutStudentInput | ClassSessionAttendanceCreateOrConnectWithoutStudentInput[]
     createMany?: ClassSessionAttendanceCreateManyStudentInputEnvelope
     connect?: ClassSessionAttendanceWhereUniqueInput | ClassSessionAttendanceWhereUniqueInput[]
+  }
+
+  export type CheckInRuleUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput> | CheckInRuleCreateWithoutStudentInput[] | CheckInRuleUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutStudentInput | CheckInRuleCreateOrConnectWithoutStudentInput[]
+    createMany?: CheckInRuleCreateManyStudentInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -36376,6 +40334,20 @@ export namespace Prisma {
     deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
   }
 
+  export type CheckInRuleUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput> | CheckInRuleCreateWithoutStudentInput[] | CheckInRuleUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutStudentInput | CheckInRuleCreateOrConnectWithoutStudentInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutStudentInput | CheckInRuleUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: CheckInRuleCreateManyStudentInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutStudentInput | CheckInRuleUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutStudentInput | CheckInRuleUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+  }
+
   export type MeetingUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<MeetingCreateWithoutStudentInput, MeetingUncheckedCreateWithoutStudentInput> | MeetingCreateWithoutStudentInput[] | MeetingUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: MeetingCreateOrConnectWithoutStudentInput | MeetingCreateOrConnectWithoutStudentInput[]
@@ -36474,6 +40446,20 @@ export namespace Prisma {
     deleteMany?: ClassSessionAttendanceScalarWhereInput | ClassSessionAttendanceScalarWhereInput[]
   }
 
+  export type CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput> | CheckInRuleCreateWithoutStudentInput[] | CheckInRuleUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutStudentInput | CheckInRuleCreateOrConnectWithoutStudentInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutStudentInput | CheckInRuleUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: CheckInRuleCreateManyStudentInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutStudentInput | CheckInRuleUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutStudentInput | CheckInRuleUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+  }
+
   export type OrganisationCreateNestedOneWithoutClassesInput = {
     create?: XOR<OrganisationCreateWithoutClassesInput, OrganisationUncheckedCreateWithoutClassesInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutClassesInput
@@ -36494,6 +40480,20 @@ export namespace Prisma {
     connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
   }
 
+  export type KeyDateCreateNestedManyWithoutClassInput = {
+    create?: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput> | KeyDateCreateWithoutClassInput[] | KeyDateUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutClassInput | KeyDateCreateOrConnectWithoutClassInput[]
+    createMany?: KeyDateCreateManyClassInputEnvelope
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+  }
+
+  export type CheckInRuleCreateNestedManyWithoutClassInput = {
+    create?: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput> | CheckInRuleCreateWithoutClassInput[] | CheckInRuleUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutClassInput | CheckInRuleCreateOrConnectWithoutClassInput[]
+    createMany?: CheckInRuleCreateManyClassInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+  }
+
   export type StudentUncheckedCreateNestedManyWithoutClassInput = {
     create?: XOR<StudentCreateWithoutClassInput, StudentUncheckedCreateWithoutClassInput> | StudentCreateWithoutClassInput[] | StudentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: StudentCreateOrConnectWithoutClassInput | StudentCreateOrConnectWithoutClassInput[]
@@ -36506,6 +40506,24 @@ export namespace Prisma {
     connectOrCreate?: ClassSessionCreateOrConnectWithoutClassInput | ClassSessionCreateOrConnectWithoutClassInput[]
     createMany?: ClassSessionCreateManyClassInputEnvelope
     connect?: ClassSessionWhereUniqueInput | ClassSessionWhereUniqueInput[]
+  }
+
+  export type KeyDateUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput> | KeyDateCreateWithoutClassInput[] | KeyDateUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutClassInput | KeyDateCreateOrConnectWithoutClassInput[]
+    createMany?: KeyDateCreateManyClassInputEnvelope
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+  }
+
+  export type CheckInRuleUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput> | CheckInRuleCreateWithoutClassInput[] | CheckInRuleUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutClassInput | CheckInRuleCreateOrConnectWithoutClassInput[]
+    createMany?: CheckInRuleCreateManyClassInputEnvelope
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+  }
+
+  export type EnumClassFormatFieldUpdateOperationsInput = {
+    set?: $Enums.ClassFormat
   }
 
   export type OrganisationUpdateOneRequiredWithoutClassesNestedInput = {
@@ -36544,6 +40562,34 @@ export namespace Prisma {
     deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
   }
 
+  export type KeyDateUpdateManyWithoutClassNestedInput = {
+    create?: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput> | KeyDateCreateWithoutClassInput[] | KeyDateUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutClassInput | KeyDateCreateOrConnectWithoutClassInput[]
+    upsert?: KeyDateUpsertWithWhereUniqueWithoutClassInput | KeyDateUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: KeyDateCreateManyClassInputEnvelope
+    set?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    disconnect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    delete?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    update?: KeyDateUpdateWithWhereUniqueWithoutClassInput | KeyDateUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: KeyDateUpdateManyWithWhereWithoutClassInput | KeyDateUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
+  }
+
+  export type CheckInRuleUpdateManyWithoutClassNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput> | CheckInRuleCreateWithoutClassInput[] | CheckInRuleUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutClassInput | CheckInRuleCreateOrConnectWithoutClassInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutClassInput | CheckInRuleUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: CheckInRuleCreateManyClassInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutClassInput | CheckInRuleUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutClassInput | CheckInRuleUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+  }
+
   export type StudentUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<StudentCreateWithoutClassInput, StudentUncheckedCreateWithoutClassInput> | StudentCreateWithoutClassInput[] | StudentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: StudentCreateOrConnectWithoutClassInput | StudentCreateOrConnectWithoutClassInput[]
@@ -36570,6 +40616,34 @@ export namespace Prisma {
     update?: ClassSessionUpdateWithWhereUniqueWithoutClassInput | ClassSessionUpdateWithWhereUniqueWithoutClassInput[]
     updateMany?: ClassSessionUpdateManyWithWhereWithoutClassInput | ClassSessionUpdateManyWithWhereWithoutClassInput[]
     deleteMany?: ClassSessionScalarWhereInput | ClassSessionScalarWhereInput[]
+  }
+
+  export type KeyDateUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput> | KeyDateCreateWithoutClassInput[] | KeyDateUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: KeyDateCreateOrConnectWithoutClassInput | KeyDateCreateOrConnectWithoutClassInput[]
+    upsert?: KeyDateUpsertWithWhereUniqueWithoutClassInput | KeyDateUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: KeyDateCreateManyClassInputEnvelope
+    set?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    disconnect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    delete?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    connect?: KeyDateWhereUniqueInput | KeyDateWhereUniqueInput[]
+    update?: KeyDateUpdateWithWhereUniqueWithoutClassInput | KeyDateUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: KeyDateUpdateManyWithWhereWithoutClassInput | KeyDateUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
+  }
+
+  export type CheckInRuleUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput> | CheckInRuleCreateWithoutClassInput[] | CheckInRuleUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutClassInput | CheckInRuleCreateOrConnectWithoutClassInput[]
+    upsert?: CheckInRuleUpsertWithWhereUniqueWithoutClassInput | CheckInRuleUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: CheckInRuleCreateManyClassInputEnvelope
+    set?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    disconnect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    delete?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    connect?: CheckInRuleWhereUniqueInput | CheckInRuleWhereUniqueInput[]
+    update?: CheckInRuleUpdateWithWhereUniqueWithoutClassInput | CheckInRuleUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: CheckInRuleUpdateManyWithWhereWithoutClassInput | CheckInRuleUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
   }
 
   export type OrganisationCreateNestedOneWithoutMeetingsInput = {
@@ -36724,6 +40798,40 @@ export namespace Prisma {
     upsert?: OrganisationUpsertWithoutHolidaysInput
     connect?: OrganisationWhereUniqueInput
     update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutHolidaysInput, OrganisationUpdateWithoutHolidaysInput>, OrganisationUncheckedUpdateWithoutHolidaysInput>
+  }
+
+  export type OrganisationCreateNestedOneWithoutKeyDatesInput = {
+    create?: XOR<OrganisationCreateWithoutKeyDatesInput, OrganisationUncheckedCreateWithoutKeyDatesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutKeyDatesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type ClassCreateNestedOneWithoutKeyDatesInput = {
+    create?: XOR<ClassCreateWithoutKeyDatesInput, ClassUncheckedCreateWithoutKeyDatesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutKeyDatesInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type EnumKeyDateScopeFieldUpdateOperationsInput = {
+    set?: $Enums.KeyDateScope
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutKeyDatesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutKeyDatesInput, OrganisationUncheckedCreateWithoutKeyDatesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutKeyDatesInput
+    upsert?: OrganisationUpsertWithoutKeyDatesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutKeyDatesInput, OrganisationUpdateWithoutKeyDatesInput>, OrganisationUncheckedUpdateWithoutKeyDatesInput>
+  }
+
+  export type ClassUpdateOneWithoutKeyDatesNestedInput = {
+    create?: XOR<ClassCreateWithoutKeyDatesInput, ClassUncheckedCreateWithoutKeyDatesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutKeyDatesInput
+    upsert?: ClassUpsertWithoutKeyDatesInput
+    disconnect?: ClassWhereInput | boolean
+    delete?: ClassWhereInput | boolean
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutKeyDatesInput, ClassUpdateWithoutKeyDatesInput>, ClassUncheckedUpdateWithoutKeyDatesInput>
   }
 
   export type OrganisationCreateNestedOneWithoutAssessmentsInput = {
@@ -36942,6 +41050,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type CheckInRuleCreateNestedOneWithoutCheckInsInput = {
+    create?: XOR<CheckInRuleCreateWithoutCheckInsInput, CheckInRuleUncheckedCreateWithoutCheckInsInput>
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutCheckInsInput
+    connect?: CheckInRuleWhereUniqueInput
+  }
+
   export type EnumCheckInStatusFieldUpdateOperationsInput = {
     set?: $Enums.CheckInStatus
   }
@@ -36968,6 +41082,108 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCheckInsAssignedInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCheckInsAssignedInput, UserUpdateWithoutCheckInsAssignedInput>, UserUncheckedUpdateWithoutCheckInsAssignedInput>
+  }
+
+  export type CheckInRuleUpdateOneWithoutCheckInsNestedInput = {
+    create?: XOR<CheckInRuleCreateWithoutCheckInsInput, CheckInRuleUncheckedCreateWithoutCheckInsInput>
+    connectOrCreate?: CheckInRuleCreateOrConnectWithoutCheckInsInput
+    upsert?: CheckInRuleUpsertWithoutCheckInsInput
+    disconnect?: CheckInRuleWhereInput | boolean
+    delete?: CheckInRuleWhereInput | boolean
+    connect?: CheckInRuleWhereUniqueInput
+    update?: XOR<XOR<CheckInRuleUpdateToOneWithWhereWithoutCheckInsInput, CheckInRuleUpdateWithoutCheckInsInput>, CheckInRuleUncheckedUpdateWithoutCheckInsInput>
+  }
+
+  export type OrganisationCreateNestedOneWithoutCheckInRulesInput = {
+    create?: XOR<OrganisationCreateWithoutCheckInRulesInput, OrganisationUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutCheckInRulesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutCheckInRulesInput = {
+    create?: XOR<StudentCreateWithoutCheckInRulesInput, StudentUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutCheckInRulesInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type ClassCreateNestedOneWithoutCheckInRulesInput = {
+    create?: XOR<ClassCreateWithoutCheckInRulesInput, ClassUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutCheckInRulesInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type CheckInCreateNestedManyWithoutRuleInput = {
+    create?: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput> | CheckInCreateWithoutRuleInput[] | CheckInUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: CheckInCreateOrConnectWithoutRuleInput | CheckInCreateOrConnectWithoutRuleInput[]
+    createMany?: CheckInCreateManyRuleInputEnvelope
+    connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+  }
+
+  export type CheckInUncheckedCreateNestedManyWithoutRuleInput = {
+    create?: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput> | CheckInCreateWithoutRuleInput[] | CheckInUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: CheckInCreateOrConnectWithoutRuleInput | CheckInCreateOrConnectWithoutRuleInput[]
+    createMany?: CheckInCreateManyRuleInputEnvelope
+    connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+  }
+
+  export type EnumCheckInRecurrenceFieldUpdateOperationsInput = {
+    set?: $Enums.CheckInRecurrence
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutCheckInRulesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutCheckInRulesInput, OrganisationUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutCheckInRulesInput
+    upsert?: OrganisationUpsertWithoutCheckInRulesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutCheckInRulesInput, OrganisationUpdateWithoutCheckInRulesInput>, OrganisationUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type StudentUpdateOneWithoutCheckInRulesNestedInput = {
+    create?: XOR<StudentCreateWithoutCheckInRulesInput, StudentUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutCheckInRulesInput
+    upsert?: StudentUpsertWithoutCheckInRulesInput
+    disconnect?: StudentWhereInput | boolean
+    delete?: StudentWhereInput | boolean
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutCheckInRulesInput, StudentUpdateWithoutCheckInRulesInput>, StudentUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type ClassUpdateOneWithoutCheckInRulesNestedInput = {
+    create?: XOR<ClassCreateWithoutCheckInRulesInput, ClassUncheckedCreateWithoutCheckInRulesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutCheckInRulesInput
+    upsert?: ClassUpsertWithoutCheckInRulesInput
+    disconnect?: ClassWhereInput | boolean
+    delete?: ClassWhereInput | boolean
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutCheckInRulesInput, ClassUpdateWithoutCheckInRulesInput>, ClassUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type CheckInUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput> | CheckInCreateWithoutRuleInput[] | CheckInUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: CheckInCreateOrConnectWithoutRuleInput | CheckInCreateOrConnectWithoutRuleInput[]
+    upsert?: CheckInUpsertWithWhereUniqueWithoutRuleInput | CheckInUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: CheckInCreateManyRuleInputEnvelope
+    set?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    disconnect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    delete?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    update?: CheckInUpdateWithWhereUniqueWithoutRuleInput | CheckInUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: CheckInUpdateManyWithWhereWithoutRuleInput | CheckInUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: CheckInScalarWhereInput | CheckInScalarWhereInput[]
+  }
+
+  export type CheckInUncheckedUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput> | CheckInCreateWithoutRuleInput[] | CheckInUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: CheckInCreateOrConnectWithoutRuleInput | CheckInCreateOrConnectWithoutRuleInput[]
+    upsert?: CheckInUpsertWithWhereUniqueWithoutRuleInput | CheckInUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: CheckInCreateManyRuleInputEnvelope
+    set?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    disconnect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    delete?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    connect?: CheckInWhereUniqueInput | CheckInWhereUniqueInput[]
+    update?: CheckInUpdateWithWhereUniqueWithoutRuleInput | CheckInUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: CheckInUpdateManyWithWhereWithoutRuleInput | CheckInUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: CheckInScalarWhereInput | CheckInScalarWhereInput[]
   }
 
   export type OrganisationCreateNestedOneWithoutBillingSettingsInput = {
@@ -37532,6 +41748,40 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumClassFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClassFormat | EnumClassFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumClassFormatFilter<$PrismaModel> | $Enums.ClassFormat
+  }
+
+  export type NestedEnumClassFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClassFormat | EnumClassFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClassFormat[] | ListEnumClassFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumClassFormatWithAggregatesFilter<$PrismaModel> | $Enums.ClassFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClassFormatFilter<$PrismaModel>
+    _max?: NestedEnumClassFormatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumKeyDateScopeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyDateScope | EnumKeyDateScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeyDateScopeFilter<$PrismaModel> | $Enums.KeyDateScope
+  }
+
+  export type NestedEnumKeyDateScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyDateScope | EnumKeyDateScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeyDateScopeWithAggregatesFilter<$PrismaModel> | $Enums.KeyDateScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeyDateScopeFilter<$PrismaModel>
+    _max?: NestedEnumKeyDateScopeFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -37580,6 +41830,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCheckInStatusFilter<$PrismaModel>
     _max?: NestedEnumCheckInStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCheckInRecurrenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.CheckInRecurrence | EnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumCheckInRecurrenceFilter<$PrismaModel> | $Enums.CheckInRecurrence
+  }
+
+  export type NestedEnumCheckInRecurrenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CheckInRecurrence | EnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CheckInRecurrence[] | ListEnumCheckInRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumCheckInRecurrenceWithAggregatesFilter<$PrismaModel> | $Enums.CheckInRecurrence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
+    _max?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
   }
 
   export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {
@@ -37699,6 +41966,8 @@ export namespace Prisma {
     defaultStudentRateCents?: number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37708,6 +41977,8 @@ export namespace Prisma {
     defaultStudentRateCents?: number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37862,6 +42133,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutOrganisationInput = {
@@ -37894,6 +42166,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutOrganisationInput = {
@@ -37912,9 +42185,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
     students?: StudentCreateNestedManyWithoutClassInput
     classSessions?: ClassSessionCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutOrganisationInput = {
@@ -37924,9 +42203,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
     students?: StudentUncheckedCreateNestedManyWithoutClassInput
     classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutOrganisationInput = {
@@ -38156,6 +42441,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutCheckInsInput
     teacher: UserCreateNestedOneWithoutCheckInsAssignedInput
+    rule?: CheckInRuleCreateNestedOneWithoutCheckInsInput
   }
 
   export type CheckInUncheckedCreateWithoutOrganisationInput = {
@@ -38168,6 +42454,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     studentId: number
     teacherId: string
+    ruleId?: string | null
   }
 
   export type CheckInCreateOrConnectWithoutOrganisationInput = {
@@ -38177,6 +42464,82 @@ export namespace Prisma {
 
   export type CheckInCreateManyOrganisationInputEnvelope = {
     data: CheckInCreateManyOrganisationInput | CheckInCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CheckInRuleCreateWithoutOrganisationInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student?: StudentCreateNestedOneWithoutCheckInRulesInput
+    class?: ClassCreateNestedOneWithoutCheckInRulesInput
+    checkIns?: CheckInCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleUncheckedCreateWithoutOrganisationInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId?: number | null
+    classId?: number | null
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleCreateOrConnectWithoutOrganisationInput = {
+    where: CheckInRuleWhereUniqueInput
+    create: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type CheckInRuleCreateManyOrganisationInputEnvelope = {
+    data: CheckInRuleCreateManyOrganisationInput | CheckInRuleCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KeyDateCreateWithoutOrganisationInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class?: ClassCreateNestedOneWithoutKeyDatesInput
+  }
+
+  export type KeyDateUncheckedCreateWithoutOrganisationInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId?: number | null
+  }
+
+  export type KeyDateCreateOrConnectWithoutOrganisationInput = {
+    where: KeyDateWhereUniqueInput
+    create: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type KeyDateCreateManyOrganisationInputEnvelope = {
+    data: KeyDateCreateManyOrganisationInput | KeyDateCreateManyOrganisationInput[]
     skipDuplicates?: boolean
   }
 
@@ -38352,6 +42715,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38361,6 +42726,8 @@ export namespace Prisma {
     defaultStudentRateCents?: NullableIntFieldUpdateOperationsInput | number | null
     defaultSubjects?: NullableJsonNullValueInput | InputJsonValue
     subjectColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    calendarEventColorsJson?: NullableJsonNullValueInput | InputJsonValue
+    studentYearLastPromoted?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38554,6 +42921,10 @@ export namespace Prisma {
     color?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
     updatedAt?: DateTimeFilter<"Class"> | Date | string
+    subject?: StringNullableFilter<"Class"> | string | null
+    year?: IntNullableFilter<"Class"> | number | null
+    defaultRateCents?: IntNullableFilter<"Class"> | number | null
+    format?: EnumClassFormatFilter<"Class"> | $Enums.ClassFormat
     organisationId?: StringFilter<"Class"> | string
     teacherId?: StringNullableFilter<"Class"> | string | null
   }
@@ -38781,6 +43152,74 @@ export namespace Prisma {
     organisationId?: StringFilter<"CheckIn"> | string
     studentId?: IntFilter<"CheckIn"> | number
     teacherId?: StringFilter<"CheckIn"> | string
+    ruleId?: StringNullableFilter<"CheckIn"> | string | null
+  }
+
+  export type CheckInRuleUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: CheckInRuleWhereUniqueInput
+    update: XOR<CheckInRuleUpdateWithoutOrganisationInput, CheckInRuleUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<CheckInRuleCreateWithoutOrganisationInput, CheckInRuleUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type CheckInRuleUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: CheckInRuleWhereUniqueInput
+    data: XOR<CheckInRuleUpdateWithoutOrganisationInput, CheckInRuleUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type CheckInRuleUpdateManyWithWhereWithoutOrganisationInput = {
+    where: CheckInRuleScalarWhereInput
+    data: XOR<CheckInRuleUpdateManyMutationInput, CheckInRuleUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type CheckInRuleScalarWhereInput = {
+    AND?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+    OR?: CheckInRuleScalarWhereInput[]
+    NOT?: CheckInRuleScalarWhereInput | CheckInRuleScalarWhereInput[]
+    id?: StringFilter<"CheckInRule"> | string
+    name?: StringFilter<"CheckInRule"> | string
+    recurrence?: EnumCheckInRecurrenceFilter<"CheckInRule"> | $Enums.CheckInRecurrence
+    anchor?: DateTimeFilter<"CheckInRule"> | Date | string
+    notesTemplate?: StringNullableFilter<"CheckInRule"> | string | null
+    active?: BoolFilter<"CheckInRule"> | boolean
+    createdAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    updatedAt?: DateTimeFilter<"CheckInRule"> | Date | string
+    organisationId?: StringFilter<"CheckInRule"> | string
+    studentId?: IntNullableFilter<"CheckInRule"> | number | null
+    classId?: IntNullableFilter<"CheckInRule"> | number | null
+  }
+
+  export type KeyDateUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: KeyDateWhereUniqueInput
+    update: XOR<KeyDateUpdateWithoutOrganisationInput, KeyDateUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<KeyDateCreateWithoutOrganisationInput, KeyDateUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type KeyDateUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: KeyDateWhereUniqueInput
+    data: XOR<KeyDateUpdateWithoutOrganisationInput, KeyDateUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type KeyDateUpdateManyWithWhereWithoutOrganisationInput = {
+    where: KeyDateScalarWhereInput
+    data: XOR<KeyDateUpdateManyMutationInput, KeyDateUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type KeyDateScalarWhereInput = {
+    AND?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
+    OR?: KeyDateScalarWhereInput[]
+    NOT?: KeyDateScalarWhereInput | KeyDateScalarWhereInput[]
+    id?: StringFilter<"KeyDate"> | string
+    title?: StringFilter<"KeyDate"> | string
+    date?: DateTimeFilter<"KeyDate"> | Date | string
+    allDay?: BoolFilter<"KeyDate"> | boolean
+    description?: StringNullableFilter<"KeyDate"> | string | null
+    color?: StringNullableFilter<"KeyDate"> | string | null
+    scope?: EnumKeyDateScopeFilter<"KeyDate"> | $Enums.KeyDateScope
+    year?: IntNullableFilter<"KeyDate"> | number | null
+    createdAt?: DateTimeFilter<"KeyDate"> | Date | string
+    updatedAt?: DateTimeFilter<"KeyDate"> | Date | string
+    organisationId?: StringFilter<"KeyDate"> | string
+    classId?: IntNullableFilter<"KeyDate"> | number | null
   }
 
   export type BillingSettingsUpsertWithoutOrganisationInput = {
@@ -38949,6 +43388,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -38976,6 +43417,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39070,6 +43513,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -39097,6 +43542,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39124,6 +43571,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -39151,6 +43600,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39239,6 +43690,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -39266,6 +43719,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39389,6 +43844,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -39416,6 +43873,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39555,6 +44014,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -39582,6 +44043,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -39660,6 +44123,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -39687,6 +44152,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -39934,6 +44401,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutCheckInsInput
     student: StudentCreateNestedOneWithoutCheckInsInput
+    rule?: CheckInRuleCreateNestedOneWithoutCheckInsInput
   }
 
   export type CheckInUncheckedCreateWithoutTeacherInput = {
@@ -39946,6 +44414,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     studentId: number
+    ruleId?: string | null
   }
 
   export type CheckInCreateOrConnectWithoutTeacherInput = {
@@ -40064,6 +44533,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -40091,6 +44562,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -40278,6 +44751,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -40305,6 +44780,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -40348,6 +44825,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -40375,6 +44854,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -40447,6 +44928,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -40474,6 +44957,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -40568,6 +45053,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -40595,6 +45082,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -40622,6 +45111,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -40649,6 +45140,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -40665,9 +45158,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
     organisation: OrganisationCreateNestedOneWithoutClassesInput
     classSessions?: ClassSessionCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -40677,9 +45176,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     organisationId: string
     teacherId?: string | null
     classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -40776,6 +45281,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutCheckInsInput
     teacher: UserCreateNestedOneWithoutCheckInsAssignedInput
+    rule?: CheckInRuleCreateNestedOneWithoutCheckInsInput
   }
 
   export type CheckInUncheckedCreateWithoutStudentInput = {
@@ -40788,6 +45294,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     teacherId: string
+    ruleId?: string | null
   }
 
   export type CheckInCreateOrConnectWithoutStudentInput = {
@@ -40931,6 +45438,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CheckInRuleCreateWithoutStudentInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutCheckInRulesInput
+    class?: ClassCreateNestedOneWithoutCheckInRulesInput
+    checkIns?: CheckInCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleUncheckedCreateWithoutStudentInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId?: number | null
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleCreateOrConnectWithoutStudentInput = {
+    where: CheckInRuleWhereUniqueInput
+    create: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput>
+  }
+
+  export type CheckInRuleCreateManyStudentInputEnvelope = {
+    data: CheckInRuleCreateManyStudentInput | CheckInRuleCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganisationUpsertWithoutStudentsInput = {
     update: XOR<OrganisationUpdateWithoutStudentsInput, OrganisationUncheckedUpdateWithoutStudentsInput>
     create: XOR<OrganisationCreateWithoutStudentsInput, OrganisationUncheckedCreateWithoutStudentsInput>
@@ -40964,6 +45509,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -40991,6 +45538,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -41013,9 +45562,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
     classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -41025,9 +45580,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type MeetingUpsertWithWhereUniqueWithoutStudentInput = {
@@ -41152,6 +45713,22 @@ export namespace Prisma {
     data: XOR<ClassSessionAttendanceUpdateManyMutationInput, ClassSessionAttendanceUncheckedUpdateManyWithoutStudentInput>
   }
 
+  export type CheckInRuleUpsertWithWhereUniqueWithoutStudentInput = {
+    where: CheckInRuleWhereUniqueInput
+    update: XOR<CheckInRuleUpdateWithoutStudentInput, CheckInRuleUncheckedUpdateWithoutStudentInput>
+    create: XOR<CheckInRuleCreateWithoutStudentInput, CheckInRuleUncheckedCreateWithoutStudentInput>
+  }
+
+  export type CheckInRuleUpdateWithWhereUniqueWithoutStudentInput = {
+    where: CheckInRuleWhereUniqueInput
+    data: XOR<CheckInRuleUpdateWithoutStudentInput, CheckInRuleUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type CheckInRuleUpdateManyWithWhereWithoutStudentInput = {
+    where: CheckInRuleScalarWhereInput
+    data: XOR<CheckInRuleUpdateManyMutationInput, CheckInRuleUncheckedUpdateManyWithoutStudentInput>
+  }
+
   export type OrganisationCreateWithoutClassesInput = {
     id?: string
     name: string
@@ -41174,6 +45751,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -41201,6 +45780,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -41240,6 +45821,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutClassInput = {
@@ -41272,6 +45854,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutClassInput = {
@@ -41319,6 +45902,82 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type KeyDateCreateWithoutClassInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutKeyDatesInput
+  }
+
+  export type KeyDateUncheckedCreateWithoutClassInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
+  export type KeyDateCreateOrConnectWithoutClassInput = {
+    where: KeyDateWhereUniqueInput
+    create: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput>
+  }
+
+  export type KeyDateCreateManyClassInputEnvelope = {
+    data: KeyDateCreateManyClassInput | KeyDateCreateManyClassInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CheckInRuleCreateWithoutClassInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutCheckInRulesInput
+    student?: StudentCreateNestedOneWithoutCheckInRulesInput
+    checkIns?: CheckInCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleUncheckedCreateWithoutClassInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId?: number | null
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type CheckInRuleCreateOrConnectWithoutClassInput = {
+    where: CheckInRuleWhereUniqueInput
+    create: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput>
+  }
+
+  export type CheckInRuleCreateManyClassInputEnvelope = {
+    data: CheckInRuleCreateManyClassInput | CheckInRuleCreateManyClassInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganisationUpsertWithoutClassesInput = {
     update: XOR<OrganisationUpdateWithoutClassesInput, OrganisationUncheckedUpdateWithoutClassesInput>
     create: XOR<OrganisationCreateWithoutClassesInput, OrganisationUncheckedCreateWithoutClassesInput>
@@ -41352,6 +46011,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -41379,6 +46040,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -41416,6 +46079,38 @@ export namespace Prisma {
     data: XOR<ClassSessionUpdateManyMutationInput, ClassSessionUncheckedUpdateManyWithoutClassInput>
   }
 
+  export type KeyDateUpsertWithWhereUniqueWithoutClassInput = {
+    where: KeyDateWhereUniqueInput
+    update: XOR<KeyDateUpdateWithoutClassInput, KeyDateUncheckedUpdateWithoutClassInput>
+    create: XOR<KeyDateCreateWithoutClassInput, KeyDateUncheckedCreateWithoutClassInput>
+  }
+
+  export type KeyDateUpdateWithWhereUniqueWithoutClassInput = {
+    where: KeyDateWhereUniqueInput
+    data: XOR<KeyDateUpdateWithoutClassInput, KeyDateUncheckedUpdateWithoutClassInput>
+  }
+
+  export type KeyDateUpdateManyWithWhereWithoutClassInput = {
+    where: KeyDateScalarWhereInput
+    data: XOR<KeyDateUpdateManyMutationInput, KeyDateUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type CheckInRuleUpsertWithWhereUniqueWithoutClassInput = {
+    where: CheckInRuleWhereUniqueInput
+    update: XOR<CheckInRuleUpdateWithoutClassInput, CheckInRuleUncheckedUpdateWithoutClassInput>
+    create: XOR<CheckInRuleCreateWithoutClassInput, CheckInRuleUncheckedCreateWithoutClassInput>
+  }
+
+  export type CheckInRuleUpdateWithWhereUniqueWithoutClassInput = {
+    where: CheckInRuleWhereUniqueInput
+    data: XOR<CheckInRuleUpdateWithoutClassInput, CheckInRuleUncheckedUpdateWithoutClassInput>
+  }
+
+  export type CheckInRuleUpdateManyWithWhereWithoutClassInput = {
+    where: CheckInRuleScalarWhereInput
+    data: XOR<CheckInRuleUpdateManyMutationInput, CheckInRuleUncheckedUpdateManyWithoutClassInput>
+  }
+
   export type OrganisationCreateWithoutMeetingsInput = {
     id?: string
     name: string
@@ -41438,6 +46133,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -41465,6 +46162,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -41549,6 +46248,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutMeetingsInput = {
@@ -41581,6 +46281,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutMeetingsInput = {
@@ -41663,6 +46364,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -41690,6 +46393,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -41786,6 +46491,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutMeetingsInput = {
@@ -41818,6 +46524,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type AssessmentUpsertWithWhereUniqueWithoutMeetingInput = {
@@ -41858,6 +46565,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -41885,6 +46594,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -41972,6 +46683,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -41999,6 +46712,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -42042,6 +46757,8 @@ export namespace Prisma {
     terms?: TermCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -42069,6 +46786,8 @@ export namespace Prisma {
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -42112,6 +46831,8 @@ export namespace Prisma {
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -42139,9 +46860,229 @@ export namespace Prisma {
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationCreateWithoutKeyDatesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutKeyDatesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutKeyDatesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutKeyDatesInput, OrganisationUncheckedCreateWithoutKeyDatesInput>
+  }
+
+  export type ClassCreateWithoutKeyDatesInput = {
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
+    teacherId?: string | null
+    organisation: OrganisationCreateNestedOneWithoutClassesInput
+    students?: StudentCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutKeyDatesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
+    organisationId: string
+    teacherId?: string | null
+    students?: StudentUncheckedCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutKeyDatesInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutKeyDatesInput, ClassUncheckedCreateWithoutKeyDatesInput>
+  }
+
+  export type OrganisationUpsertWithoutKeyDatesInput = {
+    update: XOR<OrganisationUpdateWithoutKeyDatesInput, OrganisationUncheckedUpdateWithoutKeyDatesInput>
+    create: XOR<OrganisationCreateWithoutKeyDatesInput, OrganisationUncheckedCreateWithoutKeyDatesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutKeyDatesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutKeyDatesInput, OrganisationUncheckedUpdateWithoutKeyDatesInput>
+  }
+
+  export type OrganisationUpdateWithoutKeyDatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutKeyDatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type ClassUpsertWithoutKeyDatesInput = {
+    update: XOR<ClassUpdateWithoutKeyDatesInput, ClassUncheckedUpdateWithoutKeyDatesInput>
+    create: XOR<ClassCreateWithoutKeyDatesInput, ClassUncheckedCreateWithoutKeyDatesInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutKeyDatesInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutKeyDatesInput, ClassUncheckedUpdateWithoutKeyDatesInput>
+  }
+
+  export type ClassUpdateWithoutKeyDatesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
+    students?: StudentUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutKeyDatesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
+    organisationId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type OrganisationCreateWithoutAssessmentsInput = {
@@ -42166,6 +47107,8 @@ export namespace Prisma {
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -42193,6 +47136,8 @@ export namespace Prisma {
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -42232,6 +47177,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAssessmentsInput = {
@@ -42264,6 +47210,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAssessmentsInput = {
@@ -42381,6 +47328,8 @@ export namespace Prisma {
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -42408,6 +47357,8 @@ export namespace Prisma {
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -42453,6 +47404,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAssessmentsInput = {
@@ -42485,6 +47437,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type MeetingUpsertWithoutAssessmentsInput = {
@@ -42598,6 +47551,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -42625,6 +47580,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -42641,9 +47598,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
     organisation: OrganisationCreateNestedOneWithoutClassesInput
     students?: StudentCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutClassSessionsInput = {
@@ -42653,9 +47616,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     organisationId: string
     teacherId?: string | null
     students?: StudentUncheckedCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutClassInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutClassSessionsInput = {
@@ -42768,6 +47737,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -42795,6 +47766,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -42817,9 +47790,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
     students?: StudentUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutClassSessionsInput = {
@@ -42829,9 +47808,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type UserUpsertWithoutClassSessionsCreatedInput = {
@@ -42923,6 +47908,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -42950,6 +47937,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -43019,6 +48008,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutClassSessionAttendancesInput = {
@@ -43051,6 +48041,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutClassSessionAttendancesInput = {
@@ -43091,6 +48082,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -43118,6 +48111,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -43199,6 +48194,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutClassSessionAttendancesInput = {
@@ -43231,6 +48227,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type OrganisationCreateWithoutCheckInsInput = {
@@ -43255,6 +48252,8 @@ export namespace Prisma {
     terms?: TermCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
@@ -43282,6 +48281,8 @@ export namespace Prisma {
     terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
@@ -43321,6 +48322,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutCheckInsInput = {
@@ -43353,6 +48355,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutCheckInsInput = {
@@ -43405,6 +48408,39 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCheckInsAssignedInput, UserUncheckedCreateWithoutCheckInsAssignedInput>
   }
 
+  export type CheckInRuleCreateWithoutCheckInsInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutCheckInRulesInput
+    student?: StudentCreateNestedOneWithoutCheckInRulesInput
+    class?: ClassCreateNestedOneWithoutCheckInRulesInput
+  }
+
+  export type CheckInRuleUncheckedCreateWithoutCheckInsInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId?: number | null
+    classId?: number | null
+  }
+
+  export type CheckInRuleCreateOrConnectWithoutCheckInsInput = {
+    where: CheckInRuleWhereUniqueInput
+    create: XOR<CheckInRuleCreateWithoutCheckInsInput, CheckInRuleUncheckedCreateWithoutCheckInsInput>
+  }
+
   export type OrganisationUpsertWithoutCheckInsInput = {
     update: XOR<OrganisationUpdateWithoutCheckInsInput, OrganisationUncheckedUpdateWithoutCheckInsInput>
     create: XOR<OrganisationCreateWithoutCheckInsInput, OrganisationUncheckedCreateWithoutCheckInsInput>
@@ -43438,6 +48474,8 @@ export namespace Prisma {
     terms?: TermUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
@@ -43465,6 +48503,8 @@ export namespace Prisma {
     terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
@@ -43510,6 +48550,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutCheckInsInput = {
@@ -43542,6 +48583,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutCheckInsAssignedInput = {
@@ -43595,6 +48637,461 @@ export namespace Prisma {
     classSessionsCreated?: ClassSessionUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
+  export type CheckInRuleUpsertWithoutCheckInsInput = {
+    update: XOR<CheckInRuleUpdateWithoutCheckInsInput, CheckInRuleUncheckedUpdateWithoutCheckInsInput>
+    create: XOR<CheckInRuleCreateWithoutCheckInsInput, CheckInRuleUncheckedCreateWithoutCheckInsInput>
+    where?: CheckInRuleWhereInput
+  }
+
+  export type CheckInRuleUpdateToOneWithWhereWithoutCheckInsInput = {
+    where?: CheckInRuleWhereInput
+    data: XOR<CheckInRuleUpdateWithoutCheckInsInput, CheckInRuleUncheckedUpdateWithoutCheckInsInput>
+  }
+
+  export type CheckInRuleUpdateWithoutCheckInsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutCheckInRulesNestedInput
+    student?: StudentUpdateOneWithoutCheckInRulesNestedInput
+    class?: ClassUpdateOneWithoutCheckInRulesNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateWithoutCheckInsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OrganisationCreateWithoutCheckInRulesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutCheckInRulesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutCheckInRulesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutCheckInRulesInput, OrganisationUncheckedCreateWithoutCheckInRulesInput>
+  }
+
+  export type StudentCreateWithoutCheckInRulesInput = {
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    customTermRateCents?: number | null
+    organisation: OrganisationCreateNestedOneWithoutStudentsInput
+    class?: ClassCreateNestedOneWithoutStudentsInput
+    meetings?: MeetingCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutCheckInRulesInput = {
+    id?: number
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    classId?: number | null
+    customTermRateCents?: number | null
+    organisationId: string
+    meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutCheckInRulesInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutCheckInRulesInput, StudentUncheckedCreateWithoutCheckInRulesInput>
+  }
+
+  export type ClassCreateWithoutCheckInRulesInput = {
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
+    teacherId?: string | null
+    organisation: OrganisationCreateNestedOneWithoutClassesInput
+    students?: StudentCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutCheckInRulesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
+    organisationId: string
+    teacherId?: string | null
+    students?: StudentUncheckedCreateNestedManyWithoutClassInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutClassInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutCheckInRulesInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutCheckInRulesInput, ClassUncheckedCreateWithoutCheckInRulesInput>
+  }
+
+  export type CheckInCreateWithoutRuleInput = {
+    id?: string
+    scheduledDate: Date | string
+    completedDate?: Date | string | null
+    status?: $Enums.CheckInStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutCheckInsInput
+    student: StudentCreateNestedOneWithoutCheckInsInput
+    teacher: UserCreateNestedOneWithoutCheckInsAssignedInput
+  }
+
+  export type CheckInUncheckedCreateWithoutRuleInput = {
+    id?: string
+    scheduledDate: Date | string
+    completedDate?: Date | string | null
+    status?: $Enums.CheckInStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    teacherId: string
+  }
+
+  export type CheckInCreateOrConnectWithoutRuleInput = {
+    where: CheckInWhereUniqueInput
+    create: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput>
+  }
+
+  export type CheckInCreateManyRuleInputEnvelope = {
+    data: CheckInCreateManyRuleInput | CheckInCreateManyRuleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrganisationUpsertWithoutCheckInRulesInput = {
+    update: XOR<OrganisationUpdateWithoutCheckInRulesInput, OrganisationUncheckedUpdateWithoutCheckInRulesInput>
+    create: XOR<OrganisationCreateWithoutCheckInRulesInput, OrganisationUncheckedCreateWithoutCheckInRulesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutCheckInRulesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutCheckInRulesInput, OrganisationUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type OrganisationUpdateWithoutCheckInRulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutCheckInRulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type StudentUpsertWithoutCheckInRulesInput = {
+    update: XOR<StudentUpdateWithoutCheckInRulesInput, StudentUncheckedUpdateWithoutCheckInRulesInput>
+    create: XOR<StudentCreateWithoutCheckInRulesInput, StudentUncheckedCreateWithoutCheckInRulesInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutCheckInRulesInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutCheckInRulesInput, StudentUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type StudentUpdateWithoutCheckInRulesInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisation?: OrganisationUpdateOneRequiredWithoutStudentsNestedInput
+    class?: ClassUpdateOneWithoutStudentsNestedInput
+    meetings?: MeetingUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutCheckInRulesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisationId?: StringFieldUpdateOperationsInput | string
+    meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type ClassUpsertWithoutCheckInRulesInput = {
+    update: XOR<ClassUpdateWithoutCheckInRulesInput, ClassUncheckedUpdateWithoutCheckInRulesInput>
+    create: XOR<ClassCreateWithoutCheckInRulesInput, ClassUncheckedCreateWithoutCheckInRulesInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutCheckInRulesInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutCheckInRulesInput, ClassUncheckedUpdateWithoutCheckInRulesInput>
+  }
+
+  export type ClassUpdateWithoutCheckInRulesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    organisation?: OrganisationUpdateOneRequiredWithoutClassesNestedInput
+    students?: StudentUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutCheckInRulesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
+    organisationId?: StringFieldUpdateOperationsInput | string
+    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
+    students?: StudentUncheckedUpdateManyWithoutClassNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type CheckInUpsertWithWhereUniqueWithoutRuleInput = {
+    where: CheckInWhereUniqueInput
+    update: XOR<CheckInUpdateWithoutRuleInput, CheckInUncheckedUpdateWithoutRuleInput>
+    create: XOR<CheckInCreateWithoutRuleInput, CheckInUncheckedCreateWithoutRuleInput>
+  }
+
+  export type CheckInUpdateWithWhereUniqueWithoutRuleInput = {
+    where: CheckInWhereUniqueInput
+    data: XOR<CheckInUpdateWithoutRuleInput, CheckInUncheckedUpdateWithoutRuleInput>
+  }
+
+  export type CheckInUpdateManyWithWhereWithoutRuleInput = {
+    where: CheckInScalarWhereInput
+    data: XOR<CheckInUpdateManyMutationInput, CheckInUncheckedUpdateManyWithoutRuleInput>
+  }
+
   export type OrganisationCreateWithoutBillingSettingsInput = {
     id?: string
     name: string
@@ -43618,6 +49115,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
@@ -43645,6 +49144,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
@@ -43718,6 +49219,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
@@ -43745,6 +49248,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
@@ -43897,6 +49402,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutDiscountsInput = {
@@ -43929,6 +49435,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutDiscountsInput = {
@@ -44001,6 +49508,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutDiscountsInput = {
@@ -44033,6 +49541,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type DiscountUpsertWithoutStudentDiscountsInput = {
@@ -44089,6 +49598,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
@@ -44116,6 +49627,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
@@ -44154,6 +49667,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutInvoicesInput = {
@@ -44186,6 +49700,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutInvoicesInput = {
@@ -44295,6 +49810,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
@@ -44322,6 +49839,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
@@ -44366,6 +49885,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutInvoicesInput = {
@@ -44398,6 +49918,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TermUpsertWithoutInvoicesInput = {
@@ -44475,6 +49996,8 @@ export namespace Prisma {
     holidays?: HolidayCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
   }
@@ -44502,6 +50025,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
   }
@@ -44540,6 +50065,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPaymentsInput = {
@@ -44572,6 +50098,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPaymentsInput = {
@@ -44697,6 +50224,8 @@ export namespace Prisma {
     holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
   }
@@ -44724,6 +50253,8 @@ export namespace Prisma {
     holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
   }
@@ -44768,6 +50299,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPaymentsInput = {
@@ -44800,6 +50332,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type InvoiceUpsertWithoutPaymentsInput = {
@@ -44968,6 +50501,10 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    subject?: string | null
+    year?: number | null
+    defaultRateCents?: number | null
+    format?: $Enums.ClassFormat
     teacherId?: string | null
   }
 
@@ -45054,6 +50591,34 @@ export namespace Prisma {
     updatedAt?: Date | string
     studentId: number
     teacherId: string
+    ruleId?: string | null
+  }
+
+  export type CheckInRuleCreateManyOrganisationInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId?: number | null
+    classId?: number | null
+  }
+
+  export type KeyDateCreateManyOrganisationInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId?: number | null
   }
 
   export type InvoiceCreateManyOrganisationInput = {
@@ -45229,6 +50794,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutOrganisationInput = {
@@ -45261,6 +50827,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutOrganisationInput = {
@@ -45294,9 +50861,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUpdateManyWithoutClassNestedInput
     classSessions?: ClassSessionUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutOrganisationInput = {
@@ -45306,9 +50879,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     students?: StudentUncheckedUpdateManyWithoutClassNestedInput
     classSessions?: ClassSessionUncheckedUpdateManyWithoutClassNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutClassNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateManyWithoutOrganisationInput = {
@@ -45318,6 +50897,10 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    defaultRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    format?: EnumClassFormatFieldUpdateOperationsInput | $Enums.ClassFormat
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -45551,6 +51134,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutCheckInsNestedInput
     teacher?: UserUpdateOneRequiredWithoutCheckInsAssignedNestedInput
+    rule?: CheckInRuleUpdateOneWithoutCheckInsNestedInput
   }
 
   export type CheckInUncheckedUpdateWithoutOrganisationInput = {
@@ -45563,6 +51147,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentId?: IntFieldUpdateOperationsInput | number
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CheckInUncheckedUpdateManyWithoutOrganisationInput = {
@@ -45575,6 +51160,90 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentId?: IntFieldUpdateOperationsInput | number
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CheckInRuleUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneWithoutCheckInRulesNestedInput
+    class?: ClassUpdateOneWithoutCheckInRulesNestedInput
+    checkIns?: CheckInUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    checkIns?: CheckInUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type KeyDateUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneWithoutKeyDatesNestedInput
+  }
+
+  export type KeyDateUncheckedUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type KeyDateUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type InvoiceUpdateWithoutOrganisationInput = {
@@ -45757,6 +51426,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     studentId: number
+    ruleId?: string | null
   }
 
   export type PaymentCreateManyRecordedByInput = {
@@ -46030,6 +51700,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutCheckInsNestedInput
     student?: StudentUpdateOneRequiredWithoutCheckInsNestedInput
+    rule?: CheckInRuleUpdateOneWithoutCheckInsNestedInput
   }
 
   export type CheckInUncheckedUpdateWithoutTeacherInput = {
@@ -46042,6 +51713,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CheckInUncheckedUpdateManyWithoutTeacherInput = {
@@ -46054,6 +51726,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PaymentUpdateWithoutRecordedByInput = {
@@ -46174,6 +51847,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     teacherId: string
+    ruleId?: string | null
   }
 
   export type InvoiceCreateManyStudentInput = {
@@ -46219,6 +51893,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     classSessionId: number
+  }
+
+  export type CheckInRuleCreateManyStudentInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    classId?: number | null
   }
 
   export type MeetingUpdateWithoutStudentInput = {
@@ -46319,6 +52006,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutCheckInsNestedInput
     teacher?: UserUpdateOneRequiredWithoutCheckInsAssignedNestedInput
+    rule?: CheckInRuleUpdateOneWithoutCheckInsNestedInput
   }
 
   export type CheckInUncheckedUpdateWithoutStudentInput = {
@@ -46331,6 +52019,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CheckInUncheckedUpdateManyWithoutStudentInput = {
@@ -46343,6 +52032,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     teacherId?: StringFieldUpdateOperationsInput | string
+    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceUpdateWithoutStudentInput = {
@@ -46481,6 +52171,47 @@ export namespace Prisma {
     classSessionId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type CheckInRuleUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutCheckInRulesNestedInput
+    class?: ClassUpdateOneWithoutCheckInRulesNestedInput
+    checkIns?: CheckInUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    checkIns?: CheckInUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type StudentCreateManyClassInput = {
     id?: number
     firstName: string
@@ -46518,6 +52249,33 @@ export namespace Prisma {
     createdById?: string | null
   }
 
+  export type KeyDateCreateManyClassInput = {
+    id?: string
+    title: string
+    date: Date | string
+    allDay?: boolean
+    description?: string | null
+    color?: string | null
+    scope: $Enums.KeyDateScope
+    year?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+  }
+
+  export type CheckInRuleCreateManyClassInput = {
+    id?: string
+    name: string
+    recurrence: $Enums.CheckInRecurrence
+    anchor: Date | string
+    notesTemplate?: string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId?: number | null
+  }
+
   export type StudentUpdateWithoutClassInput = {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -46547,6 +52305,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutClassInput = {
@@ -46579,6 +52338,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutClassInput = {
@@ -46641,6 +52401,89 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type KeyDateUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutKeyDatesNestedInput
+  }
+
+  export type KeyDateUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type KeyDateUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    allDay?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: EnumKeyDateScopeFieldUpdateOperationsInput | $Enums.KeyDateScope
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CheckInRuleUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutCheckInRulesNestedInput
+    student?: StudentUpdateOneWithoutCheckInRulesNestedInput
+    checkIns?: CheckInUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    checkIns?: CheckInUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type CheckInRuleUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    recurrence?: EnumCheckInRecurrenceFieldUpdateOperationsInput | $Enums.CheckInRecurrence
+    anchor?: DateTimeFieldUpdateOperationsInput | Date | string
+    notesTemplate?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AssessmentCreateManyMeetingInput = {
@@ -46806,6 +52649,58 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CheckInCreateManyRuleInput = {
+    id?: string
+    scheduledDate: Date | string
+    completedDate?: Date | string | null
+    status?: $Enums.CheckInStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    teacherId: string
+  }
+
+  export type CheckInUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCheckInStatusFieldUpdateOperationsInput | $Enums.CheckInStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutCheckInsNestedInput
+    student?: StudentUpdateOneRequiredWithoutCheckInsNestedInput
+    teacher?: UserUpdateOneRequiredWithoutCheckInsAssignedNestedInput
+  }
+
+  export type CheckInUncheckedUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCheckInStatusFieldUpdateOperationsInput | $Enums.CheckInStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    teacherId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CheckInUncheckedUpdateManyWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumCheckInStatusFieldUpdateOperationsInput | $Enums.CheckInStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    teacherId?: StringFieldUpdateOperationsInput | string
   }
 
   export type DiscountCreateManyBillingSettingsInput = {

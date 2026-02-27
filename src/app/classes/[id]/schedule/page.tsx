@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import NiceTimePicker from "@/app/components/NiceTimePicker";
 
 async function createClassSessions(formData: FormData) {
 	"use server";
@@ -213,23 +214,13 @@ export default async function ClassSchedulePage({
 							<label className="block text-sm text-gray-700 mb-2">
 								Start time
 							</label>
-							<input
-								name="startTime"
-								type="time"
-								required
-								className="w-full border border-gray-200 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756] text-sm"
-							/>
+							<NiceTimePicker name="startTime" />
 						</div>
 						<div>
 							<label className="block text-sm text-gray-700 mb-2">
 								End time
 							</label>
-							<input
-								name="endTime"
-								type="time"
-								required
-								className="w-full border border-gray-200 rounded-md px-3 py-2 focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756] text-sm"
-							/>
+							<NiceTimePicker name="endTime" />
 						</div>
 					</div>
 

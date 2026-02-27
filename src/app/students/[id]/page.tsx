@@ -54,7 +54,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 		orderBy: { startTime: "desc" },
 	});
 
-	const [terms, holidays] = await Promise.all([
+	const [terms, holidays, keyDates] = await Promise.all([
 		prisma.term.findMany({
 			where: { organisationId: ctx.organisationId },
 			orderBy: { startDate: "desc" },
@@ -63,6 +63,18 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 			where: { organisationId: ctx.organisationId },
 			orderBy: { startDate: "desc" },
 		}),
+		(prisma as any).keyDate?.findMany({
+			where: {
+				organisationId: ctx.organisationId,
+				OR: [
+					{ scope: "ORGANISATION" },
+					student.classId
+						? { AND: [{ scope: "CLASS" }, { classId: student.classId }] }
+						: { AND: [{ scope: "YEAR_LEVEL" }, { year: student.year }] },
+				],
+			},
+			orderBy: { date: "asc" },
+		}) ?? [],
 	]);
 
 	const teachingPeriods: any[] = [
@@ -100,6 +112,22 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 	};
 
 	const timeAgo = calculateTimeAgo(new Date(student.createdAt));
+
+	const upcomingKeyDates = (keyDates as any[])
+		.map((kd) => {
+			const date = new Date(kd.date);
+			const diffDays = Math.ceil(
+				(date.getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000)
+			);
+			return {
+				id: kd.id as string,
+				title: kd.title as string,
+				date,
+				diffDays,
+			};
+		})
+		.filter((kd) => kd.diffDays >= -7) // show recent + upcoming
+		.sort((a, b) => a.date.getTime() - b.date.getTime());
 
 	return (
 		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
@@ -245,7 +273,13 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 							</div>
 							<div>
 								<div className="text-sm text-gray-600">Year Level</div>
-								<div className="font-medium">{student.year ? `Year ${student.year}` : "—"}</div>
+								<div className="font-medium">
+									{student.year == null
+										? "—"
+										: student.year >= 13
+											? "Graduated"
+											: `Year ${student.year}`}
+								</div>
 							</div>
 							<div>
 								<div className="text-sm text-gray-600">School</div>
@@ -266,6 +300,41 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 							)}
 						</div>
 					</div>
+				</div>
+
+				<div className="bg-white rounded-2xl shadow-sm p-6">
+					<h3 className="text-lg font-medium mb-4">Key Dates</h3>
+					{upcomingKeyDates.length > 0 ? (
+						<ul className="space-y-2 text-sm">
+							{upcomingKeyDates.slice(0, 6).map((kd) => (
+								<li key={kd.id} className="flex items-center justify-between">
+									<div>
+										<p className="font-medium text-gray-900">{kd.title}</p>
+										<p className="text-gray-600">
+											{kd.date.toLocaleDateString("en-GB", {
+												weekday: "short",
+												day: "numeric",
+												month: "short",
+											})}
+										</p>
+									</div>
+									<div className="text-xs text-gray-600 whitespace-nowrap">
+										{kd.diffDays > 0
+											? `In ${kd.diffDays} day${kd.diffDays === 1 ? "" : "s"}`
+											: kd.diffDays === 0
+											? "Today"
+											: `${Math.abs(kd.diffDays)} day${
+													Math.abs(kd.diffDays) === 1 ? "" : "s"
+											  } ago`}
+									</div>
+								</li>
+							))}
+						</ul>
+					) : (
+						<p className="text-sm text-gray-500">
+							No key dates found for this student.
+						</p>
+					)}
 				</div>
 
 				<div className="bg-white rounded-2xl shadow-sm p-6">

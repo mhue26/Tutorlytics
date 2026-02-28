@@ -100,11 +100,14 @@ export default function SubjectsMultiSelect({
         const orgSubjects = Array.isArray(data?.defaultSubjects)
           ? (data.defaultSubjects as string[])
           : [];
+        const subjectsInUse = Array.isArray(data?.subjectsInUse)
+          ? (data.subjectsInUse as string[])
+          : [];
         const orgColors = data?.subjectColors && typeof data.subjectColors === "object"
           ? (data.subjectColors as Record<string, string>)
           : null;
 
-        const merged = Array.from(new Set([...orgSubjects, ...fromValue, ...mergedLocal]))
+        const merged = Array.from(new Set([...orgSubjects, ...subjectsInUse, ...fromValue, ...mergedLocal]))
           .map((s) => String(s).trim())
           .filter(Boolean);
 

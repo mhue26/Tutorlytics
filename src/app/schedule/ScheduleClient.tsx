@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createMeeting } from '../calendar/actions';
 import NiceDatePicker from '../components/NiceDatePicker';
 import NiceTimePicker from '../components/NiceTimePicker';
+import RepeatOptionsBlock from '../calendar/RepeatOptionsBlock';
 import SubjectsMultiSelect from "../students/SubjectsMultiSelect";
+import StudentAvatar from "../students/StudentAvatar";
 
 interface Student {
   id: string;
@@ -20,31 +22,107 @@ interface ClassOption {
   name: string;
 }
 
+interface TermOption {
+  id: number;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  year: number;
+}
+
 interface ScheduleClientProps {
   students: Student[];
   classes: ClassOption[];
+  terms: TermOption[];
   userId: string;
 }
 
-export default function ScheduleClient({ students, classes, userId }: ScheduleClientProps) {
+export default function ScheduleClient({ students, classes, terms, userId }: ScheduleClientProps) {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [eventType, setEventType] = useState<"lesson" | "checkin" | "keydate">("lesson");
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [titleDirty, setTitleDirty] = useState(false);
+  const [studentDropdownOpen, setStudentDropdownOpen] = useState(false);
+  const [studentSearch, setStudentSearch] = useState("");
   const [lessonSubjects, setLessonSubjects] = useState<string>("");
+  const [locationMode, setLocationMode] = useState<"in-person" | "online" | null>(null);
+  const [locationAddress, setLocationAddress] = useState<string>("");
+  const [locationPlatform, setLocationPlatform] = useState<string>("");
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const [hourlyRate, setHourlyRate] = useState<string>("");
+  const [total, setTotal] = useState<string>("");
+
+  const locationValue =
+    locationMode === "in-person" ? locationAddress.trim() : locationMode === "online" ? locationPlatform : "";
 
   const selectedStudent = useMemo(
     () => students.find((s) => s.id === selectedStudentId) ?? null,
     [selectedStudentId, students]
   );
 
+  const studentDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onClickOutside = (event: MouseEvent) => {
+      if (!studentDropdownRef.current) return;
+      if (!studentDropdownRef.current.contains(event.target as Node)) {
+        setStudentDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
+
   const defaultLessonTitle = useMemo(() => {
     if (eventType !== "lesson" || !selectedStudent) return "";
     const yearPart = selectedStudent.year ? `Y${selectedStudent.year} ` : "";
     return `${yearPart}${selectedStudent.firstName}'s Lesson`;
   }, [eventType, selectedStudent]);
+
+  /** Parse "HH:mm" or "H:mm" to minutes since midnight; return null if invalid */
+  const parseTimeToMinutes = (s: string): number | null => {
+    const t = s.trim();
+    if (!t) return null;
+    const [h, m] = t.split(":").map((x) => parseInt(x, 10));
+    if (Number.isNaN(h) || Number.isNaN(m) || m < 0 || m > 59) return null;
+    return h * 60 + m;
+  };
+
+  const durationHours = useMemo(() => {
+    if (eventType !== "lesson" || !startTime || !endTime) return null;
+    const startM = parseTimeToMinutes(startTime);
+    const endM = parseTimeToMinutes(endTime);
+    if (startM == null || endM == null || endM <= startM) return null;
+    return (endM - startM) / 60;
+  }, [eventType, startTime, endTime]);
+
+  const filteredStudents = useMemo(() => {
+    const q = studentSearch.trim().toLowerCase();
+    if (!q) return students;
+    return students.filter((student) => {
+      const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
+      return fullName.includes(q);
+    });
+  }, [students, studentSearch]);
+
+  const handleStudentSelect = (newId: string) => {
+    setSelectedStudentId(newId);
+    if (!newId) return;
+    const student = students.find((s) => s.id === newId);
+    if (student && eventType === "lesson") {
+      const yearPart = student.year ? `Y${student.year} ` : "";
+      const autoTitle = `${yearPart}${student.firstName}'s Lesson`;
+      if (!titleDirty || title === "" || title === defaultLessonTitle) {
+        setTitle(autoTitle);
+        setTitleDirty(false);
+      }
+      // Pre-fill lesson subjects with the student's current subjects
+      setLessonSubjects(student.subjects || "");
+    }
+  };
 
   const handleSubmit = async (formData: FormData) => {
     try {
@@ -77,7 +155,7 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
         });
       } else if (type === "keydate") {
         if (!title || !meetingDate) {
-          throw new Error("Title and date are required for a key date.");
+          throw new Error("Title and date are required for an event.");
         }
 
         await fetch("/api/key-dates", {
@@ -157,7 +235,7 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
                 {[
                   { id: "lesson", label: "Lesson" },
                   { id: "checkin", label: "Check-in" },
-                  { id: "keydate", label: "Key date" },
+                  { id: "keydate", label: "Event" },
                 ].map((option) => (
                   <button
                     key={option.id}
@@ -189,9 +267,27 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
 
               {eventType !== "keydate" && (
                 <div className="flex items-center gap-2 min-w-[260px]">
-                  <NiceTimePicker name="startTime" />
-                  <span className="text-gray-500">to</span>
-                  <NiceTimePicker name="endTime" />
+                  {eventType === "lesson" ? (
+                    <>
+                      <NiceTimePicker
+                        name="startTime"
+                        value={startTime}
+                        onChange={setStartTime}
+                      />
+                      <span className="text-gray-500">to</span>
+                      <NiceTimePicker
+                        name="endTime"
+                        value={endTime}
+                        onChange={setEndTime}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <NiceTimePicker name="startTime" />
+                      <span className="text-gray-500">to</span>
+                      <NiceTimePicker name="endTime" />
+                    </>
+                  )}
                 </div>
               )}
 
@@ -207,57 +303,165 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
               )}
             </div>
 
+            {/* Repeat (lessons only) – immediately under date section */}
+            {eventType === "lesson" && (
+              <div className="mt-3">
+                <RepeatOptionsBlock terms={terms} />
+              </div>
+            )}
+
             {/* Main Content */}
             <div className="space-y-6">
-                {/* Location */}
-                <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
-                  <input
-                    type="text"
-                    name="location"
-                    placeholder="Add location"
-                    className="flex-1 border-none outline-none text-sm"
-                  />
-                </div>
+                {/* Location (lessons only): In-Person or Online, no default */}
+                {eventType === "lesson" && (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                      <div className="inline-flex rounded-full bg-gray-100 p-1 text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setLocationMode("in-person")}
+                        className={`px-3 py-1 rounded-full font-medium transition-colors ${
+                          locationMode === "in-person"
+                            ? "bg-white text-gray-900 shadow-sm"
+                            : "text-gray-600 hover:text-gray-900"
+                        }`}
+                      >
+                        In-Person
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setLocationMode("online")}
+                        className={`px-3 py-1 rounded-full font-medium transition-colors ${
+                          locationMode === "online"
+                            ? "bg-white text-gray-900 shadow-sm"
+                            : "text-gray-600 hover:text-gray-900"
+                        }`}
+                      >
+                        Online
+                      </button>
+                      </div>
+                    </div>
+                    {locationMode === "in-person" && (
+                      <input
+                        type="text"
+                        value={locationAddress}
+                        onChange={(e) => setLocationAddress(e.target.value)}
+                        placeholder="Enter address"
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                      />
+                    )}
+                    {locationMode === "online" && (
+                      <select
+                        value={locationPlatform}
+                        onChange={(e) => setLocationPlatform(e.target.value)}
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                      >
+                        <option value="">Select platform</option>
+                        <option value="Zoom">Zoom</option>
+                        <option value="Google Meet">Google Meet</option>
+                        <option value="Microsoft Teams">Microsoft Teams</option>
+                        <option value="Webex">Webex</option>
+                      </select>
+                    )}
+                    <input type="hidden" name="location" value={locationValue} />
+                  </div>
+                )}
 
                 {/* Student Selection (lessons and check-ins) */}
                 {eventType !== "keydate" && (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start gap-3">
                     <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    <select
-                      name="studentId"
-                      required={eventType !== "keydate"}
-                      className="flex-1 border-none outline-none text-sm bg-transparent"
-                      value={selectedStudentId}
-                      onChange={(e) => {
-                        const newId = e.target.value;
-                        setSelectedStudentId(newId);
-                        if (!newId) return;
-                        const student = students.find((s) => s.id === newId);
-                        if (student && eventType === "lesson") {
-                          const yearPart = student.year ? `Y${student.year} ` : "";
-                          const autoTitle = `${yearPart}${student.firstName}'s Lesson`;
-                          if (!titleDirty || title === "" || title === defaultLessonTitle) {
-                            setTitle(autoTitle);
-                            setTitleDirty(false);
+                    <div className="relative flex-1" ref={studentDropdownRef}>
+                      <input
+                        type="hidden"
+                        name="studentId"
+                        value={selectedStudentId}
+                        required
+                      />
+                      <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 focus-within:ring-2 focus-within:ring-[#3D4756]/20 focus-within:border-[#3D4756]">
+                        {selectedStudent && !studentDropdownOpen && (
+                          <StudentAvatar
+                            firstName={selectedStudent.firstName}
+                            lastName={selectedStudent.lastName}
+                            studentId={Number(selectedStudent.id)}
+                            link={false}
+                            size={28}
+                          />
+                        )}
+                        <input
+                          type="text"
+                          value={
+                            selectedStudent && !studentDropdownOpen
+                              ? `${selectedStudent.firstName} ${selectedStudent.lastName}`
+                              : studentSearch
                           }
-                          // Pre-fill lesson subjects with the student's current subjects
-                          setLessonSubjects(student.subjects || "");
-                        }
-                      }}
-                    >
-                      <option value="">Select a student</option>
-                      {students.map((student) => (
-                        <option key={student.id} value={student.id}>
-                          {student.firstName} {student.lastName}
-                        </option>
-                      ))}
-                    </select>
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setStudentSearch(v);
+                            if (selectedStudentId) {
+                              if (v.trim() === "") {
+                                setSelectedStudentId("");
+                              } else {
+                                const full = `${selectedStudent?.firstName ?? ""} ${selectedStudent?.lastName ?? ""}`.toLowerCase();
+                                if (!full.startsWith(v.toLowerCase().trim())) {
+                                  setSelectedStudentId("");
+                                }
+                              }
+                            }
+                            setStudentDropdownOpen(true);
+                          }}
+                          onFocus={() => {
+                            setStudentDropdownOpen(true);
+                            if (selectedStudent && studentSearch === "") {
+                              setStudentSearch(`${selectedStudent.firstName} ${selectedStudent.lastName}`);
+                            }
+                          }}
+                          placeholder="Select a student"
+                          className="flex-1 min-w-0 border-none bg-transparent text-sm text-gray-900 placeholder-gray-500 outline-none"
+                        />
+                      </div>
+
+                      {studentDropdownOpen && (
+                        <div className="absolute z-30 mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-lg">
+                          <ul className="max-h-64 overflow-auto py-1">
+                            {filteredStudents.length === 0 ? (
+                              <li className="px-3 py-2 text-sm text-gray-500">No students found</li>
+                            ) : (
+                              filteredStudents.map((student) => (
+                                <li key={student.id}>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      handleStudentSelect(student.id);
+                                      setStudentDropdownOpen(false);
+                                      setStudentSearch("");
+                                    }}
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center gap-2"
+                                  >
+                                    <StudentAvatar
+                                      firstName={student.firstName}
+                                      lastName={student.lastName}
+                                      studentId={Number(student.id)}
+                                      link={false}
+                                      size={32}
+                                    />
+                                    <span className="text-sm text-gray-900">
+                                      {student.firstName} {student.lastName}
+                                    </span>
+                                  </button>
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -276,6 +480,57 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
                         compact
                       />
                     </div>
+                  </div>
+                )}
+
+                {/* Billing (lessons only): hourly rate and total, auto-calc from duration */}
+                {eventType === "lesson" && (
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-gray-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="hourlyRate" className="block text-sm text-gray-600 mb-1">Hourly rate</label>
+                        <input
+                          id="hourlyRate"
+                          type="text"
+                          inputMode="decimal"
+                          placeholder="0.00"
+                          value={hourlyRate}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setHourlyRate(val);
+                            const v = parseFloat(val);
+                            if (!Number.isNaN(v) && durationHours != null && durationHours > 0) {
+                              setTotal((v * durationHours).toFixed(2));
+                            }
+                          }}
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="total" className="block text-sm text-gray-600 mb-1">Total</label>
+                        <input
+                          id="total"
+                          type="text"
+                          inputMode="decimal"
+                          placeholder="0.00"
+                          value={total}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setTotal(val);
+                            const v = parseFloat(val);
+                            if (!Number.isNaN(v) && durationHours != null && durationHours > 0) {
+                              setHourlyRate((v / durationHours).toFixed(2));
+                            }
+                          }}
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        />
+                      </div>
+                    </div>
+                    <input type="hidden" name="hourlyRateCents" value={hourlyRate && !Number.isNaN(parseFloat(hourlyRate)) ? String(Math.round(parseFloat(hourlyRate) * 100)) : ""} />
+                    <input type="hidden" name="totalCents" value={total && !Number.isNaN(parseFloat(total)) ? String(Math.round(parseFloat(total) * 100)) : ""} />
                   </div>
                 )}
 
@@ -300,40 +555,18 @@ export default function ScheduleClient({ students, classes, userId }: ScheduleCl
                 )}
 
                 {/* Description */}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                     </svg>
-                    <div className="flex gap-1">
-                      <button type="button" className="p-1 hover:bg-gray-100 rounded">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12M6 12h12M6 18h12" />
-                        </svg>
-                      </button>
-                      <button type="button" className="p-1 hover:bg-gray-100 rounded">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                      </button>
-                      <button type="button" className="p-1 hover:bg-gray-100 rounded">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2" />
-                        </svg>
-                      </button>
-                    </div>
-                    <button type="button" className="flex items-center gap-2 px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      Create meeting notes
-                    </button>
+                    <span className="text-sm text-gray-600">Description</span>
                   </div>
                   <textarea
                     name="description"
                     rows={4}
-                    className="w-full border-none outline-none resize-none text-sm"
-                    placeholder="Add description"
+                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                    placeholder="Add description or notes for this event..."
                   />
                 </div>
             </div>

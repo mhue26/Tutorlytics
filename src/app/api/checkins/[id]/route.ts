@@ -11,7 +11,7 @@ export async function PUT(
 
 	const { id } = await params;
 	const body = await request.json();
-	const { status, notes, completedDate } = body;
+	const { status, notes, completedDate, scheduledDate } = body;
 
 	const existing = await prisma.checkIn.findFirst({
 		where: { id, organisationId: ctx.organisationId },
@@ -23,6 +23,7 @@ export async function PUT(
 	const data: any = {};
 	if (status) data.status = status;
 	if (notes !== undefined) data.notes = notes;
+	if (scheduledDate != null) data.scheduledDate = new Date(scheduledDate);
 	if (status === "COMPLETED") data.completedDate = completedDate ? new Date(completedDate) : new Date();
 
 	const checkIn = await prisma.checkIn.update({ where: { id }, data });

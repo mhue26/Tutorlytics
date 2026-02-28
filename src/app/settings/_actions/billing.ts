@@ -12,6 +12,8 @@ export async function saveBillingSettings(formData: FormData) {
 
 	const defaultTermRate = parseFloat(String(formData.get("defaultTermRate") || "0"));
 	const currency = String(formData.get("currency") || "AUD").trim();
+	const taxRatePercent = parseFloat(String(formData.get("taxRatePercent") || "0")) || 0;
+	const taxInclusive = formData.get("taxInclusive") === "on";
 
 	await prisma.billingSettings.upsert({
 		where: { organisationId: ctx.organisationId },
@@ -19,10 +21,14 @@ export async function saveBillingSettings(formData: FormData) {
 			organisationId: ctx.organisationId,
 			defaultTermRateCents: Math.round(defaultTermRate * 100),
 			currency,
+			taxRatePercent,
+			taxInclusive,
 		},
 		update: {
 			defaultTermRateCents: Math.round(defaultTermRate * 100),
 			currency,
+			taxRatePercent,
+			taxInclusive,
 		},
 	});
 
@@ -50,6 +56,8 @@ export async function addDiscount(formData: FormData) {
 				organisationId: ctx.organisationId,
 				defaultTermRateCents: 0,
 				currency: "AUD",
+				taxRatePercent: 0,
+				taxInclusive: false,
 			},
 		});
 	}

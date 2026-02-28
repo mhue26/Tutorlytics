@@ -123,7 +123,10 @@ export default function StudentTabs({ children, meetings, teachingPeriods, stude
                   studentName={studentName}
                   studentSubjects={studentSubjects}
                 />
-                <LessonLogs meetings={meetings} />
+                <LessonLogs
+                  meetings={meetings}
+                  terms={teachingPeriods.filter((p) => p.type === "term")}
+                />
               </div>
             )}
             

@@ -1,5 +1,7 @@
 "use client";
 
+import { getLessonDisplayTitle } from "@/utils/teachingPeriods";
+
 interface Meeting {
   id: number;
   title: string;
@@ -11,8 +13,15 @@ interface Meeting {
   updatedAt: Date;
 }
 
+interface TermLike {
+  name: string;
+  startDate: Date;
+  endDate: Date;
+}
+
 interface LessonLogsProps {
   meetings: Meeting[];
+  terms?: TermLike[];
 }
 
 function formatDate(date: Date): string {
@@ -41,7 +50,7 @@ function getDuration(startTime: Date, endTime: Date): string {
   }
 }
 
-export default function LessonLogs({ meetings }: LessonLogsProps) {
+export default function LessonLogs({ meetings, terms = [] }: LessonLogsProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <h4 className="font-medium text-gray-900 mb-4">Lesson Logs ({meetings.length})</h4>
@@ -58,7 +67,9 @@ export default function LessonLogs({ meetings }: LessonLogsProps) {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900">{meeting.title}</div>
+                  <div className="font-medium text-gray-900">
+                    {getLessonDisplayTitle(meeting, terms)}
+                  </div>
                   <div className="text-sm text-gray-600 mt-1">
                     {formatDate(meeting.startTime)} at {formatTime(meeting.startTime)}
                   </div>

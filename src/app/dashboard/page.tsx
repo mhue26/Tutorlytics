@@ -12,33 +12,38 @@ interface MiniAreaChartPoint {
 interface MiniAreaChartProps {
 	data: MiniAreaChartPoint[];
 	colorClass?: string;
+	yAxisLabel?: string;
+	valueSuffix?: string;
+	description?: string;
 }
 
-function MiniAreaChart({ data, colorClass = "text-teal-400 fill-teal-100" }: MiniAreaChartProps) {
-	if (!data.length || data.every((d) => d.value === 0)) {
-		return (
-			<div className="h-24 flex items-center justify-center text-xs text-gray-400">
-				Not enough data yet
-			</div>
-		);
-	}
-
+function MiniAreaChart({
+	data,
+	colorClass = "text-teal-400 fill-teal-100",
+	yAxisLabel = "Value",
+	valueSuffix = "",
+	description,
+}: MiniAreaChartProps) {
+	const chartLeft = 36;
+	const chartBottom = 28;
+	const chartTop = 12;
+	const chartRight = 18;
+	const chartWidth = 220 - chartLeft - chartRight;
+	const chartHeight = 100 - chartTop - chartBottom;
 	const width = 220;
-	const height = 80;
-	const paddingX = 4;
-	const paddingY = 4;
+	const height = 100;
 
-	const maxValue = Math.max(...data.map((d) => d.value)) || 1;
+	const maxValue = data.length ? Math.max(...data.map((d) => d.value)) : 0;
 	const minValue = 0;
 	const range = maxValue - minValue || 1;
 
-	const stepX = data.length > 1 ? (width - paddingX * 2) / (data.length - 1) : 0;
+	const stepX = data.length > 1 ? chartWidth / (data.length - 1) : chartWidth;
 
 	const points = data.map((d, index) => {
-		const x = paddingX + index * stepX;
+		const x = chartLeft + index * stepX;
 		const normalized = (d.value - minValue) / range;
-		const y = height - paddingY - normalized * (height - paddingY * 2);
-		return { x, y };
+		const y = chartTop + chartHeight - normalized * chartHeight;
+		return { x, y, label: d.label, value: d.value };
 	});
 
 	const pathD = points
@@ -46,22 +51,91 @@ function MiniAreaChart({ data, colorClass = "text-teal-400 fill-teal-100" }: Min
 		.join(" ");
 
 	const areaD = [
-		points.length ? `M ${points[0].x} ${height - paddingY}` : "",
+		points.length ? `M ${points[0].x} ${chartTop + chartHeight}` : "",
 		...points.map((p) => `L ${p.x} ${p.y}`),
-		points.length ? `L ${points[points.length - 1].x} ${height - paddingY}` : "",
+		points.length ? `L ${points[points.length - 1].x} ${chartTop + chartHeight}` : "",
 		"Z",
 	].join(" ");
 
+	// Y-axis ticks: 0, and up to 3 values (e.g. max/2, max or round numbers)
+	const yTicks: number[] = [0];
+	if (maxValue > 0) {
+		const step = maxValue <= 2 ? maxValue / 2 : maxValue <= 10 ? Math.ceil(maxValue / 2) : Math.ceil(maxValue / 3);
+		for (let v = step; v < maxValue; v += step) {
+			yTicks.push(Number(v.toFixed(1)));
+		}
+		yTicks.push(Number(maxValue.toFixed(1)));
+	}
+
 	return (
-		<svg
-			viewBox={`0 0 ${width} ${height}`}
-			className={`w-full h-24 ${colorClass}`}
-			role="img"
-			aria-hidden="true"
-		>
-			<path d={areaD} className="opacity-30" />
-			<path d={pathD} className="stroke-current" strokeWidth={2} fill="none" />
-		</svg>
+		<div className="w-full">
+			<svg
+				viewBox={`0 0 ${width} ${height}`}
+				className={`w-full min-h-[100px] ${colorClass}`}
+				role="img"
+				aria-label={`Chart: ${yAxisLabel} per week for the last ${data.length} weeks`}
+			>
+				{/* Y-axis label (vertical) */}
+				<text
+					x={12}
+					y={chartTop + chartHeight / 2}
+					textAnchor="middle"
+					className="fill-gray-500 font-medium"
+					style={{ fontSize: 8 }}
+					transform={`rotate(-90, 12, ${chartTop + chartHeight / 2})`}
+				>
+					{yAxisLabel}
+				</text>
+				{/* Y-axis ticks and labels */}
+				{yTicks.map((tickVal) => {
+					const normalized = range ? (tickVal - minValue) / range : 0;
+					const y = chartTop + chartHeight - normalized * chartHeight;
+					return (
+						<g key={tickVal}>
+							<line
+								x1={chartLeft}
+								y1={y}
+								x2={chartLeft - 4}
+								y2={y}
+								className="stroke-gray-300"
+								strokeWidth={1}
+							/>
+							<text
+								x={chartLeft - 6}
+								y={y}
+								textAnchor="end"
+								dominantBaseline="middle"
+								className="fill-gray-500"
+								style={{ fontSize: 8 }}
+							>
+								{tickVal}{valueSuffix}
+							</text>
+						</g>
+					);
+				})}
+				{/* Chart area and line */}
+				<path d={areaD} className="opacity-30" />
+				<path d={pathD} className="stroke-current" strokeWidth={2} fill="none" />
+				{/* X-axis: week labels */}
+				{points.map((p, i) => (
+					<text
+						key={i}
+						x={p.x}
+						y={chartTop + chartHeight + 14}
+						textAnchor="middle"
+						className="fill-gray-500"
+						style={{ fontSize: 7 }}
+					>
+						{p.label}
+					</text>
+				))}
+			</svg>
+			{description && (
+				<p className="text-[10px] text-gray-500 mt-0.5 text-center">
+					{description}
+				</p>
+			)}
+		</div>
 	);
 }
 
@@ -107,6 +181,7 @@ export default async function DashboardPage() {
 					...meetingWhere,
 					startTime: {
 						gte: eightWeeksAgo,
+						lte: now,
 					},
 				},
 				select: {
@@ -201,9 +276,11 @@ export default async function DashboardPage() {
 		const diffToMonday = (day + 6) % 7;
 		d.setDate(d.getDate() - diffToMonday);
 		const key = d.toISOString().slice(0, 10);
-		const label = d.toLocaleDateString("en-GB", { month: "short", day: "numeric" });
+		const label = `${d.getDate()}/${d.getMonth() + 1}`;
 		return { key, label };
 	};
+
+	const currentWeekKey = groupByWeek(now).key;
 
 	const lessonHoursByWeekMap = new Map<string, { label: string; value: number }>();
 	const activeStudentIds = new Set<number>();
@@ -221,12 +298,18 @@ export default async function DashboardPage() {
 		lessonHoursByWeekMap.set(key, existing);
 	}
 
-	const sortedLessonHours = Array.from(lessonHoursByWeekMap.entries())
-		.sort(([a], [b]) => (a < b ? -1 : 1))
-		.map(([, bucket]) => ({
-			label: bucket.label,
-			value: Number(bucket.value.toFixed(1)),
-		}));
+	// Last 8 weeks (past only), oldest first; always show 8 bars so chart is never empty
+	const last8WeekKeys: { key: string; label: string }[] = [];
+	for (let i = 7; i >= 0; i--) {
+		const d = new Date(currentWeekKey);
+		d.setDate(d.getDate() - 7 * i);
+		last8WeekKeys.push(groupByWeek(d));
+	}
+
+	const sortedLessonHours = last8WeekKeys.map(({ key, label }) => ({
+		label,
+		value: Number((lessonHoursByWeekMap.get(key)?.value ?? 0).toFixed(1)),
+	}));
 
 	const invoiceTotalsByWeekMap = new Map<string, { label: string; value: number }>();
 
@@ -237,17 +320,14 @@ export default async function DashboardPage() {
 		invoiceTotalsByWeekMap.set(key, existing);
 	}
 
-	const sortedInvoiceTotals = Array.from(invoiceTotalsByWeekMap.entries())
-		.sort(([a], [b]) => (a < b ? -1 : 1))
-		.map(([, bucket]) => ({
-			label: bucket.label,
-			value: Number(bucket.value.toFixed(2)),
-		}));
+	const sortedInvoiceTotals = last8WeekKeys.map(({ key, label }) => ({
+		label,
+		value: Number((invoiceTotalsByWeekMap.get(key)?.value ?? 0).toFixed(2)),
+	}));
 
 	// Teaching hours metrics
-	const thisWeekKey = groupByWeek(now).key;
 	const teachingHoursThisWeek = Number(
-		(lessonHoursByWeekMap.get(thisWeekKey)?.value ?? 0).toFixed(1),
+		(lessonHoursByWeekMap.get(currentWeekKey)?.value ?? 0).toFixed(1),
 	);
 
 	const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -309,6 +389,92 @@ export default async function DashboardPage() {
 				</div>
 			</div>
 
+			<AnalyticsCard title="Upcoming events & lessons">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<section>
+						<h3 className="text-sm font-semibold text-gray-700 mb-3">Events</h3>
+						{upcomingKeyDates.length > 0 ? (
+							<ul className="divide-y divide-gray-100">
+								{upcomingKeyDates.slice(0, 5).map((kd) => (
+									<li key={kd.id} className="py-2.5 flex items-center justify-between gap-3">
+										<div className="flex items-center gap-3">
+											<span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+											<div>
+												<p className="text-sm font-medium text-gray-900">
+													{kd.title}
+												</p>
+												<p className="text-xs text-gray-600">
+													{kd.date.toLocaleDateString("en-GB", {
+														weekday: "short",
+														day: "numeric",
+														month: "short",
+													})}
+												</p>
+											</div>
+										</div>
+										<div className="text-right text-xs text-gray-600 whitespace-nowrap">
+											{kd.diffDays > 0
+												? `In ${kd.diffDays} day${kd.diffDays === 1 ? "" : "s"}`
+												: kd.diffDays === 0
+												? "Today"
+												: `${Math.abs(kd.diffDays)} day${kd.diffDays === -1 ? "" : "s"} ago`}
+										</div>
+									</li>
+								))}
+							</ul>
+						) : (
+							<p className="text-sm text-gray-500">
+								No events in the next 90 days.
+							</p>
+						)}
+					</section>
+					<section>
+						<h3 className="text-sm font-semibold text-gray-700 mb-3">Upcoming lessons</h3>
+						{upcomingMeetings.length > 0 ? (
+							<ul className="divide-y divide-gray-100">
+								{upcomingMeetings.map((meeting) => {
+									const start = new Date(meeting.startTime);
+									const end = new Date(meeting.endTime);
+									return (
+										<li key={meeting.id} className="py-2.5 flex items-start justify-between gap-3">
+											<div className="flex items-start gap-3">
+												<span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
+												<div>
+													<p className="text-base font-medium text-gray-900">
+														{meeting.title || "Lesson"}
+													</p>
+													<p className="text-sm text-gray-600">
+														{meeting.student
+															? `${meeting.student.firstName} ${meeting.student.lastName}`
+															: "Unassigned student"}
+													</p>
+												</div>
+											</div>
+											<div className="text-right text-sm text-gray-600 whitespace-nowrap">
+												<p>{formatEventDate(start)}</p>
+												<p>
+													{formatTime(start)} – {formatTime(end)}
+												</p>
+											</div>
+										</li>
+									);
+								})}
+							</ul>
+						) : (
+							<div className="text-center py-6 text-sm text-gray-500">
+								<p className="mb-3">No upcoming lessons scheduled.</p>
+								<a
+									href="/schedule"
+									className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
+								>
+									Schedule a lesson
+								</a>
+							</div>
+						)}
+					</section>
+				</div>
+			</AnalyticsCard>
+
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<AnalyticsCard title="Client Analytics">
 					<div className="flex items-end justify-between gap-4">
@@ -328,46 +494,13 @@ export default async function DashboardPage() {
 						</div>
 					</div>
 					<div className="mt-4">
-						<p className="text-sm text-gray-500 mb-1">Lesson hours (last 8 weeks)</p>
-						<MiniAreaChart data={sortedLessonHours} colorClass="text-emerald-500 fill-emerald-100" />
+						<p className="text-sm text-gray-600 mb-1 font-medium">Lesson hours (last 8 weeks)</p>
+						<MiniAreaChart
+							data={sortedLessonHours}
+							colorClass="text-emerald-500 fill-emerald-100"
+							yAxisLabel="Hours"
+						/>
 					</div>
-				</AnalyticsCard>
-
-				<AnalyticsCard title="Upcoming key dates">
-					{upcomingKeyDates.length > 0 ? (
-						<ul className="divide-y divide-gray-100">
-							{upcomingKeyDates.slice(0, 5).map((kd) => (
-								<li key={kd.id} className="py-2.5 flex items-center justify-between gap-3">
-									<div className="flex items-center gap-3">
-										<span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-										<div>
-											<p className="text-sm font-medium text-gray-900">
-												{kd.title}
-											</p>
-											<p className="text-xs text-gray-600">
-												{kd.date.toLocaleDateString("en-GB", {
-													weekday: "short",
-													day: "numeric",
-													month: "short",
-												})}
-											</p>
-										</div>
-									</div>
-									<div className="text-right text-xs text-gray-600 whitespace-nowrap">
-										{kd.diffDays > 0
-											? `In ${kd.diffDays} day${kd.diffDays === 1 ? "" : "s"}`
-											: kd.diffDays === 0
-											? "Today"
-											: `${Math.abs(kd.diffDays)} day${kd.diffDays === -1 ? "" : "s"} ago`}
-									</div>
-								</li>
-							))}
-						</ul>
-					) : (
-						<p className="text-sm text-gray-500">
-							No key dates in the next 90 days.
-						</p>
-					)}
 				</AnalyticsCard>
 
 				<AnalyticsCard title="Tutor Analytics">
@@ -390,56 +523,14 @@ export default async function DashboardPage() {
 						</div>
 					</div>
 					<div className="mt-4">
-						<p className="text-sm text-gray-500 mb-1">Raised invoices (last 8 weeks)</p>
+						<p className="text-sm text-gray-600 mb-1 font-medium">Raised invoices (last 8 weeks)</p>
 						<MiniAreaChart
 							data={sortedInvoiceTotals}
 							colorClass="text-amber-500 fill-amber-100"
+							yAxisLabel="Amount"
+							valueSuffix=" $"
 						/>
 					</div>
-				</AnalyticsCard>
-
-				<AnalyticsCard title="Upcoming Lessons">
-					{upcomingMeetings.length > 0 ? (
-						<ul className="divide-y divide-gray-100">
-							{upcomingMeetings.map((meeting) => {
-								const start = new Date(meeting.startTime);
-								const end = new Date(meeting.endTime);
-								return (
-									<li key={meeting.id} className="py-2.5 flex items-start justify-between gap-3">
-										<div className="flex items-start gap-3">
-											<span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
-											<div>
-												<p className="text-base font-medium text-gray-900">
-													{meeting.title || "Lesson"}
-												</p>
-												<p className="text-sm text-gray-600">
-													{meeting.student
-														? `${meeting.student.firstName} ${meeting.student.lastName}`
-														: "Unassigned student"}
-												</p>
-											</div>
-										</div>
-										<div className="text-right text-sm text-gray-600 whitespace-nowrap">
-											<p>{formatEventDate(start)}</p>
-											<p>
-												{formatTime(start)} – {formatTime(end)}
-											</p>
-										</div>
-									</li>
-								);
-							})}
-						</ul>
-					) : (
-						<div className="text-center py-6 text-sm text-gray-500">
-							<p className="mb-3">No upcoming lessons scheduled.</p>
-							<a
-								href="/schedule"
-								className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
-							>
-								Schedule a lesson
-							</a>
-						</div>
-					)}
 				</AnalyticsCard>
 
 				<AnalyticsCard title="Past Lessons">

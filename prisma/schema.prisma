@@ -30,6 +30,14 @@ enum InvoiceStatus {
   CANCELLED
 }
 
+enum QuoteStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  DECLINED
+  CONVERTED
+}
+
 enum PaymentMethod {
   CASH
   BANK_TRANSFER
@@ -113,6 +121,7 @@ model Organisation {
   keyDates        KeyDate[]
   billingSettings BillingSettings?
   invoices        Invoice[]
+  quotes          Quote[]
   payments        Payment[]
 }
 
@@ -249,6 +258,7 @@ model Student {
   assessments    Assessment[]
   checkIns       CheckIn[]
   invoices       Invoice[]
+  quotes         Quote[]
   payments       Payment[]
   discounts      StudentDiscount[]
   classSessionAttendances ClassSessionAttendance[]
@@ -281,14 +291,19 @@ model Class {
 // ─── Meeting ─────────────────────────────────────────────────────────────────
 
 model Meeting {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  startTime   DateTime
-  endTime     DateTime
-  isCompleted Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  Int      @id @default(autoincrement())
+  title               String
+  description         String?
+  meetingLocation     String?
+  startTime           DateTime
+  endTime             DateTime
+  isCompleted         Boolean  @default(false)
+  recurrenceSeriesId  String?
+  recurrenceIndex     Int?
+  hourlyRateCents     Int?
+  totalCents          Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   organisationId String
   createdById    String
@@ -315,6 +330,7 @@ model Term {
   organisationId String
   organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
   invoices       Invoice[]
+  quotes         Quote[]
 }
 
 // ─── Holiday ─────────────────────────────────────────────────────────────────
@@ -459,6 +475,8 @@ model BillingSettings {
   id                  String   @id @default(cuid())
   defaultTermRateCents Int
   currency            String   @default("AUD")
+  taxRatePercent      Float    @default(0)
+  taxInclusive        Boolean  @default(false)
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
@@ -502,6 +520,8 @@ model Invoice {
   status   InvoiceStatus @default(DRAFT)
   dueDate  DateTime?
   notes    String?
+  sentAt   DateTime?
+  lastReminderAt DateTime?
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 
@@ -512,6 +532,47 @@ model Invoice {
   student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
   term           Term?        @relation(fields: [termId], references: [id], onDelete: SetNull)
   payments       Payment[]
+  lineItems      InvoiceLineItem[]
+  quoteConvertedFrom Quote?    @relation("QuoteConvertedTo")
+
+  @@unique([organisationId, number])
+}
+
+model InvoiceLineItem {
+  id              String   @id @default(cuid())
+  description     String
+  quantity        Int      @default(1)
+  unitPriceCents  Int
+  amountCents     Int
+  meetingId       Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model Quote {
+  id        String      @id @default(cuid())
+  number    String
+  amount    Int
+  discount  Int         @default(0)
+  tax       Int         @default(0)
+  total     Int
+  status    QuoteStatus @default(DRAFT)
+  dueDate   DateTime?
+  notes     String?
+  convertedToInvoiceId String?   @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  organisationId String
+  studentId      Int
+  termId         Int?
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  term           Term?        @relation(fields: [termId], references: [id], onDelete: SetNull)
+  convertedToInvoice Invoice?  @relation("QuoteConvertedTo", fields: [convertedToInvoiceId], references: [id], onDelete: SetNull)
 
   @@unique([organisationId, number])
 }

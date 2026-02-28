@@ -36,45 +36,60 @@ type StudentAvatarProps = {
   lastName: string;
   imageUrl?: string | null;
   studentId: number;
+  /** When false, renders the avatar without a link (e.g. in dropdowns) */
+  link?: boolean;
+  /** Avatar size in px; default 40 */
+  size?: number;
 };
 
-const SIZE = 40;
+const DEFAULT_SIZE = 40;
 
 export default function StudentAvatar({
   firstName,
   lastName,
   imageUrl,
   studentId,
+  link = true,
+  size = DEFAULT_SIZE,
 }: StudentAvatarProps) {
   const initials = getInitials(firstName, lastName);
   const backgroundColor = getBackgroundColor(studentId);
 
-  return (
-    <Link
-      href={`/students/${studentId}`}
-      className="inline-flex shrink-0 rounded-full focus:outline-none focus:ring-2 focus:ring-[#3D4756] focus:ring-offset-2"
-      aria-label="View student profile"
+  const circle = (
+    <span
+      className="flex items-center justify-center rounded-full text-sm font-semibold text-white shrink-0"
+      style={{
+        width: size,
+        height: size,
+        minWidth: size,
+        minHeight: size,
+        fontSize: size <= 24 ? "0.6rem" : "0.875rem",
+        backgroundColor: imageUrl ? undefined : backgroundColor,
+      }}
     >
-      <span
-        className="flex items-center justify-center rounded-full text-sm font-semibold text-white"
-        style={{
-          width: SIZE,
-          height: SIZE,
-          backgroundColor: imageUrl ? undefined : backgroundColor,
-          minWidth: SIZE,
-          minHeight: SIZE,
-        }}
-      >
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt=""
-            className="h-full w-full rounded-full object-cover"
-          />
-        ) : (
-          initials
-        )}
-      </span>
-    </Link>
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt=""
+          className="h-full w-full rounded-full object-cover"
+        />
+      ) : (
+        initials
+      )}
+    </span>
   );
+
+  if (link) {
+    return (
+      <Link
+        href={`/students/${studentId}`}
+        className="inline-flex shrink-0 rounded-full focus:outline-none focus:ring-2 focus:ring-[#3D4756] focus:ring-offset-2"
+        aria-label="View student profile"
+      >
+        {circle}
+      </Link>
+    );
+  }
+
+  return <span className="inline-flex shrink-0">{circle}</span>;
 }

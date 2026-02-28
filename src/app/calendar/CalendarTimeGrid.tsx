@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Link from "next/link";
 import type { CalendarEventDTO } from "./getCalendarEvents";
 
 interface Meeting {
@@ -205,13 +206,14 @@ export default function CalendarTimeGrid({ meetings, currentDate, view, calendar
                   {keyDates.length > 0 && (
                     <div className="absolute inset-x-1 top-1 flex flex-col gap-1 z-20">
                       {keyDates.slice(0, 2).map((event) => (
-                        <div
+                        <Link
                           key={event.id}
-                          className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium truncate shadow-sm"
+                          href={`/calendar/event/keydate/${event.id.replace("keydate-", "")}`}
+                          className="block text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium truncate shadow-sm hover:bg-amber-200"
                           title={event.title}
                         >
                           {event.title}
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   )}
@@ -261,12 +263,13 @@ export default function CalendarTimeGrid({ meetings, currentDate, view, calendar
                       HOUR_SLOT_HEIGHT_PX;
 
                     return (
-                      <div
+                      <Link
                         key={meeting.id}
-                        className={`absolute inset-x-1 rounded-md px-2 py-1 text-xs shadow-sm ${
+                        href={`/calendar/event/lesson/${meeting.id}`}
+                        className={`absolute inset-x-1 rounded-md px-2 py-1 text-xs shadow-sm block ${
                           meeting.isCompleted
-                            ? "bg-green-100 text-green-900 border border-green-200"
-                            : "bg-blue-100 text-blue-900 border border-blue-200"
+                            ? "bg-green-100 text-green-900 border border-green-200 hover:bg-green-200"
+                            : "bg-blue-100 text-blue-900 border border-blue-200 hover:bg-blue-200"
                         } ${isToday ? "ring-1 ring-blue-200" : ""}`}
                         style={{
                           top: topPx,
@@ -281,7 +284,7 @@ export default function CalendarTimeGrid({ meetings, currentDate, view, calendar
                           {meeting.student.firstName}{" "}
                           {meeting.student.lastName}
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
 
@@ -313,9 +316,10 @@ export default function CalendarTimeGrid({ meetings, currentDate, view, calendar
                       HOUR_SLOT_HEIGHT_PX;
 
                     return (
-                      <div
+                      <Link
                         key={event.id}
-                        className={`absolute inset-x-6 rounded-md px-2 py-1 text-[11px] shadow-sm bg-emerald-100 text-emerald-900 border border-emerald-200 ${
+                        href={`/calendar/event/checkin/${event.id.replace("checkin-", "")}`}
+                        className={`absolute inset-x-6 rounded-md px-2 py-1 text-[11px] shadow-sm bg-emerald-100 text-emerald-900 border border-emerald-200 hover:bg-emerald-200 block ${
                           isToday ? "ring-1 ring-emerald-200" : ""
                         }`}
                         style={{
@@ -325,7 +329,7 @@ export default function CalendarTimeGrid({ meetings, currentDate, view, calendar
                         title={event.title}
                       >
                         <div className="truncate">{event.title}</div>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

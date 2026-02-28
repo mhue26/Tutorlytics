@@ -215,88 +215,58 @@ export default function CalendarClient({
           )}
         </div>
 
-        {/* Current Status on main calendar page */}
-        <div className="p-4 bg-blue-50 rounded-lg">
-          <h3 className="font-medium text-blue-900 mb-2">Current Status</h3>
-          {currentTerm ? (
-            <div className="text-blue-800">
-              <p><strong>Current Term:</strong> {currentTerm.name}</p>
-              {currentWeek && (
-                <p>
-                  <strong>Week:</strong>{" "}
-                  {currentWeek} of{" "}
-                  {Math.ceil(
-                    (new Date(currentTerm.endDate).getTime() -
-                      new Date(currentTerm.startDate).getTime()) /
-                    (1000 * 60 * 60 * 24 * 7)
-                  )}
-                </p>
-              )}
-            </div>
-          ) : (
-            <p className="text-blue-800">
-              No active term found for current date.{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowTermsModal(true);
-                  setModalType('teachingPeriods');
-                }}
-                className="text-blue-800 font-medium"
-              >
-                Add teaching term <span className="underline">here</span>
-              </button>
-            </p>
-          )}
-        </div>
-
-        {/* Main Calendar Content */}
-        <div className="space-y-6">
-          {/* Upcoming Meetings */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Upcoming</h3>
-              <select
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
-                className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="today">Today</option>
-                <option value="tomorrow">Tomorrow</option>
-                <option value="week">Next Week</option>
-                <option value="month">Next Month</option>
-              </select>
-            </div>
-            {getFilteredMeetings().length === 0 ? (
-              <p className="text-gray-500">No upcoming events scheduled.</p>
-            ) : (
-              <div className="space-y-3">
-                {getFilteredMeetings().map((meeting) => (
-                  <div key={meeting.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-                    <div>
-                      <div className="font-medium">{meeting.title}</div>
-                      <div className="text-sm text-gray-600">
-                        with {meeting.student.firstName} {meeting.student.lastName}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {formatMeetingDate(new Date(meeting.startTime))} at {formatTime(new Date(meeting.startTime))}
-                      </div>
-                    </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      meeting.isCompleted 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-blue-100 text-blue-800'
-                    }`}>
-                      {meeting.isCompleted ? 'Completed' : 'Scheduled'}
-                    </span>
-                  </div>
-                ))}
+        {/* Main Calendar Content: Upcoming left, Calendar right */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Upcoming Meetings - left column, same height as calendar on large screens */}
+          <div className="w-full lg:w-80 lg:flex-shrink-0 lg:flex lg:flex-col">
+            <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col h-[420px] lg:h-full min-h-0">
+              <div className="flex items-center justify-between mb-4 flex-shrink-0">
+                <h3 className="text-lg font-medium">Upcoming</h3>
+                <select
+                  value={timeRange}
+                  onChange={(e) => setTimeRange(e.target.value)}
+                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="today">Today</option>
+                  <option value="tomorrow">Tomorrow</option>
+                  <option value="week">Next Week</option>
+                  <option value="month">Next Month</option>
+                </select>
               </div>
-            )}
+              <div className="flex-1 min-h-0 overflow-y-auto">
+                {getFilteredMeetings().length === 0 ? (
+                  <p className="text-gray-500">No upcoming events scheduled.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {getFilteredMeetings().map((meeting) => (
+                      <div key={meeting.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+                        <div>
+                          <div className="font-medium">{meeting.title}</div>
+                          <div className="text-sm text-gray-600">
+                            with {meeting.student.firstName} {meeting.student.lastName}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {formatMeetingDate(new Date(meeting.startTime))} at {formatTime(new Date(meeting.startTime))}
+                          </div>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          meeting.isCompleted 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {meeting.isCompleted ? 'Completed' : 'Scheduled'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Calendar View */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
+          {/* Calendar View - right column, takes remaining space */}
+          <div className="flex-1 min-w-0">
+            <div className="bg-white rounded-2xl shadow-sm p-6">
             <CalendarNavigation
               userId={userId}
               view={view}
@@ -321,6 +291,7 @@ export default function CalendarClient({
                 calendarEvents={calendarEvents}
               />
             )}
+            </div>
           </div>
         </div>
       </div>

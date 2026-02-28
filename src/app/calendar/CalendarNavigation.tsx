@@ -132,10 +132,10 @@ export default function CalendarNavigation({ view, currentDate, onViewChange, on
             href="/schedule"
             title="Schedule"
             aria-label="Go to schedule"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors duration-200"
+            className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-[#3D4756] text-white shadow-sm hover:bg-[#2A3441] transition-colors duration-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v14M5 12h14" />
             </svg>
           </Link>
         </div>

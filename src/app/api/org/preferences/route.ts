@@ -24,23 +24,43 @@ function normalizeColors(value: unknown): Record<string, string> {
 	return {};
 }
 
+function parseSubjectList(subjectsStr: string): string[] {
+	return (subjectsStr || "")
+		.split(",")
+		.map((s) => s.trim())
+		.filter(Boolean);
+}
+
 export async function GET() {
 	const ctx = await getOrgContext();
 	if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const prefs = await prisma.organisationPreferences.findUnique({
-		where: { organisationId: ctx.organisationId },
-		select: {
-			defaultStudentRateCents: true,
-			defaultSubjects: true,
-			subjectColorsJson: true,
-		},
-	});
+	const [prefs, students] = await Promise.all([
+		prisma.organisationPreferences.findUnique({
+			where: { organisationId: ctx.organisationId },
+			select: {
+				defaultStudentRateCents: true,
+				defaultSubjects: true,
+				subjectColorsJson: true,
+			},
+		}),
+		prisma.student.findMany({
+			where: { organisationId: ctx.organisationId },
+			select: { subjects: true },
+		}),
+	]);
+
+	const subjectsInUse = Array.from(
+		new Set(
+			students.flatMap((s) => parseSubjectList(s.subjects ?? ""))
+		)
+	).sort((a, b) => a.localeCompare(b));
 
 	return NextResponse.json({
 		defaultStudentRateCents: prefs?.defaultStudentRateCents ?? null,
 		defaultSubjects: normalizeSubjects(prefs?.defaultSubjects ?? []),
 		subjectColors: normalizeColors(prefs?.subjectColorsJson ?? {}),
+		subjectsInUse,
 	});
 }
 

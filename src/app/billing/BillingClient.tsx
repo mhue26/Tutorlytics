@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Invoice {
 	id: string;
@@ -28,7 +29,18 @@ interface PaymentEntry {
 	invoiceNumber: string | null;
 }
 
+interface QuoteEntry {
+	id: string;
+	number: string;
+	total: number;
+	status: string;
+	student: { id: number; firstName: string; lastName: string };
+	term: { id: number; name: string; year: number } | null;
+	convertedToInvoiceId: string | null;
+}
+
 interface BillingClientProps {
+	quotes: QuoteEntry[];
 	invoices: Invoice[];
 	recentPayments: PaymentEntry[];
 	students: { id: number; firstName: string; lastName: string }[];
@@ -54,6 +66,7 @@ const methodLabels: Record<string, string> = {
 };
 
 export default function BillingClient({
+	quotes,
 	invoices,
 	recentPayments,
 	students,
@@ -63,12 +76,17 @@ export default function BillingClient({
 }: BillingClientProps) {
 	const router = useRouter();
 	const [showGenerate, setShowGenerate] = useState(false);
+	const [showGenerateQuotes, setShowGenerateQuotes] = useState(false);
+	const [showGenerateLessons, setShowGenerateLessons] = useState(false);
 	const [showPayment, setShowPayment] = useState(false);
 	const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
-	const [activeTab, setActiveTab] = useState<"invoices" | "payments">("invoices");
+	const [activeTab, setActiveTab] = useState<"invoices" | "payments" | "quotes">("invoices");
 
 	const [genTermId, setGenTermId] = useState("");
+	const [genQuoteTermId, setGenQuoteTermId] = useState("");
+	const [genLessonsFrom, setGenLessonsFrom] = useState("");
+	const [genLessonsTo, setGenLessonsTo] = useState("");
 	const [payForm, setPayForm] = useState({ studentId: "", invoiceId: "", amount: "", method: "CASH", reference: "", date: new Date().toISOString().split("T")[0], notes: "" });
 
 	const fmt = (cents: number) => `$${(cents / 100).toFixed(2)}`;
@@ -86,6 +104,35 @@ export default function BillingClient({
 		router.refresh();
 	};
 
+	const generateQuotes = async () => {
+		if (!genQuoteTermId) return;
+		setLoading(true);
+		await fetch("/api/quotes", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ termId: genQuoteTermId }),
+		});
+		setShowGenerateQuotes(false);
+		setLoading(false);
+		router.refresh();
+	};
+
+	const generateFromLessons = async () => {
+		if (!genLessonsFrom || !genLessonsTo) return;
+		setLoading(true);
+		await fetch("/api/invoices/generate-from-lessons", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				dateFrom: genLessonsFrom,
+				dateTo: genLessonsTo,
+			}),
+		});
+		setShowGenerateLessons(false);
+		setLoading(false);
+		router.refresh();
+	};
+
 	const updateInvoiceStatus = async (id: string, status: string) => {
 		await fetch(`/api/invoices/${id}`, {
 			method: "PUT",
@@ -93,6 +140,15 @@ export default function BillingClient({
 			body: JSON.stringify({ status }),
 		});
 		router.refresh();
+	};
+
+	const convertQuoteToInvoice = async (quoteId: string) => {
+		setLoading(true);
+		const res = await fetch(`/api/quotes/${quoteId}/convert-to-invoice`, { method: "POST" });
+		if (res.ok) {
+			router.refresh();
+		}
+		setLoading(false);
 	};
 
 	const recordPayment = async (e: React.FormEvent) => {
@@ -112,9 +168,15 @@ export default function BillingClient({
 	return (
 		<div className="space-y-6">
 			{canManage && (
-				<div className="flex gap-3">
-					<button onClick={() => setShowGenerate(!showGenerate)} className="bg-blue-600/80 text-white px-4 py-2.5 rounded-2xl text-sm font-medium hover:bg-blue-700/80 transition-colors">
-						Generate Invoices
+				<div className="flex flex-wrap gap-3">
+					<button onClick={() => { setShowGenerate(!showGenerate); setShowGenerateLessons(false); }} className="bg-blue-600/80 text-white px-4 py-2.5 rounded-2xl text-sm font-medium hover:bg-blue-700/80 transition-colors">
+						Generate Invoices (Term)
+					</button>
+					<button onClick={() => { setShowGenerateQuotes(!showGenerateQuotes); setShowGenerate(false); setShowGenerateLessons(false); }} className="bg-amber-600/80 text-white px-4 py-2.5 rounded-2xl text-sm font-medium hover:bg-amber-700/80 transition-colors">
+						Create Quotes (Term)
+					</button>
+					<button onClick={() => { setShowGenerateLessons(!showGenerateLessons); setShowGenerate(false); setShowGenerateQuotes(false); }} className="bg-indigo-600/80 text-white px-4 py-2.5 rounded-2xl text-sm font-medium hover:bg-indigo-700/80 transition-colors">
+						Generate from Lessons
 					</button>
 					<button onClick={() => setShowPayment(!showPayment)} className="bg-green-600/80 text-white px-4 py-2.5 rounded-2xl text-sm font-medium hover:bg-green-700/80 transition-colors">
 						Record Payment
@@ -141,6 +203,59 @@ export default function BillingClient({
 						<button onClick={() => setShowGenerate(false)} className="text-gray-500 px-3 py-2 text-sm">Cancel</button>
 					</div>
 					<p className="text-xs text-gray-500 mt-2">This creates a draft invoice for every active student using the default term rate. Students who already have an invoice for this term are skipped.</p>
+				</div>
+			)}
+
+			{showGenerateQuotes && (
+				<div className="bg-white rounded-2xl shadow-sm p-6">
+					<h3 className="text-lg font-medium mb-3">Create Quotes for Term</h3>
+					<div className="flex gap-3 items-end">
+						<div className="flex-1">
+							<label className="block text-sm text-gray-700 mb-1">Select Term</label>
+							<select value={genQuoteTermId} onChange={(e) => setGenQuoteTermId(e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm">
+								<option value="">Choose a term...</option>
+								{terms.map((t) => (
+									<option key={t.id} value={t.id}>{t.name} ({t.year})</option>
+								))}
+							</select>
+						</div>
+						<button onClick={generateQuotes} disabled={!genQuoteTermId || loading} className="bg-[#3D4756] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#2A3441] disabled:opacity-50 transition-colors">
+							{loading ? "Creating..." : "Create quotes"}
+						</button>
+						<button onClick={() => setShowGenerateQuotes(false)} className="text-gray-500 px-3 py-2 text-sm">Cancel</button>
+					</div>
+					<p className="text-xs text-gray-500 mt-2">Creates a draft quote per active student for the term. Use the Quotes tab to convert quotes to invoices when accepted.</p>
+				</div>
+			)}
+
+			{showGenerateLessons && (
+				<div className="bg-white rounded-2xl shadow-sm p-6">
+					<h3 className="text-lg font-medium mb-3">Generate Invoices from Completed Lessons</h3>
+					<div className="flex flex-wrap gap-3 items-end">
+						<div>
+							<label className="block text-sm text-gray-700 mb-1">From date</label>
+							<input
+								type="date"
+								value={genLessonsFrom}
+								onChange={(e) => setGenLessonsFrom(e.target.value)}
+								className="w-full border rounded-lg px-3 py-2 text-sm"
+							/>
+						</div>
+						<div>
+							<label className="block text-sm text-gray-700 mb-1">To date</label>
+							<input
+								type="date"
+								value={genLessonsTo}
+								onChange={(e) => setGenLessonsTo(e.target.value)}
+								className="w-full border rounded-lg px-3 py-2 text-sm"
+							/>
+						</div>
+						<button onClick={generateFromLessons} disabled={!genLessonsFrom || !genLessonsTo || loading} className="bg-[#3D4756] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#2A3441] disabled:opacity-50 transition-colors">
+							{loading ? "Generating..." : "Generate"}
+						</button>
+						<button onClick={() => setShowGenerateLessons(false)} className="text-gray-500 px-3 py-2 text-sm">Cancel</button>
+					</div>
+					<p className="text-xs text-gray-500 mt-2">Creates one draft invoice per student with completed lessons in this date range. Each lesson is a line item using the student&apos;s hourly rate (or meeting total if set). Already-invoiced lessons are skipped.</p>
 				</div>
 			)}
 
@@ -201,6 +316,9 @@ export default function BillingClient({
 				<button onClick={() => setActiveTab("payments")} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === "payments" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700"}`}>
 					Payments ({recentPayments.length})
 				</button>
+				<button onClick={() => setActiveTab("quotes")} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === "quotes" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700"}`}>
+					Quotes ({quotes.length})
+				</button>
 			</div>
 
 			{activeTab === "invoices" && (
@@ -212,6 +330,7 @@ export default function BillingClient({
 									<th className="text-left px-4 py-3 font-medium text-gray-600">Invoice</th>
 									<th className="text-left px-4 py-3 font-medium text-gray-600">Student</th>
 									<th className="text-left px-4 py-3 font-medium text-gray-600">Term</th>
+									<th className="text-left px-4 py-3 font-medium text-gray-600">Due date</th>
 									<th className="text-right px-4 py-3 font-medium text-gray-600">Amount</th>
 									<th className="text-right px-4 py-3 font-medium text-gray-600">Paid</th>
 									<th className="text-center px-4 py-3 font-medium text-gray-600">Status</th>
@@ -221,9 +340,19 @@ export default function BillingClient({
 							<tbody>
 								{invoices.map((inv) => (
 									<tr key={inv.id} className="border-b hover:bg-gray-50">
-										<td className="px-4 py-3 font-medium">{inv.number}</td>
+										<td className="px-4 py-3 font-medium">
+											<Link
+												href={`/billing/invoices/${inv.id}`}
+												className="text-[#3D4756] hover:text-[#2A3441] hover:underline"
+											>
+												{inv.number}
+											</Link>
+										</td>
 										<td className="px-4 py-3">{inv.student.firstName} {inv.student.lastName}</td>
 										<td className="px-4 py-3 text-gray-500">{inv.term?.name || "—"}</td>
+										<td className="px-4 py-3 text-gray-600">
+											{inv.dueDate ? new Date(inv.dueDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "—"}
+										</td>
 										<td className="px-4 py-3 text-right">{fmt(inv.total)}</td>
 										<td className="px-4 py-3 text-right text-green-600">{fmt(inv.paidAmount)}</td>
 										<td className="px-4 py-3 text-center">
@@ -259,6 +388,60 @@ export default function BillingClient({
 							</svg>
 							<h3 className="text-lg font-medium text-gray-400 mb-2">No invoices yet</h3>
 							<p className="text-sm text-gray-400">Generate invoices for a term to get started.</p>
+						</div>
+					)}
+				</div>
+			)}
+
+			{activeTab === "quotes" && (
+				<div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+					{quotes.length > 0 ? (
+						<table className="w-full text-sm">
+							<thead>
+								<tr className="border-b bg-gray-50">
+									<th className="text-left px-4 py-3 font-medium text-gray-600">Quote</th>
+									<th className="text-left px-4 py-3 font-medium text-gray-600">Student</th>
+									<th className="text-left px-4 py-3 font-medium text-gray-600">Term</th>
+									<th className="text-right px-4 py-3 font-medium text-gray-600">Amount</th>
+									<th className="text-center px-4 py-3 font-medium text-gray-600">Status</th>
+									{canManage && <th className="text-center px-4 py-3 font-medium text-gray-600">Actions</th>}
+								</tr>
+							</thead>
+							<tbody>
+								{quotes.map((q) => (
+									<tr key={q.id} className="border-b hover:bg-gray-50">
+										<td className="px-4 py-3 font-medium">{q.number}</td>
+										<td className="px-4 py-3">{q.student.firstName} {q.student.lastName}</td>
+										<td className="px-4 py-3 text-gray-500">{q.term ? `${q.term.name} ${q.term.year}` : "—"}</td>
+										<td className="px-4 py-3 text-right">{fmt(q.total)}</td>
+										<td className="px-4 py-3 text-center">
+											<span className={`text-xs px-2 py-1 rounded-full font-medium ${q.status === "CONVERTED" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
+												{q.status}
+											</span>
+										</td>
+										{canManage && (
+											<td className="px-4 py-3 text-center">
+												{q.status !== "CONVERTED" ? (
+													<button
+														onClick={() => convertQuoteToInvoice(q.id)}
+														disabled={loading}
+														className="text-xs text-[#3D4756] hover:underline disabled:opacity-50"
+													>
+														Convert to invoice
+													</button>
+												) : (
+													<span className="text-xs text-gray-500">Converted</span>
+												)}
+											</td>
+										)}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					) : (
+						<div className="text-center py-12">
+							<h3 className="text-lg font-medium text-gray-400 mb-2">No quotes yet</h3>
+							<p className="text-sm text-gray-400">Create quotes from the Generate Invoices (Term) flow, then use &quot;Create quote&quot; or add a separate quote generation action.</p>
 						</div>
 					)}
 				</div>

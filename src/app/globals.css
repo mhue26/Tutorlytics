@@ -3,11 +3,24 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* UI palette — keep in sync with src/theme/colors.ts */
+  --ui-primary: #3D4756;
+  --ui-primary-hover: #2A3441;
+  --ui-accent: #584b53;
+  --ui-accent-highlight: #E4BB97;
+  --ui-accent-bg: #FEF5eF;
+  --ui-muted: #A1ACBD;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ui-primary: var(--ui-primary);
+  --color-ui-primary-hover: var(--ui-primary-hover);
+  --color-ui-accent: var(--ui-accent);
+  --color-ui-accent-highlight: var(--ui-accent-highlight);
+  --color-ui-accent-bg: var(--ui-accent-bg);
+  --color-ui-muted: var(--ui-muted);
   --font-sans: 'Work Sans', sans-serif;
   --font-mono: var(--font-geist-mono);
 }

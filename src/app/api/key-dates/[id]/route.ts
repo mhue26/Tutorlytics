@@ -13,16 +13,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   const body = await request.json();
 
-  const client: any = prisma;
-
-  const existing = await client.keyDate.findFirst({
+  const existing = await prisma.keyDate.findFirst({
     where: { id, organisationId: ctx.organisationId },
   });
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const updateData: any = {};
+  const updateData: Record<string, unknown> = {};
 
   if (typeof body.title === "string") updateData.title = body.title;
   if (typeof body.description === "string" || body.description === null) {
@@ -50,7 +48,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       typeof body.year === "number" ? body.year : Number(body.year) || null;
   }
 
-  const updated = await client.keyDate.update({
+  const updated = await prisma.keyDate.update({
     where: { id },
     data: updateData,
   });
@@ -63,16 +61,15 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const client: any = prisma;
 
-  const existing = await client.keyDate.findFirst({
+  const existing = await prisma.keyDate.findFirst({
     where: { id, organisationId: ctx.organisationId },
   });
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  await client.keyDate.delete({ where: { id } });
+  await prisma.keyDate.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }
 

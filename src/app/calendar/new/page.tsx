@@ -1,95 +1,24 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import NiceDatePicker from "@/app/components/NiceDatePicker";
 import NiceTimePicker from "@/app/components/NiceTimePicker";
-
-async function createMeeting(formData: FormData) {
-	"use server";
-	const ctx = await requireOrgContext();
-
-	const title = formData.get("title") as string;
-	const studentId = formData.get("studentId") as string;
-	const meetingDate = formData.get("meetingDate") as string;
-	const startTime = formData.get("startTime") as string;
-	const endTime = formData.get("endTime") as string;
-	const description = formData.get("description") as string;
-	const isCompleted = formData.get("isCompleted") === "on";
-	const isRepeating = formData.get("isRepeating") === "on";
-	const repeatType = formData.get("repeatType") as string;
-	const repeatCount = parseInt(formData.get("repeatCount") as string) || 1;
-
-	if (!title || !studentId || !meetingDate || !startTime || !endTime) {
-		throw new Error("All required fields must be filled");
-	}
-
-	const student = await prisma.student.findFirst({
-		where: { id: parseInt(studentId), organisationId: ctx.organisationId },
-	});
-	if (!student) throw new Error("Student not found");
-
-	const baseStartTime = new Date(`${meetingDate}T${startTime}`);
-	const baseEndTime = new Date(`${meetingDate}T${endTime}`);
-
-	if (isRepeating && repeatType && repeatCount > 1) {
-		const meetings = [];
-		for (let i = 0; i < repeatCount; i++) {
-			const meetingStartTime = new Date(baseStartTime);
-			const meetingEndTime = new Date(baseEndTime);
-			if (i > 0) {
-				switch (repeatType) {
-					case "weekly":
-						meetingStartTime.setDate(meetingStartTime.getDate() + i * 7);
-						meetingEndTime.setDate(meetingEndTime.getDate() + i * 7);
-						break;
-					case "biweekly":
-						meetingStartTime.setDate(meetingStartTime.getDate() + i * 14);
-						meetingEndTime.setDate(meetingEndTime.getDate() + i * 14);
-						break;
-					case "monthly":
-						meetingStartTime.setMonth(meetingStartTime.getMonth() + i);
-						meetingEndTime.setMonth(meetingEndTime.getMonth() + i);
-						break;
-				}
-			}
-			meetings.push({
-				title: i === 0 ? title : `${title} (${i + 1}/${repeatCount})`,
-				description: description || null,
-				startTime: meetingStartTime,
-				endTime: meetingEndTime,
-				isCompleted: false,
-				createdById: ctx.userId,
-				organisationId: ctx.organisationId,
-				studentId: parseInt(studentId),
-			});
-		}
-		await prisma.meeting.createMany({ data: meetings });
-	} else {
-		await prisma.meeting.create({
-			data: {
-				title,
-				description: description || null,
-				startTime: baseStartTime,
-				endTime: baseEndTime,
-				isCompleted,
-				createdById: ctx.userId,
-				organisationId: ctx.organisationId,
-				studentId: parseInt(studentId),
-			},
-		});
-	}
-
-	redirect("/calendar");
-}
+import { createMeeting } from "../actions";
+import RepeatOptionsBlock from "../RepeatOptionsBlock";
 
 export default async function NewMeetingPage() {
 	const ctx = await requireOrgContext();
 
-	const students = await prisma.student.findMany({
-		where: { organisationId: ctx.organisationId, isArchived: false },
-		orderBy: { firstName: "asc" },
-	});
+	const [students, terms] = await Promise.all([
+		prisma.student.findMany({
+			where: { organisationId: ctx.organisationId, isArchived: false },
+			orderBy: { firstName: "asc" },
+		}),
+		prisma.term.findMany({
+			where: { organisationId: ctx.organisationId },
+			orderBy: [{ year: "desc" }, { startDate: "asc" }],
+		}),
+	]);
 
 	return (
 		<div className="max-w-2xl mx-auto p-6">
@@ -133,33 +62,13 @@ export default async function NewMeetingPage() {
 					</div>
 				</div>
 
+				<div className="mt-3">
+					<RepeatOptionsBlock terms={terms} />
+				</div>
+
 				<div>
 					<label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description</label>
 					<textarea id="description" name="description" rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Optional notes about this meeting..." />
-				</div>
-
-				<div className="border-t pt-6">
-					<h3 className="text-lg font-medium text-gray-900 mb-4">Repeat Options</h3>
-					<div className="space-y-4">
-						<div className="flex items-center">
-							<input type="checkbox" id="isRepeating" name="isRepeating" className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-							<label htmlFor="isRepeating" className="ml-2 block text-sm text-gray-700">This is a repeating meeting</label>
-						</div>
-						<div id="repeatOptions" className="space-y-4 hidden">
-							<div>
-								<label htmlFor="repeatType" className="block text-sm font-medium text-gray-700 mb-2">Repeat</label>
-								<select id="repeatType" name="repeatType" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-									<option value="weekly">Weekly</option>
-									<option value="biweekly">Every 2 weeks</option>
-									<option value="monthly">Monthly</option>
-								</select>
-							</div>
-							<div>
-								<label htmlFor="repeatCount" className="block text-sm font-medium text-gray-700 mb-2">Number of occurrences</label>
-								<input type="number" id="repeatCount" name="repeatCount" min="2" max="52" defaultValue="4" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-							</div>
-						</div>
-					</div>
 				</div>
 
 				<div className="flex items-center">

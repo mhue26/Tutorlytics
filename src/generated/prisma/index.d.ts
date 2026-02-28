@@ -124,6 +124,16 @@ export type StudentDiscount = $Result.DefaultSelection<Prisma.$StudentDiscountPa
  */
 export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
 /**
+ * Model InvoiceLineItem
+ * 
+ */
+export type InvoiceLineItem = $Result.DefaultSelection<Prisma.$InvoiceLineItemPayload>
+/**
+ * Model Quote
+ * 
+ */
+export type Quote = $Result.DefaultSelection<Prisma.$QuotePayload>
+/**
  * Model Payment
  * 
  */
@@ -160,6 +170,17 @@ export const InvoiceStatus: {
 };
 
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
+
+export const QuoteStatus: {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CONVERTED: 'CONVERTED'
+};
+
+export type QuoteStatus = (typeof QuoteStatus)[keyof typeof QuoteStatus]
 
 
 export const PaymentMethod: {
@@ -250,6 +271,10 @@ export const DiscountType: typeof $Enums.DiscountType
 export type InvoiceStatus = $Enums.InvoiceStatus
 
 export const InvoiceStatus: typeof $Enums.InvoiceStatus
+
+export type QuoteStatus = $Enums.QuoteStatus
+
+export const QuoteStatus: typeof $Enums.QuoteStatus
 
 export type PaymentMethod = $Enums.PaymentMethod
 
@@ -620,6 +645,26 @@ export class PrismaClient<
     * ```
     */
   get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invoiceLineItem`: Exposes CRUD operations for the **InvoiceLineItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvoiceLineItems
+    * const invoiceLineItems = await prisma.invoiceLineItem.findMany()
+    * ```
+    */
+  get invoiceLineItem(): Prisma.InvoiceLineItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quote`: Exposes CRUD operations for the **Quote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Quotes
+    * const quotes = await prisma.quote.findMany()
+    * ```
+    */
+  get quote(): Prisma.QuoteDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
@@ -1092,6 +1137,8 @@ export namespace Prisma {
     Discount: 'Discount',
     StudentDiscount: 'StudentDiscount',
     Invoice: 'Invoice',
+    InvoiceLineItem: 'InvoiceLineItem',
+    Quote: 'Quote',
     Payment: 'Payment'
   };
 
@@ -1111,7 +1158,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "organisationPreferences" | "userPreferences" | "student" | "class" | "meeting" | "term" | "holiday" | "keyDate" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "checkInRule" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "payment"
+      modelProps: "organisation" | "organisationMember" | "invitation" | "organisationJoinRequest" | "user" | "organisationPreferences" | "userPreferences" | "student" | "class" | "meeting" | "term" | "holiday" | "keyDate" | "assessment" | "classSession" | "classSessionAttendance" | "checkIn" | "checkInRule" | "billingSettings" | "discount" | "studentDiscount" | "invoice" | "invoiceLineItem" | "quote" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2743,6 +2790,154 @@ export namespace Prisma {
           }
         }
       }
+      InvoiceLineItem: {
+        payload: Prisma.$InvoiceLineItemPayload<ExtArgs>
+        fields: Prisma.InvoiceLineItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceLineItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceLineItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceLineItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceLineItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceLineItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceLineItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceLineItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceLineItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          update: {
+            args: Prisma.InvoiceLineItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceLineItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceLineItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.InvoiceLineItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceLineItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoiceLineItem>
+          }
+          groupBy: {
+            args: Prisma.InvoiceLineItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceLineItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceLineItemCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceLineItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      Quote: {
+        payload: Prisma.$QuotePayload<ExtArgs>
+        fields: Prisma.QuoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          findFirst: {
+            args: Prisma.QuoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          findMany: {
+            args: Prisma.QuoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          create: {
+            args: Prisma.QuoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          createMany: {
+            args: Prisma.QuoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          delete: {
+            args: Prisma.QuoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          update: {
+            args: Prisma.QuoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          deleteMany: {
+            args: Prisma.QuoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          upsert: {
+            args: Prisma.QuoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          aggregate: {
+            args: Prisma.QuoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuote>
+          }
+          groupBy: {
+            args: Prisma.QuoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuoteCountArgs<ExtArgs>
+            result: $Utils.Optional<QuoteCountAggregateOutputType> | number
+          }
+        }
+      }
       Payment: {
         payload: Prisma.$PaymentPayload<ExtArgs>
         fields: Prisma.PaymentFieldRefs
@@ -2935,6 +3130,8 @@ export namespace Prisma {
     discount?: DiscountOmit
     studentDiscount?: StudentDiscountOmit
     invoice?: InvoiceOmit
+    invoiceLineItem?: InvoiceLineItemOmit
+    quote?: QuoteOmit
     payment?: PaymentOmit
   }
 
@@ -3032,6 +3229,7 @@ export namespace Prisma {
     checkInRules: number
     keyDates: number
     invoices: number
+    quotes: number
     payments: number
   }
 
@@ -3052,6 +3250,7 @@ export namespace Prisma {
     checkInRules?: boolean | OrganisationCountOutputTypeCountCheckInRulesArgs
     keyDates?: boolean | OrganisationCountOutputTypeCountKeyDatesArgs
     invoices?: boolean | OrganisationCountOutputTypeCountInvoicesArgs
+    quotes?: boolean | OrganisationCountOutputTypeCountQuotesArgs
     payments?: boolean | OrganisationCountOutputTypeCountPaymentsArgs
   }
 
@@ -3176,6 +3375,13 @@ export namespace Prisma {
    */
   export type OrganisationCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
+  }
+
+  /**
+   * OrganisationCountOutputType without action
+   */
+  export type OrganisationCountOutputTypeCountQuotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
   }
 
   /**
@@ -3307,6 +3513,7 @@ export namespace Prisma {
     assessments: number
     checkIns: number
     invoices: number
+    quotes: number
     payments: number
     discounts: number
     classSessionAttendances: number
@@ -3318,6 +3525,7 @@ export namespace Prisma {
     assessments?: boolean | StudentCountOutputTypeCountAssessmentsArgs
     checkIns?: boolean | StudentCountOutputTypeCountCheckInsArgs
     invoices?: boolean | StudentCountOutputTypeCountInvoicesArgs
+    quotes?: boolean | StudentCountOutputTypeCountQuotesArgs
     payments?: boolean | StudentCountOutputTypeCountPaymentsArgs
     discounts?: boolean | StudentCountOutputTypeCountDiscountsArgs
     classSessionAttendances?: boolean | StudentCountOutputTypeCountClassSessionAttendancesArgs
@@ -3361,6 +3569,13 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountQuotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
   }
 
   /**
@@ -3487,10 +3702,12 @@ export namespace Prisma {
 
   export type TermCountOutputType = {
     invoices: number
+    quotes: number
   }
 
   export type TermCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoices?: boolean | TermCountOutputTypeCountInvoicesArgs
+    quotes?: boolean | TermCountOutputTypeCountQuotesArgs
   }
 
   // Custom InputTypes
@@ -3509,6 +3726,13 @@ export namespace Prisma {
    */
   export type TermCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
+  }
+
+  /**
+   * TermCountOutputType without action
+   */
+  export type TermCountOutputTypeCountQuotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
   }
 
 
@@ -3642,10 +3866,12 @@ export namespace Prisma {
 
   export type InvoiceCountOutputType = {
     payments: number
+    lineItems: number
   }
 
   export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
+    lineItems?: boolean | InvoiceCountOutputTypeCountLineItemsArgs
   }
 
   // Custom InputTypes
@@ -3664,6 +3890,13 @@ export namespace Prisma {
    */
   export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountLineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceLineItemWhereInput
   }
 
 
@@ -3878,6 +4111,7 @@ export namespace Prisma {
     keyDates?: boolean | Organisation$keyDatesArgs<ExtArgs>
     billingSettings?: boolean | Organisation$billingSettingsArgs<ExtArgs>
     invoices?: boolean | Organisation$invoicesArgs<ExtArgs>
+    quotes?: boolean | Organisation$quotesArgs<ExtArgs>
     payments?: boolean | Organisation$paymentsArgs<ExtArgs>
     _count?: boolean | OrganisationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organisation"]>
@@ -3938,6 +4172,7 @@ export namespace Prisma {
     keyDates?: boolean | Organisation$keyDatesArgs<ExtArgs>
     billingSettings?: boolean | Organisation$billingSettingsArgs<ExtArgs>
     invoices?: boolean | Organisation$invoicesArgs<ExtArgs>
+    quotes?: boolean | Organisation$quotesArgs<ExtArgs>
     payments?: boolean | Organisation$paymentsArgs<ExtArgs>
     _count?: boolean | OrganisationCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3970,6 +4205,7 @@ export namespace Prisma {
       keyDates: Prisma.$KeyDatePayload<ExtArgs>[]
       billingSettings: Prisma.$BillingSettingsPayload<ExtArgs> | null
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      quotes: Prisma.$QuotePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4394,6 +4630,7 @@ export namespace Prisma {
     keyDates<T extends Organisation$keyDatesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$keyDatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     billingSettings<T extends Organisation$billingSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$billingSettingsArgs<ExtArgs>>): Prisma__BillingSettingsClient<$Result.GetResult<Prisma.$BillingSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     invoices<T extends Organisation$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quotes<T extends Organisation$quotesArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Organisation$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Organisation$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5266,6 +5503,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Organisation.quotes
+   */
+  export type Organisation$quotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    cursor?: QuoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
   }
 
   /**
@@ -12599,6 +12860,7 @@ export namespace Prisma {
     assessments?: boolean | Student$assessmentsArgs<ExtArgs>
     checkIns?: boolean | Student$checkInsArgs<ExtArgs>
     invoices?: boolean | Student$invoicesArgs<ExtArgs>
+    quotes?: boolean | Student$quotesArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
     classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
@@ -12696,6 +12958,7 @@ export namespace Prisma {
     assessments?: boolean | Student$assessmentsArgs<ExtArgs>
     checkIns?: boolean | Student$checkInsArgs<ExtArgs>
     invoices?: boolean | Student$invoicesArgs<ExtArgs>
+    quotes?: boolean | Student$quotesArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     discounts?: boolean | Student$discountsArgs<ExtArgs>
     classSessionAttendances?: boolean | Student$classSessionAttendancesArgs<ExtArgs>
@@ -12720,6 +12983,7 @@ export namespace Prisma {
       assessments: Prisma.$AssessmentPayload<ExtArgs>[]
       checkIns: Prisma.$CheckInPayload<ExtArgs>[]
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      quotes: Prisma.$QuotePayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       discounts: Prisma.$StudentDiscountPayload<ExtArgs>[]
       classSessionAttendances: Prisma.$ClassSessionAttendancePayload<ExtArgs>[]
@@ -13149,6 +13413,7 @@ export namespace Prisma {
     assessments<T extends Student$assessmentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     checkIns<T extends Student$checkInsArgs<ExtArgs> = {}>(args?: Subset<T, Student$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoices<T extends Student$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Student$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quotes<T extends Student$quotesArgs<ExtArgs> = {}>(args?: Subset<T, Student$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Student$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discounts<T extends Student$discountsArgs<ExtArgs> = {}>(args?: Subset<T, Student$discountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDiscountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classSessionAttendances<T extends Student$classSessionAttendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$classSessionAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassSessionAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13713,6 +13978,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Student.quotes
+   */
+  export type Student$quotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    cursor?: QuoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
   }
 
   /**
@@ -15149,11 +15438,17 @@ export namespace Prisma {
 
   export type MeetingAvgAggregateOutputType = {
     id: number | null
+    recurrenceIndex: number | null
+    hourlyRateCents: number | null
+    totalCents: number | null
     studentId: number | null
   }
 
   export type MeetingSumAggregateOutputType = {
     id: number | null
+    recurrenceIndex: number | null
+    hourlyRateCents: number | null
+    totalCents: number | null
     studentId: number | null
   }
 
@@ -15161,9 +15456,14 @@ export namespace Prisma {
     id: number | null
     title: string | null
     description: string | null
+    meetingLocation: string | null
     startTime: Date | null
     endTime: Date | null
     isCompleted: boolean | null
+    recurrenceSeriesId: string | null
+    recurrenceIndex: number | null
+    hourlyRateCents: number | null
+    totalCents: number | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -15175,9 +15475,14 @@ export namespace Prisma {
     id: number | null
     title: string | null
     description: string | null
+    meetingLocation: string | null
     startTime: Date | null
     endTime: Date | null
     isCompleted: boolean | null
+    recurrenceSeriesId: string | null
+    recurrenceIndex: number | null
+    hourlyRateCents: number | null
+    totalCents: number | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -15189,9 +15494,14 @@ export namespace Prisma {
     id: number
     title: number
     description: number
+    meetingLocation: number
     startTime: number
     endTime: number
     isCompleted: number
+    recurrenceSeriesId: number
+    recurrenceIndex: number
+    hourlyRateCents: number
+    totalCents: number
     createdAt: number
     updatedAt: number
     organisationId: number
@@ -15203,11 +15513,17 @@ export namespace Prisma {
 
   export type MeetingAvgAggregateInputType = {
     id?: true
+    recurrenceIndex?: true
+    hourlyRateCents?: true
+    totalCents?: true
     studentId?: true
   }
 
   export type MeetingSumAggregateInputType = {
     id?: true
+    recurrenceIndex?: true
+    hourlyRateCents?: true
+    totalCents?: true
     studentId?: true
   }
 
@@ -15215,9 +15531,14 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    meetingLocation?: true
     startTime?: true
     endTime?: true
     isCompleted?: true
+    recurrenceSeriesId?: true
+    recurrenceIndex?: true
+    hourlyRateCents?: true
+    totalCents?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -15229,9 +15550,14 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    meetingLocation?: true
     startTime?: true
     endTime?: true
     isCompleted?: true
+    recurrenceSeriesId?: true
+    recurrenceIndex?: true
+    hourlyRateCents?: true
+    totalCents?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -15243,9 +15569,14 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    meetingLocation?: true
     startTime?: true
     endTime?: true
     isCompleted?: true
+    recurrenceSeriesId?: true
+    recurrenceIndex?: true
+    hourlyRateCents?: true
+    totalCents?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -15344,9 +15675,14 @@ export namespace Prisma {
     id: number
     title: string
     description: string | null
+    meetingLocation: string | null
     startTime: Date
     endTime: Date
     isCompleted: boolean
+    recurrenceSeriesId: string | null
+    recurrenceIndex: number | null
+    hourlyRateCents: number | null
+    totalCents: number | null
     createdAt: Date
     updatedAt: Date
     organisationId: string
@@ -15377,9 +15713,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    meetingLocation?: boolean
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    recurrenceSeriesId?: boolean
+    recurrenceIndex?: boolean
+    hourlyRateCents?: boolean
+    totalCents?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -15396,9 +15737,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    meetingLocation?: boolean
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    recurrenceSeriesId?: boolean
+    recurrenceIndex?: boolean
+    hourlyRateCents?: boolean
+    totalCents?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -15413,9 +15759,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    meetingLocation?: boolean
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    recurrenceSeriesId?: boolean
+    recurrenceIndex?: boolean
+    hourlyRateCents?: boolean
+    totalCents?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -15430,9 +15781,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    meetingLocation?: boolean
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    recurrenceSeriesId?: boolean
+    recurrenceIndex?: boolean
+    hourlyRateCents?: boolean
+    totalCents?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -15440,7 +15796,7 @@ export namespace Prisma {
     studentId?: boolean
   }
 
-  export type MeetingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "startTime" | "endTime" | "isCompleted" | "createdAt" | "updatedAt" | "organisationId" | "createdById" | "studentId", ExtArgs["result"]["meeting"]>
+  export type MeetingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "meetingLocation" | "startTime" | "endTime" | "isCompleted" | "recurrenceSeriesId" | "recurrenceIndex" | "hourlyRateCents" | "totalCents" | "createdAt" | "updatedAt" | "organisationId" | "createdById" | "studentId", ExtArgs["result"]["meeting"]>
   export type MeetingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -15471,9 +15827,14 @@ export namespace Prisma {
       id: number
       title: string
       description: string | null
+      meetingLocation: string | null
       startTime: Date
       endTime: Date
       isCompleted: boolean
+      recurrenceSeriesId: string | null
+      recurrenceIndex: number | null
+      hourlyRateCents: number | null
+      totalCents: number | null
       createdAt: Date
       updatedAt: Date
       organisationId: string
@@ -15909,9 +16270,14 @@ export namespace Prisma {
     readonly id: FieldRef<"Meeting", 'Int'>
     readonly title: FieldRef<"Meeting", 'String'>
     readonly description: FieldRef<"Meeting", 'String'>
+    readonly meetingLocation: FieldRef<"Meeting", 'String'>
     readonly startTime: FieldRef<"Meeting", 'DateTime'>
     readonly endTime: FieldRef<"Meeting", 'DateTime'>
     readonly isCompleted: FieldRef<"Meeting", 'Boolean'>
+    readonly recurrenceSeriesId: FieldRef<"Meeting", 'String'>
+    readonly recurrenceIndex: FieldRef<"Meeting", 'Int'>
+    readonly hourlyRateCents: FieldRef<"Meeting", 'Int'>
+    readonly totalCents: FieldRef<"Meeting", 'Int'>
     readonly createdAt: FieldRef<"Meeting", 'DateTime'>
     readonly updatedAt: FieldRef<"Meeting", 'DateTime'>
     readonly organisationId: FieldRef<"Meeting", 'String'>
@@ -16599,6 +16965,7 @@ export namespace Prisma {
     organisationId?: boolean
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     invoices?: boolean | Term$invoicesArgs<ExtArgs>
+    quotes?: boolean | Term$quotesArgs<ExtArgs>
     _count?: boolean | TermCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["term"]>
 
@@ -16647,6 +17014,7 @@ export namespace Prisma {
   export type TermInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     invoices?: boolean | Term$invoicesArgs<ExtArgs>
+    quotes?: boolean | Term$quotesArgs<ExtArgs>
     _count?: boolean | TermCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TermIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16661,6 +17029,7 @@ export namespace Prisma {
     objects: {
       organisation: Prisma.$OrganisationPayload<ExtArgs>
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      quotes: Prisma.$QuotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -17069,6 +17438,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     invoices<T extends Term$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Term$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quotes<T extends Term$quotesArgs<ExtArgs> = {}>(args?: Subset<T, Term$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17525,6 +17895,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Term.quotes
+   */
+  export type Term$quotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    cursor?: QuoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
   }
 
   /**
@@ -26025,16 +26419,20 @@ export namespace Prisma {
 
   export type BillingSettingsAvgAggregateOutputType = {
     defaultTermRateCents: number | null
+    taxRatePercent: number | null
   }
 
   export type BillingSettingsSumAggregateOutputType = {
     defaultTermRateCents: number | null
+    taxRatePercent: number | null
   }
 
   export type BillingSettingsMinAggregateOutputType = {
     id: string | null
     defaultTermRateCents: number | null
     currency: string | null
+    taxRatePercent: number | null
+    taxInclusive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -26044,6 +26442,8 @@ export namespace Prisma {
     id: string | null
     defaultTermRateCents: number | null
     currency: string | null
+    taxRatePercent: number | null
+    taxInclusive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -26053,6 +26453,8 @@ export namespace Prisma {
     id: number
     defaultTermRateCents: number
     currency: number
+    taxRatePercent: number
+    taxInclusive: number
     createdAt: number
     updatedAt: number
     organisationId: number
@@ -26062,16 +26464,20 @@ export namespace Prisma {
 
   export type BillingSettingsAvgAggregateInputType = {
     defaultTermRateCents?: true
+    taxRatePercent?: true
   }
 
   export type BillingSettingsSumAggregateInputType = {
     defaultTermRateCents?: true
+    taxRatePercent?: true
   }
 
   export type BillingSettingsMinAggregateInputType = {
     id?: true
     defaultTermRateCents?: true
     currency?: true
+    taxRatePercent?: true
+    taxInclusive?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -26081,6 +26487,8 @@ export namespace Prisma {
     id?: true
     defaultTermRateCents?: true
     currency?: true
+    taxRatePercent?: true
+    taxInclusive?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -26090,6 +26498,8 @@ export namespace Prisma {
     id?: true
     defaultTermRateCents?: true
     currency?: true
+    taxRatePercent?: true
+    taxInclusive?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -26186,6 +26596,8 @@ export namespace Prisma {
     id: string
     defaultTermRateCents: number
     currency: string
+    taxRatePercent: number
+    taxInclusive: boolean
     createdAt: Date
     updatedAt: Date
     organisationId: string
@@ -26214,6 +26626,8 @@ export namespace Prisma {
     id?: boolean
     defaultTermRateCents?: boolean
     currency?: boolean
+    taxRatePercent?: boolean
+    taxInclusive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -26226,6 +26640,8 @@ export namespace Prisma {
     id?: boolean
     defaultTermRateCents?: boolean
     currency?: boolean
+    taxRatePercent?: boolean
+    taxInclusive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -26236,6 +26652,8 @@ export namespace Prisma {
     id?: boolean
     defaultTermRateCents?: boolean
     currency?: boolean
+    taxRatePercent?: boolean
+    taxInclusive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -26246,12 +26664,14 @@ export namespace Prisma {
     id?: boolean
     defaultTermRateCents?: boolean
     currency?: boolean
+    taxRatePercent?: boolean
+    taxInclusive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
   }
 
-  export type BillingSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultTermRateCents" | "currency" | "createdAt" | "updatedAt" | "organisationId", ExtArgs["result"]["billingSettings"]>
+  export type BillingSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultTermRateCents" | "currency" | "taxRatePercent" | "taxInclusive" | "createdAt" | "updatedAt" | "organisationId", ExtArgs["result"]["billingSettings"]>
   export type BillingSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     discounts?: boolean | BillingSettings$discountsArgs<ExtArgs>
@@ -26274,6 +26694,8 @@ export namespace Prisma {
       id: string
       defaultTermRateCents: number
       currency: string
+      taxRatePercent: number
+      taxInclusive: boolean
       createdAt: Date
       updatedAt: Date
       organisationId: string
@@ -26705,6 +27127,8 @@ export namespace Prisma {
     readonly id: FieldRef<"BillingSettings", 'String'>
     readonly defaultTermRateCents: FieldRef<"BillingSettings", 'Int'>
     readonly currency: FieldRef<"BillingSettings", 'String'>
+    readonly taxRatePercent: FieldRef<"BillingSettings", 'Float'>
+    readonly taxInclusive: FieldRef<"BillingSettings", 'Boolean'>
     readonly createdAt: FieldRef<"BillingSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"BillingSettings", 'DateTime'>
     readonly organisationId: FieldRef<"BillingSettings", 'String'>
@@ -29421,6 +29845,8 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     dueDate: Date | null
     notes: string | null
+    sentAt: Date | null
+    lastReminderAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -29438,6 +29864,8 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus | null
     dueDate: Date | null
     notes: string | null
+    sentAt: Date | null
+    lastReminderAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     organisationId: string | null
@@ -29455,6 +29883,8 @@ export namespace Prisma {
     status: number
     dueDate: number
     notes: number
+    sentAt: number
+    lastReminderAt: number
     createdAt: number
     updatedAt: number
     organisationId: number
@@ -29492,6 +29922,8 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     notes?: true
+    sentAt?: true
+    lastReminderAt?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -29509,6 +29941,8 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     notes?: true
+    sentAt?: true
+    lastReminderAt?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -29526,6 +29960,8 @@ export namespace Prisma {
     status?: true
     dueDate?: true
     notes?: true
+    sentAt?: true
+    lastReminderAt?: true
     createdAt?: true
     updatedAt?: true
     organisationId?: true
@@ -29630,6 +30066,8 @@ export namespace Prisma {
     status: $Enums.InvoiceStatus
     dueDate: Date | null
     notes: string | null
+    sentAt: Date | null
+    lastReminderAt: Date | null
     createdAt: Date
     updatedAt: Date
     organisationId: string
@@ -29666,6 +30104,8 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     notes?: boolean
+    sentAt?: boolean
+    lastReminderAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -29675,6 +30115,8 @@ export namespace Prisma {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     term?: boolean | Invoice$termArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
+    quoteConvertedFrom?: boolean | Invoice$quoteConvertedFromArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -29688,6 +30130,8 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     notes?: boolean
+    sentAt?: boolean
+    lastReminderAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -29708,6 +30152,8 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     notes?: boolean
+    sentAt?: boolean
+    lastReminderAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -29728,6 +30174,8 @@ export namespace Prisma {
     status?: boolean
     dueDate?: boolean
     notes?: boolean
+    sentAt?: boolean
+    lastReminderAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     organisationId?: boolean
@@ -29735,12 +30183,14 @@ export namespace Prisma {
     termId?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "amount" | "discount" | "tax" | "total" | "status" | "dueDate" | "notes" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "termId", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "amount" | "discount" | "tax" | "total" | "status" | "dueDate" | "notes" | "sentAt" | "lastReminderAt" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "termId", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
     term?: boolean | Invoice$termArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
+    quoteConvertedFrom?: boolean | Invoice$quoteConvertedFromArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -29761,6 +30211,8 @@ export namespace Prisma {
       student: Prisma.$StudentPayload<ExtArgs>
       term: Prisma.$TermPayload<ExtArgs> | null
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      lineItems: Prisma.$InvoiceLineItemPayload<ExtArgs>[]
+      quoteConvertedFrom: Prisma.$QuotePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -29772,6 +30224,8 @@ export namespace Prisma {
       status: $Enums.InvoiceStatus
       dueDate: Date | null
       notes: string | null
+      sentAt: Date | null
+      lastReminderAt: Date | null
       createdAt: Date
       updatedAt: Date
       organisationId: string
@@ -30175,6 +30629,8 @@ export namespace Prisma {
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     term<T extends Invoice$termArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$termArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lineItems<T extends Invoice$lineItemsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$lineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quoteConvertedFrom<T extends Invoice$quoteConvertedFromArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$quoteConvertedFromArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -30213,6 +30669,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
     readonly dueDate: FieldRef<"Invoice", 'DateTime'>
     readonly notes: FieldRef<"Invoice", 'String'>
+    readonly sentAt: FieldRef<"Invoice", 'DateTime'>
+    readonly lastReminderAt: FieldRef<"Invoice", 'DateTime'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
     readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
     readonly organisationId: FieldRef<"Invoice", 'String'>
@@ -30657,6 +31115,49 @@ export namespace Prisma {
   }
 
   /**
+   * Invoice.lineItems
+   */
+  export type Invoice$lineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    where?: InvoiceLineItemWhereInput
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    cursor?: InvoiceLineItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice.quoteConvertedFrom
+   */
+  export type Invoice$quoteConvertedFromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+  }
+
+  /**
    * Invoice without action
    */
   export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30672,6 +31173,2466 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: InvoiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InvoiceLineItem
+   */
+
+  export type AggregateInvoiceLineItem = {
+    _count: InvoiceLineItemCountAggregateOutputType | null
+    _avg: InvoiceLineItemAvgAggregateOutputType | null
+    _sum: InvoiceLineItemSumAggregateOutputType | null
+    _min: InvoiceLineItemMinAggregateOutputType | null
+    _max: InvoiceLineItemMaxAggregateOutputType | null
+  }
+
+  export type InvoiceLineItemAvgAggregateOutputType = {
+    quantity: number | null
+    unitPriceCents: number | null
+    amountCents: number | null
+    meetingId: number | null
+  }
+
+  export type InvoiceLineItemSumAggregateOutputType = {
+    quantity: number | null
+    unitPriceCents: number | null
+    amountCents: number | null
+    meetingId: number | null
+  }
+
+  export type InvoiceLineItemMinAggregateOutputType = {
+    id: string | null
+    description: string | null
+    quantity: number | null
+    unitPriceCents: number | null
+    amountCents: number | null
+    meetingId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    invoiceId: string | null
+  }
+
+  export type InvoiceLineItemMaxAggregateOutputType = {
+    id: string | null
+    description: string | null
+    quantity: number | null
+    unitPriceCents: number | null
+    amountCents: number | null
+    meetingId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    invoiceId: string | null
+  }
+
+  export type InvoiceLineItemCountAggregateOutputType = {
+    id: number
+    description: number
+    quantity: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId: number
+    createdAt: number
+    updatedAt: number
+    invoiceId: number
+    _all: number
+  }
+
+
+  export type InvoiceLineItemAvgAggregateInputType = {
+    quantity?: true
+    unitPriceCents?: true
+    amountCents?: true
+    meetingId?: true
+  }
+
+  export type InvoiceLineItemSumAggregateInputType = {
+    quantity?: true
+    unitPriceCents?: true
+    amountCents?: true
+    meetingId?: true
+  }
+
+  export type InvoiceLineItemMinAggregateInputType = {
+    id?: true
+    description?: true
+    quantity?: true
+    unitPriceCents?: true
+    amountCents?: true
+    meetingId?: true
+    createdAt?: true
+    updatedAt?: true
+    invoiceId?: true
+  }
+
+  export type InvoiceLineItemMaxAggregateInputType = {
+    id?: true
+    description?: true
+    quantity?: true
+    unitPriceCents?: true
+    amountCents?: true
+    meetingId?: true
+    createdAt?: true
+    updatedAt?: true
+    invoiceId?: true
+  }
+
+  export type InvoiceLineItemCountAggregateInputType = {
+    id?: true
+    description?: true
+    quantity?: true
+    unitPriceCents?: true
+    amountCents?: true
+    meetingId?: true
+    createdAt?: true
+    updatedAt?: true
+    invoiceId?: true
+    _all?: true
+  }
+
+  export type InvoiceLineItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceLineItem to aggregate.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InvoiceLineItems
+    **/
+    _count?: true | InvoiceLineItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceLineItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceLineItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceLineItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceLineItemMaxAggregateInputType
+  }
+
+  export type GetInvoiceLineItemAggregateType<T extends InvoiceLineItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoiceLineItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoiceLineItem[P]>
+      : GetScalarType<T[P], AggregateInvoiceLineItem[P]>
+  }
+
+
+
+
+  export type InvoiceLineItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceLineItemWhereInput
+    orderBy?: InvoiceLineItemOrderByWithAggregationInput | InvoiceLineItemOrderByWithAggregationInput[]
+    by: InvoiceLineItemScalarFieldEnum[] | InvoiceLineItemScalarFieldEnum
+    having?: InvoiceLineItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceLineItemCountAggregateInputType | true
+    _avg?: InvoiceLineItemAvgAggregateInputType
+    _sum?: InvoiceLineItemSumAggregateInputType
+    _min?: InvoiceLineItemMinAggregateInputType
+    _max?: InvoiceLineItemMaxAggregateInputType
+  }
+
+  export type InvoiceLineItemGroupByOutputType = {
+    id: string
+    description: string
+    quantity: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId: number | null
+    createdAt: Date
+    updatedAt: Date
+    invoiceId: string
+    _count: InvoiceLineItemCountAggregateOutputType | null
+    _avg: InvoiceLineItemAvgAggregateOutputType | null
+    _sum: InvoiceLineItemSumAggregateOutputType | null
+    _min: InvoiceLineItemMinAggregateOutputType | null
+    _max: InvoiceLineItemMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceLineItemGroupByPayload<T extends InvoiceLineItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceLineItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceLineItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceLineItemGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceLineItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceLineItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPriceCents?: boolean
+    amountCents?: boolean
+    meetingId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPriceCents?: boolean
+    amountCents?: boolean
+    meetingId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPriceCents?: boolean
+    amountCents?: boolean
+    meetingId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectScalar = {
+    id?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPriceCents?: boolean
+    amountCents?: boolean
+    meetingId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoiceId?: boolean
+  }
+
+  export type InvoiceLineItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "quantity" | "unitPriceCents" | "amountCents" | "meetingId" | "createdAt" | "updatedAt" | "invoiceId", ExtArgs["result"]["invoiceLineItem"]>
+  export type InvoiceLineItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type InvoiceLineItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type InvoiceLineItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $InvoiceLineItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvoiceLineItem"
+    objects: {
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      description: string
+      quantity: number
+      unitPriceCents: number
+      amountCents: number
+      meetingId: number | null
+      createdAt: Date
+      updatedAt: Date
+      invoiceId: string
+    }, ExtArgs["result"]["invoiceLineItem"]>
+    composites: {}
+  }
+
+  type InvoiceLineItemGetPayload<S extends boolean | null | undefined | InvoiceLineItemDefaultArgs> = $Result.GetResult<Prisma.$InvoiceLineItemPayload, S>
+
+  type InvoiceLineItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceLineItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceLineItemCountAggregateInputType | true
+    }
+
+  export interface InvoiceLineItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvoiceLineItem'], meta: { name: 'InvoiceLineItem' } }
+    /**
+     * Find zero or one InvoiceLineItem that matches the filter.
+     * @param {InvoiceLineItemFindUniqueArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceLineItemFindUniqueArgs>(args: SelectSubset<T, InvoiceLineItemFindUniqueArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InvoiceLineItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceLineItemFindUniqueOrThrowArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceLineItemFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvoiceLineItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindFirstArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceLineItemFindFirstArgs>(args?: SelectSubset<T, InvoiceLineItemFindFirstArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvoiceLineItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindFirstOrThrowArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceLineItemFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceLineItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InvoiceLineItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvoiceLineItems
+     * const invoiceLineItems = await prisma.invoiceLineItem.findMany()
+     * 
+     * // Get first 10 InvoiceLineItems
+     * const invoiceLineItems = await prisma.invoiceLineItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceLineItemFindManyArgs>(args?: SelectSubset<T, InvoiceLineItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InvoiceLineItem.
+     * @param {InvoiceLineItemCreateArgs} args - Arguments to create a InvoiceLineItem.
+     * @example
+     * // Create one InvoiceLineItem
+     * const InvoiceLineItem = await prisma.invoiceLineItem.create({
+     *   data: {
+     *     // ... data to create a InvoiceLineItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceLineItemCreateArgs>(args: SelectSubset<T, InvoiceLineItemCreateArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InvoiceLineItems.
+     * @param {InvoiceLineItemCreateManyArgs} args - Arguments to create many InvoiceLineItems.
+     * @example
+     * // Create many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceLineItemCreateManyArgs>(args?: SelectSubset<T, InvoiceLineItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InvoiceLineItems and returns the data saved in the database.
+     * @param {InvoiceLineItemCreateManyAndReturnArgs} args - Arguments to create many InvoiceLineItems.
+     * @example
+     * // Create many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InvoiceLineItems and only return the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceLineItemCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceLineItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InvoiceLineItem.
+     * @param {InvoiceLineItemDeleteArgs} args - Arguments to delete one InvoiceLineItem.
+     * @example
+     * // Delete one InvoiceLineItem
+     * const InvoiceLineItem = await prisma.invoiceLineItem.delete({
+     *   where: {
+     *     // ... filter to delete one InvoiceLineItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceLineItemDeleteArgs>(args: SelectSubset<T, InvoiceLineItemDeleteArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InvoiceLineItem.
+     * @param {InvoiceLineItemUpdateArgs} args - Arguments to update one InvoiceLineItem.
+     * @example
+     * // Update one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceLineItemUpdateArgs>(args: SelectSubset<T, InvoiceLineItemUpdateArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InvoiceLineItems.
+     * @param {InvoiceLineItemDeleteManyArgs} args - Arguments to filter InvoiceLineItems to delete.
+     * @example
+     * // Delete a few InvoiceLineItems
+     * const { count } = await prisma.invoiceLineItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceLineItemDeleteManyArgs>(args?: SelectSubset<T, InvoiceLineItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceLineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceLineItemUpdateManyArgs>(args: SelectSubset<T, InvoiceLineItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceLineItems and returns the data updated in the database.
+     * @param {InvoiceLineItemUpdateManyAndReturnArgs} args - Arguments to update many InvoiceLineItems.
+     * @example
+     * // Update many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InvoiceLineItems and only return the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvoiceLineItemUpdateManyAndReturnArgs>(args: SelectSubset<T, InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InvoiceLineItem.
+     * @param {InvoiceLineItemUpsertArgs} args - Arguments to update or create a InvoiceLineItem.
+     * @example
+     * // Update or create a InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.upsert({
+     *   create: {
+     *     // ... data to create a InvoiceLineItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InvoiceLineItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceLineItemUpsertArgs>(args: SelectSubset<T, InvoiceLineItemUpsertArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InvoiceLineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemCountArgs} args - Arguments to filter InvoiceLineItems to count.
+     * @example
+     * // Count the number of InvoiceLineItems
+     * const count = await prisma.invoiceLineItem.count({
+     *   where: {
+     *     // ... the filter for the InvoiceLineItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceLineItemCountArgs>(
+      args?: Subset<T, InvoiceLineItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceLineItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InvoiceLineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceLineItemAggregateArgs>(args: Subset<T, InvoiceLineItemAggregateArgs>): Prisma.PrismaPromise<GetInvoiceLineItemAggregateType<T>>
+
+    /**
+     * Group by InvoiceLineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceLineItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceLineItemGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceLineItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceLineItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceLineItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvoiceLineItem model
+   */
+  readonly fields: InvoiceLineItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvoiceLineItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceLineItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InvoiceLineItem model
+   */
+  interface InvoiceLineItemFieldRefs {
+    readonly id: FieldRef<"InvoiceLineItem", 'String'>
+    readonly description: FieldRef<"InvoiceLineItem", 'String'>
+    readonly quantity: FieldRef<"InvoiceLineItem", 'Int'>
+    readonly unitPriceCents: FieldRef<"InvoiceLineItem", 'Int'>
+    readonly amountCents: FieldRef<"InvoiceLineItem", 'Int'>
+    readonly meetingId: FieldRef<"InvoiceLineItem", 'Int'>
+    readonly createdAt: FieldRef<"InvoiceLineItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"InvoiceLineItem", 'DateTime'>
+    readonly invoiceId: FieldRef<"InvoiceLineItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InvoiceLineItem findUnique
+   */
+  export type InvoiceLineItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem findUniqueOrThrow
+   */
+  export type InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem findFirst
+   */
+  export type InvoiceLineItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceLineItems.
+     */
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem findFirstOrThrow
+   */
+  export type InvoiceLineItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceLineItems.
+     */
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem findMany
+   */
+  export type InvoiceLineItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItems to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem create
+   */
+  export type InvoiceLineItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InvoiceLineItem.
+     */
+    data: XOR<InvoiceLineItemCreateInput, InvoiceLineItemUncheckedCreateInput>
+  }
+
+  /**
+   * InvoiceLineItem createMany
+   */
+  export type InvoiceLineItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvoiceLineItems.
+     */
+    data: InvoiceLineItemCreateManyInput | InvoiceLineItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvoiceLineItem createManyAndReturn
+   */
+  export type InvoiceLineItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many InvoiceLineItems.
+     */
+    data: InvoiceLineItemCreateManyInput | InvoiceLineItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceLineItem update
+   */
+  export type InvoiceLineItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InvoiceLineItem.
+     */
+    data: XOR<InvoiceLineItemUpdateInput, InvoiceLineItemUncheckedUpdateInput>
+    /**
+     * Choose, which InvoiceLineItem to update.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem updateMany
+   */
+  export type InvoiceLineItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvoiceLineItems.
+     */
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceLineItems to update
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvoiceLineItem updateManyAndReturn
+   */
+  export type InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * The data used to update InvoiceLineItems.
+     */
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceLineItems to update
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceLineItem upsert
+   */
+  export type InvoiceLineItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InvoiceLineItem to update in case it exists.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+    /**
+     * In case the InvoiceLineItem found by the `where` argument doesn't exist, create a new InvoiceLineItem with this data.
+     */
+    create: XOR<InvoiceLineItemCreateInput, InvoiceLineItemUncheckedCreateInput>
+    /**
+     * In case the InvoiceLineItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceLineItemUpdateInput, InvoiceLineItemUncheckedUpdateInput>
+  }
+
+  /**
+   * InvoiceLineItem delete
+   */
+  export type InvoiceLineItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter which InvoiceLineItem to delete.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem deleteMany
+   */
+  export type InvoiceLineItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceLineItems to delete
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvoiceLineItem without action
+   */
+  export type InvoiceLineItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Quote
+   */
+
+  export type AggregateQuote = {
+    _count: QuoteCountAggregateOutputType | null
+    _avg: QuoteAvgAggregateOutputType | null
+    _sum: QuoteSumAggregateOutputType | null
+    _min: QuoteMinAggregateOutputType | null
+    _max: QuoteMaxAggregateOutputType | null
+  }
+
+  export type QuoteAvgAggregateOutputType = {
+    amount: number | null
+    discount: number | null
+    tax: number | null
+    total: number | null
+    studentId: number | null
+    termId: number | null
+  }
+
+  export type QuoteSumAggregateOutputType = {
+    amount: number | null
+    discount: number | null
+    tax: number | null
+    total: number | null
+    studentId: number | null
+    termId: number | null
+  }
+
+  export type QuoteMinAggregateOutputType = {
+    id: string | null
+    number: string | null
+    amount: number | null
+    discount: number | null
+    tax: number | null
+    total: number | null
+    status: $Enums.QuoteStatus | null
+    dueDate: Date | null
+    notes: string | null
+    convertedToInvoiceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    studentId: number | null
+    termId: number | null
+  }
+
+  export type QuoteMaxAggregateOutputType = {
+    id: string | null
+    number: string | null
+    amount: number | null
+    discount: number | null
+    tax: number | null
+    total: number | null
+    status: $Enums.QuoteStatus | null
+    dueDate: Date | null
+    notes: string | null
+    convertedToInvoiceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    organisationId: string | null
+    studentId: number | null
+    termId: number | null
+  }
+
+  export type QuoteCountAggregateOutputType = {
+    id: number
+    number: number
+    amount: number
+    discount: number
+    tax: number
+    total: number
+    status: number
+    dueDate: number
+    notes: number
+    convertedToInvoiceId: number
+    createdAt: number
+    updatedAt: number
+    organisationId: number
+    studentId: number
+    termId: number
+    _all: number
+  }
+
+
+  export type QuoteAvgAggregateInputType = {
+    amount?: true
+    discount?: true
+    tax?: true
+    total?: true
+    studentId?: true
+    termId?: true
+  }
+
+  export type QuoteSumAggregateInputType = {
+    amount?: true
+    discount?: true
+    tax?: true
+    total?: true
+    studentId?: true
+    termId?: true
+  }
+
+  export type QuoteMinAggregateInputType = {
+    id?: true
+    number?: true
+    amount?: true
+    discount?: true
+    tax?: true
+    total?: true
+    status?: true
+    dueDate?: true
+    notes?: true
+    convertedToInvoiceId?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    termId?: true
+  }
+
+  export type QuoteMaxAggregateInputType = {
+    id?: true
+    number?: true
+    amount?: true
+    discount?: true
+    tax?: true
+    total?: true
+    status?: true
+    dueDate?: true
+    notes?: true
+    convertedToInvoiceId?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    termId?: true
+  }
+
+  export type QuoteCountAggregateInputType = {
+    id?: true
+    number?: true
+    amount?: true
+    discount?: true
+    tax?: true
+    total?: true
+    status?: true
+    dueDate?: true
+    notes?: true
+    convertedToInvoiceId?: true
+    createdAt?: true
+    updatedAt?: true
+    organisationId?: true
+    studentId?: true
+    termId?: true
+    _all?: true
+  }
+
+  export type QuoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quote to aggregate.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Quotes
+    **/
+    _count?: true | QuoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuoteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuoteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuoteMaxAggregateInputType
+  }
+
+  export type GetQuoteAggregateType<T extends QuoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuote[P]>
+      : GetScalarType<T[P], AggregateQuote[P]>
+  }
+
+
+
+
+  export type QuoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithAggregationInput | QuoteOrderByWithAggregationInput[]
+    by: QuoteScalarFieldEnum[] | QuoteScalarFieldEnum
+    having?: QuoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuoteCountAggregateInputType | true
+    _avg?: QuoteAvgAggregateInputType
+    _sum?: QuoteSumAggregateInputType
+    _min?: QuoteMinAggregateInputType
+    _max?: QuoteMaxAggregateInputType
+  }
+
+  export type QuoteGroupByOutputType = {
+    id: string
+    number: string
+    amount: number
+    discount: number
+    tax: number
+    total: number
+    status: $Enums.QuoteStatus
+    dueDate: Date | null
+    notes: string | null
+    convertedToInvoiceId: string | null
+    createdAt: Date
+    updatedAt: Date
+    organisationId: string
+    studentId: number
+    termId: number | null
+    _count: QuoteCountAggregateOutputType | null
+    _avg: QuoteAvgAggregateOutputType | null
+    _sum: QuoteSumAggregateOutputType | null
+    _min: QuoteMinAggregateOutputType | null
+    _max: QuoteMaxAggregateOutputType | null
+  }
+
+  type GetQuoteGroupByPayload<T extends QuoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuoteGroupByOutputType[P]>
+            : GetScalarType<T[P], QuoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    number?: boolean
+    amount?: boolean
+    discount?: boolean
+    tax?: boolean
+    total?: boolean
+    status?: boolean
+    dueDate?: boolean
+    notes?: boolean
+    convertedToInvoiceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    termId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    number?: boolean
+    amount?: boolean
+    discount?: boolean
+    tax?: boolean
+    total?: boolean
+    status?: boolean
+    dueDate?: boolean
+    notes?: boolean
+    convertedToInvoiceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    termId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    number?: boolean
+    amount?: boolean
+    discount?: boolean
+    tax?: boolean
+    total?: boolean
+    status?: boolean
+    dueDate?: boolean
+    notes?: boolean
+    convertedToInvoiceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    termId?: boolean
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectScalar = {
+    id?: boolean
+    number?: boolean
+    amount?: boolean
+    discount?: boolean
+    tax?: boolean
+    total?: boolean
+    status?: boolean
+    dueDate?: boolean
+    notes?: boolean
+    convertedToInvoiceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    organisationId?: boolean
+    studentId?: boolean
+    termId?: boolean
+  }
+
+  export type QuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "amount" | "discount" | "tax" | "total" | "status" | "dueDate" | "notes" | "convertedToInvoiceId" | "createdAt" | "updatedAt" | "organisationId" | "studentId" | "termId", ExtArgs["result"]["quote"]>
+  export type QuoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }
+  export type QuoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }
+  export type QuoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    term?: boolean | Quote$termArgs<ExtArgs>
+    convertedToInvoice?: boolean | Quote$convertedToInvoiceArgs<ExtArgs>
+  }
+
+  export type $QuotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Quote"
+    objects: {
+      organisation: Prisma.$OrganisationPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs>
+      term: Prisma.$TermPayload<ExtArgs> | null
+      convertedToInvoice: Prisma.$InvoicePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      number: string
+      amount: number
+      discount: number
+      tax: number
+      total: number
+      status: $Enums.QuoteStatus
+      dueDate: Date | null
+      notes: string | null
+      convertedToInvoiceId: string | null
+      createdAt: Date
+      updatedAt: Date
+      organisationId: string
+      studentId: number
+      termId: number | null
+    }, ExtArgs["result"]["quote"]>
+    composites: {}
+  }
+
+  type QuoteGetPayload<S extends boolean | null | undefined | QuoteDefaultArgs> = $Result.GetResult<Prisma.$QuotePayload, S>
+
+  type QuoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuoteCountAggregateInputType | true
+    }
+
+  export interface QuoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Quote'], meta: { name: 'Quote' } }
+    /**
+     * Find zero or one Quote that matches the filter.
+     * @param {QuoteFindUniqueArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuoteFindUniqueArgs>(args: SelectSubset<T, QuoteFindUniqueArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Quote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuoteFindUniqueOrThrowArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuoteFindUniqueOrThrowArgs>(args: SelectSubset<T, QuoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindFirstArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuoteFindFirstArgs>(args?: SelectSubset<T, QuoteFindFirstArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindFirstOrThrowArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuoteFindFirstOrThrowArgs>(args?: SelectSubset<T, QuoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Quotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Quotes
+     * const quotes = await prisma.quote.findMany()
+     * 
+     * // Get first 10 Quotes
+     * const quotes = await prisma.quote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quoteWithIdOnly = await prisma.quote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuoteFindManyArgs>(args?: SelectSubset<T, QuoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Quote.
+     * @param {QuoteCreateArgs} args - Arguments to create a Quote.
+     * @example
+     * // Create one Quote
+     * const Quote = await prisma.quote.create({
+     *   data: {
+     *     // ... data to create a Quote
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuoteCreateArgs>(args: SelectSubset<T, QuoteCreateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Quotes.
+     * @param {QuoteCreateManyArgs} args - Arguments to create many Quotes.
+     * @example
+     * // Create many Quotes
+     * const quote = await prisma.quote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuoteCreateManyArgs>(args?: SelectSubset<T, QuoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Quotes and returns the data saved in the database.
+     * @param {QuoteCreateManyAndReturnArgs} args - Arguments to create many Quotes.
+     * @example
+     * // Create many Quotes
+     * const quote = await prisma.quote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Quotes and only return the `id`
+     * const quoteWithIdOnly = await prisma.quote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuoteCreateManyAndReturnArgs>(args?: SelectSubset<T, QuoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Quote.
+     * @param {QuoteDeleteArgs} args - Arguments to delete one Quote.
+     * @example
+     * // Delete one Quote
+     * const Quote = await prisma.quote.delete({
+     *   where: {
+     *     // ... filter to delete one Quote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuoteDeleteArgs>(args: SelectSubset<T, QuoteDeleteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Quote.
+     * @param {QuoteUpdateArgs} args - Arguments to update one Quote.
+     * @example
+     * // Update one Quote
+     * const quote = await prisma.quote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuoteUpdateArgs>(args: SelectSubset<T, QuoteUpdateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Quotes.
+     * @param {QuoteDeleteManyArgs} args - Arguments to filter Quotes to delete.
+     * @example
+     * // Delete a few Quotes
+     * const { count } = await prisma.quote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuoteDeleteManyArgs>(args?: SelectSubset<T, QuoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Quotes
+     * const quote = await prisma.quote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuoteUpdateManyArgs>(args: SelectSubset<T, QuoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quotes and returns the data updated in the database.
+     * @param {QuoteUpdateManyAndReturnArgs} args - Arguments to update many Quotes.
+     * @example
+     * // Update many Quotes
+     * const quote = await prisma.quote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Quotes and only return the `id`
+     * const quoteWithIdOnly = await prisma.quote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuoteUpdateManyAndReturnArgs>(args: SelectSubset<T, QuoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Quote.
+     * @param {QuoteUpsertArgs} args - Arguments to update or create a Quote.
+     * @example
+     * // Update or create a Quote
+     * const quote = await prisma.quote.upsert({
+     *   create: {
+     *     // ... data to create a Quote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Quote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuoteUpsertArgs>(args: SelectSubset<T, QuoteUpsertArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Quotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteCountArgs} args - Arguments to filter Quotes to count.
+     * @example
+     * // Count the number of Quotes
+     * const count = await prisma.quote.count({
+     *   where: {
+     *     // ... the filter for the Quotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuoteCountArgs>(
+      args?: Subset<T, QuoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Quote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuoteAggregateArgs>(args: Subset<T, QuoteAggregateArgs>): Prisma.PrismaPromise<GetQuoteAggregateType<T>>
+
+    /**
+     * Group by Quote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuoteGroupByArgs['orderBy'] }
+        : { orderBy?: QuoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Quote model
+   */
+  readonly fields: QuoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Quote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organisation<T extends OrganisationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganisationDefaultArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    term<T extends Quote$termArgs<ExtArgs> = {}>(args?: Subset<T, Quote$termArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    convertedToInvoice<T extends Quote$convertedToInvoiceArgs<ExtArgs> = {}>(args?: Subset<T, Quote$convertedToInvoiceArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Quote model
+   */
+  interface QuoteFieldRefs {
+    readonly id: FieldRef<"Quote", 'String'>
+    readonly number: FieldRef<"Quote", 'String'>
+    readonly amount: FieldRef<"Quote", 'Int'>
+    readonly discount: FieldRef<"Quote", 'Int'>
+    readonly tax: FieldRef<"Quote", 'Int'>
+    readonly total: FieldRef<"Quote", 'Int'>
+    readonly status: FieldRef<"Quote", 'QuoteStatus'>
+    readonly dueDate: FieldRef<"Quote", 'DateTime'>
+    readonly notes: FieldRef<"Quote", 'String'>
+    readonly convertedToInvoiceId: FieldRef<"Quote", 'String'>
+    readonly createdAt: FieldRef<"Quote", 'DateTime'>
+    readonly updatedAt: FieldRef<"Quote", 'DateTime'>
+    readonly organisationId: FieldRef<"Quote", 'String'>
+    readonly studentId: FieldRef<"Quote", 'Int'>
+    readonly termId: FieldRef<"Quote", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Quote findUnique
+   */
+  export type QuoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote findUniqueOrThrow
+   */
+  export type QuoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote findFirst
+   */
+  export type QuoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quotes.
+     */
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote findFirstOrThrow
+   */
+  export type QuoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quotes.
+     */
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote findMany
+   */
+  export type QuoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quotes to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote create
+   */
+  export type QuoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Quote.
+     */
+    data: XOR<QuoteCreateInput, QuoteUncheckedCreateInput>
+  }
+
+  /**
+   * Quote createMany
+   */
+  export type QuoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Quotes.
+     */
+    data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Quote createManyAndReturn
+   */
+  export type QuoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Quotes.
+     */
+    data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quote update
+   */
+  export type QuoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Quote.
+     */
+    data: XOR<QuoteUpdateInput, QuoteUncheckedUpdateInput>
+    /**
+     * Choose, which Quote to update.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote updateMany
+   */
+  export type QuoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Quotes.
+     */
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which Quotes to update
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quote updateManyAndReturn
+   */
+  export type QuoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * The data used to update Quotes.
+     */
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which Quotes to update
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quote upsert
+   */
+  export type QuoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Quote to update in case it exists.
+     */
+    where: QuoteWhereUniqueInput
+    /**
+     * In case the Quote found by the `where` argument doesn't exist, create a new Quote with this data.
+     */
+    create: XOR<QuoteCreateInput, QuoteUncheckedCreateInput>
+    /**
+     * In case the Quote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuoteUpdateInput, QuoteUncheckedUpdateInput>
+  }
+
+  /**
+   * Quote delete
+   */
+  export type QuoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter which Quote to delete.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote deleteMany
+   */
+  export type QuoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quotes to delete
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quote.term
+   */
+  export type Quote$termArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    where?: TermWhereInput
+  }
+
+  /**
+   * Quote.convertedToInvoice
+   */
+  export type Quote$convertedToInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * Quote without action
+   */
+  export type QuoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
   }
 
 
@@ -32066,9 +35027,14 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
+    meetingLocation: 'meetingLocation',
     startTime: 'startTime',
     endTime: 'endTime',
     isCompleted: 'isCompleted',
+    recurrenceSeriesId: 'recurrenceSeriesId',
+    recurrenceIndex: 'recurrenceIndex',
+    hourlyRateCents: 'hourlyRateCents',
+    totalCents: 'totalCents',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     organisationId: 'organisationId',
@@ -32215,6 +35181,8 @@ export namespace Prisma {
     id: 'id',
     defaultTermRateCents: 'defaultTermRateCents',
     currency: 'currency',
+    taxRatePercent: 'taxRatePercent',
+    taxInclusive: 'taxInclusive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     organisationId: 'organisationId'
@@ -32256,6 +35224,8 @@ export namespace Prisma {
     status: 'status',
     dueDate: 'dueDate',
     notes: 'notes',
+    sentAt: 'sentAt',
+    lastReminderAt: 'lastReminderAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     organisationId: 'organisationId',
@@ -32264,6 +35234,42 @@ export namespace Prisma {
   };
 
   export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+  export const InvoiceLineItemScalarFieldEnum: {
+    id: 'id',
+    description: 'description',
+    quantity: 'quantity',
+    unitPriceCents: 'unitPriceCents',
+    amountCents: 'amountCents',
+    meetingId: 'meetingId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    invoiceId: 'invoiceId'
+  };
+
+  export type InvoiceLineItemScalarFieldEnum = (typeof InvoiceLineItemScalarFieldEnum)[keyof typeof InvoiceLineItemScalarFieldEnum]
+
+
+  export const QuoteScalarFieldEnum: {
+    id: 'id',
+    number: 'number',
+    amount: 'amount',
+    discount: 'discount',
+    tax: 'tax',
+    total: 'total',
+    status: 'status',
+    dueDate: 'dueDate',
+    notes: 'notes',
+    convertedToInvoiceId: 'convertedToInvoiceId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organisationId: 'organisationId',
+    studentId: 'studentId',
+    termId: 'termId'
+  };
+
+  export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
 
 
   export const PaymentScalarFieldEnum: {
@@ -32534,6 +35540,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'QuoteStatus'
+   */
+  export type EnumQuoteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuoteStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuoteStatus[]'
+   */
+  export type ListEnumQuoteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuoteStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PaymentMethod'
    */
   export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
@@ -32581,6 +35601,7 @@ export namespace Prisma {
     keyDates?: KeyDateListRelationFilter
     billingSettings?: XOR<BillingSettingsNullableScalarRelationFilter, BillingSettingsWhereInput> | null
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
   }
 
@@ -32612,6 +35633,7 @@ export namespace Prisma {
     keyDates?: KeyDateOrderByRelationAggregateInput
     billingSettings?: BillingSettingsOrderByWithRelationInput
     invoices?: InvoiceOrderByRelationAggregateInput
+    quotes?: QuoteOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
   }
 
@@ -32646,6 +35668,7 @@ export namespace Prisma {
     keyDates?: KeyDateListRelationFilter
     billingSettings?: XOR<BillingSettingsNullableScalarRelationFilter, BillingSettingsWhereInput> | null
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
   }, "id" | "slug" | "ownerId" | "joinCode">
 
@@ -33169,6 +36192,7 @@ export namespace Prisma {
     assessments?: AssessmentListRelationFilter
     checkIns?: CheckInListRelationFilter
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
     classSessionAttendances?: ClassSessionAttendanceListRelationFilter
@@ -33205,6 +36229,7 @@ export namespace Prisma {
     assessments?: AssessmentOrderByRelationAggregateInput
     checkIns?: CheckInOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
+    quotes?: QuoteOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     discounts?: StudentDiscountOrderByRelationAggregateInput
     classSessionAttendances?: ClassSessionAttendanceOrderByRelationAggregateInput
@@ -33244,6 +36269,7 @@ export namespace Prisma {
     assessments?: AssessmentListRelationFilter
     checkIns?: CheckInListRelationFilter
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
     payments?: PaymentListRelationFilter
     discounts?: StudentDiscountListRelationFilter
     classSessionAttendances?: ClassSessionAttendanceListRelationFilter
@@ -33421,9 +36447,14 @@ export namespace Prisma {
     id?: IntFilter<"Meeting"> | number
     title?: StringFilter<"Meeting"> | string
     description?: StringNullableFilter<"Meeting"> | string | null
+    meetingLocation?: StringNullableFilter<"Meeting"> | string | null
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
+    recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
+    hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
+    totalCents?: IntNullableFilter<"Meeting"> | number | null
     createdAt?: DateTimeFilter<"Meeting"> | Date | string
     updatedAt?: DateTimeFilter<"Meeting"> | Date | string
     organisationId?: StringFilter<"Meeting"> | string
@@ -33439,9 +36470,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
+    meetingLocation?: SortOrderInput | SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    recurrenceSeriesId?: SortOrderInput | SortOrder
+    recurrenceIndex?: SortOrderInput | SortOrder
+    hourlyRateCents?: SortOrderInput | SortOrder
+    totalCents?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -33460,9 +36496,14 @@ export namespace Prisma {
     NOT?: MeetingWhereInput | MeetingWhereInput[]
     title?: StringFilter<"Meeting"> | string
     description?: StringNullableFilter<"Meeting"> | string | null
+    meetingLocation?: StringNullableFilter<"Meeting"> | string | null
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
+    recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
+    hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
+    totalCents?: IntNullableFilter<"Meeting"> | number | null
     createdAt?: DateTimeFilter<"Meeting"> | Date | string
     updatedAt?: DateTimeFilter<"Meeting"> | Date | string
     organisationId?: StringFilter<"Meeting"> | string
@@ -33478,9 +36519,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
+    meetingLocation?: SortOrderInput | SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    recurrenceSeriesId?: SortOrderInput | SortOrder
+    recurrenceIndex?: SortOrderInput | SortOrder
+    hourlyRateCents?: SortOrderInput | SortOrder
+    totalCents?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -33500,9 +36546,14 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Meeting"> | number
     title?: StringWithAggregatesFilter<"Meeting"> | string
     description?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    meetingLocation?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
     startTime?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     isCompleted?: BoolWithAggregatesFilter<"Meeting"> | boolean
+    recurrenceSeriesId?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    recurrenceIndex?: IntNullableWithAggregatesFilter<"Meeting"> | number | null
+    hourlyRateCents?: IntNullableWithAggregatesFilter<"Meeting"> | number | null
+    totalCents?: IntNullableWithAggregatesFilter<"Meeting"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     organisationId?: StringWithAggregatesFilter<"Meeting"> | string
@@ -33526,6 +36577,7 @@ export namespace Prisma {
     organisationId?: StringFilter<"Term"> | string
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
   }
 
   export type TermOrderByWithRelationInput = {
@@ -33541,6 +36593,7 @@ export namespace Prisma {
     organisationId?: SortOrder
     organisation?: OrganisationOrderByWithRelationInput
     invoices?: InvoiceOrderByRelationAggregateInput
+    quotes?: QuoteOrderByRelationAggregateInput
   }
 
   export type TermWhereUniqueInput = Prisma.AtLeast<{
@@ -33559,6 +36612,7 @@ export namespace Prisma {
     organisationId?: StringFilter<"Term"> | string
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
     invoices?: InvoiceListRelationFilter
+    quotes?: QuoteListRelationFilter
   }, "id">
 
   export type TermOrderByWithAggregationInput = {
@@ -34242,6 +37296,8 @@ export namespace Prisma {
     id?: StringFilter<"BillingSettings"> | string
     defaultTermRateCents?: IntFilter<"BillingSettings"> | number
     currency?: StringFilter<"BillingSettings"> | string
+    taxRatePercent?: FloatFilter<"BillingSettings"> | number
+    taxInclusive?: BoolFilter<"BillingSettings"> | boolean
     createdAt?: DateTimeFilter<"BillingSettings"> | Date | string
     updatedAt?: DateTimeFilter<"BillingSettings"> | Date | string
     organisationId?: StringFilter<"BillingSettings"> | string
@@ -34253,6 +37309,8 @@ export namespace Prisma {
     id?: SortOrder
     defaultTermRateCents?: SortOrder
     currency?: SortOrder
+    taxRatePercent?: SortOrder
+    taxInclusive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -34268,6 +37326,8 @@ export namespace Prisma {
     NOT?: BillingSettingsWhereInput | BillingSettingsWhereInput[]
     defaultTermRateCents?: IntFilter<"BillingSettings"> | number
     currency?: StringFilter<"BillingSettings"> | string
+    taxRatePercent?: FloatFilter<"BillingSettings"> | number
+    taxInclusive?: BoolFilter<"BillingSettings"> | boolean
     createdAt?: DateTimeFilter<"BillingSettings"> | Date | string
     updatedAt?: DateTimeFilter<"BillingSettings"> | Date | string
     organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
@@ -34278,6 +37338,8 @@ export namespace Prisma {
     id?: SortOrder
     defaultTermRateCents?: SortOrder
     currency?: SortOrder
+    taxRatePercent?: SortOrder
+    taxInclusive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -34295,6 +37357,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"BillingSettings"> | string
     defaultTermRateCents?: IntWithAggregatesFilter<"BillingSettings"> | number
     currency?: StringWithAggregatesFilter<"BillingSettings"> | string
+    taxRatePercent?: FloatWithAggregatesFilter<"BillingSettings"> | number
+    taxInclusive?: BoolWithAggregatesFilter<"BillingSettings"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"BillingSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BillingSettings"> | Date | string
     organisationId?: StringWithAggregatesFilter<"BillingSettings"> | string
@@ -34439,6 +37503,8 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     notes?: StringNullableFilter<"Invoice"> | string | null
+    sentAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    lastReminderAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
     organisationId?: StringFilter<"Invoice"> | string
@@ -34448,6 +37514,8 @@ export namespace Prisma {
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     term?: XOR<TermNullableScalarRelationFilter, TermWhereInput> | null
     payments?: PaymentListRelationFilter
+    lineItems?: InvoiceLineItemListRelationFilter
+    quoteConvertedFrom?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
   }
 
   export type InvoiceOrderByWithRelationInput = {
@@ -34460,6 +37528,8 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    lastReminderAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -34469,6 +37539,8 @@ export namespace Prisma {
     student?: StudentOrderByWithRelationInput
     term?: TermOrderByWithRelationInput
     payments?: PaymentOrderByRelationAggregateInput
+    lineItems?: InvoiceLineItemOrderByRelationAggregateInput
+    quoteConvertedFrom?: QuoteOrderByWithRelationInput
   }
 
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -34485,6 +37557,8 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     notes?: StringNullableFilter<"Invoice"> | string | null
+    sentAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    lastReminderAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
     organisationId?: StringFilter<"Invoice"> | string
@@ -34494,6 +37568,8 @@ export namespace Prisma {
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     term?: XOR<TermNullableScalarRelationFilter, TermWhereInput> | null
     payments?: PaymentListRelationFilter
+    lineItems?: InvoiceLineItemListRelationFilter
+    quoteConvertedFrom?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
   }, "id" | "organisationId_number">
 
   export type InvoiceOrderByWithAggregationInput = {
@@ -34506,6 +37582,8 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    lastReminderAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -34531,11 +37609,207 @@ export namespace Prisma {
     status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    sentAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    lastReminderAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     organisationId?: StringWithAggregatesFilter<"Invoice"> | string
     studentId?: IntWithAggregatesFilter<"Invoice"> | number
     termId?: IntNullableWithAggregatesFilter<"Invoice"> | number | null
+  }
+
+  export type InvoiceLineItemWhereInput = {
+    AND?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    OR?: InvoiceLineItemWhereInput[]
+    NOT?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    id?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: IntFilter<"InvoiceLineItem"> | number
+    unitPriceCents?: IntFilter<"InvoiceLineItem"> | number
+    amountCents?: IntFilter<"InvoiceLineItem"> | number
+    meetingId?: IntNullableFilter<"InvoiceLineItem"> | number | null
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type InvoiceLineItemOrderByWithRelationInput = {
+    id?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoiceId?: SortOrder
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type InvoiceLineItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    OR?: InvoiceLineItemWhereInput[]
+    NOT?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: IntFilter<"InvoiceLineItem"> | number
+    unitPriceCents?: IntFilter<"InvoiceLineItem"> | number
+    amountCents?: IntFilter<"InvoiceLineItem"> | number
+    meetingId?: IntNullableFilter<"InvoiceLineItem"> | number | null
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id">
+
+  export type InvoiceLineItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoiceId?: SortOrder
+    _count?: InvoiceLineItemCountOrderByAggregateInput
+    _avg?: InvoiceLineItemAvgOrderByAggregateInput
+    _max?: InvoiceLineItemMaxOrderByAggregateInput
+    _min?: InvoiceLineItemMinOrderByAggregateInput
+    _sum?: InvoiceLineItemSumOrderByAggregateInput
+  }
+
+  export type InvoiceLineItemScalarWhereWithAggregatesInput = {
+    AND?: InvoiceLineItemScalarWhereWithAggregatesInput | InvoiceLineItemScalarWhereWithAggregatesInput[]
+    OR?: InvoiceLineItemScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceLineItemScalarWhereWithAggregatesInput | InvoiceLineItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+    description?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+    quantity?: IntWithAggregatesFilter<"InvoiceLineItem"> | number
+    unitPriceCents?: IntWithAggregatesFilter<"InvoiceLineItem"> | number
+    amountCents?: IntWithAggregatesFilter<"InvoiceLineItem"> | number
+    meetingId?: IntNullableWithAggregatesFilter<"InvoiceLineItem"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InvoiceLineItem"> | Date | string
+    invoiceId?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+  }
+
+  export type QuoteWhereInput = {
+    AND?: QuoteWhereInput | QuoteWhereInput[]
+    OR?: QuoteWhereInput[]
+    NOT?: QuoteWhereInput | QuoteWhereInput[]
+    id?: StringFilter<"Quote"> | string
+    number?: StringFilter<"Quote"> | string
+    amount?: IntFilter<"Quote"> | number
+    discount?: IntFilter<"Quote"> | number
+    tax?: IntFilter<"Quote"> | number
+    total?: IntFilter<"Quote"> | number
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    dueDate?: DateTimeNullableFilter<"Quote"> | Date | string | null
+    notes?: StringNullableFilter<"Quote"> | string | null
+    convertedToInvoiceId?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+    organisationId?: StringFilter<"Quote"> | string
+    studentId?: IntFilter<"Quote"> | number
+    termId?: IntNullableFilter<"Quote"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    term?: XOR<TermNullableScalarRelationFilter, TermWhereInput> | null
+    convertedToInvoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+  }
+
+  export type QuoteOrderByWithRelationInput = {
+    id?: SortOrder
+    number?: SortOrder
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    convertedToInvoiceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrderInput | SortOrder
+    organisation?: OrganisationOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+    term?: TermOrderByWithRelationInput
+    convertedToInvoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type QuoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    convertedToInvoiceId?: string
+    organisationId_number?: QuoteOrganisationIdNumberCompoundUniqueInput
+    AND?: QuoteWhereInput | QuoteWhereInput[]
+    OR?: QuoteWhereInput[]
+    NOT?: QuoteWhereInput | QuoteWhereInput[]
+    number?: StringFilter<"Quote"> | string
+    amount?: IntFilter<"Quote"> | number
+    discount?: IntFilter<"Quote"> | number
+    tax?: IntFilter<"Quote"> | number
+    total?: IntFilter<"Quote"> | number
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    dueDate?: DateTimeNullableFilter<"Quote"> | Date | string | null
+    notes?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+    organisationId?: StringFilter<"Quote"> | string
+    studentId?: IntFilter<"Quote"> | number
+    termId?: IntNullableFilter<"Quote"> | number | null
+    organisation?: XOR<OrganisationScalarRelationFilter, OrganisationWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    term?: XOR<TermNullableScalarRelationFilter, TermWhereInput> | null
+    convertedToInvoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+  }, "id" | "convertedToInvoiceId" | "organisationId_number">
+
+  export type QuoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    number?: SortOrder
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    convertedToInvoiceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrderInput | SortOrder
+    _count?: QuoteCountOrderByAggregateInput
+    _avg?: QuoteAvgOrderByAggregateInput
+    _max?: QuoteMaxOrderByAggregateInput
+    _min?: QuoteMinOrderByAggregateInput
+    _sum?: QuoteSumOrderByAggregateInput
+  }
+
+  export type QuoteScalarWhereWithAggregatesInput = {
+    AND?: QuoteScalarWhereWithAggregatesInput | QuoteScalarWhereWithAggregatesInput[]
+    OR?: QuoteScalarWhereWithAggregatesInput[]
+    NOT?: QuoteScalarWhereWithAggregatesInput | QuoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Quote"> | string
+    number?: StringWithAggregatesFilter<"Quote"> | string
+    amount?: IntWithAggregatesFilter<"Quote"> | number
+    discount?: IntWithAggregatesFilter<"Quote"> | number
+    tax?: IntWithAggregatesFilter<"Quote"> | number
+    total?: IntWithAggregatesFilter<"Quote"> | number
+    status?: EnumQuoteStatusWithAggregatesFilter<"Quote"> | $Enums.QuoteStatus
+    dueDate?: DateTimeNullableWithAggregatesFilter<"Quote"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    convertedToInvoiceId?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+    organisationId?: StringWithAggregatesFilter<"Quote"> | string
+    studentId?: IntWithAggregatesFilter<"Quote"> | number
+    termId?: IntNullableWithAggregatesFilter<"Quote"> | number | null
   }
 
   export type PaymentWhereInput = {
@@ -34666,6 +37940,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -34696,6 +37971,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -34726,6 +38002,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -34756,6 +38033,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -35300,6 +38578,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -35334,6 +38613,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -35367,6 +38647,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -35401,6 +38682,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -35602,9 +38884,14 @@ export namespace Prisma {
   export type MeetingCreateInput = {
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutMeetingsInput
@@ -35617,9 +38904,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -35631,9 +38923,14 @@ export namespace Prisma {
   export type MeetingUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutMeetingsNestedInput
@@ -35646,9 +38943,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -35661,9 +38963,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -35674,9 +38981,14 @@ export namespace Prisma {
   export type MeetingUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -35685,9 +38997,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -35706,6 +39023,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutTermsInput
     invoices?: InvoiceCreateNestedManyWithoutTermInput
+    quotes?: QuoteCreateNestedManyWithoutTermInput
   }
 
   export type TermUncheckedCreateInput = {
@@ -35720,6 +39038,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organisationId: string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutTermInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTermInput
   }
 
   export type TermUpdateInput = {
@@ -35733,6 +39052,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutTermsNestedInput
     invoices?: InvoiceUpdateManyWithoutTermNestedInput
+    quotes?: QuoteUpdateManyWithoutTermNestedInput
   }
 
   export type TermUncheckedUpdateInput = {
@@ -35747,6 +39067,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     invoices?: InvoiceUncheckedUpdateManyWithoutTermNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTermNestedInput
   }
 
   export type TermCreateManyInput = {
@@ -36434,6 +39755,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutBillingSettingsInput
@@ -36444,6 +39767,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -36454,6 +39779,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutBillingSettingsNestedInput
@@ -36464,6 +39791,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -36474,6 +39803,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -36483,6 +39814,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36491,6 +39824,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -36626,12 +39961,16 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutInvoicesInput
     student: StudentCreateNestedOneWithoutInvoicesInput
     term?: TermCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
@@ -36644,12 +39983,16 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
     studentId: number
     termId?: number | null
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
@@ -36662,12 +40005,16 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
     student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
     term?: TermUpdateOneWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
@@ -36680,12 +40027,16 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     termId?: NullableIntFieldUpdateOperationsInput | number | null
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
@@ -36698,6 +40049,8 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -36715,6 +40068,8 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36729,6 +40084,213 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InvoiceLineItemCreateInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoice: InvoiceCreateNestedOneWithoutLineItemsInput
+  }
+
+  export type InvoiceLineItemUncheckedCreateInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoiceId: string
+  }
+
+  export type InvoiceLineItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoice?: InvoiceUpdateOneRequiredWithoutLineItemsNestedInput
+  }
+
+  export type InvoiceLineItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InvoiceLineItemCreateManyInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoiceId: string
+  }
+
+  export type InvoiceLineItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QuoteCreateInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutQuotesInput
+    student: StudentCreateNestedOneWithoutQuotesInput
+    term?: TermCreateNestedOneWithoutQuotesInput
+    convertedToInvoice?: InvoiceCreateNestedOneWithoutQuoteConvertedFromInput
+  }
+
+  export type QuoteUncheckedCreateInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    termId?: number | null
+  }
+
+  export type QuoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutQuotesNestedInput
+    student?: StudentUpdateOneRequiredWithoutQuotesNestedInput
+    term?: TermUpdateOneWithoutQuotesNestedInput
+    convertedToInvoice?: InvoiceUpdateOneWithoutQuoteConvertedFromNestedInput
+  }
+
+  export type QuoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type QuoteCreateManyInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    termId?: number | null
+  }
+
+  export type QuoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -37000,6 +40562,12 @@ export namespace Prisma {
     none?: InvoiceWhereInput
   }
 
+  export type QuoteListRelationFilter = {
+    every?: QuoteWhereInput
+    some?: QuoteWhereInput
+    none?: QuoteWhereInput
+  }
+
   export type PaymentListRelationFilter = {
     every?: PaymentWhereInput
     some?: PaymentWhereInput
@@ -37072,6 +40640,10 @@ export namespace Prisma {
   }
 
   export type InvoiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -37737,9 +41309,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    meetingLocation?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    recurrenceSeriesId?: SortOrder
+    recurrenceIndex?: SortOrder
+    hourlyRateCents?: SortOrder
+    totalCents?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -37749,6 +41326,9 @@ export namespace Prisma {
 
   export type MeetingAvgOrderByAggregateInput = {
     id?: SortOrder
+    recurrenceIndex?: SortOrder
+    hourlyRateCents?: SortOrder
+    totalCents?: SortOrder
     studentId?: SortOrder
   }
 
@@ -37756,9 +41336,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    meetingLocation?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    recurrenceSeriesId?: SortOrder
+    recurrenceIndex?: SortOrder
+    hourlyRateCents?: SortOrder
+    totalCents?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -37770,9 +41355,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    meetingLocation?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    recurrenceSeriesId?: SortOrder
+    recurrenceIndex?: SortOrder
+    hourlyRateCents?: SortOrder
+    totalCents?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -37782,6 +41372,9 @@ export namespace Prisma {
 
   export type MeetingSumOrderByAggregateInput = {
     id?: SortOrder
+    recurrenceIndex?: SortOrder
+    hourlyRateCents?: SortOrder
+    totalCents?: SortOrder
     studentId?: SortOrder
   }
 
@@ -38318,6 +41911,17 @@ export namespace Prisma {
     _max?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type DiscountListRelationFilter = {
     every?: DiscountWhereInput
     some?: DiscountWhereInput
@@ -38332,6 +41936,8 @@ export namespace Prisma {
     id?: SortOrder
     defaultTermRateCents?: SortOrder
     currency?: SortOrder
+    taxRatePercent?: SortOrder
+    taxInclusive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38339,12 +41945,15 @@ export namespace Prisma {
 
   export type BillingSettingsAvgOrderByAggregateInput = {
     defaultTermRateCents?: SortOrder
+    taxRatePercent?: SortOrder
   }
 
   export type BillingSettingsMaxOrderByAggregateInput = {
     id?: SortOrder
     defaultTermRateCents?: SortOrder
     currency?: SortOrder
+    taxRatePercent?: SortOrder
+    taxInclusive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38354,6 +41963,8 @@ export namespace Prisma {
     id?: SortOrder
     defaultTermRateCents?: SortOrder
     currency?: SortOrder
+    taxRatePercent?: SortOrder
+    taxInclusive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38361,16 +41972,10 @@ export namespace Prisma {
 
   export type BillingSettingsSumOrderByAggregateInput = {
     defaultTermRateCents?: SortOrder
+    taxRatePercent?: SortOrder
   }
 
-  export type EnumDiscountTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
-  }
-
-  export type FloatFilter<$PrismaModel = never> = {
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
     notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -38378,7 +41983,19 @@ export namespace Prisma {
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumDiscountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
   }
 
   export type BillingSettingsScalarRelationFilter = {
@@ -38434,22 +42051,6 @@ export namespace Prisma {
     _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
   export type DiscountScalarRelationFilter = {
     is?: DiscountWhereInput
     isNot?: DiscountWhereInput
@@ -38501,6 +42102,21 @@ export namespace Prisma {
     isNot?: TermWhereInput | null
   }
 
+  export type InvoiceLineItemListRelationFilter = {
+    every?: InvoiceLineItemWhereInput
+    some?: InvoiceLineItemWhereInput
+    none?: InvoiceLineItemWhereInput
+  }
+
+  export type QuoteNullableScalarRelationFilter = {
+    is?: QuoteWhereInput | null
+    isNot?: QuoteWhereInput | null
+  }
+
+  export type InvoiceLineItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type InvoiceOrganisationIdNumberCompoundUniqueInput = {
     organisationId: string
     number: string
@@ -38516,6 +42132,8 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     notes?: SortOrder
+    sentAt?: SortOrder
+    lastReminderAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38542,6 +42160,8 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     notes?: SortOrder
+    sentAt?: SortOrder
+    lastReminderAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38559,6 +42179,8 @@ export namespace Prisma {
     status?: SortOrder
     dueDate?: SortOrder
     notes?: SortOrder
+    sentAt?: SortOrder
+    lastReminderAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     organisationId?: SortOrder
@@ -38585,16 +42207,165 @@ export namespace Prisma {
     _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
   }
 
-  export type EnumPaymentMethodFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
+  export type InvoiceScalarRelationFilter = {
+    is?: InvoiceWhereInput
+    isNot?: InvoiceWhereInput
+  }
+
+  export type InvoiceLineItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type InvoiceLineItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrder
+  }
+
+  export type InvoiceLineItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type InvoiceLineItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type InvoiceLineItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPriceCents?: SortOrder
+    amountCents?: SortOrder
+    meetingId?: SortOrder
+  }
+
+  export type EnumQuoteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusFilter<$PrismaModel> | $Enums.QuoteStatus
   }
 
   export type InvoiceNullableScalarRelationFilter = {
     is?: InvoiceWhereInput | null
     isNot?: InvoiceWhereInput | null
+  }
+
+  export type QuoteOrganisationIdNumberCompoundUniqueInput = {
+    organisationId: string
+    number: string
+  }
+
+  export type QuoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    number?: SortOrder
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    notes?: SortOrder
+    convertedToInvoiceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type QuoteAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type QuoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    number?: SortOrder
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    notes?: SortOrder
+    convertedToInvoiceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type QuoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    number?: SortOrder
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    notes?: SortOrder
+    convertedToInvoiceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    organisationId?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type QuoteSumOrderByAggregateInput = {
+    amount?: SortOrder
+    discount?: SortOrder
+    tax?: SortOrder
+    total?: SortOrder
+    studentId?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type EnumQuoteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuoteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuoteStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuoteStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
   }
 
   export type PaymentCountOrderByAggregateInput = {
@@ -38792,6 +42563,13 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type QuoteCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput> | QuoteCreateWithoutOrganisationInput[] | QuoteUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutOrganisationInput | QuoteCreateOrConnectWithoutOrganisationInput[]
+    createMany?: QuoteCreateManyOrganisationInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+  }
+
   export type PaymentCreateNestedManyWithoutOrganisationInput = {
     create?: XOR<PaymentCreateWithoutOrganisationInput, PaymentUncheckedCreateWithoutOrganisationInput> | PaymentCreateWithoutOrganisationInput[] | PaymentUncheckedCreateWithoutOrganisationInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutOrganisationInput | PaymentCreateOrConnectWithoutOrganisationInput[]
@@ -38921,6 +42699,13 @@ export namespace Prisma {
     connectOrCreate?: InvoiceCreateOrConnectWithoutOrganisationInput | InvoiceCreateOrConnectWithoutOrganisationInput[]
     createMany?: InvoiceCreateManyOrganisationInputEnvelope
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedManyWithoutOrganisationInput = {
+    create?: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput> | QuoteCreateWithoutOrganisationInput[] | QuoteUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutOrganisationInput | QuoteCreateOrConnectWithoutOrganisationInput[]
+    createMany?: QuoteCreateManyOrganisationInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
   }
 
   export type PaymentUncheckedCreateNestedManyWithoutOrganisationInput = {
@@ -39200,6 +42985,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type QuoteUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput> | QuoteCreateWithoutOrganisationInput[] | QuoteUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutOrganisationInput | QuoteCreateOrConnectWithoutOrganisationInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutOrganisationInput | QuoteUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: QuoteCreateManyOrganisationInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutOrganisationInput | QuoteUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutOrganisationInput | QuoteUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+  }
+
   export type PaymentUpdateManyWithoutOrganisationNestedInput = {
     create?: XOR<PaymentCreateWithoutOrganisationInput, PaymentUncheckedCreateWithoutOrganisationInput> | PaymentCreateWithoutOrganisationInput[] | PaymentUncheckedCreateWithoutOrganisationInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutOrganisationInput | PaymentCreateOrConnectWithoutOrganisationInput[]
@@ -39456,6 +43255,20 @@ export namespace Prisma {
     update?: InvoiceUpdateWithWhereUniqueWithoutOrganisationInput | InvoiceUpdateWithWhereUniqueWithoutOrganisationInput[]
     updateMany?: InvoiceUpdateManyWithWhereWithoutOrganisationInput | InvoiceUpdateManyWithWhereWithoutOrganisationInput[]
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutOrganisationNestedInput = {
+    create?: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput> | QuoteCreateWithoutOrganisationInput[] | QuoteUncheckedCreateWithoutOrganisationInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutOrganisationInput | QuoteCreateOrConnectWithoutOrganisationInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutOrganisationInput | QuoteUpsertWithWhereUniqueWithoutOrganisationInput[]
+    createMany?: QuoteCreateManyOrganisationInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutOrganisationInput | QuoteUpdateWithWhereUniqueWithoutOrganisationInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutOrganisationInput | QuoteUpdateManyWithWhereWithoutOrganisationInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
   }
 
   export type PaymentUncheckedUpdateManyWithoutOrganisationNestedInput = {
@@ -40122,6 +43935,13 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type QuoteCreateNestedManyWithoutStudentInput = {
+    create?: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput> | QuoteCreateWithoutStudentInput[] | QuoteUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutStudentInput | QuoteCreateOrConnectWithoutStudentInput[]
+    createMany?: QuoteCreateManyStudentInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+  }
+
   export type PaymentCreateNestedManyWithoutStudentInput = {
     create?: XOR<PaymentCreateWithoutStudentInput, PaymentUncheckedCreateWithoutStudentInput> | PaymentCreateWithoutStudentInput[] | PaymentUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutStudentInput | PaymentCreateOrConnectWithoutStudentInput[]
@@ -40176,6 +43996,13 @@ export namespace Prisma {
     connectOrCreate?: InvoiceCreateOrConnectWithoutStudentInput | InvoiceCreateOrConnectWithoutStudentInput[]
     createMany?: InvoiceCreateManyStudentInputEnvelope
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput> | QuoteCreateWithoutStudentInput[] | QuoteUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutStudentInput | QuoteCreateOrConnectWithoutStudentInput[]
+    createMany?: QuoteCreateManyStudentInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
   }
 
   export type PaymentUncheckedCreateNestedManyWithoutStudentInput = {
@@ -40292,6 +44119,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type QuoteUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput> | QuoteCreateWithoutStudentInput[] | QuoteUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutStudentInput | QuoteCreateOrConnectWithoutStudentInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutStudentInput | QuoteUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: QuoteCreateManyStudentInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutStudentInput | QuoteUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutStudentInput | QuoteUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+  }
+
   export type PaymentUpdateManyWithoutStudentNestedInput = {
     create?: XOR<PaymentCreateWithoutStudentInput, PaymentUncheckedCreateWithoutStudentInput> | PaymentCreateWithoutStudentInput[] | PaymentUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutStudentInput | PaymentCreateOrConnectWithoutStudentInput[]
@@ -40402,6 +44243,20 @@ export namespace Prisma {
     update?: InvoiceUpdateWithWhereUniqueWithoutStudentInput | InvoiceUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: InvoiceUpdateManyWithWhereWithoutStudentInput | InvoiceUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput> | QuoteCreateWithoutStudentInput[] | QuoteUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutStudentInput | QuoteCreateOrConnectWithoutStudentInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutStudentInput | QuoteUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: QuoteCreateManyStudentInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutStudentInput | QuoteUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutStudentInput | QuoteUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
   }
 
   export type PaymentUncheckedUpdateManyWithoutStudentNestedInput = {
@@ -40743,11 +44598,25 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type QuoteCreateNestedManyWithoutTermInput = {
+    create?: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput> | QuoteCreateWithoutTermInput[] | QuoteUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutTermInput | QuoteCreateOrConnectWithoutTermInput[]
+    createMany?: QuoteCreateManyTermInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+  }
+
   export type InvoiceUncheckedCreateNestedManyWithoutTermInput = {
     create?: XOR<InvoiceCreateWithoutTermInput, InvoiceUncheckedCreateWithoutTermInput> | InvoiceCreateWithoutTermInput[] | InvoiceUncheckedCreateWithoutTermInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutTermInput | InvoiceCreateOrConnectWithoutTermInput[]
     createMany?: InvoiceCreateManyTermInputEnvelope
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedManyWithoutTermInput = {
+    create?: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput> | QuoteCreateWithoutTermInput[] | QuoteUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutTermInput | QuoteCreateOrConnectWithoutTermInput[]
+    createMany?: QuoteCreateManyTermInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
   }
 
   export type OrganisationUpdateOneRequiredWithoutTermsNestedInput = {
@@ -40772,6 +44641,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type QuoteUpdateManyWithoutTermNestedInput = {
+    create?: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput> | QuoteCreateWithoutTermInput[] | QuoteUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutTermInput | QuoteCreateOrConnectWithoutTermInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutTermInput | QuoteUpsertWithWhereUniqueWithoutTermInput[]
+    createMany?: QuoteCreateManyTermInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutTermInput | QuoteUpdateWithWhereUniqueWithoutTermInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutTermInput | QuoteUpdateManyWithWhereWithoutTermInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+  }
+
   export type InvoiceUncheckedUpdateManyWithoutTermNestedInput = {
     create?: XOR<InvoiceCreateWithoutTermInput, InvoiceUncheckedCreateWithoutTermInput> | InvoiceCreateWithoutTermInput[] | InvoiceUncheckedCreateWithoutTermInput[]
     connectOrCreate?: InvoiceCreateOrConnectWithoutTermInput | InvoiceCreateOrConnectWithoutTermInput[]
@@ -40784,6 +44667,20 @@ export namespace Prisma {
     update?: InvoiceUpdateWithWhereUniqueWithoutTermInput | InvoiceUpdateWithWhereUniqueWithoutTermInput[]
     updateMany?: InvoiceUpdateManyWithWhereWithoutTermInput | InvoiceUpdateManyWithWhereWithoutTermInput[]
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutTermNestedInput = {
+    create?: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput> | QuoteCreateWithoutTermInput[] | QuoteUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutTermInput | QuoteCreateOrConnectWithoutTermInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutTermInput | QuoteUpsertWithWhereUniqueWithoutTermInput[]
+    createMany?: QuoteCreateManyTermInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutTermInput | QuoteUpdateWithWhereUniqueWithoutTermInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutTermInput | QuoteUpdateManyWithWhereWithoutTermInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
   }
 
   export type OrganisationCreateNestedOneWithoutHolidaysInput = {
@@ -41206,6 +45103,14 @@ export namespace Prisma {
     connect?: DiscountWhereUniqueInput | DiscountWhereUniqueInput[]
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type OrganisationUpdateOneRequiredWithoutBillingSettingsNestedInput = {
     create?: XOR<OrganisationCreateWithoutBillingSettingsInput, OrganisationUncheckedCreateWithoutBillingSettingsInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutBillingSettingsInput
@@ -41264,14 +45169,6 @@ export namespace Prisma {
 
   export type EnumDiscountTypeFieldUpdateOperationsInput = {
     set?: $Enums.DiscountType
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type BillingSettingsUpdateOneRequiredWithoutDiscountsNestedInput = {
@@ -41363,11 +45260,37 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type InvoiceLineItemCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+  }
+
+  export type QuoteCreateNestedOneWithoutConvertedToInvoiceInput = {
+    create?: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutConvertedToInvoiceInput
+    connect?: QuoteWhereUniqueInput
+  }
+
   export type PaymentUncheckedCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
     createMany?: PaymentCreateManyInvoiceInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput = {
+    create?: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutConvertedToInvoiceInput
+    connect?: QuoteWhereUniqueInput
   }
 
   export type EnumInvoiceStatusFieldUpdateOperationsInput = {
@@ -41414,6 +45337,30 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type InvoiceLineItemUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+  }
+
+  export type QuoteUpdateOneWithoutConvertedToInvoiceNestedInput = {
+    create?: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutConvertedToInvoiceInput
+    upsert?: QuoteUpsertWithoutConvertedToInvoiceInput
+    disconnect?: QuoteWhereInput | boolean
+    delete?: QuoteWhereInput | boolean
+    connect?: QuoteWhereUniqueInput
+    update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutConvertedToInvoiceInput, QuoteUpdateWithoutConvertedToInvoiceInput>, QuoteUncheckedUpdateWithoutConvertedToInvoiceInput>
+  }
+
   export type PaymentUncheckedUpdateManyWithoutInvoiceNestedInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
@@ -41426,6 +45373,108 @@ export namespace Prisma {
     update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
     updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput = {
+    create?: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutConvertedToInvoiceInput
+    upsert?: QuoteUpsertWithoutConvertedToInvoiceInput
+    disconnect?: QuoteWhereInput | boolean
+    delete?: QuoteWhereInput | boolean
+    connect?: QuoteWhereUniqueInput
+    update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutConvertedToInvoiceInput, QuoteUpdateWithoutConvertedToInvoiceInput>, QuoteUncheckedUpdateWithoutConvertedToInvoiceInput>
+  }
+
+  export type InvoiceCreateNestedOneWithoutLineItemsInput = {
+    create?: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutLineItemsInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutLineItemsNestedInput = {
+    create?: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutLineItemsInput
+    upsert?: InvoiceUpsertWithoutLineItemsInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutLineItemsInput, InvoiceUpdateWithoutLineItemsInput>, InvoiceUncheckedUpdateWithoutLineItemsInput>
+  }
+
+  export type OrganisationCreateNestedOneWithoutQuotesInput = {
+    create?: XOR<OrganisationCreateWithoutQuotesInput, OrganisationUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutQuotesInput
+    connect?: OrganisationWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutQuotesInput = {
+    create?: XOR<StudentCreateWithoutQuotesInput, StudentUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutQuotesInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type TermCreateNestedOneWithoutQuotesInput = {
+    create?: XOR<TermCreateWithoutQuotesInput, TermUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: TermCreateOrConnectWithoutQuotesInput
+    connect?: TermWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedOneWithoutQuoteConvertedFromInput = {
+    create?: XOR<InvoiceCreateWithoutQuoteConvertedFromInput, InvoiceUncheckedCreateWithoutQuoteConvertedFromInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutQuoteConvertedFromInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type EnumQuoteStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QuoteStatus
+  }
+
+  export type OrganisationUpdateOneRequiredWithoutQuotesNestedInput = {
+    create?: XOR<OrganisationCreateWithoutQuotesInput, OrganisationUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: OrganisationCreateOrConnectWithoutQuotesInput
+    upsert?: OrganisationUpsertWithoutQuotesInput
+    connect?: OrganisationWhereUniqueInput
+    update?: XOR<XOR<OrganisationUpdateToOneWithWhereWithoutQuotesInput, OrganisationUpdateWithoutQuotesInput>, OrganisationUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type StudentUpdateOneRequiredWithoutQuotesNestedInput = {
+    create?: XOR<StudentCreateWithoutQuotesInput, StudentUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutQuotesInput
+    upsert?: StudentUpsertWithoutQuotesInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutQuotesInput, StudentUpdateWithoutQuotesInput>, StudentUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type TermUpdateOneWithoutQuotesNestedInput = {
+    create?: XOR<TermCreateWithoutQuotesInput, TermUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: TermCreateOrConnectWithoutQuotesInput
+    upsert?: TermUpsertWithoutQuotesInput
+    disconnect?: TermWhereInput | boolean
+    delete?: TermWhereInput | boolean
+    connect?: TermWhereUniqueInput
+    update?: XOR<XOR<TermUpdateToOneWithWhereWithoutQuotesInput, TermUpdateWithoutQuotesInput>, TermUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type InvoiceUpdateOneWithoutQuoteConvertedFromNestedInput = {
+    create?: XOR<InvoiceCreateWithoutQuoteConvertedFromInput, InvoiceUncheckedCreateWithoutQuoteConvertedFromInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutQuoteConvertedFromInput
+    upsert?: InvoiceUpsertWithoutQuoteConvertedFromInput
+    disconnect?: InvoiceWhereInput | boolean
+    delete?: InvoiceWhereInput | boolean
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutQuoteConvertedFromInput, InvoiceUpdateWithoutQuoteConvertedFromInput>, InvoiceUncheckedUpdateWithoutQuoteConvertedFromInput>
   }
 
   export type OrganisationCreateNestedOneWithoutPaymentsInput = {
@@ -41849,6 +45898,22 @@ export namespace Prisma {
     _max?: NestedEnumCheckInRecurrenceFilter<$PrismaModel>
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
     in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
@@ -41866,22 +45931,6 @@ export namespace Prisma {
     _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
   export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
     in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
@@ -41897,6 +45946,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
     _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQuoteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusFilter<$PrismaModel> | $Enums.QuoteStatus
+  }
+
+  export type NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuoteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuoteStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuoteStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumPaymentMethodFilter<$PrismaModel = never> = {
@@ -42130,6 +46196,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -42163,6 +46230,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -42227,9 +46295,14 @@ export namespace Prisma {
   export type MeetingCreateWithoutOrganisationInput = {
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutMeetingsCreatedInput
@@ -42241,9 +46314,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -42333,6 +46411,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: InvoiceCreateNestedManyWithoutTermInput
+    quotes?: QuoteCreateNestedManyWithoutTermInput
   }
 
   export type TermUncheckedCreateWithoutOrganisationInput = {
@@ -42346,6 +46425,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: InvoiceUncheckedCreateNestedManyWithoutTermInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTermInput
   }
 
   export type TermCreateOrConnectWithoutOrganisationInput = {
@@ -42547,6 +46627,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     discounts?: DiscountCreateNestedManyWithoutBillingSettingsInput
@@ -42556,6 +46638,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     discounts?: DiscountUncheckedCreateNestedManyWithoutBillingSettingsInput
@@ -42576,11 +46660,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutInvoicesInput
     term?: TermCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutOrganisationInput = {
@@ -42593,11 +46681,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     studentId: number
     termId?: number | null
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutOrganisationInput = {
@@ -42607,6 +46699,50 @@ export namespace Prisma {
 
   export type InvoiceCreateManyOrganisationInputEnvelope = {
     data: InvoiceCreateManyOrganisationInput | InvoiceCreateManyOrganisationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutOrganisationInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: StudentCreateNestedOneWithoutQuotesInput
+    term?: TermCreateNestedOneWithoutQuotesInput
+    convertedToInvoice?: InvoiceCreateNestedOneWithoutQuoteConvertedFromInput
+  }
+
+  export type QuoteUncheckedCreateWithoutOrganisationInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId: number
+    termId?: number | null
+  }
+
+  export type QuoteCreateOrConnectWithoutOrganisationInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type QuoteCreateManyOrganisationInputEnvelope = {
+    data: QuoteCreateManyOrganisationInput | QuoteCreateManyOrganisationInput[]
     skipDuplicates?: boolean
   }
 
@@ -42952,9 +47088,14 @@ export namespace Prisma {
     id?: IntFilter<"Meeting"> | number
     title?: StringFilter<"Meeting"> | string
     description?: StringNullableFilter<"Meeting"> | string | null
+    meetingLocation?: StringNullableFilter<"Meeting"> | string | null
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
+    recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
+    hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
+    totalCents?: IntNullableFilter<"Meeting"> | number | null
     createdAt?: DateTimeFilter<"Meeting"> | Date | string
     updatedAt?: DateTimeFilter<"Meeting"> | Date | string
     organisationId?: StringFilter<"Meeting"> | string
@@ -43237,6 +47378,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     discounts?: DiscountUpdateManyWithoutBillingSettingsNestedInput
@@ -43246,6 +47389,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     discounts?: DiscountUncheckedUpdateManyWithoutBillingSettingsNestedInput
@@ -43280,11 +47425,50 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
     dueDate?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     notes?: StringNullableFilter<"Invoice"> | string | null
+    sentAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    lastReminderAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
     organisationId?: StringFilter<"Invoice"> | string
     studentId?: IntFilter<"Invoice"> | number
     termId?: IntNullableFilter<"Invoice"> | number | null
+  }
+
+  export type QuoteUpsertWithWhereUniqueWithoutOrganisationInput = {
+    where: QuoteWhereUniqueInput
+    update: XOR<QuoteUpdateWithoutOrganisationInput, QuoteUncheckedUpdateWithoutOrganisationInput>
+    create: XOR<QuoteCreateWithoutOrganisationInput, QuoteUncheckedCreateWithoutOrganisationInput>
+  }
+
+  export type QuoteUpdateWithWhereUniqueWithoutOrganisationInput = {
+    where: QuoteWhereUniqueInput
+    data: XOR<QuoteUpdateWithoutOrganisationInput, QuoteUncheckedUpdateWithoutOrganisationInput>
+  }
+
+  export type QuoteUpdateManyWithWhereWithoutOrganisationInput = {
+    where: QuoteScalarWhereInput
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyWithoutOrganisationInput>
+  }
+
+  export type QuoteScalarWhereInput = {
+    AND?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+    OR?: QuoteScalarWhereInput[]
+    NOT?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+    id?: StringFilter<"Quote"> | string
+    number?: StringFilter<"Quote"> | string
+    amount?: IntFilter<"Quote"> | number
+    discount?: IntFilter<"Quote"> | number
+    tax?: IntFilter<"Quote"> | number
+    total?: IntFilter<"Quote"> | number
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    dueDate?: DateTimeNullableFilter<"Quote"> | Date | string | null
+    notes?: StringNullableFilter<"Quote"> | string | null
+    convertedToInvoiceId?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+    organisationId?: StringFilter<"Quote"> | string
+    studentId?: IntFilter<"Quote"> | number
+    termId?: IntNullableFilter<"Quote"> | number | null
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutOrganisationInput = {
@@ -43392,6 +47576,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -43421,6 +47606,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -43517,6 +47703,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -43546,6 +47733,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -43575,6 +47763,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -43604,6 +47793,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -43694,6 +47884,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -43723,6 +47914,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -43848,6 +48040,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -43877,6 +48070,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44018,6 +48212,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44047,6 +48242,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44127,6 +48323,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44156,6 +48353,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44315,9 +48513,14 @@ export namespace Prisma {
   export type MeetingCreateWithoutCreatedByInput = {
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutMeetingsInput
@@ -44329,9 +48532,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -44537,6 +48745,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44566,6 +48775,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44755,6 +48965,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44784,6 +48995,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44829,6 +49041,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44858,6 +49071,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -44932,6 +49146,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -44961,6 +49176,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -45057,6 +49273,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -45086,6 +49303,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -45115,6 +49333,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -45144,6 +49363,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -45195,9 +49415,14 @@ export namespace Prisma {
   export type MeetingCreateWithoutStudentInput = {
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutMeetingsInput
@@ -45209,9 +49434,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -45317,11 +49547,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutInvoicesInput
     term?: TermCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutStudentInput = {
@@ -45334,11 +49568,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
     termId?: number | null
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutStudentInput = {
@@ -45348,6 +49586,50 @@ export namespace Prisma {
 
   export type InvoiceCreateManyStudentInputEnvelope = {
     data: InvoiceCreateManyStudentInput | InvoiceCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutStudentInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutQuotesInput
+    term?: TermCreateNestedOneWithoutQuotesInput
+    convertedToInvoice?: InvoiceCreateNestedOneWithoutQuoteConvertedFromInput
+  }
+
+  export type QuoteUncheckedCreateWithoutStudentInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    termId?: number | null
+  }
+
+  export type QuoteCreateOrConnectWithoutStudentInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput>
+  }
+
+  export type QuoteCreateManyStudentInputEnvelope = {
+    data: QuoteCreateManyStudentInput | QuoteCreateManyStudentInput[]
     skipDuplicates?: boolean
   }
 
@@ -45513,6 +49795,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -45542,6 +49825,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -45655,6 +49939,22 @@ export namespace Prisma {
     data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutStudentInput>
   }
 
+  export type QuoteUpsertWithWhereUniqueWithoutStudentInput = {
+    where: QuoteWhereUniqueInput
+    update: XOR<QuoteUpdateWithoutStudentInput, QuoteUncheckedUpdateWithoutStudentInput>
+    create: XOR<QuoteCreateWithoutStudentInput, QuoteUncheckedCreateWithoutStudentInput>
+  }
+
+  export type QuoteUpdateWithWhereUniqueWithoutStudentInput = {
+    where: QuoteWhereUniqueInput
+    data: XOR<QuoteUpdateWithoutStudentInput, QuoteUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type QuoteUpdateManyWithWhereWithoutStudentInput = {
+    where: QuoteScalarWhereInput
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyWithoutStudentInput>
+  }
+
   export type PaymentUpsertWithWhereUniqueWithoutStudentInput = {
     where: PaymentWhereUniqueInput
     update: XOR<PaymentUpdateWithoutStudentInput, PaymentUncheckedUpdateWithoutStudentInput>
@@ -45755,6 +50055,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -45784,6 +50085,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -45818,6 +50120,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -45851,6 +50154,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -46015,6 +50319,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46044,6 +50349,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46137,6 +50443,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46166,6 +50473,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46245,6 +50553,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -46278,6 +50587,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -46368,6 +50678,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46397,6 +50708,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46488,6 +50800,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -46521,6 +50834,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -46569,6 +50883,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46598,6 +50913,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46616,11 +50932,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutInvoicesInput
     student: StudentCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutTermInput = {
@@ -46633,11 +50953,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
     studentId: number
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutTermInput = {
@@ -46647,6 +50971,50 @@ export namespace Prisma {
 
   export type InvoiceCreateManyTermInputEnvelope = {
     data: InvoiceCreateManyTermInput | InvoiceCreateManyTermInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutTermInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutQuotesInput
+    student: StudentCreateNestedOneWithoutQuotesInput
+    convertedToInvoice?: InvoiceCreateNestedOneWithoutQuoteConvertedFromInput
+  }
+
+  export type QuoteUncheckedCreateWithoutTermInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+  }
+
+  export type QuoteCreateOrConnectWithoutTermInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput>
+  }
+
+  export type QuoteCreateManyTermInputEnvelope = {
+    data: QuoteCreateManyTermInput | QuoteCreateManyTermInput[]
     skipDuplicates?: boolean
   }
 
@@ -46687,6 +51055,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46716,6 +51085,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46733,6 +51103,22 @@ export namespace Prisma {
   export type InvoiceUpdateManyWithWhereWithoutTermInput = {
     where: InvoiceScalarWhereInput
     data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutTermInput>
+  }
+
+  export type QuoteUpsertWithWhereUniqueWithoutTermInput = {
+    where: QuoteWhereUniqueInput
+    update: XOR<QuoteUpdateWithoutTermInput, QuoteUncheckedUpdateWithoutTermInput>
+    create: XOR<QuoteCreateWithoutTermInput, QuoteUncheckedCreateWithoutTermInput>
+  }
+
+  export type QuoteUpdateWithWhereUniqueWithoutTermInput = {
+    where: QuoteWhereUniqueInput
+    data: XOR<QuoteUpdateWithoutTermInput, QuoteUncheckedUpdateWithoutTermInput>
+  }
+
+  export type QuoteUpdateManyWithWhereWithoutTermInput = {
+    where: QuoteScalarWhereInput
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyWithoutTermInput>
   }
 
   export type OrganisationCreateWithoutHolidaysInput = {
@@ -46761,6 +51147,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46790,6 +51177,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46835,6 +51223,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46864,6 +51253,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -46893,6 +51283,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -46922,6 +51313,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47007,6 +51399,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47036,6 +51429,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47111,6 +51505,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47140,6 +51535,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47174,6 +51570,7 @@ export namespace Prisma {
     meetings?: MeetingCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -47207,6 +51604,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -47221,9 +51619,14 @@ export namespace Prisma {
   export type MeetingCreateWithoutAssessmentsInput = {
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutMeetingsInput
@@ -47235,9 +51638,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -47332,6 +51740,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47361,6 +51770,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47401,6 +51811,7 @@ export namespace Prisma {
     meetings?: MeetingUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -47434,6 +51845,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -47454,9 +51866,14 @@ export namespace Prisma {
   export type MeetingUpdateWithoutAssessmentsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutMeetingsNestedInput
@@ -47468,9 +51885,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -47555,6 +51977,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47584,6 +52007,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47741,6 +52165,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47770,6 +52195,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -47912,6 +52338,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -47941,6 +52368,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -48006,6 +52434,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
@@ -48039,6 +52468,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
@@ -48086,6 +52516,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48115,6 +52546,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48192,6 +52624,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
@@ -48225,6 +52658,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
@@ -48256,6 +52690,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -48285,6 +52720,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -48319,6 +52755,7 @@ export namespace Prisma {
     meetings?: MeetingCreateNestedManyWithoutStudentInput
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -48352,6 +52789,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -48478,6 +52916,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48507,6 +52946,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48547,6 +52987,7 @@ export namespace Prisma {
     meetings?: MeetingUpdateManyWithoutStudentNestedInput
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -48580,6 +53021,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -48702,6 +53144,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -48731,6 +53174,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -48766,6 +53210,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -48799,6 +53244,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -48922,6 +53368,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48951,6 +53398,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -48992,6 +53440,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -49025,6 +53474,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -49118,6 +53568,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -49147,6 +53598,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -49222,6 +53674,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -49251,6 +53704,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -49287,6 +53741,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutBillingSettingsInput
@@ -49296,6 +53752,8 @@ export namespace Prisma {
     id?: string
     defaultTermRateCents: number
     currency?: string
+    taxRatePercent?: number
+    taxInclusive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -49343,6 +53801,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutBillingSettingsNestedInput
@@ -49352,6 +53812,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     defaultTermRateCents?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
+    taxRatePercent?: FloatFieldUpdateOperationsInput | number
+    taxInclusive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -49400,6 +53862,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
@@ -49433,6 +53896,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
@@ -49506,6 +53970,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
@@ -49539,6 +54004,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
@@ -49601,6 +54067,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
     payments?: PaymentCreateNestedManyWithoutOrganisationInput
   }
 
@@ -49630,6 +54097,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
@@ -49664,6 +54132,7 @@ export namespace Prisma {
     meetings?: MeetingCreateNestedManyWithoutStudentInput
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
@@ -49697,6 +54166,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -49718,6 +54188,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutTermsInput
+    quotes?: QuoteCreateNestedManyWithoutTermInput
   }
 
   export type TermUncheckedCreateWithoutInvoicesInput = {
@@ -49731,6 +54202,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
+    quotes?: QuoteUncheckedCreateNestedManyWithoutTermInput
   }
 
   export type TermCreateOrConnectWithoutInvoicesInput = {
@@ -49776,6 +54248,77 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvoiceLineItemCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemCreateOrConnectWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemCreateManyInvoiceInputEnvelope = {
+    data: InvoiceLineItemCreateManyInvoiceInput | InvoiceLineItemCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutConvertedToInvoiceInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutQuotesInput
+    student: StudentCreateNestedOneWithoutQuotesInput
+    term?: TermCreateNestedOneWithoutQuotesInput
+  }
+
+  export type QuoteUncheckedCreateWithoutConvertedToInvoiceInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    termId?: number | null
+  }
+
+  export type QuoteCreateOrConnectWithoutConvertedToInvoiceInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+  }
+
   export type OrganisationUpsertWithoutInvoicesInput = {
     update: XOR<OrganisationUpdateWithoutInvoicesInput, OrganisationUncheckedUpdateWithoutInvoicesInput>
     create: XOR<OrganisationCreateWithoutInvoicesInput, OrganisationUncheckedCreateWithoutInvoicesInput>
@@ -49813,6 +54356,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -49842,6 +54386,7 @@ export namespace Prisma {
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
@@ -49882,6 +54427,7 @@ export namespace Prisma {
     meetings?: MeetingUpdateManyWithoutStudentNestedInput
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -49915,6 +54461,7 @@ export namespace Prisma {
     meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -49942,6 +54489,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutTermsNestedInput
+    quotes?: QuoteUpdateManyWithoutTermNestedInput
   }
 
   export type TermUncheckedUpdateWithoutInvoicesInput = {
@@ -49955,6 +54503,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
+    quotes?: QuoteUncheckedUpdateManyWithoutTermNestedInput
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -49971,6 +54520,638 @@ export namespace Prisma {
   export type PaymentUpdateManyWithWhereWithoutInvoiceInput = {
     where: PaymentScalarWhereInput
     data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    update: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    data: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput = {
+    where: InvoiceLineItemScalarWhereInput
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemScalarWhereInput = {
+    AND?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    OR?: InvoiceLineItemScalarWhereInput[]
+    NOT?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    id?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: IntFilter<"InvoiceLineItem"> | number
+    unitPriceCents?: IntFilter<"InvoiceLineItem"> | number
+    amountCents?: IntFilter<"InvoiceLineItem"> | number
+    meetingId?: IntNullableFilter<"InvoiceLineItem"> | number | null
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+  }
+
+  export type QuoteUpsertWithoutConvertedToInvoiceInput = {
+    update: XOR<QuoteUpdateWithoutConvertedToInvoiceInput, QuoteUncheckedUpdateWithoutConvertedToInvoiceInput>
+    create: XOR<QuoteCreateWithoutConvertedToInvoiceInput, QuoteUncheckedCreateWithoutConvertedToInvoiceInput>
+    where?: QuoteWhereInput
+  }
+
+  export type QuoteUpdateToOneWithWhereWithoutConvertedToInvoiceInput = {
+    where?: QuoteWhereInput
+    data: XOR<QuoteUpdateWithoutConvertedToInvoiceInput, QuoteUncheckedUpdateWithoutConvertedToInvoiceInput>
+  }
+
+  export type QuoteUpdateWithoutConvertedToInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutQuotesNestedInput
+    student?: StudentUpdateOneRequiredWithoutQuotesNestedInput
+    term?: TermUpdateOneWithoutQuotesNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutConvertedToInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InvoiceCreateWithoutLineItemsInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.InvoiceStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutInvoicesInput
+    student: StudentCreateNestedOneWithoutInvoicesInput
+    term?: TermCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutLineItemsInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.InvoiceStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    termId?: number | null
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutLineItemsInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+  }
+
+  export type InvoiceUpsertWithoutLineItemsInput = {
+    update: XOR<InvoiceUpdateWithoutLineItemsInput, InvoiceUncheckedUpdateWithoutLineItemsInput>
+    create: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutLineItemsInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutLineItemsInput, InvoiceUncheckedUpdateWithoutLineItemsInput>
+  }
+
+  export type InvoiceUpdateWithoutLineItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
+    student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
+    term?: TermUpdateOneWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutLineItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
+  }
+
+  export type OrganisationCreateWithoutQuotesInput = {
+    id?: string
+    name: string
+    slug: string
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedWorkspaceInput
+    preferences?: OrganisationPreferencesCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestCreateNestedManyWithoutOrganisationInput
+    students?: StudentCreateNestedManyWithoutOrganisationInput
+    classes?: ClassCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutOrganisationInput
+    terms?: TermCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationUncheckedCreateWithoutQuotesInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId?: string | null
+    joinCode?: string | null
+    joinCodeExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    preferences?: OrganisationPreferencesUncheckedCreateNestedOneWithoutOrganisationInput
+    userPreferences?: UserPreferencesUncheckedCreateNestedManyWithoutOrganisationInput
+    members?: OrganisationMemberUncheckedCreateNestedManyWithoutOrganisationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganisationInput
+    joinRequests?: OrganisationJoinRequestUncheckedCreateNestedManyWithoutOrganisationInput
+    students?: StudentUncheckedCreateNestedManyWithoutOrganisationInput
+    classes?: ClassUncheckedCreateNestedManyWithoutOrganisationInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessions?: ClassSessionUncheckedCreateNestedManyWithoutOrganisationInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutOrganisationInput
+    terms?: TermUncheckedCreateNestedManyWithoutOrganisationInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutOrganisationInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutOrganisationInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutOrganisationInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutOrganisationInput
+    keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
+    billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrganisationInput
+  }
+
+  export type OrganisationCreateOrConnectWithoutQuotesInput = {
+    where: OrganisationWhereUniqueInput
+    create: XOR<OrganisationCreateWithoutQuotesInput, OrganisationUncheckedCreateWithoutQuotesInput>
+  }
+
+  export type StudentCreateWithoutQuotesInput = {
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    customTermRateCents?: number | null
+    organisation: OrganisationCreateNestedOneWithoutStudentsInput
+    class?: ClassCreateNestedOneWithoutStudentsInput
+    meetings?: MeetingCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutQuotesInput = {
+    id?: number
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+    subjects?: string
+    schoolSubjects?: string | null
+    hourlyRateCents: number
+    notes?: string | null
+    isActive?: boolean
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentEmail?: string | null
+    parentName?: string | null
+    parentPhone?: string | null
+    year?: number | null
+    meetingLocation?: string | null
+    resourceLink?: string | null
+    school?: string | null
+    classId?: number | null
+    customTermRateCents?: number | null
+    organisationId: string
+    meetings?: MeetingUncheckedCreateNestedManyWithoutStudentInput
+    assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
+    checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
+    checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutQuotesInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutQuotesInput, StudentUncheckedCreateWithoutQuotesInput>
+  }
+
+  export type TermCreateWithoutQuotesInput = {
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    year: number
+    isActive?: boolean
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutTermsInput
+    invoices?: InvoiceCreateNestedManyWithoutTermInput
+  }
+
+  export type TermUncheckedCreateWithoutQuotesInput = {
+    id?: number
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    year: number
+    isActive?: boolean
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTermInput
+  }
+
+  export type TermCreateOrConnectWithoutQuotesInput = {
+    where: TermWhereUniqueInput
+    create: XOR<TermCreateWithoutQuotesInput, TermUncheckedCreateWithoutQuotesInput>
+  }
+
+  export type InvoiceCreateWithoutQuoteConvertedFromInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.InvoiceStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisation: OrganisationCreateNestedOneWithoutInvoicesInput
+    student: StudentCreateNestedOneWithoutInvoicesInput
+    term?: TermCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutQuoteConvertedFromInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.InvoiceStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+    termId?: number | null
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutQuoteConvertedFromInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutQuoteConvertedFromInput, InvoiceUncheckedCreateWithoutQuoteConvertedFromInput>
+  }
+
+  export type OrganisationUpsertWithoutQuotesInput = {
+    update: XOR<OrganisationUpdateWithoutQuotesInput, OrganisationUncheckedUpdateWithoutQuotesInput>
+    create: XOR<OrganisationCreateWithoutQuotesInput, OrganisationUncheckedCreateWithoutQuotesInput>
+    where?: OrganisationWhereInput
+  }
+
+  export type OrganisationUpdateToOneWithWhereWithoutQuotesInput = {
+    where?: OrganisationWhereInput
+    data: XOR<OrganisationUpdateWithoutQuotesInput, OrganisationUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type OrganisationUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedWorkspaceNestedInput
+    preferences?: OrganisationPreferencesUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type OrganisationUncheckedUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCode?: NullableStringFieldUpdateOperationsInput | string | null
+    joinCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preferences?: OrganisationPreferencesUncheckedUpdateOneWithoutOrganisationNestedInput
+    userPreferences?: UserPreferencesUncheckedUpdateManyWithoutOrganisationNestedInput
+    members?: OrganisationMemberUncheckedUpdateManyWithoutOrganisationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganisationNestedInput
+    joinRequests?: OrganisationJoinRequestUncheckedUpdateManyWithoutOrganisationNestedInput
+    students?: StudentUncheckedUpdateManyWithoutOrganisationNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutOrganisationNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessions?: ClassSessionUncheckedUpdateManyWithoutOrganisationNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutOrganisationNestedInput
+    terms?: TermUncheckedUpdateManyWithoutOrganisationNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutOrganisationNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutOrganisationNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutOrganisationNestedInput
+    keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
+    billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrganisationNestedInput
+  }
+
+  export type StudentUpsertWithoutQuotesInput = {
+    update: XOR<StudentUpdateWithoutQuotesInput, StudentUncheckedUpdateWithoutQuotesInput>
+    create: XOR<StudentCreateWithoutQuotesInput, StudentUncheckedCreateWithoutQuotesInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutQuotesInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutQuotesInput, StudentUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type StudentUpdateWithoutQuotesInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisation?: OrganisationUpdateOneRequiredWithoutStudentsNestedInput
+    class?: ClassUpdateOneWithoutStudentsNestedInput
+    meetings?: MeetingUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutQuotesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects?: StringFieldUpdateOperationsInput | string
+    schoolSubjects?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRateCents?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    parentName?: NullableStringFieldUpdateOperationsInput | string | null
+    parentPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    resourceLink?: NullableStringFieldUpdateOperationsInput | string | null
+    school?: NullableStringFieldUpdateOperationsInput | string | null
+    classId?: NullableIntFieldUpdateOperationsInput | number | null
+    customTermRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    organisationId?: StringFieldUpdateOperationsInput | string
+    meetings?: MeetingUncheckedUpdateManyWithoutStudentNestedInput
+    assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
+    checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
+    classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type TermUpsertWithoutQuotesInput = {
+    update: XOR<TermUpdateWithoutQuotesInput, TermUncheckedUpdateWithoutQuotesInput>
+    create: XOR<TermCreateWithoutQuotesInput, TermUncheckedCreateWithoutQuotesInput>
+    where?: TermWhereInput
+  }
+
+  export type TermUpdateToOneWithWhereWithoutQuotesInput = {
+    where?: TermWhereInput
+    data: XOR<TermUpdateWithoutQuotesInput, TermUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type TermUpdateWithoutQuotesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutTermsNestedInput
+    invoices?: InvoiceUpdateManyWithoutTermNestedInput
+  }
+
+  export type TermUncheckedUpdateWithoutQuotesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutTermNestedInput
+  }
+
+  export type InvoiceUpsertWithoutQuoteConvertedFromInput = {
+    update: XOR<InvoiceUpdateWithoutQuoteConvertedFromInput, InvoiceUncheckedUpdateWithoutQuoteConvertedFromInput>
+    create: XOR<InvoiceCreateWithoutQuoteConvertedFromInput, InvoiceUncheckedCreateWithoutQuoteConvertedFromInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutQuoteConvertedFromInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutQuoteConvertedFromInput, InvoiceUncheckedUpdateWithoutQuoteConvertedFromInput>
+  }
+
+  export type InvoiceUpdateWithoutQuoteConvertedFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
+    student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
+    term?: TermUpdateOneWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutQuoteConvertedFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type OrganisationCreateWithoutPaymentsInput = {
@@ -50000,6 +55181,7 @@ export namespace Prisma {
     keyDates?: KeyDateCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteCreateNestedManyWithoutOrganisationInput
   }
 
   export type OrganisationUncheckedCreateWithoutPaymentsInput = {
@@ -50029,6 +55211,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedCreateNestedManyWithoutOrganisationInput
     billingSettings?: BillingSettingsUncheckedCreateNestedOneWithoutOrganisationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganisationInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutOrganisationInput
   }
 
   export type OrganisationCreateOrConnectWithoutPaymentsInput = {
@@ -50063,6 +55246,7 @@ export namespace Prisma {
     assessments?: AssessmentCreateNestedManyWithoutStudentInput
     checkIns?: CheckInCreateNestedManyWithoutStudentInput
     invoices?: InvoiceCreateNestedManyWithoutStudentInput
+    quotes?: QuoteCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleCreateNestedManyWithoutStudentInput
@@ -50096,6 +55280,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedCreateNestedManyWithoutStudentInput
     checkIns?: CheckInUncheckedCreateNestedManyWithoutStudentInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutStudentInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutStudentInput
     discounts?: StudentDiscountUncheckedCreateNestedManyWithoutStudentInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedCreateNestedManyWithoutStudentInput
     checkInRules?: CheckInRuleUncheckedCreateNestedManyWithoutStudentInput
@@ -50116,11 +55301,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisation: OrganisationCreateNestedOneWithoutInvoicesInput
     student: StudentCreateNestedOneWithoutInvoicesInput
     term?: TermCreateNestedOneWithoutInvoicesInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutPaymentsInput = {
@@ -50133,11 +55322,15 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
     studentId: number
     termId?: number | null
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    quoteConvertedFrom?: QuoteUncheckedCreateNestedOneWithoutConvertedToInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutPaymentsInput = {
@@ -50228,6 +55421,7 @@ export namespace Prisma {
     keyDates?: KeyDateUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUpdateManyWithoutOrganisationNestedInput
   }
 
   export type OrganisationUncheckedUpdateWithoutPaymentsInput = {
@@ -50257,6 +55451,7 @@ export namespace Prisma {
     keyDates?: KeyDateUncheckedUpdateManyWithoutOrganisationNestedInput
     billingSettings?: BillingSettingsUncheckedUpdateOneWithoutOrganisationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganisationNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutOrganisationNestedInput
   }
 
   export type StudentUpsertWithoutPaymentsInput = {
@@ -50297,6 +55492,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUpdateManyWithoutStudentNestedInput
@@ -50330,6 +55526,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
     checkInRules?: CheckInRuleUncheckedUpdateManyWithoutStudentNestedInput
@@ -50356,11 +55553,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
     student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
     term?: TermUpdateOneWithoutInvoicesNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
@@ -50373,11 +55574,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     termId?: NullableIntFieldUpdateOperationsInput | number | null
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type UserUpsertWithoutPaymentsRecordedInput = {
@@ -50512,9 +55717,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -50631,6 +55841,25 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId: number
+    termId?: number | null
+  }
+
+  export type QuoteCreateManyOrganisationInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     studentId: number
@@ -50791,6 +56020,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -50824,6 +56054,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -50907,9 +56138,14 @@ export namespace Prisma {
   export type MeetingUpdateWithoutOrganisationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutMeetingsCreatedNestedInput
@@ -50921,9 +56157,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -50935,9 +56176,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -51017,6 +56263,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUpdateManyWithoutTermNestedInput
+    quotes?: QuoteUpdateManyWithoutTermNestedInput
   }
 
   export type TermUncheckedUpdateWithoutOrganisationInput = {
@@ -51030,6 +56277,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: InvoiceUncheckedUpdateManyWithoutTermNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutTermNestedInput
   }
 
   export type TermUncheckedUpdateManyWithoutOrganisationInput = {
@@ -51256,11 +56504,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
     term?: TermUpdateOneWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutOrganisationInput = {
@@ -51273,11 +56525,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentId?: IntFieldUpdateOperationsInput | number
     termId?: NullableIntFieldUpdateOperationsInput | number | null
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutOrganisationInput = {
@@ -51290,6 +56546,59 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type QuoteUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutQuotesNestedInput
+    term?: TermUpdateOneWithoutQuotesNestedInput
+    convertedToInvoice?: InvoiceUpdateOneWithoutQuoteConvertedFromNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutOrganisationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentId?: IntFieldUpdateOperationsInput | number
@@ -51391,9 +56700,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -51605,9 +56919,14 @@ export namespace Prisma {
   export type MeetingUpdateWithoutCreatedByInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutMeetingsNestedInput
@@ -51619,9 +56938,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -51633,9 +56957,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -51812,9 +57141,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    meetingLocation?: string | null
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    recurrenceSeriesId?: string | null
+    recurrenceIndex?: number | null
+    hourlyRateCents?: number | null
+    totalCents?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -51860,6 +57194,25 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    termId?: number | null
+  }
+
+  export type QuoteCreateManyStudentInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -51911,9 +57264,14 @@ export namespace Prisma {
   export type MeetingUpdateWithoutStudentInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutMeetingsNestedInput
@@ -51925,9 +57283,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -51939,9 +57302,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingLocation?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
+    hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
+    totalCents?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -52045,11 +57413,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
     term?: TermUpdateOneWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutStudentInput = {
@@ -52062,11 +57434,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     termId?: NullableIntFieldUpdateOperationsInput | number | null
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutStudentInput = {
@@ -52079,6 +57455,59 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type QuoteUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutQuotesNestedInput
+    term?: TermUpdateOneWithoutQuotesNestedInput
+    convertedToInvoice?: InvoiceUpdateOneWithoutQuoteConvertedFromNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    termId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -52302,6 +57731,7 @@ export namespace Prisma {
     assessments?: AssessmentUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUpdateManyWithoutStudentNestedInput
@@ -52335,6 +57765,7 @@ export namespace Prisma {
     assessments?: AssessmentUncheckedUpdateManyWithoutStudentNestedInput
     checkIns?: CheckInUncheckedUpdateManyWithoutStudentNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutStudentNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     discounts?: StudentDiscountUncheckedUpdateManyWithoutStudentNestedInput
     classSessionAttendances?: ClassSessionAttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -52560,6 +57991,25 @@ export namespace Prisma {
     status?: $Enums.InvoiceStatus
     dueDate?: Date | string | null
     notes?: string | null
+    sentAt?: Date | string | null
+    lastReminderAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organisationId: string
+    studentId: number
+  }
+
+  export type QuoteCreateManyTermInput = {
+    id?: string
+    number: string
+    amount: number
+    discount?: number
+    tax?: number
+    total: number
+    status?: $Enums.QuoteStatus
+    dueDate?: Date | string | null
+    notes?: string | null
+    convertedToInvoiceId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     organisationId: string
@@ -52576,11 +58026,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisation?: OrganisationUpdateOneRequiredWithoutInvoicesNestedInput
     student?: StudentUpdateOneRequiredWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutTermInput = {
@@ -52593,11 +58047,15 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    quoteConvertedFrom?: QuoteUncheckedUpdateOneWithoutConvertedToInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutTermInput = {
@@ -52610,6 +58068,59 @@ export namespace Prisma {
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastReminderAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type QuoteUpdateWithoutTermInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisation?: OrganisationUpdateOneRequiredWithoutQuotesNestedInput
+    student?: StudentUpdateOneRequiredWithoutQuotesNestedInput
+    convertedToInvoice?: InvoiceUpdateOneWithoutQuoteConvertedFromNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutTermInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organisationId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutTermInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
+    tax?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    convertedToInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organisationId?: StringFieldUpdateOperationsInput | string
@@ -52779,6 +58290,17 @@ export namespace Prisma {
     recordedById: string
   }
 
+  export type InvoiceLineItemCreateManyInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPriceCents: number
+    amountCents: number
+    meetingId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type PaymentUpdateWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
@@ -52819,6 +58341,39 @@ export namespace Prisma {
     organisationId?: StringFieldUpdateOperationsInput | string
     studentId?: IntFieldUpdateOperationsInput | number
     recordedById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InvoiceLineItemUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPriceCents?: IntFieldUpdateOperationsInput | number
+    amountCents?: IntFieldUpdateOperationsInput | number
+    meetingId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

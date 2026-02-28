@@ -1,11 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
+import { markOverdueInvoices } from "@/lib/billing";
 import BillingClient from "./BillingClient";
 
 export default async function BillingPage() {
 	const ctx = await requireOrgContext();
 
-	const [invoices, recentPayments, students, terms, settings] = await Promise.all([
+	await markOverdueInvoices(ctx.organisationId);
+
+	const [invoices, recentPayments, quotes, students, terms, settings] = await Promise.all([
 		prisma.invoice.findMany({
 			where: { organisationId: ctx.organisationId },
 			include: {
@@ -28,6 +31,14 @@ export default async function BillingPage() {
 			where: { organisationId: ctx.organisationId, isArchived: false },
 			select: { id: true, firstName: true, lastName: true },
 			orderBy: { firstName: "asc" },
+		}),
+		prisma.quote.findMany({
+			where: { organisationId: ctx.organisationId },
+			include: {
+				student: { select: { id: true, firstName: true, lastName: true } },
+				term: { select: { id: true, name: true, year: true } },
+			},
+			orderBy: { createdAt: "desc" },
 		}),
 		prisma.term.findMany({
 			where: { organisationId: ctx.organisationId },
@@ -76,6 +87,15 @@ export default async function BillingPage() {
 			</div>
 
 			<BillingClient
+				quotes={quotes.map((q) => ({
+					id: q.id,
+					number: q.number,
+					total: q.total,
+					status: q.status,
+					student: q.student,
+					term: q.term,
+					convertedToInvoiceId: q.convertedToInvoiceId,
+				}))}
 				invoices={invoices.map((inv) => ({
 					id: inv.id,
 					number: inv.number,

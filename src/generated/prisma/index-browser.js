@@ -240,9 +240,14 @@ exports.Prisma.MeetingScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  meetingLocation: 'meetingLocation',
   startTime: 'startTime',
   endTime: 'endTime',
   isCompleted: 'isCompleted',
+  recurrenceSeriesId: 'recurrenceSeriesId',
+  recurrenceIndex: 'recurrenceIndex',
+  hourlyRateCents: 'hourlyRateCents',
+  totalCents: 'totalCents',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organisationId: 'organisationId',
@@ -362,6 +367,8 @@ exports.Prisma.BillingSettingsScalarFieldEnum = {
   id: 'id',
   defaultTermRateCents: 'defaultTermRateCents',
   currency: 'currency',
+  taxRatePercent: 'taxRatePercent',
+  taxInclusive: 'taxInclusive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organisationId: 'organisationId'
@@ -394,6 +401,38 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   status: 'status',
   dueDate: 'dueDate',
   notes: 'notes',
+  sentAt: 'sentAt',
+  lastReminderAt: 'lastReminderAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  organisationId: 'organisationId',
+  studentId: 'studentId',
+  termId: 'termId'
+};
+
+exports.Prisma.InvoiceLineItemScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  quantity: 'quantity',
+  unitPriceCents: 'unitPriceCents',
+  amountCents: 'amountCents',
+  meetingId: 'meetingId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  invoiceId: 'invoiceId'
+};
+
+exports.Prisma.QuoteScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  amount: 'amount',
+  discount: 'discount',
+  tax: 'tax',
+  total: 'total',
+  status: 'status',
+  dueDate: 'dueDate',
+  notes: 'notes',
+  convertedToInvoiceId: 'convertedToInvoiceId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   organisationId: 'organisationId',
@@ -500,6 +539,14 @@ exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.QuoteStatus = exports.$Enums.QuoteStatus = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CONVERTED: 'CONVERTED'
+};
+
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
   CASH: 'CASH',
   BANK_TRANSFER: 'BANK_TRANSFER',
@@ -530,6 +577,8 @@ exports.Prisma.ModelName = {
   Discount: 'Discount',
   StudentDiscount: 'StudentDiscount',
   Invoice: 'Invoice',
+  InvoiceLineItem: 'InvoiceLineItem',
+  Quote: 'Quote',
   Payment: 'Payment'
 };
 

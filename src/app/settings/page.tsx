@@ -283,6 +283,31 @@ export default async function SettingsPage() {
 												<option value="NZD">NZD - New Zealand Dollar</option>
 											</select>
 										</label>
+										<label className="block">
+											<div className="text-sm font-medium text-gray-700">
+												Tax / GST rate (%)
+											</div>
+											<input
+												name="taxRatePercent"
+												type="number"
+												step="0.01"
+												min="0"
+												max="100"
+												defaultValue={billingSettings?.taxRatePercent ?? 0}
+												disabled={!canBillingEdit}
+												className="mt-1 w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#584b53] disabled:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+											/>
+										</label>
+										<label className="flex items-center gap-2">
+											<input
+												name="taxInclusive"
+												type="checkbox"
+												defaultChecked={billingSettings?.taxInclusive ?? false}
+												disabled={!canBillingEdit}
+												className="h-4 w-4 rounded border-gray-300 text-[#584b53] focus:ring-[#584b53]"
+											/>
+											<span className="text-sm text-gray-700">Prices include tax (tax-inclusive)</span>
+										</label>
 										{canBillingEdit && (
 											<button
 												type="submit"

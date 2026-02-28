@@ -12,11 +12,13 @@ interface NiceDatePickerProps {
 	initialValue?: string;
 }
 
+const DISPLAY_LOCALE = "en-GB";
+
 function formatDisplayDate(value: string): string {
 	if (!value) return "Select date";
-	const d = new Date(value);
+	const d = new Date(value + "T12:00:00");
 	if (Number.isNaN(d.getTime())) return "Select date";
-	return d.toLocaleDateString(undefined, {
+	return d.toLocaleDateString(DISPLAY_LOCALE, {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
@@ -171,7 +173,7 @@ export default function NiceDatePicker({
 								</svg>
 							</button>
 							<div className="text-sm font-medium text-gray-900">
-								{currentMonth.toLocaleDateString(undefined, {
+								{currentMonth.toLocaleDateString(DISPLAY_LOCALE, {
 									year: "numeric",
 									month: "long",
 								})}

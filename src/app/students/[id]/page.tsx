@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
+import { getLessonDisplayTitle } from "@/utils/teachingPeriods";
 import DeleteIcon from "./DeleteIcon";
 import ArchiveIcon from "./ArchiveIcon";
 import EditIcon from "./EditIcon";
@@ -164,7 +165,9 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 										<div className="text-sm text-blue-800 space-y-2">
 											<div>
 												<div className="text-xs text-blue-600 font-medium">Title</div>
-												<div>{student.meetings[0].title}</div>
+												<div>
+													{getLessonDisplayTitle(student.meetings[0], teachingPeriods.filter((p: { type: string }) => p.type === "term"))}
+												</div>
 											</div>
 											<div>
 												<div className="text-xs text-blue-600 font-medium">Date</div>
@@ -238,29 +241,53 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 						</div>
 					</div>
 
-					{student.parentEmail !== "N/A" && (
-						<div className="bg-white rounded-2xl shadow-sm p-6">
-							<h3 className="text-lg font-medium mb-4">Parent Information</h3>
-							<div className="space-y-4">
-								{student.parentEmail && (
-									<div>
-										<div className="text-sm text-gray-600">Relationship</div>
-										<div className="font-medium">{student.parentEmail}</div>
-									</div>
-								)}
-								<div>
-									<div className="text-sm text-gray-600">Name</div>
-									<div className="font-medium">{student.parentName || "—"}</div>
+					{(() => {
+						const PARENT_DELIMITER = " || ";
+						const names = (student.parentName || "").split(PARENT_DELIMITER).map((s) => s.trim()).filter(Boolean);
+						const relationships = (student.parentEmail || "").split(PARENT_DELIMITER).map((s) => s.trim());
+						const phones = (student.parentPhone || "").split(PARENT_DELIMITER).map((s) => s.trim());
+						const n = Math.max(names.length, relationships.length, phones.length);
+						if (n === 0) return null;
+						const parentList = Array.from({ length: n }, (_, i) => ({
+							relationship: relationships[i] ?? "",
+							name: names[i] ?? "",
+							phone: phones[i] ?? "",
+						}));
+						return (
+							<div className="bg-white rounded-2xl shadow-sm p-6">
+								<h3 className="text-lg font-medium mb-4">Parent Information</h3>
+								<div className="space-y-6">
+									{parentList.map((p, i) => (
+										<div key={i} className={i > 0 ? "pt-4 border-t border-gray-100" : ""}>
+											{parentList.length > 1 && (
+												<div className="text-xs font-medium text-gray-400 mb-2">Parent {i + 1}</div>
+											)}
+											<div className="space-y-4">
+												{p.relationship && (
+													<div>
+														<div className="text-sm text-gray-600">Relationship</div>
+														<div className="font-medium">{p.relationship}</div>
+													</div>
+												)}
+												{(p.name || p.relationship !== "N/A") && (
+													<div>
+														<div className="text-sm text-gray-600">Name</div>
+														<div className="font-medium">{p.name || "—"}</div>
+													</div>
+												)}
+												{p.phone && (
+													<div>
+														<div className="text-sm text-gray-600">Contact</div>
+														<div className="font-medium">{p.phone.replace(/\s*\|\s*/g, ", ")}</div>
+													</div>
+												)}
+											</div>
+										</div>
+									))}
 								</div>
-								{student.parentPhone && (
-									<div>
-										<div className="text-sm text-gray-600">Preferred Contact</div>
-										<div className="font-medium">{student.parentPhone}</div>
-									</div>
-								)}
 							</div>
-						</div>
-					)}
+						);
+					})()}
 
 					<div className="bg-white rounded-2xl shadow-sm p-6">
 						<h3 className="text-lg font-medium mb-4">Academic Information</h3>
@@ -303,7 +330,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 				</div>
 
 				<div className="bg-white rounded-2xl shadow-sm p-6">
-					<h3 className="text-lg font-medium mb-4">Key Dates</h3>
+					<h3 className="text-lg font-medium mb-4">Events</h3>
 					{upcomingKeyDates.length > 0 ? (
 						<ul className="space-y-2 text-sm">
 							{upcomingKeyDates.slice(0, 6).map((kd) => (
@@ -332,7 +359,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 						</ul>
 					) : (
 						<p className="text-sm text-gray-500">
-							No key dates found for this student.
+							No events found for this student.
 						</p>
 					)}
 				</div>

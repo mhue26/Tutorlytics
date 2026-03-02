@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import { redirect } from "next/navigation";
+import { LessonStatus } from "@/generated/prisma";
 
 export async function createMeeting(formData: FormData): Promise<{ meetingIds: number[] } | { error: string }> {
 	const ctx = await requireOrgContext();
@@ -119,7 +120,7 @@ export async function createMeeting(formData: FormData): Promise<{ meetingIds: n
 			startTime: slot.start,
 			endTime: slot.end,
 			isCompleted: false,
-			status: "SCHEDULED",
+			status: LessonStatus.SCHEDULED,
 			createdById,
 			organisationId: ctx.organisationId,
 			studentId: parseInt(studentId),

@@ -198,7 +198,7 @@ export default function StudentsTable({ lessons }: StudentsTableProps) {
 												<StudentAvatar
 													firstName={lesson.studentFirstName}
 													lastName={lesson.studentLastName}
-													studentId={lesson.studentId ?? lesson.id}
+													studentId={Number(lesson.studentId ?? lesson.id)}
 													size={32}
 												/>
 												<div>

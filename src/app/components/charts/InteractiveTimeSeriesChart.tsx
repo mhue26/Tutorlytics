@@ -88,7 +88,7 @@ export default function InteractiveTimeSeriesChart({
 		xAxis: {
 			type: "category",
 			data: xData,
-			boundaryGap: mode === "bar" ? true : ["2%", "6%"],
+			boundaryGap: (mode === "bar" ? true : ["2%", "6%"]) as any,
 			axisTick: { show: false },
 			axisLine: { lineStyle: { color: "#e5e7eb" } },
 			axisLabel: {

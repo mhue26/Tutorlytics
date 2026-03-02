@@ -20,6 +20,10 @@ export default async function NewMeetingPage() {
 		}),
 	]);
 
+	const createMeetingAction = async (formData: FormData) => {
+		await createMeeting(formData);
+	};
+
 	return (
 		<div className="max-w-2xl mx-auto p-6">
 			<div className="mb-6">
@@ -27,7 +31,7 @@ export default async function NewMeetingPage() {
 				<h1 className="text-2xl font-bold text-gray-900 mt-2">Schedule</h1>
 			</div>
 
-			<form action={createMeeting} className="space-y-6">
+			<form action={createMeetingAction} className="space-y-6">
 				<input type="hidden" name="redirect" value="true" />
 				<div>
 					<label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Meeting Title *</label>

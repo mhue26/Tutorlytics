@@ -59,6 +59,10 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 		select: { id: true, firstName: true, lastName: true },
 	});
 
+	const createMeetingAction = async (formData: FormData) => {
+		await createMeeting(formData);
+	};
+
 	return (
 		<CalendarClient
 			meetings={meetings as any}
@@ -68,7 +72,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
 			calendarEvents={events}
 			initialView={params.view ?? "month"}
 			students={students}
-			createMeeting={createMeeting}
+			createMeeting={createMeetingAction}
 			userId={ctx.userId}
 		/>
 	);

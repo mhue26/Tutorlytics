@@ -15,8 +15,15 @@ interface Student {
   lastName: string;
 }
 
-interface Meeting {
-  id: string | number;
+type LessonStatus =
+  | "SCHEDULED"
+  | "IN_PROGRESS"
+  | "CANCELLED"
+  | "NEEDS_REVIEW"
+  | "COMPLETED";
+
+interface CalendarMeeting {
+  id: string;
   title: string;
   description: string | null;
   startTime: Date;
@@ -26,16 +33,9 @@ interface Meeting {
   student: Student;
 }
 
-type LessonStatus =
-  | "SCHEDULED"
-  | "IN_PROGRESS"
-  | "CANCELLED"
-  | "NEEDS_REVIEW"
-  | "COMPLETED";
-
 interface CalendarClientProps {
-  meetings: Meeting[];
-  upcomingMeetings: Meeting[];
+  meetings: CalendarMeeting[];
+  upcomingMeetings: CalendarMeeting[];
   currentYear: number;
   currentMonth: number;
   calendarEvents: CalendarEventDTO[];
@@ -245,7 +245,7 @@ export default function CalendarClient({
     });
   };
 
-  const getEffectiveStatus = (meeting: Meeting): LessonStatus => {
+  const getEffectiveStatus = (meeting: CalendarMeeting): LessonStatus => {
     const persistedStatus = optimisticStatusById[String(meeting.id)] ?? meeting.status ?? "SCHEDULED";
     if (persistedStatus === "IN_PROGRESS") {
       const hasEnded = new Date(meeting.endTime).getTime() < Date.now();
@@ -255,7 +255,7 @@ export default function CalendarClient({
   };
 
   const updateLessonStatus = async (
-    meetingId: string | number,
+    meetingId: string,
     nextStatus: LessonStatus,
     cancelReason?: string
   ) => {

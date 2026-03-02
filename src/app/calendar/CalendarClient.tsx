@@ -52,8 +52,8 @@ export default function CalendarClient({
   currentMonth, 
   calendarEvents,
   initialView = "month",
-  students,
-  createMeeting,
+  students: _students,
+  createMeeting: _createMeeting,
   userId
 }: CalendarClientProps) {
   type CalendarView = "month" | "week" | "fiveday" | "threeday" | "day";
@@ -176,15 +176,6 @@ export default function CalendarClient({
       hour: 'numeric', 
       minute: '2-digit',
       hour12: true 
-    });
-  };
-
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('en-GB', { 
-      weekday: 'long',
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
     });
   };
 

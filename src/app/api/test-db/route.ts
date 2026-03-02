@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
 	try {
-		const result = await prisma.$queryRaw`SELECT 1 as test`;
+		await prisma.$queryRaw`SELECT 1 as test`;
 		const userCount = await prisma.user.count();
 		const orgCount = await prisma.organisation.count();
 		return NextResponse.json({

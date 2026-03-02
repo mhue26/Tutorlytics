@@ -62,7 +62,7 @@ export default function ForgotPasswordForm() {
 			setTimeout(() => {
 				router.push('/signin');
 			}, 2000);
-		} catch (err) {
+		} catch {
 			setError('An error occurred. Please try again.');
 			setLoading(false);
 		}

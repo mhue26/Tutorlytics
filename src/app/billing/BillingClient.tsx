@@ -72,14 +72,13 @@ export default function BillingClient({
 	students,
 	terms,
 	canManage,
-	currency,
+	currency: _currency,
 }: BillingClientProps) {
 	const router = useRouter();
 	const [showGenerate, setShowGenerate] = useState(false);
 	const [showGenerateQuotes, setShowGenerateQuotes] = useState(false);
 	const [showGenerateLessons, setShowGenerateLessons] = useState(false);
 	const [showPayment, setShowPayment] = useState(false);
-	const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [activeTab, setActiveTab] = useState<"invoices" | "payments" | "quotes">("invoices");
 

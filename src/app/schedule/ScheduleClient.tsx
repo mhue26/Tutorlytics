@@ -159,7 +159,7 @@ export default function ScheduleClient({ students, classes, terms, userId, userR
       const title = (formData.get("title") as string) || "";
       const meetingDate = formData.get("meetingDate") as string | null;
       const startTime = formData.get("startTime") as string | null;
-      const endTime = formData.get("endTime") as string | null;
+      const _endTime = formData.get("endTime") as string | null;
       const description = (formData.get("description") as string) || "";
       const studentId = formData.get("studentId") as string | null;
       const classId = formData.get("classId") as string | null;

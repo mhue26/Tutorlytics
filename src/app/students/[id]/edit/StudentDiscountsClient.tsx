@@ -10,10 +10,6 @@ type Discount = {
 	value: number;
 };
 
-type StudentDiscount = {
-	discountId: string;
-};
-
 interface StudentDiscountsClientProps {
 	studentId: number;
 	orgDiscounts: Discount[];

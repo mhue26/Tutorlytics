@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { authOptions } from "@/utils/auth";
 import { getServerSession } from "next-auth";
 import AnimatedText from "./AnimatedText";
@@ -11,17 +9,17 @@ export const metadata = {
 
 export default async function Home() {
 	// #region agent log
-	try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:13',message:'before getServerSession',data:{hasAuthOptions:!!authOptions,hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch(e){}
+	try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:13',message:'before getServerSession',data:{hasAuthOptions:!!authOptions,hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch{}
 	// #endregion
 	let session;
 	try {
 		session = await getServerSession(authOptions);
 		// #region agent log
-		try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:17',message:'getServerSession success',data:{hasSession:!!session,hasUser:!!session?.user},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch(e){}
+		try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:17',message:'getServerSession success',data:{hasSession:!!session,hasUser:!!session?.user},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch{}
 		// #endregion
 	} catch (error) {
 		// #region agent log
-		try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:21',message:'getServerSession error',data:{errorMessage:error instanceof Error?error.message:'unknown',errorName:error instanceof Error?error.name:'unknown',hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch(e){}
+		try{await fetch('http://127.0.0.1:7242/ingest/175c5cc9-0563-48f8-b397-7b7e227ddec8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'page.tsx:21',message:'getServerSession error',data:{errorMessage:error instanceof Error?error.message:'unknown',errorName:error instanceof Error?error.name:'unknown',hasNextAuthSecret:!!process.env.NEXTAUTH_SECRET},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'G'})})}catch{}
 		// #endregion
 		console.error('Session error in page:', error);
 		session = null;

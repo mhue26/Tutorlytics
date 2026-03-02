@@ -71,7 +71,7 @@ function formatLessonTime(isoStr: string) {
 }
 
 export default function StudentsTable({ lessons }: StudentsTableProps) {
-	const [sortField, setSortField] = useState<SortField>("date");
+	const [sortField, _setSortField] = useState<SortField>("date");
 	const [sortDir, setSortDir] = useState<SortDir>("desc");
 
 	const toggleSort = () => {

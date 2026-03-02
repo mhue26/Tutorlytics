@@ -41,7 +41,7 @@ interface ActiveFilter {
   label: string;
 }
 
-export default function LessonBreakdown({ meetings, teachingPeriods, studentName, studentSubjects }: LessonBreakdownProps) {
+export default function LessonBreakdown({ meetings, teachingPeriods, studentName: _studentName, studentSubjects }: LessonBreakdownProps) {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([]);
   const [filterType, setFilterType] = useState<'period' | 'subject' | null>(null);
@@ -199,28 +199,6 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
       avgDuration
     };
   }, [filteredMeetings]);
-
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('en-GB', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
-  const formatTime = (date: Date) => {
-    return new Date(date).toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    });
-  };
-
-  const getDuration = (startTime: Date, endTime: Date) => {
-    const duration = (new Date(endTime).getTime() - new Date(startTime).getTime()) / (1000 * 60 * 60);
-    return `${duration.toFixed(1)}h`;
-  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">

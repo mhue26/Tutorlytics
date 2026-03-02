@@ -67,7 +67,7 @@ export default function ClassesClient({ classes: initialClasses }: ClassesClient
           setColumnWidths(parsed.map((w) => Math.max(MIN_COLUMN_WIDTH, Number(w) || MIN_COLUMN_WIDTH)));
         }
       }
-    } catch (_) {}
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function ClassesClient({ classes: initialClasses }: ClassesClient
         next[resizingIndex] = newW;
         try {
           localStorage.setItem(STORAGE_KEY_COLUMN_WIDTHS, JSON.stringify(next));
-        } catch (_) {}
+        } catch {}
         return next;
       });
     };

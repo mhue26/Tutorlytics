@@ -181,7 +181,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                     if (valid.includes('firstName')) setVisibleColumnIds(valid as ColumnId[]);
                 }
             }
-        } catch (_) {}
+        } catch {}
 
         // Load DB-backed prefs (synced across devices) and apply on top of localStorage.
         let cancelled = false;
@@ -192,7 +192,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                 if (!res.ok) return;
                 if (cancelled) return;
                 applyDbPrefs(data?.studentsTablePrefs);
-            } catch (_) {
+            } catch {
                 // ignore (localStorage fallback remains)
             } finally {
                 if (!cancelled) prefsHydratedRef.current = true;
@@ -206,7 +206,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
     useEffect(() => {
         try {
             localStorage.setItem(STORAGE_KEY_VISIBLE_COLUMNS, JSON.stringify(visibleColumnIds));
-        } catch (_) {}
+        } catch {}
     }, [visibleColumnIds]);
 
     useEffect(() => {
@@ -218,7 +218,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                 return pending.map((w) => Math.max(MIN_COLUMN_WIDTH, w));
             }
             if (prev.length !== visibleColumns.length) return expectedWidths;
-            return prev.map((w, i) => Math.max(MIN_COLUMN_WIDTH, w));
+            return prev.map((w) => Math.max(MIN_COLUMN_WIDTH, w));
         });
     }, [visibleColumnIds.length]);
 
@@ -231,7 +231,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                     setColumnWidths(parsed.map((w) => Math.max(MIN_COLUMN_WIDTH, Number(w) || MIN_COLUMN_WIDTH)));
                 }
             }
-        } catch (_) {}
+        } catch {}
     }, []);
     const [resizingIndex, setResizingIndex] = useState<number | null>(null);
     const [resizeStartX, setResizeStartX] = useState(0);
@@ -247,7 +247,7 @@ export default function StudentsClient({ students, archivedStudents }: { student
                 next[resizingIndex] = newW;
                 try {
                     localStorage.setItem(STORAGE_KEY_COLUMN_WIDTHS, JSON.stringify(next));
-                } catch (_) {}
+                } catch {}
                 return next;
             });
         };
@@ -291,13 +291,13 @@ export default function StudentsClient({ students, archivedStudents }: { student
             } else {
                 localStorage.removeItem(STORAGE_KEY_SORT);
             }
-        } catch (_) {}
+        } catch {}
     }, [sortField, sortDirection]);
 
     useEffect(() => {
         try {
             localStorage.setItem(STORAGE_KEY_FILTERS, JSON.stringify(filters));
-        } catch (_) {}
+        } catch {}
     }, [filters]);
 
     // Debounce-save prefs to DB so they sync across devices.

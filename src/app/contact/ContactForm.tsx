@@ -36,8 +36,6 @@ export default function ContactForm() {
 		setFieldErrors({});
 		setLoading(true);
 		
-		const formData = { name, email, subject, message };
-
 		try {
 			// Simulate form submission - in a real app, you'd send this to your backend
 			await new Promise(resolve => setTimeout(resolve, 1000));
@@ -46,7 +44,7 @@ export default function ContactForm() {
 			setSuccess(true);
 			form.reset();
 			setFieldErrors({});
-		} catch (err) {
+		} catch {
 			setError('Failed to send message. Please try again.');
 		} finally {
 			setLoading(false);

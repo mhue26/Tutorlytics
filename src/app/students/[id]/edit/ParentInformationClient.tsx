@@ -40,7 +40,7 @@ export default function ParentInformationClient({ initialParents }: ParentInform
     setParents(parents.map((p, i) => (i === index ? { ...p, relationship: value } : p)));
   };
 
-  const setRelationshipOther = (index: number, value: string) => {
+  const _setRelationshipOther = (index: number, value: string) => {
     setParents(parents.map((p, i) => (i === index ? { ...p, relationshipOther: value } : p)));
   };
 

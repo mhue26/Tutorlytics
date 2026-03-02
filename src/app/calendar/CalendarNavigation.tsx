@@ -26,7 +26,7 @@ const getStepDays = (view: CalendarNavigationProps["view"]) => {
   }
 };
 
-export default function CalendarNavigation({ view, currentDate, onViewChange, onDateChange, userId }: CalendarNavigationProps) {
+export default function CalendarNavigation({ view, currentDate, onViewChange, onDateChange, userId: _userId }: CalendarNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 

@@ -89,36 +89,6 @@ export default function CalendarGrid({ meetings, currentYear, currentMonth, onDa
     });
   };
 
-  const getWeekInfo = (date: Date) => {
-    const dayTeachingPeriods = getDayTeachingPeriods(date);
-    if (dayTeachingPeriods.length === 0) return null;
-
-    const period = dayTeachingPeriods[0]; // Use the first (primary) period
-    const startDate = new Date(period.startDate);
-    const endDate = new Date(period.endDate);
-    
-    // Normalize dates for accurate calculation
-    const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const normalizedStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const normalizedEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-    
-    // Calculate week number (1-based)
-    const diffTime = normalizedDate.getTime() - normalizedStartDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const currentWeek = Math.max(1, Math.floor(diffDays / 7) + 1);
-    
-    // Calculate total weeks in the period
-    const totalTime = normalizedEndDate.getTime() - normalizedStartDate.getTime();
-    const totalWeeks = Math.ceil(totalTime / (1000 * 60 * 60 * 24 * 7));
-    
-    return {
-      currentWeek,
-      totalWeeks,
-      periodName: period.name,
-      periodType: period.type
-    };
-  };
-
   const handleDateClick = (date: Date) => {
     if (isFormOpen && onDateSelect) {
       onDateSelect(date);

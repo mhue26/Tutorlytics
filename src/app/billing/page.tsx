@@ -27,11 +27,6 @@ export default async function BillingPage() {
 			orderBy: { date: "desc" },
 			take: 10,
 		}),
-		prisma.student.findMany({
-			where: { organisationId: ctx.organisationId, isArchived: false },
-			select: { id: true, firstName: true, lastName: true },
-			orderBy: { firstName: "asc" },
-		}),
 		prisma.quote.findMany({
 			where: { organisationId: ctx.organisationId },
 			include: {
@@ -39,6 +34,11 @@ export default async function BillingPage() {
 				term: { select: { id: true, name: true, year: true } },
 			},
 			orderBy: { createdAt: "desc" },
+		}),
+		prisma.student.findMany({
+			where: { organisationId: ctx.organisationId, isArchived: false },
+			select: { id: true, firstName: true, lastName: true },
+			orderBy: { firstName: "asc" },
 		}),
 		prisma.term.findMany({
 			where: { organisationId: ctx.organisationId },

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
-export async function createMeeting(formData: FormData) {
+export async function createMeeting(formData: FormData): Promise<{ meetingIds: number[] } | { error: string }> {
 	const ctx = await requireOrgContext();
 
 	const title = formData.get("title") as string;
@@ -13,6 +13,8 @@ export async function createMeeting(formData: FormData) {
 	const startTime = formData.get("startTime") as string;
 	const endTime = formData.get("endTime") as string;
 	const description = (formData.get("description") as string) || "";
+	const lessonPlanRaw = (formData.get("lessonPlan") as string | null) ?? "";
+	const lessonPlanInput = lessonPlanRaw.trim();
 	const lessonSubjectsRaw = (formData.get("lessonSubjects") as string | null) ?? "";
 	const lessonSubjects = lessonSubjectsRaw.trim();
 	const combinedDescription =
@@ -20,6 +22,8 @@ export async function createMeeting(formData: FormData) {
 			? `Subjects: ${lessonSubjects}${description ? `\n\n${description}` : ""}`
 			: description || null;
 	const isCompleted = formData.get("isCompleted") === "on";
+	const meetingLocationRaw = (formData.get("location") as string) || (formData.get("meetingLocation") as string) || "";
+	const meetingLocation = meetingLocationRaw.trim() || null;
 	const hourlyRateCentsRaw = formData.get("hourlyRateCents") as string | null;
 	const totalCentsRaw = formData.get("totalCents") as string | null;
 	const hourlyRateCents = hourlyRateCentsRaw ? parseInt(hourlyRateCentsRaw, 10) : null;
@@ -32,13 +36,26 @@ export async function createMeeting(formData: FormData) {
 	const repeatTermId = repeatTermIdRaw ? parseInt(repeatTermIdRaw, 10) : null;
 
 	if (!title || !studentId || !meetingDate || !startTime || !endTime) {
-		throw new Error("All required fields must be filled");
+		return { error: "All required fields must be filled" };
 	}
 
 	const student = await prisma.student.findFirst({
 		where: { id: parseInt(studentId), organisationId: ctx.organisationId },
 	});
-	if (!student) throw new Error("Student not found");
+	if (!student) return { error: "Student not found" };
+
+	const prepSeedMeeting = await prisma.meeting.findFirst({
+		where: {
+			organisationId: ctx.organisationId,
+			studentId: parseInt(studentId),
+			status: "COMPLETED",
+			nextLessonPrep: { not: null },
+		},
+		orderBy: { startTime: "desc" },
+		select: { nextLessonPrep: true },
+	});
+	const fallbackLessonPlan = (prepSeedMeeting?.nextLessonPrep ?? "").trim();
+	const lessonPlan = lessonPlanInput || fallbackLessonPlan || null;
 
 	const baseStartTime = new Date(`${meetingDate}T${startTime}`);
 	const baseEndTime = new Date(`${meetingDate}T${endTime}`);
@@ -83,15 +100,18 @@ export async function createMeeting(formData: FormData) {
 			slots.push({ start: meetingStartTime, end: meetingEndTime });
 		}
 		if (slots.length === 0)
-			throw new Error("No occurrences fall within the selected term. Check the start date and term dates.");
+			return { error: "No occurrences fall within the selected term. Check the start date and term dates." };
 		const total = slots.length;
 		const recurrenceSeriesId = crypto.randomUUID();
 		const meetings = slots.map((slot, i) => ({
 			title: i === 0 ? title : `${title} (${i + 1}/${total})`,
 			description: combinedDescription,
+			meetingLocation,
+			lessonPlan,
 			startTime: slot.start,
 			endTime: slot.end,
 			isCompleted: false,
+			status: "SCHEDULED",
 			createdById: ctx.userId,
 			organisationId: ctx.organisationId,
 			studentId: parseInt(studentId),
@@ -101,22 +121,34 @@ export async function createMeeting(formData: FormData) {
 			...(totalCents != null && { totalCents }),
 		}));
 		await prisma.meeting.createMany({ data: meetings });
-	} else {
-		await prisma.meeting.create({
-			data: {
-				title,
-				description: combinedDescription,
-				startTime: baseStartTime,
-				endTime: baseEndTime,
-				isCompleted,
-				createdById: ctx.userId,
-				organisationId: ctx.organisationId,
-				studentId: parseInt(studentId),
-				...(hourlyRateCents != null && { hourlyRateCents }),
-				...(totalCents != null && { totalCents }),
-			},
+		const created = await prisma.meeting.findMany({
+			where: { recurrenceSeriesId, organisationId: ctx.organisationId },
+			select: { id: true },
+			orderBy: { recurrenceIndex: "asc" },
 		});
+		const result = { meetingIds: created.map((m) => m.id) };
+		if (formData.get("redirect") === "true") redirect("/calendar");
+		return result;
 	}
 
-	redirect("/calendar");
+	const meeting = await prisma.meeting.create({
+		data: {
+			title,
+			description: combinedDescription,
+			meetingLocation,
+			lessonPlan,
+			startTime: baseStartTime,
+			endTime: baseEndTime,
+			isCompleted,
+			status: isCompleted ? "COMPLETED" : "SCHEDULED",
+			createdById: ctx.userId,
+			organisationId: ctx.organisationId,
+			studentId: parseInt(studentId),
+			...(hourlyRateCents != null && { hourlyRateCents }),
+			...(totalCents != null && { totalCents }),
+		},
+	});
+	const result = { meetingIds: [meeting.id] };
+	if (formData.get("redirect") === "true") redirect("/calendar");
+	return result;
 }

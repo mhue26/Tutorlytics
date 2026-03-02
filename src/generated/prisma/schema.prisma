@@ -71,6 +71,14 @@ enum CheckInStatus {
   CANCELLED
 }
 
+enum LessonStatus {
+  SCHEDULED
+  IN_PROGRESS
+  CANCELLED
+  NEEDS_REVIEW
+  COMPLETED
+}
+
 enum AttendanceStatus {
   PRESENT
   ABSENT
@@ -291,19 +299,25 @@ model Class {
 // ─── Meeting ─────────────────────────────────────────────────────────────────
 
 model Meeting {
-  id                 Int      @id @default(autoincrement())
+  id                 Int          @id @default(autoincrement())
   title              String
   description        String?
   meetingLocation    String?
   startTime          DateTime
   endTime            DateTime
-  isCompleted        Boolean  @default(false)
+  isCompleted        Boolean      @default(false)
+  status             LessonStatus @default(SCHEDULED)
+  lessonPlan         String?
+  homework           String?
+  lessonSummary      String?
+  nextLessonPrep     String?
+  cancelReason       String?
   recurrenceSeriesId String?
   recurrenceIndex    Int?
   hourlyRateCents    Int?
   totalCents         Int?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
 
   organisationId String
   createdById    String

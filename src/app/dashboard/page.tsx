@@ -2,162 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth";
-import Link from "next/link";
-
-interface MiniAreaChartPoint {
-	label: string;
-	value: number;
-}
-
-interface MiniAreaChartProps {
-	data: MiniAreaChartPoint[];
-	colorClass?: string;
-	yAxisLabel?: string;
-	valueSuffix?: string;
-	description?: string;
-}
-
-function MiniAreaChart({
-	data,
-	colorClass = "text-teal-400 fill-teal-100",
-	yAxisLabel = "Value",
-	valueSuffix = "",
-	description,
-}: MiniAreaChartProps) {
-	const chartLeft = 36;
-	const chartBottom = 28;
-	const chartTop = 12;
-	const chartRight = 18;
-	const chartWidth = 220 - chartLeft - chartRight;
-	const chartHeight = 100 - chartTop - chartBottom;
-	const width = 220;
-	const height = 100;
-
-	const maxValue = data.length ? Math.max(...data.map((d) => d.value)) : 0;
-	const minValue = 0;
-	const range = maxValue - minValue || 1;
-
-	const stepX = data.length > 1 ? chartWidth / (data.length - 1) : chartWidth;
-
-	const points = data.map((d, index) => {
-		const x = chartLeft + index * stepX;
-		const normalized = (d.value - minValue) / range;
-		const y = chartTop + chartHeight - normalized * chartHeight;
-		return { x, y, label: d.label, value: d.value };
-	});
-
-	const pathD = points
-		.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-		.join(" ");
-
-	const areaD = [
-		points.length ? `M ${points[0].x} ${chartTop + chartHeight}` : "",
-		...points.map((p) => `L ${p.x} ${p.y}`),
-		points.length ? `L ${points[points.length - 1].x} ${chartTop + chartHeight}` : "",
-		"Z",
-	].join(" ");
-
-	// Y-axis ticks: 0, and up to 3 values (e.g. max/2, max or round numbers)
-	const yTicks: number[] = [0];
-	if (maxValue > 0) {
-		const step = maxValue <= 2 ? maxValue / 2 : maxValue <= 10 ? Math.ceil(maxValue / 2) : Math.ceil(maxValue / 3);
-		for (let v = step; v < maxValue; v += step) {
-			yTicks.push(Number(v.toFixed(1)));
-		}
-		yTicks.push(Number(maxValue.toFixed(1)));
-	}
-
-	return (
-		<div className="w-full">
-			<svg
-				viewBox={`0 0 ${width} ${height}`}
-				className={`w-full min-h-[100px] ${colorClass}`}
-				role="img"
-				aria-label={`Chart: ${yAxisLabel} per week for the last ${data.length} weeks`}
-			>
-				{/* Y-axis label (vertical) */}
-				<text
-					x={12}
-					y={chartTop + chartHeight / 2}
-					textAnchor="middle"
-					className="fill-gray-500 font-medium"
-					style={{ fontSize: 8 }}
-					transform={`rotate(-90, 12, ${chartTop + chartHeight / 2})`}
-				>
-					{yAxisLabel}
-				</text>
-				{/* Y-axis ticks and labels */}
-				{yTicks.map((tickVal) => {
-					const normalized = range ? (tickVal - minValue) / range : 0;
-					const y = chartTop + chartHeight - normalized * chartHeight;
-					return (
-						<g key={tickVal}>
-							<line
-								x1={chartLeft}
-								y1={y}
-								x2={chartLeft - 4}
-								y2={y}
-								className="stroke-gray-300"
-								strokeWidth={1}
-							/>
-							<text
-								x={chartLeft - 6}
-								y={y}
-								textAnchor="end"
-								dominantBaseline="middle"
-								className="fill-gray-500"
-								style={{ fontSize: 8 }}
-							>
-								{tickVal}{valueSuffix}
-							</text>
-						</g>
-					);
-				})}
-				{/* Chart area and line */}
-				<path d={areaD} className="opacity-30" />
-				<path d={pathD} className="stroke-current" strokeWidth={2} fill="none" />
-				{/* X-axis: week labels */}
-				{points.map((p, i) => (
-					<text
-						key={i}
-						x={p.x}
-						y={chartTop + chartHeight + 14}
-						textAnchor="middle"
-						className="fill-gray-500"
-						style={{ fontSize: 7 }}
-					>
-						{p.label}
-					</text>
-				))}
-			</svg>
-			{description && (
-				<p className="text-[10px] text-gray-500 mt-0.5 text-center">
-					{description}
-				</p>
-			)}
-		</div>
-	);
-}
-
-interface AnalyticsCardProps {
-	title: string;
-	children: React.ReactNode;
-}
-
-function AnalyticsCard({ title, children }: AnalyticsCardProps) {
-	return (
-		<div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100 flex flex-col gap-3">
-			<div className="flex items-center justify-between">
-				<div>
-					<h2 className="text-base font-semibold text-gray-900">
-						{title}
-					</h2>
-				</div>
-			</div>
-			{children}
-		</div>
-	);
-}
+import DashboardClient from "./DashboardClient";
 
 export default async function DashboardPage() {
 	const session = await getServerSession(authOptions);
@@ -167,107 +12,115 @@ export default async function DashboardPage() {
 	const now = new Date();
 
 	const eightWeeksAgo = new Date(now.getTime() - 8 * 7 * 24 * 60 * 60 * 1000);
-	const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+	const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+	const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
 	const meetingWhere: any = { organisationId: ctx.organisationId };
 	if (ctx.role === "TEACHER") {
 		meetingWhere.createdById = ctx.userId;
 	}
 
-	const [analyticsMeetings, upcomingMeetings, pastMeetings, newStudentsThisMonth, invoiceRows, keyDates] =
-		await Promise.all([
-			prisma.meeting.findMany({
-				where: {
-					...meetingWhere,
-					startTime: {
-						gte: eightWeeksAgo,
-						lte: now,
+	const [
+		analyticsMeetings,
+		upcomingMeetings,
+		needsReviewCount,
+		activeStudentsCount,
+		archivedStudentsCount,
+		invoiceRows,
+		keyDates,
+		upcomingCheckIns,
+		studentsWithLessons,
+	] = await Promise.all([
+		prisma.meeting.findMany({
+			where: {
+				...meetingWhere,
+				startTime: { gte: eightWeeksAgo, lte: now },
+			},
+			select: {
+				id: true,
+				startTime: true,
+				endTime: true,
+				isCompleted: true,
+				studentId: true,
+			},
+		}),
+		prisma.meeting.findMany({
+			where: {
+				...meetingWhere,
+				startTime: { gte: now },
+			},
+			include: { student: true },
+			orderBy: { startTime: "asc" },
+			take: 20,
+		}),
+		prisma.meeting.count({
+			where: {
+				...meetingWhere,
+				OR: [
+					{ status: "NEEDS_REVIEW" as any },
+					{
+						AND: [
+							{ status: "IN_PROGRESS" as any },
+							{ endTime: { lt: now } },
+						],
+					},
+				],
+			},
+		}),
+		prisma.student.count({
+			where: { organisationId: ctx.organisationId, isArchived: false },
+		}),
+		prisma.student.count({
+			where: { organisationId: ctx.organisationId, isArchived: true },
+		}),
+		prisma.invoice.findMany({
+			where: {
+				organisationId: ctx.organisationId,
+				createdAt: { gte: eightWeeksAgo },
+			},
+			select: { id: true, createdAt: true, total: true },
+		}),
+		(prisma as any).keyDate?.findMany({
+			where: {
+				organisationId: ctx.organisationId,
+				date: {
+					gte: today,
+					lte: new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000),
+				},
+			},
+			orderBy: { date: "asc" },
+		}) ?? [],
+		prisma.checkIn.findMany({
+			where: {
+				organisationId: ctx.organisationId,
+				scheduledDate: { gte: now, lte: thirtyDaysFromNow },
+			},
+			include: { student: true },
+			orderBy: { scheduledDate: "asc" },
+			take: 20,
+		}),
+		prisma.student.findMany({
+			where: {
+				organisationId: ctx.organisationId,
+				meetings: {
+					some: {
+						startTime: { gte: now, lte: sevenDaysFromNow },
 					},
 				},
-				select: {
-					id: true,
-					startTime: true,
-					endTime: true,
-					isCompleted: true,
-					studentId: true,
+			},
+			include: {
+				meetings: {
+					where: { startTime: { gte: now } },
+					orderBy: { startTime: "asc" },
+					take: 1,
+					select: { title: true, startTime: true },
 				},
-			}),
-			prisma.meeting.findMany({
-				where: {
-					...meetingWhere,
-					startTime: {
-						gte: now,
-					},
-				},
-				include: {
-					student: true,
-				},
-				orderBy: { startTime: "asc" },
-				take: 6,
-			}),
-			prisma.meeting.findMany({
-				where: {
-					...meetingWhere,
-					startTime: {
-						lt: now,
-						gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
-					},
-				},
-				include: {
-					student: true,
-				},
-				orderBy: { startTime: "desc" },
-				take: 6,
-			}),
-			prisma.student.count({
-				where: {
-					organisationId: ctx.organisationId,
-					createdAt: {
-						gte: startOfMonth,
-					},
-				},
-			}),
-			prisma.invoice.findMany({
-				where: {
-					organisationId: ctx.organisationId,
-					createdAt: {
-						gte: eightWeeksAgo,
-					},
-				},
-				select: {
-					id: true,
-					createdAt: true,
-					total: true,
-				},
-			}),
-			// Key dates for countdowns (next 90 days)
-			(prisma as any).keyDate?.findMany({
-				where: {
-					organisationId: ctx.organisationId,
-					date: {
-						gte: today,
-						lte: new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000),
-					},
-				},
-				orderBy: { date: "asc" },
-			}) ?? [],
-		]);
+			},
+			take: 10,
+		}),
+	]);
 
-	const formatTime = (date: Date) =>
-		date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
-
-	const formatDate = (date: Date) =>
-		date.toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-
-	const formatEventDate = (date: Date) => {
-		const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-		const tomorrow = new Date(todayDate);
-		tomorrow.setDate(tomorrow.getDate() + 1);
-		const eventDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		if (eventDate.getTime() === todayDate.getTime()) return "Today";
-		if (eventDate.getTime() === tomorrow.getTime()) return "Tomorrow";
-		return date.toLocaleDateString("en-GB", { weekday: "short", month: "short", day: "numeric" });
-	};
+	// ── Lesson hours by week ──────────────────────────────────────────────────
 
 	const groupByWeek = (date: Date) => {
 		const d = new Date(date);
@@ -281,14 +134,9 @@ export default async function DashboardPage() {
 	};
 
 	const currentWeekKey = groupByWeek(now).key;
-
 	const lessonHoursByWeekMap = new Map<string, { label: string; value: number }>();
-	const activeStudentIds = new Set<number>();
 
 	for (const meeting of analyticsMeetings) {
-		if (meeting.studentId != null) {
-			activeStudentIds.add(meeting.studentId);
-		}
 		const start = new Date(meeting.startTime);
 		const end = new Date(meeting.endTime);
 		const durationHours = Math.max(0, (end.getTime() - start.getTime()) / (60 * 60 * 1000));
@@ -298,7 +146,6 @@ export default async function DashboardPage() {
 		lessonHoursByWeekMap.set(key, existing);
 	}
 
-	// Last 8 weeks (past only), oldest first; always show 8 bars so chart is never empty
 	const last8WeekKeys: { key: string; label: string }[] = [];
 	for (let i = 7; i >= 0; i--) {
 		const d = new Date(currentWeekKey);
@@ -311,12 +158,26 @@ export default async function DashboardPage() {
 		value: Number((lessonHoursByWeekMap.get(key)?.value ?? 0).toFixed(1)),
 	}));
 
-	const invoiceTotalsByWeekMap = new Map<string, { label: string; value: number }>();
+	const teachingHoursThisWeek = Number(
+		(lessonHoursByWeekMap.get(currentWeekKey)?.value ?? 0).toFixed(1),
+	);
 
+	const prevWeekKey = (() => {
+		const d = new Date(currentWeekKey);
+		d.setDate(d.getDate() - 7);
+		return groupByWeek(d).key;
+	})();
+	const prevWeekHours = lessonHoursByWeekMap.get(prevWeekKey)?.value ?? 0;
+	const hoursPercentChange =
+		prevWeekHours > 0 ? ((teachingHoursThisWeek - prevWeekHours) / prevWeekHours) * 100 : 0;
+
+	// ── Invoice/revenue by week ───────────────────────────────────────────────
+
+	const invoiceTotalsByWeekMap = new Map<string, { label: string; value: number }>();
 	for (const invoice of invoiceRows) {
 		const { key, label } = groupByWeek(invoice.createdAt);
 		const existing = invoiceTotalsByWeekMap.get(key) ?? { label, value: 0 };
-		existing.value += Number(invoice.total ?? 0);
+		existing.value += Number(invoice.total ?? 0) / 100;
 		invoiceTotalsByWeekMap.set(key, existing);
 	}
 
@@ -325,268 +186,125 @@ export default async function DashboardPage() {
 		value: Number((invoiceTotalsByWeekMap.get(key)?.value ?? 0).toFixed(2)),
 	}));
 
-	// Teaching hours metrics
-	const teachingHoursThisWeek = Number(
-		(lessonHoursByWeekMap.get(currentWeekKey)?.value ?? 0).toFixed(1),
-	);
+	const totalRevenue8Weeks = sortedInvoiceTotals.reduce((s, d) => s + d.value, 0);
+	const currentWeekRevenue = invoiceTotalsByWeekMap.get(currentWeekKey)?.value ?? 0;
+	const prevWeekRevenue = invoiceTotalsByWeekMap.get(prevWeekKey)?.value ?? 0;
+	const revenuePercentChange =
+		prevWeekRevenue > 0
+			? ((currentWeekRevenue - prevWeekRevenue) / prevWeekRevenue) * 100
+			: 0;
 
-	const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-	let monthWeeksCount = 0;
-	let monthHoursTotal = 0;
-	for (const [key, bucket] of lessonHoursByWeekMap.entries()) {
-		const weekDate = new Date(key);
-		if (weekDate >= monthAgo) {
-			monthWeeksCount += 1;
-			monthHoursTotal += bucket.value;
-		}
+	// ── Upcoming lessons count by day ─────────────────────────────────────────
+
+	const next7DaysLabels: { key: string; label: string }[] = [];
+	for (let i = 0; i < 7; i++) {
+		const d = new Date(now);
+		d.setDate(d.getDate() + i);
+		const key = d.toISOString().slice(0, 10);
+		const label = d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+		next7DaysLabels.push({ key, label });
 	}
-	const avgTeachingHoursLastMonth = monthWeeksCount
-		? Number((monthHoursTotal / monthWeeksCount).toFixed(1))
-		: 0;
+
+	const lessonsPerDayMap = new Map<string, number>();
+	for (const m of upcomingMeetings) {
+		const key = new Date(m.startTime).toISOString().slice(0, 10);
+		lessonsPerDayMap.set(key, (lessonsPerDayMap.get(key) ?? 0) + 1);
+	}
+
+	const upcomingLessonsBarData = next7DaysLabels.map(({ key, label }) => ({
+		label,
+		value: lessonsPerDayMap.get(key) ?? 0,
+	}));
+
+	const totalUpcomingLessons = upcomingMeetings.length;
+
+	// ── Key dates ─────────────────────────────────────────────────────────────
 
 	const upcomingKeyDates = (keyDates as any[]).map((kd) => {
 		const date = new Date(kd.date);
-		const diffDays = Math.ceil(
-			(date.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)
-		);
 		return {
 			id: kd.id as string,
 			title: kd.title as string,
 			date,
-			diffDays,
 		};
 	});
 
+	// ── Schedule events (flatten for ScheduleCard) ────────────────────────────
+
+	const schedLessons = upcomingMeetings.map((m) => ({
+		id: m.id,
+		type: "lesson" as const,
+		status: m.status as "SCHEDULED" | "IN_PROGRESS" | "CANCELLED" | "NEEDS_REVIEW" | "COMPLETED",
+		title: m.title || "Lesson",
+		description: m.description || "",
+		participant: m.student
+			? `${m.student.firstName} ${m.student.lastName}`
+			: "Unassigned",
+		startTime: new Date(m.startTime).toISOString(),
+		endTime: new Date(m.endTime).toISOString(),
+	}));
+
+	const schedEvents = upcomingKeyDates.map((kd) => ({
+		id: kd.id,
+		type: "event" as const,
+		title: kd.title,
+		description: "",
+		participant: "All",
+		startTime: kd.date.toISOString(),
+		endTime: undefined as string | undefined,
+	}));
+
+	const schedCheckins = upcomingCheckIns.map((ci) => ({
+		id: ci.id,
+		type: "checkin" as const,
+		title: `Check-in: ${ci.student.firstName} ${ci.student.lastName}`,
+		description: ci.notes || "",
+		participant: `${ci.student.firstName} ${ci.student.lastName}`,
+		startTime: new Date(ci.scheduledDate).toISOString(),
+		endTime: undefined as string | undefined,
+	}));
+
+	// ── Students table rows ───────────────────────────────────────────────────
+
+	const studentRows = studentsWithLessons.map((s) => ({
+		id: s.id,
+		firstName: s.firstName,
+		lastName: s.lastName,
+		subjects: s.subjects || "",
+		isArchived: s.isArchived,
+		nextLessonDate: s.meetings[0]?.startTime
+			? new Date(s.meetings[0].startTime).toISOString()
+			: null,
+		nextLessonTitle: s.meetings[0]?.title ?? null,
+	}));
+
+	const formatDate = (date: Date) =>
+		date.toLocaleDateString("en-GB", {
+			weekday: "long",
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+
 	return (
-		<div className="space-y-6 pt-8 font-sans" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-			<div className="flex items-center justify-between">
-				<div>
-					<h1 className="text-3xl font-semibold" style={{ color: "#3D4756" }}>
-						Welcome{session?.user?.name ? `, ${session.user.name}` : ""}!
-					</h1>
-				</div>
-				<div
-					className="flex items-center rounded-full px-4 py-2 shadow-sm"
-					style={{ backgroundColor: "#FEF5eF" }}
-				>
-					<svg
-						className="w-6 h-6 mr-3"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						style={{ color: "#584b53" }}
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<p className="text-base" style={{ color: "#584b53" }}>
-						Today is {formatDate(today)}
-					</p>
-				</div>
-			</div>
-
-			<AnalyticsCard title="Upcoming events & lessons">
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					<section>
-						<h3 className="text-sm font-semibold text-gray-700 mb-3">Events</h3>
-						{upcomingKeyDates.length > 0 ? (
-							<ul className="divide-y divide-gray-100">
-								{upcomingKeyDates.slice(0, 5).map((kd) => (
-									<li key={kd.id} className="py-2.5 flex items-center justify-between gap-3">
-										<div className="flex items-center gap-3">
-											<span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-											<div>
-												<p className="text-sm font-medium text-gray-900">
-													{kd.title}
-												</p>
-												<p className="text-xs text-gray-600">
-													{kd.date.toLocaleDateString("en-GB", {
-														weekday: "short",
-														day: "numeric",
-														month: "short",
-													})}
-												</p>
-											</div>
-										</div>
-										<div className="text-right text-xs text-gray-600 whitespace-nowrap">
-											{kd.diffDays > 0
-												? `In ${kd.diffDays} day${kd.diffDays === 1 ? "" : "s"}`
-												: kd.diffDays === 0
-												? "Today"
-												: `${Math.abs(kd.diffDays)} day${kd.diffDays === -1 ? "" : "s"} ago`}
-										</div>
-									</li>
-								))}
-							</ul>
-						) : (
-							<p className="text-sm text-gray-500">
-								No events in the next 90 days.
-							</p>
-						)}
-					</section>
-					<section>
-						<h3 className="text-sm font-semibold text-gray-700 mb-3">Upcoming lessons</h3>
-						{upcomingMeetings.length > 0 ? (
-							<ul className="divide-y divide-gray-100">
-								{upcomingMeetings.map((meeting) => {
-									const start = new Date(meeting.startTime);
-									const end = new Date(meeting.endTime);
-									return (
-										<li key={meeting.id} className="py-2.5 flex items-start justify-between gap-3">
-											<div className="flex items-start gap-3">
-												<span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
-												<div>
-													<p className="text-base font-medium text-gray-900">
-														{meeting.title || "Lesson"}
-													</p>
-													<p className="text-sm text-gray-600">
-														{meeting.student
-															? `${meeting.student.firstName} ${meeting.student.lastName}`
-															: "Unassigned student"}
-													</p>
-												</div>
-											</div>
-											<div className="text-right text-sm text-gray-600 whitespace-nowrap">
-												<p>{formatEventDate(start)}</p>
-												<p>
-													{formatTime(start)} – {formatTime(end)}
-												</p>
-											</div>
-										</li>
-									);
-								})}
-							</ul>
-						) : (
-							<div className="text-center py-6 text-sm text-gray-500">
-								<p className="mb-3">No upcoming lessons scheduled.</p>
-								<a
-									href="/schedule"
-									className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
-								>
-									Schedule a lesson
-								</a>
-							</div>
-						)}
-					</section>
-				</div>
-			</AnalyticsCard>
-
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-				<AnalyticsCard title="Client Analytics">
-					<div className="flex items-end justify-between gap-4">
-						<div className="flex-1 flex gap-6">
-							<div>
-								<p className="text-sm text-gray-600">Active students (last 8 weeks)</p>
-								<p className="text-3xl font-semibold text-gray-900">
-									{activeStudentIds.size}
-								</p>
-							</div>
-							<div>
-								<p className="text-sm text-gray-600">New this month</p>
-								<p className="text-3xl font-semibold text-gray-900">
-									{newStudentsThisMonth}
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className="mt-4">
-						<p className="text-sm text-gray-600 mb-1 font-medium">Lesson hours (last 8 weeks)</p>
-						<MiniAreaChart
-							data={sortedLessonHours}
-							colorClass="text-emerald-500 fill-emerald-100"
-							yAxisLabel="Hours"
-						/>
-					</div>
-				</AnalyticsCard>
-
-				<AnalyticsCard title="Tutor Analytics">
-					<div className="flex items-end justify-between gap-4">
-						<div className="flex-1 flex gap-6">
-							<div>
-								<p className="text-sm text-gray-600">Teaching hours this week</p>
-								<p className="text-3xl font-semibold text-gray-900">
-									{teachingHoursThisWeek}
-									<span className="text-base text-gray-500 ml-1">hrs</span>
-								</p>
-							</div>
-							<div>
-								<p className="text-sm text-gray-600">Avg. teaching hours (last month)</p>
-								<p className="text-3xl font-semibold text-gray-900">
-									{avgTeachingHoursLastMonth}
-									<span className="text-base text-gray-500 ml-1">hrs / week</span>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className="mt-4">
-						<p className="text-sm text-gray-600 mb-1 font-medium">Raised invoices (last 8 weeks)</p>
-						<MiniAreaChart
-							data={sortedInvoiceTotals}
-							colorClass="text-amber-500 fill-amber-100"
-							yAxisLabel="Amount"
-							valueSuffix=" $"
-						/>
-					</div>
-				</AnalyticsCard>
-
-				<AnalyticsCard title="Past Lessons">
-					{pastMeetings.length > 0 ? (
-						<ul className="divide-y divide-gray-100">
-							{pastMeetings.map((meeting) => {
-								const start = new Date(meeting.startTime);
-								const end = new Date(meeting.endTime);
-								const isCompleted = meeting.isCompleted;
-								return (
-									<li key={meeting.id} className="py-2.5 flex items-start justify-between gap-3">
-										<div className="flex items-start gap-3">
-											<span
-												className={`mt-1 h-2.5 w-2.5 rounded-full ${
-													isCompleted ? "bg-emerald-400" : "bg-amber-400"
-												}`}
-											/>
-											<div>
-												<p className="text-base font-medium text-gray-900">
-													{meeting.title || "Lesson"}
-												</p>
-												<p className="text-sm text-gray-600">
-													{meeting.student
-														? `${meeting.student.firstName} ${meeting.student.lastName}`
-														: "Unassigned student"}
-												</p>
-											</div>
-										</div>
-										<div className="text-right text-sm text-gray-600 whitespace-nowrap">
-											<p>{formatEventDate(start)}</p>
-											<p>
-												{formatTime(start)} – {formatTime(end)}
-											</p>
-											<p className="mt-0.5">
-												<span
-													className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium ${
-														isCompleted
-															? "bg-emerald-50 text-emerald-700"
-															: "bg-amber-50 text-amber-700"
-													}`}
-												>
-													{isCompleted ? "Completed" : "Not marked complete"}
-												</span>
-											</p>
-										</div>
-									</li>
-								);
-							})}
-						</ul>
-					) : (
-						<div className="text-center py-6 text-sm text-gray-500">
-							<p>No recent lessons in the last 30 days.</p>
-						</div>
-					)}
-				</AnalyticsCard>
-			</div>
-		</div>
+		<DashboardClient
+			userName={session?.user?.name ?? null}
+			todayFormatted={formatDate(today)}
+			lessonHoursData={sortedLessonHours}
+			teachingHoursThisWeek={teachingHoursThisWeek}
+			hoursPercentChange={Math.round(hoursPercentChange)}
+			activeStudentsCount={activeStudentsCount}
+			archivedStudentsCount={archivedStudentsCount}
+			revenueBarData={sortedInvoiceTotals}
+			totalRevenue={totalRevenue8Weeks}
+			revenuePercentChange={Math.round(revenuePercentChange)}
+			upcomingLessonsBarData={upcomingLessonsBarData}
+			totalUpcomingLessons={totalUpcomingLessons}
+			scheduleLessons={schedLessons}
+			scheduleEvents={schedEvents}
+			scheduleCheckins={schedCheckins}
+			needsReviewCount={needsReviewCount}
+			studentRows={studentRows}
+		/>
 	);
 }

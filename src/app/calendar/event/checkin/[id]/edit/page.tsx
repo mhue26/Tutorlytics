@@ -34,6 +34,7 @@ export default async function CheckinEditPage({
 		scheduledTime,
 		status: checkIn.status,
 		notes: checkIn.notes ?? "",
+		ruleId: checkIn.ruleId,
 		studentName: checkIn.student
 			? `${checkIn.student.firstName} ${checkIn.student.lastName}`
 			: "—",

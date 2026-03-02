@@ -11,6 +11,11 @@ interface Meeting {
   startTime: Date;
   endTime: Date;
   isCompleted: boolean;
+  status: "SCHEDULED" | "IN_PROGRESS" | "CANCELLED" | "NEEDS_REVIEW" | "COMPLETED";
+  lessonPlan: string | null;
+  homework: string | null;
+  lessonSummary: string | null;
+  nextLessonPrep: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

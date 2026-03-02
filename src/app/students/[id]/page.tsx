@@ -40,7 +40,10 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
 		where: { id, organisationId: ctx.organisationId },
 		include: {
 			meetings: {
-				where: { startTime: { gte: new Date() }, isCompleted: false },
+				where: {
+					startTime: { gte: new Date() },
+					status: { in: ["SCHEDULED", "IN_PROGRESS", "NEEDS_REVIEW"] },
+				},
 				orderBy: { startTime: "asc" },
 				take: 1,
 			},

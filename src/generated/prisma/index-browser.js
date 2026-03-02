@@ -244,6 +244,12 @@ exports.Prisma.MeetingScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   isCompleted: 'isCompleted',
+  status: 'status',
+  lessonPlan: 'lessonPlan',
+  homework: 'homework',
+  lessonSummary: 'lessonSummary',
+  nextLessonPrep: 'nextLessonPrep',
+  cancelReason: 'cancelReason',
   recurrenceSeriesId: 'recurrenceSeriesId',
   recurrenceIndex: 'recurrenceIndex',
   hourlyRateCents: 'hourlyRateCents',
@@ -496,6 +502,14 @@ exports.ClassFormat = exports.$Enums.ClassFormat = {
   IN_PERSON: 'IN_PERSON',
   ONLINE: 'ONLINE',
   HYBRID: 'HYBRID'
+};
+
+exports.LessonStatus = exports.$Enums.LessonStatus = {
+  SCHEDULED: 'SCHEDULED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  CANCELLED: 'CANCELLED',
+  NEEDS_REVIEW: 'NEEDS_REVIEW',
+  COMPLETED: 'COMPLETED'
 };
 
 exports.KeyDateScope = exports.$Enums.KeyDateScope = {

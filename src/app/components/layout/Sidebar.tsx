@@ -120,8 +120,8 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? "bg-[#D6E3F8] text-blue-700 border-l-2 border-blue-700"
-                    : "text-gray-700 hover:bg-gray-50"
+                    ? "bg-[#EFFAFF] text-[#3D4756] border-l-2 border-[#3D4756]"
+                    : "text-[#A1ACBD] hover:bg-gray-50"
                 }`}
               >
                 <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,19 +142,19 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
             <button
               type="button"
               onClick={() => setWorkspaceDropdownOpen((o) => !o)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-colors border bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-0"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-colors border bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 text-[#3D4756]"
               style={workspaceDropdownOpen ? { backgroundColor: "#FEF5eF", borderColor: "#E4BB97" } : undefined}
               aria-expanded={workspaceDropdownOpen}
               aria-haspopup="listbox"
             >
-              <svg className="h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
               <span className="flex-1 truncate" title={currentWorkspace?.organisationName}>
                 {currentWorkspace?.organisationName ?? "Select workspace"}
               </span>
               <svg
-                className={`h-4 w-4 flex-shrink-0 text-gray-400 transition-transform ${workspaceDropdownOpen ? "rotate-180" : ""}`}
+                className={`h-4 w-4 flex-shrink-0 text-[#3D4756] transition-transform ${workspaceDropdownOpen ? "rotate-180" : ""}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -205,11 +205,11 @@ export default function Sidebar({ session, isOpen, onToggle }: SidebarProps) {
                           }}
                           className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-sm font-medium transition-colors ${
                             isCurrent
-                              ? "bg-blue-50 text-blue-700"
-                              : "text-gray-700 hover:bg-gray-50"
+                              ? "bg-[#EFFAFF] text-[#3D4756]"
+                              : "text-[#A1ACBD] hover:bg-gray-50"
                           }`}
                         >
-                          <svg className="h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                           </svg>
                           <span className="truncate">{w.organisationName}</span>

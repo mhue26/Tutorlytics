@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest) {
 		return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
 	}
 
-	const studentsTablePrefs = normalizeJsonObject(body?.studentsTablePrefs ?? body?.studentsTablePrefsJson);
+	const studentsTablePrefs = normalizeJsonObject(body?.studentsTablePrefs ?? body?.studentsTablePrefsJson) as any;
 
 	const next = await prisma.userPreferences.upsert({
 		where: {
@@ -51,10 +51,10 @@ export async function PUT(request: NextRequest) {
 		create: {
 			userId: ctx.userId,
 			organisationId: ctx.organisationId,
-			studentsTablePrefsJson: studentsTablePrefs,
+			studentsTablePrefsJson: studentsTablePrefs as any,
 		},
 		update: {
-			studentsTablePrefsJson: studentsTablePrefs,
+			studentsTablePrefsJson: studentsTablePrefs as any,
 		},
 		select: { studentsTablePrefsJson: true },
 	});

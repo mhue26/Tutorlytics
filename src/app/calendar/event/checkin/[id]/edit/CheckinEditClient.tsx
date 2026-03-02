@@ -18,6 +18,7 @@ interface InitialData {
 	scheduledTime: string;
 	status: string;
 	notes: string;
+	ruleId: string | null;
 	studentName: string;
 }
 
@@ -35,8 +36,10 @@ export default function CheckinEditClient({
 	const [scheduledTime, setScheduledTime] = useState(initial.scheduledTime);
 	const [status, setStatus] = useState(initial.status);
 	const [notes, setNotes] = useState(initial.notes);
+	const [scope, setScope] = useState<"this" | "all" | "future">("this");
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const isRecurring = initial.ruleId != null;
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -47,6 +50,7 @@ export default function CheckinEditClient({
 				status,
 				notes: notes || null,
 				scheduledDate: new Date(`${scheduledDate}T${scheduledTime}`).toISOString(),
+				scope: isRecurring ? scope : "this",
 			};
 			if (status === "COMPLETED") {
 				body.completedDate = new Date().toISOString();
@@ -89,7 +93,7 @@ export default function CheckinEditClient({
 						type="submit"
 						form="checkin-edit-form"
 						disabled={saving}
-						className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+						className="px-6 py-2 bg-[#3D4756] text-white rounded-lg shadow-sm hover:bg-[#2A3441] focus:outline-none focus:ring-2 focus:ring-[#3D4756] focus:ring-offset-2 transition-colors disabled:opacity-50"
 					>
 						{saving ? "Saving…" : "Save"}
 					</button>
@@ -137,6 +141,43 @@ export default function CheckinEditClient({
 								/>
 							</div>
 						</div>
+						{isRecurring && (
+							<div className="rounded-lg border border-gray-200 p-4 bg-gray-50/50">
+								<div className="text-sm font-medium text-gray-700 mb-2">Apply changes to</div>
+								<div className="flex gap-4 flex-wrap">
+									<label className="flex items-center gap-2 cursor-pointer">
+										<input
+											type="radio"
+											name="scope"
+											checked={scope === "this"}
+											onChange={() => setScope("this")}
+											className="h-4 w-4 text-blue-600 border-gray-300"
+										/>
+										<span className="text-sm text-gray-700">Just this event</span>
+									</label>
+									<label className="flex items-center gap-2 cursor-pointer">
+										<input
+											type="radio"
+											name="scope"
+											checked={scope === "all"}
+											onChange={() => setScope("all")}
+											className="h-4 w-4 text-blue-600 border-gray-300"
+										/>
+										<span className="text-sm text-gray-700">All events in this series</span>
+									</label>
+									<label className="flex items-center gap-2 cursor-pointer">
+										<input
+											type="radio"
+											name="scope"
+											checked={scope === "future"}
+											onChange={() => setScope("future")}
+											className="h-4 w-4 text-blue-600 border-gray-300"
+										/>
+										<span className="text-sm text-gray-700">This and all future events</span>
+									</label>
+								</div>
+							</div>
+						)}
 
 						<div className="flex items-start gap-3">
 							<svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -16,14 +16,22 @@ interface Student {
 }
 
 interface Meeting {
-  id: string;
+  id: string | number;
   title: string;
   description: string | null;
   startTime: Date;
   endTime: Date;
   isCompleted: boolean;
+  status?: LessonStatus;
   student: Student;
 }
+
+type LessonStatus =
+  | "SCHEDULED"
+  | "IN_PROGRESS"
+  | "CANCELLED"
+  | "NEEDS_REVIEW"
+  | "COMPLETED";
 
 interface CalendarClientProps {
   meetings: Meeting[];
@@ -59,6 +67,8 @@ export default function CalendarClient({
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
   const [teachingPeriods, setTeachingPeriods] = useState<any[]>([]);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [optimisticStatusById, setOptimisticStatusById] = useState<Record<string, LessonStatus>>({});
+  const [updatingIds, setUpdatingIds] = useState<Record<string, boolean>>({});
   const { setModalType } = useModal();
 
   const loadCurrentTerm = async () => {
@@ -78,24 +88,6 @@ export default function CalendarClient({
       ];
       
       setTeachingPeriods(allPeriods);
-      
-      const today = new Date();
-      
-      // Find current active term
-      const activeTerm = terms.find((term: any) => {
-        const startDate = new Date(term.startDate);
-        const endDate = new Date(term.endDate);
-        return today >= startDate && today <= endDate && term.isActive;
-      });
-      
-      if (activeTerm) {
-        setCurrentTerm(activeTerm);
-        // Calculate current week
-        const startDate = new Date(activeTerm.startDate);
-        const diffTime = today.getTime() - startDate.getTime();
-        const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7));
-        setCurrentWeek(Math.max(1, diffWeeks));
-      }
     } catch (error) {
       console.error('Error loading current term:', error);
     }
@@ -104,6 +96,59 @@ export default function CalendarClient({
   useEffect(() => {
     loadCurrentTerm();
   }, [userId]);
+
+  // Keep the top "Term • Week" pill aligned with the currently viewed date in the calendar.
+  useEffect(() => {
+    const terms = teachingPeriods.filter((period) => period.type === "term" && period.isActive);
+    if (terms.length === 0) {
+      setCurrentTerm(null);
+      setCurrentWeek(null);
+      return;
+    }
+
+    const normalizedCurrentDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    const displayedTerm = terms.find((term) => {
+      const startDate = new Date(term.startDate);
+      const endDate = new Date(term.endDate);
+      const normalizedStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      const normalizedEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+      return normalizedCurrentDate >= normalizedStartDate && normalizedCurrentDate <= normalizedEndDate;
+    });
+
+    if (!displayedTerm) {
+      setCurrentTerm(null);
+      setCurrentWeek(null);
+      return;
+    }
+
+    const startDate = new Date(displayedTerm.startDate);
+    const endDate = new Date(displayedTerm.endDate);
+    const normalizedStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const normalizedEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+    // Match CalendarGrid week numbering: weeks are Sun-Sat rows containing the term.
+    const periodStartWeek = new Date(normalizedStartDate);
+    periodStartWeek.setDate(periodStartWeek.getDate() - periodStartWeek.getDay());
+
+    const periodEndWeek = new Date(normalizedEndDate);
+    periodEndWeek.setDate(periodEndWeek.getDate() + (6 - periodEndWeek.getDay()));
+
+    const currentWeekStart = new Date(normalizedCurrentDate);
+    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
+
+    const msPerWeek = 1000 * 60 * 60 * 24 * 7;
+    const totalWeeks = Math.floor((periodEndWeek.getTime() - periodStartWeek.getTime()) / msPerWeek) + 1;
+    const rawWeekNumber = Math.floor((currentWeekStart.getTime() - periodStartWeek.getTime()) / msPerWeek) + 1;
+    const weekNumber = Math.min(Math.max(1, rawWeekNumber), totalWeeks);
+
+    setCurrentTerm(displayedTerm);
+    setCurrentWeek(weekNumber);
+  }, [currentDate, teachingPeriods]);
 
   // Reload teaching periods when component becomes visible again or when window regains focus
   useEffect(() => {
@@ -194,10 +239,60 @@ export default function CalendarClient({
         endDate.setDate(endDate.getDate() + 7);
     }
     
-    return meetings.filter(meeting => {
+    return upcomingMeetings.filter(meeting => {
       const meetingDate = new Date(meeting.startTime);
       return meetingDate >= today && meetingDate < endDate;
     });
+  };
+
+  const getEffectiveStatus = (meeting: Meeting): LessonStatus => {
+    const persistedStatus = optimisticStatusById[String(meeting.id)] ?? meeting.status ?? "SCHEDULED";
+    if (persistedStatus === "IN_PROGRESS") {
+      const hasEnded = new Date(meeting.endTime).getTime() < Date.now();
+      if (hasEnded) return "NEEDS_REVIEW";
+    }
+    return persistedStatus;
+  };
+
+  const updateLessonStatus = async (
+    meetingId: string | number,
+    nextStatus: LessonStatus,
+    cancelReason?: string
+  ) => {
+    const key = String(meetingId);
+    setUpdatingIds((prev) => ({ ...prev, [key]: true }));
+    try {
+      const res = await fetch(`/api/meetings/${meetingId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: nextStatus,
+          cancelReason: cancelReason?.trim() ? cancelReason.trim() : null,
+          scope: "this",
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to update lesson status");
+      setOptimisticStatusById((prev) => ({ ...prev, [key]: nextStatus }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUpdatingIds((prev) => ({ ...prev, [key]: false }));
+    }
+  };
+
+  const renderStatusPill = (status: LessonStatus) => {
+    const map: Record<LessonStatus, string> = {
+      SCHEDULED: "bg-blue-100 text-blue-800",
+      IN_PROGRESS: "bg-amber-100 text-amber-800",
+      CANCELLED: "bg-red-100 text-red-800",
+      NEEDS_REVIEW: "bg-purple-100 text-purple-800",
+      COMPLETED: "bg-green-100 text-green-800",
+    };
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs font-medium ${map[status]}`}>
+        {status.replace("_", " ")}
+      </span>
+    );
   };
 
   return (
@@ -238,9 +333,13 @@ export default function CalendarClient({
                   <p className="text-gray-500">No upcoming events scheduled.</p>
                 ) : (
                   <div className="space-y-3">
-                    {getFilteredMeetings().map((meeting) => (
-                      <div key={meeting.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-                        <div>
+                    {getFilteredMeetings().map((meeting) => {
+                      const effectiveStatus = getEffectiveStatus(meeting);
+                      const isUpdating = updatingIds[String(meeting.id)] === true;
+                      return (
+                      <div key={meeting.id} className="p-3 bg-gray-50 rounded-2xl">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
                           <div className="font-medium">{meeting.title}</div>
                           <div className="text-sm text-gray-600">
                             with {meeting.student.firstName} {meeting.student.lastName}
@@ -248,16 +347,48 @@ export default function CalendarClient({
                           <div className="text-sm text-gray-500">
                             {formatMeetingDate(new Date(meeting.startTime))} at {formatTime(new Date(meeting.startTime))}
                           </div>
+                          </div>
+                          {renderStatusPill(effectiveStatus)}
                         </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          meeting.isCompleted 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-blue-100 text-blue-800'
-                        }`}>
-                          {meeting.isCompleted ? 'Completed' : 'Scheduled'}
-                        </span>
+                        {effectiveStatus === "SCHEDULED" && (
+                          <div className="mt-2 flex items-center gap-2">
+                            <button
+                              type="button"
+                              disabled={isUpdating}
+                              onClick={() => updateLessonStatus(meeting.id, "IN_PROGRESS")}
+                              className="px-2.5 py-1 text-[11px] font-medium rounded-md bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors disabled:opacity-50"
+                            >
+                              Start
+                            </button>
+                            <button
+                              type="button"
+                              disabled={isUpdating}
+                              onClick={() => {
+                                const reason = window.prompt("Reason for cancellation (optional):", "");
+                                updateLessonStatus(meeting.id, "CANCELLED", reason ?? undefined);
+                              }}
+                              className="px-2.5 py-1 text-[11px] font-medium rounded-md bg-red-100 text-red-700 hover:bg-red-200 transition-colors disabled:opacity-50"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        )}
+                        {(effectiveStatus === "IN_PROGRESS" || effectiveStatus === "NEEDS_REVIEW") && (
+                          <div className="mt-2">
+                            <Link
+                              href={`/calendar/event/lesson/${meeting.id}/edit`}
+                              className="inline-flex px-2.5 py-1 text-[11px] font-medium rounded-md bg-[#3D4756] text-white hover:bg-[#2A3441] transition-colors"
+                            >
+                              Review
+                            </Link>
+                          </div>
+                        )}
+                        {effectiveStatus === "CANCELLED" && meeting.description && (
+                          <p className="mt-2 text-xs text-red-600">{meeting.description}</p>
+                        )}
                       </div>
-                    ))}
+                    );
+                    })}
                   </div>
                 )}
               </div>

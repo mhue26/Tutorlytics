@@ -100,7 +100,7 @@ export default function KeydateEditClient({
 						type="submit"
 						form="keydate-edit-form"
 						disabled={saving}
-						className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+						className="px-6 py-2 bg-[#3D4756] text-white rounded-lg shadow-sm hover:bg-[#2A3441] focus:outline-none focus:ring-2 focus:ring-[#3D4756] focus:ring-offset-2 transition-colors disabled:opacity-50"
 					>
 						{saving ? "Saving…" : "Save"}
 					</button>

@@ -12,7 +12,7 @@ export async function POST(
 		return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 	}
 
-	const { id: quoteId } = await params();
+	const { id: quoteId } = await params;
 	const quote = await prisma.quote.findFirst({
 		where: { id: quoteId, organisationId: ctx.organisationId },
 	});

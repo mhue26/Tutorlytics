@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrgContext } from "@/utils/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import LessonStatusActions from "./LessonStatusActions";
 
 const VALID_TYPES = ["lesson", "checkin", "keydate"] as const;
 type EventType = (typeof VALID_TYPES)[number];
@@ -19,6 +20,21 @@ function formatTime(d: Date) {
 		hour: "2-digit",
 		minute: "2-digit",
 	});
+}
+
+function getLessonStatusPillClass(status: string): string {
+	switch (status) {
+		case "IN_PROGRESS":
+			return "bg-amber-50 text-amber-700";
+		case "CANCELLED":
+			return "bg-red-50 text-red-700";
+		case "NEEDS_REVIEW":
+			return "bg-purple-50 text-purple-700";
+		case "COMPLETED":
+			return "bg-emerald-50 text-emerald-700";
+		default:
+			return "bg-blue-50 text-blue-700";
+	}
 }
 
 export default async function CalendarEventDetailPage({
@@ -52,6 +68,10 @@ export default async function CalendarEventDetailPage({
 						where: { recurrenceSeriesId: meeting.recurrenceSeriesId },
 					})
 				: null;
+		const effectiveStatus =
+			meeting.status === "IN_PROGRESS" && new Date(meeting.endTime).getTime() < Date.now()
+				? "NEEDS_REVIEW"
+				: meeting.status;
 
 		return (
 			<div className="max-w-2xl mx-auto p-6 sm:p-8">
@@ -99,9 +119,13 @@ export default async function CalendarEventDetailPage({
 						)}
 						<div>
 							<div className="text-gray-500 mb-1.5">Status</div>
-							<div className="font-medium text-gray-900">
-								{meeting.isCompleted ? "Completed" : "Scheduled"}
-							</div>
+							<span
+								className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${getLessonStatusPillClass(
+									effectiveStatus
+								)}`}
+							>
+								{effectiveStatus.replace("_", " ")}
+							</span>
 						</div>
 						{meeting.description && (
 							<div className="sm:col-span-2">
@@ -109,22 +133,43 @@ export default async function CalendarEventDetailPage({
 								<div className="whitespace-pre-wrap text-gray-900 leading-relaxed">{meeting.description}</div>
 							</div>
 						)}
+						{meeting.lessonPlan && (
+							<div className="sm:col-span-2">
+								<div className="text-gray-500 mb-1.5">Lesson plan</div>
+								<div className="whitespace-pre-wrap text-gray-900 leading-relaxed">{meeting.lessonPlan}</div>
+							</div>
+						)}
+						{meeting.homework && (
+							<div className="sm:col-span-2">
+								<div className="text-gray-500 mb-1.5">Homework</div>
+								<div className="whitespace-pre-wrap text-gray-900 leading-relaxed">{meeting.homework}</div>
+							</div>
+						)}
+						{meeting.lessonSummary && (
+							<div className="sm:col-span-2">
+								<div className="text-gray-500 mb-1.5">Lesson summary</div>
+								<div className="whitespace-pre-wrap text-gray-900 leading-relaxed">{meeting.lessonSummary}</div>
+							</div>
+						)}
+						{meeting.nextLessonPrep && (
+							<div className="sm:col-span-2">
+								<div className="text-gray-500 mb-1.5">Next lesson prep</div>
+								<div className="whitespace-pre-wrap text-gray-900 leading-relaxed">{meeting.nextLessonPrep}</div>
+							</div>
+						)}
 					</div>
-					
-					<div className="flex items-center gap-3 pt-4">
-						<Link
-							href={`/calendar/event/lesson/${meeting.id}/edit`}
-							className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium text-sm transition-colors"
-						>
-							Edit
-						</Link>
-						<Link
-							href="/calendar"
-							className="px-5 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 font-medium text-sm transition-colors"
-						>
-							Back to calendar
-						</Link>
-					</div>
+
+					<LessonStatusActions
+						meetingId={meeting.id}
+						status={
+							effectiveStatus as
+								| "SCHEDULED"
+								| "IN_PROGRESS"
+								| "CANCELLED"
+								| "NEEDS_REVIEW"
+								| "COMPLETED"
+						}
+					/>
 				</div>
 			</div>
 		);
@@ -180,7 +225,7 @@ export default async function CalendarEventDetailPage({
 					<div className="flex items-center gap-3 pt-4">
 						<Link
 							href={`/calendar/event/checkin/${checkIn.id}/edit`}
-							className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium text-sm transition-colors"
+							className="px-5 py-2 bg-[#3D4756] text-white rounded-lg shadow-sm hover:bg-[#2A3441] font-medium text-sm transition-colors"
 						>
 							Edit
 						</Link>
@@ -242,7 +287,7 @@ export default async function CalendarEventDetailPage({
 					<div className="flex items-center gap-3 pt-4">
 						<Link
 							href={`/calendar/event/keydate/${keyDate.id}/edit`}
-							className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium text-sm transition-colors"
+							className="px-5 py-2 bg-[#3D4756] text-white rounded-lg shadow-sm hover:bg-[#2A3441] font-medium text-sm transition-colors"
 						>
 							Edit
 						</Link>

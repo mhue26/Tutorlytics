@@ -231,6 +231,17 @@ export const CheckInStatus: {
 export type CheckInStatus = (typeof CheckInStatus)[keyof typeof CheckInStatus]
 
 
+export const LessonStatus: {
+  SCHEDULED: 'SCHEDULED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  CANCELLED: 'CANCELLED',
+  NEEDS_REVIEW: 'NEEDS_REVIEW',
+  COMPLETED: 'COMPLETED'
+};
+
+export type LessonStatus = (typeof LessonStatus)[keyof typeof LessonStatus]
+
+
 export const AttendanceStatus: {
   PRESENT: 'PRESENT',
   ABSENT: 'ABSENT',
@@ -295,6 +306,10 @@ export const KeyDateScope: typeof $Enums.KeyDateScope
 export type CheckInStatus = $Enums.CheckInStatus
 
 export const CheckInStatus: typeof $Enums.CheckInStatus
+
+export type LessonStatus = $Enums.LessonStatus
+
+export const LessonStatus: typeof $Enums.LessonStatus
 
 export type AttendanceStatus = $Enums.AttendanceStatus
 
@@ -15460,6 +15475,12 @@ export namespace Prisma {
     startTime: Date | null
     endTime: Date | null
     isCompleted: boolean | null
+    status: $Enums.LessonStatus | null
+    lessonPlan: string | null
+    homework: string | null
+    lessonSummary: string | null
+    nextLessonPrep: string | null
+    cancelReason: string | null
     recurrenceSeriesId: string | null
     recurrenceIndex: number | null
     hourlyRateCents: number | null
@@ -15479,6 +15500,12 @@ export namespace Prisma {
     startTime: Date | null
     endTime: Date | null
     isCompleted: boolean | null
+    status: $Enums.LessonStatus | null
+    lessonPlan: string | null
+    homework: string | null
+    lessonSummary: string | null
+    nextLessonPrep: string | null
+    cancelReason: string | null
     recurrenceSeriesId: string | null
     recurrenceIndex: number | null
     hourlyRateCents: number | null
@@ -15498,6 +15525,12 @@ export namespace Prisma {
     startTime: number
     endTime: number
     isCompleted: number
+    status: number
+    lessonPlan: number
+    homework: number
+    lessonSummary: number
+    nextLessonPrep: number
+    cancelReason: number
     recurrenceSeriesId: number
     recurrenceIndex: number
     hourlyRateCents: number
@@ -15535,6 +15568,12 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     isCompleted?: true
+    status?: true
+    lessonPlan?: true
+    homework?: true
+    lessonSummary?: true
+    nextLessonPrep?: true
+    cancelReason?: true
     recurrenceSeriesId?: true
     recurrenceIndex?: true
     hourlyRateCents?: true
@@ -15554,6 +15593,12 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     isCompleted?: true
+    status?: true
+    lessonPlan?: true
+    homework?: true
+    lessonSummary?: true
+    nextLessonPrep?: true
+    cancelReason?: true
     recurrenceSeriesId?: true
     recurrenceIndex?: true
     hourlyRateCents?: true
@@ -15573,6 +15618,12 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     isCompleted?: true
+    status?: true
+    lessonPlan?: true
+    homework?: true
+    lessonSummary?: true
+    nextLessonPrep?: true
+    cancelReason?: true
     recurrenceSeriesId?: true
     recurrenceIndex?: true
     hourlyRateCents?: true
@@ -15679,6 +15730,12 @@ export namespace Prisma {
     startTime: Date
     endTime: Date
     isCompleted: boolean
+    status: $Enums.LessonStatus
+    lessonPlan: string | null
+    homework: string | null
+    lessonSummary: string | null
+    nextLessonPrep: string | null
+    cancelReason: string | null
     recurrenceSeriesId: string | null
     recurrenceIndex: number | null
     hourlyRateCents: number | null
@@ -15717,6 +15774,12 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    status?: boolean
+    lessonPlan?: boolean
+    homework?: boolean
+    lessonSummary?: boolean
+    nextLessonPrep?: boolean
+    cancelReason?: boolean
     recurrenceSeriesId?: boolean
     recurrenceIndex?: boolean
     hourlyRateCents?: boolean
@@ -15741,6 +15804,12 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    status?: boolean
+    lessonPlan?: boolean
+    homework?: boolean
+    lessonSummary?: boolean
+    nextLessonPrep?: boolean
+    cancelReason?: boolean
     recurrenceSeriesId?: boolean
     recurrenceIndex?: boolean
     hourlyRateCents?: boolean
@@ -15763,6 +15832,12 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    status?: boolean
+    lessonPlan?: boolean
+    homework?: boolean
+    lessonSummary?: boolean
+    nextLessonPrep?: boolean
+    cancelReason?: boolean
     recurrenceSeriesId?: boolean
     recurrenceIndex?: boolean
     hourlyRateCents?: boolean
@@ -15785,6 +15860,12 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     isCompleted?: boolean
+    status?: boolean
+    lessonPlan?: boolean
+    homework?: boolean
+    lessonSummary?: boolean
+    nextLessonPrep?: boolean
+    cancelReason?: boolean
     recurrenceSeriesId?: boolean
     recurrenceIndex?: boolean
     hourlyRateCents?: boolean
@@ -15796,7 +15877,7 @@ export namespace Prisma {
     studentId?: boolean
   }
 
-  export type MeetingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "meetingLocation" | "startTime" | "endTime" | "isCompleted" | "recurrenceSeriesId" | "recurrenceIndex" | "hourlyRateCents" | "totalCents" | "createdAt" | "updatedAt" | "organisationId" | "createdById" | "studentId", ExtArgs["result"]["meeting"]>
+  export type MeetingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "meetingLocation" | "startTime" | "endTime" | "isCompleted" | "status" | "lessonPlan" | "homework" | "lessonSummary" | "nextLessonPrep" | "cancelReason" | "recurrenceSeriesId" | "recurrenceIndex" | "hourlyRateCents" | "totalCents" | "createdAt" | "updatedAt" | "organisationId" | "createdById" | "studentId", ExtArgs["result"]["meeting"]>
   export type MeetingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organisation?: boolean | OrganisationDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -15831,6 +15912,12 @@ export namespace Prisma {
       startTime: Date
       endTime: Date
       isCompleted: boolean
+      status: $Enums.LessonStatus
+      lessonPlan: string | null
+      homework: string | null
+      lessonSummary: string | null
+      nextLessonPrep: string | null
+      cancelReason: string | null
       recurrenceSeriesId: string | null
       recurrenceIndex: number | null
       hourlyRateCents: number | null
@@ -16274,6 +16361,12 @@ export namespace Prisma {
     readonly startTime: FieldRef<"Meeting", 'DateTime'>
     readonly endTime: FieldRef<"Meeting", 'DateTime'>
     readonly isCompleted: FieldRef<"Meeting", 'Boolean'>
+    readonly status: FieldRef<"Meeting", 'LessonStatus'>
+    readonly lessonPlan: FieldRef<"Meeting", 'String'>
+    readonly homework: FieldRef<"Meeting", 'String'>
+    readonly lessonSummary: FieldRef<"Meeting", 'String'>
+    readonly nextLessonPrep: FieldRef<"Meeting", 'String'>
+    readonly cancelReason: FieldRef<"Meeting", 'String'>
     readonly recurrenceSeriesId: FieldRef<"Meeting", 'String'>
     readonly recurrenceIndex: FieldRef<"Meeting", 'Int'>
     readonly hourlyRateCents: FieldRef<"Meeting", 'Int'>
@@ -35031,6 +35124,12 @@ export namespace Prisma {
     startTime: 'startTime',
     endTime: 'endTime',
     isCompleted: 'isCompleted',
+    status: 'status',
+    lessonPlan: 'lessonPlan',
+    homework: 'homework',
+    lessonSummary: 'lessonSummary',
+    nextLessonPrep: 'nextLessonPrep',
+    cancelReason: 'cancelReason',
     recurrenceSeriesId: 'recurrenceSeriesId',
     recurrenceIndex: 'recurrenceIndex',
     hourlyRateCents: 'hourlyRateCents',
@@ -35438,6 +35537,20 @@ export namespace Prisma {
    * Reference to a field of type 'ClassFormat[]'
    */
   export type ListEnumClassFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClassFormat[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'LessonStatus'
+   */
+  export type EnumLessonStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'LessonStatus[]'
+   */
+  export type ListEnumLessonStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonStatus[]'>
     
 
 
@@ -36451,6 +36564,12 @@ export namespace Prisma {
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    status?: EnumLessonStatusFilter<"Meeting"> | $Enums.LessonStatus
+    lessonPlan?: StringNullableFilter<"Meeting"> | string | null
+    homework?: StringNullableFilter<"Meeting"> | string | null
+    lessonSummary?: StringNullableFilter<"Meeting"> | string | null
+    nextLessonPrep?: StringNullableFilter<"Meeting"> | string | null
+    cancelReason?: StringNullableFilter<"Meeting"> | string | null
     recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
     recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
     hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
@@ -36474,6 +36593,12 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    status?: SortOrder
+    lessonPlan?: SortOrderInput | SortOrder
+    homework?: SortOrderInput | SortOrder
+    lessonSummary?: SortOrderInput | SortOrder
+    nextLessonPrep?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
     recurrenceSeriesId?: SortOrderInput | SortOrder
     recurrenceIndex?: SortOrderInput | SortOrder
     hourlyRateCents?: SortOrderInput | SortOrder
@@ -36500,6 +36625,12 @@ export namespace Prisma {
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    status?: EnumLessonStatusFilter<"Meeting"> | $Enums.LessonStatus
+    lessonPlan?: StringNullableFilter<"Meeting"> | string | null
+    homework?: StringNullableFilter<"Meeting"> | string | null
+    lessonSummary?: StringNullableFilter<"Meeting"> | string | null
+    nextLessonPrep?: StringNullableFilter<"Meeting"> | string | null
+    cancelReason?: StringNullableFilter<"Meeting"> | string | null
     recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
     recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
     hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
@@ -36523,6 +36654,12 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    status?: SortOrder
+    lessonPlan?: SortOrderInput | SortOrder
+    homework?: SortOrderInput | SortOrder
+    lessonSummary?: SortOrderInput | SortOrder
+    nextLessonPrep?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
     recurrenceSeriesId?: SortOrderInput | SortOrder
     recurrenceIndex?: SortOrderInput | SortOrder
     hourlyRateCents?: SortOrderInput | SortOrder
@@ -36550,6 +36687,12 @@ export namespace Prisma {
     startTime?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"Meeting"> | Date | string
     isCompleted?: BoolWithAggregatesFilter<"Meeting"> | boolean
+    status?: EnumLessonStatusWithAggregatesFilter<"Meeting"> | $Enums.LessonStatus
+    lessonPlan?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    homework?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    lessonSummary?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    nextLessonPrep?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
+    cancelReason?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
     recurrenceSeriesId?: StringNullableWithAggregatesFilter<"Meeting"> | string | null
     recurrenceIndex?: IntNullableWithAggregatesFilter<"Meeting"> | number | null
     hourlyRateCents?: IntNullableWithAggregatesFilter<"Meeting"> | number | null
@@ -38888,6 +39031,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -38908,6 +39057,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -38927,6 +39082,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -38947,6 +39108,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -38967,6 +39134,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -38985,6 +39158,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -39001,6 +39180,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -41300,6 +41485,13 @@ export namespace Prisma {
     _max?: NestedEnumClassFormatFilter<$PrismaModel>
   }
 
+  export type EnumLessonStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.LessonStatus | EnumLessonStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLessonStatusFilter<$PrismaModel> | $Enums.LessonStatus
+  }
+
   export type StudentScalarRelationFilter = {
     is?: StudentWhereInput
     isNot?: StudentWhereInput
@@ -41313,6 +41505,12 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    status?: SortOrder
+    lessonPlan?: SortOrder
+    homework?: SortOrder
+    lessonSummary?: SortOrder
+    nextLessonPrep?: SortOrder
+    cancelReason?: SortOrder
     recurrenceSeriesId?: SortOrder
     recurrenceIndex?: SortOrder
     hourlyRateCents?: SortOrder
@@ -41340,6 +41538,12 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    status?: SortOrder
+    lessonPlan?: SortOrder
+    homework?: SortOrder
+    lessonSummary?: SortOrder
+    nextLessonPrep?: SortOrder
+    cancelReason?: SortOrder
     recurrenceSeriesId?: SortOrder
     recurrenceIndex?: SortOrder
     hourlyRateCents?: SortOrder
@@ -41359,6 +41563,12 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     isCompleted?: SortOrder
+    status?: SortOrder
+    lessonPlan?: SortOrder
+    homework?: SortOrder
+    lessonSummary?: SortOrder
+    nextLessonPrep?: SortOrder
+    cancelReason?: SortOrder
     recurrenceSeriesId?: SortOrder
     recurrenceIndex?: SortOrder
     hourlyRateCents?: SortOrder
@@ -41376,6 +41586,16 @@ export namespace Prisma {
     hourlyRateCents?: SortOrder
     totalCents?: SortOrder
     studentId?: SortOrder
+  }
+
+  export type EnumLessonStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LessonStatus | EnumLessonStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLessonStatusWithAggregatesFilter<$PrismaModel> | $Enums.LessonStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLessonStatusFilter<$PrismaModel>
+    _max?: NestedEnumLessonStatusFilter<$PrismaModel>
   }
 
   export type TermCountOrderByAggregateInput = {
@@ -44533,6 +44753,10 @@ export namespace Prisma {
     connect?: AssessmentWhereUniqueInput | AssessmentWhereUniqueInput[]
   }
 
+  export type EnumLessonStatusFieldUpdateOperationsInput = {
+    set?: $Enums.LessonStatus
+  }
+
   export type OrganisationUpdateOneRequiredWithoutMeetingsNestedInput = {
     create?: XOR<OrganisationCreateWithoutMeetingsInput, OrganisationUncheckedCreateWithoutMeetingsInput>
     connectOrCreate?: OrganisationCreateOrConnectWithoutMeetingsInput
@@ -45814,6 +46038,23 @@ export namespace Prisma {
     _max?: NestedEnumClassFormatFilter<$PrismaModel>
   }
 
+  export type NestedEnumLessonStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.LessonStatus | EnumLessonStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLessonStatusFilter<$PrismaModel> | $Enums.LessonStatus
+  }
+
+  export type NestedEnumLessonStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LessonStatus | EnumLessonStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LessonStatus[] | ListEnumLessonStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLessonStatusWithAggregatesFilter<$PrismaModel> | $Enums.LessonStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLessonStatusFilter<$PrismaModel>
+    _max?: NestedEnumLessonStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumKeyDateScopeFilter<$PrismaModel = never> = {
     equals?: $Enums.KeyDateScope | EnumKeyDateScopeFieldRefInput<$PrismaModel>
     in?: $Enums.KeyDateScope[] | ListEnumKeyDateScopeFieldRefInput<$PrismaModel>
@@ -46299,6 +46540,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -46318,6 +46565,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -47092,6 +47345,12 @@ export namespace Prisma {
     startTime?: DateTimeFilter<"Meeting"> | Date | string
     endTime?: DateTimeFilter<"Meeting"> | Date | string
     isCompleted?: BoolFilter<"Meeting"> | boolean
+    status?: EnumLessonStatusFilter<"Meeting"> | $Enums.LessonStatus
+    lessonPlan?: StringNullableFilter<"Meeting"> | string | null
+    homework?: StringNullableFilter<"Meeting"> | string | null
+    lessonSummary?: StringNullableFilter<"Meeting"> | string | null
+    nextLessonPrep?: StringNullableFilter<"Meeting"> | string | null
+    cancelReason?: StringNullableFilter<"Meeting"> | string | null
     recurrenceSeriesId?: StringNullableFilter<"Meeting"> | string | null
     recurrenceIndex?: IntNullableFilter<"Meeting"> | number | null
     hourlyRateCents?: IntNullableFilter<"Meeting"> | number | null
@@ -48517,6 +48776,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -48536,6 +48801,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -49419,6 +49690,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -49438,6 +49715,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -51623,6 +51906,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -51642,6 +51931,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -51870,6 +52165,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -51889,6 +52190,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -55721,6 +56028,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -56142,6 +56455,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -56161,6 +56480,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -56180,6 +56505,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -56704,6 +57035,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -56923,6 +57260,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -56942,6 +57285,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -56961,6 +57310,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -57145,6 +57500,12 @@ export namespace Prisma {
     startTime: Date | string
     endTime: Date | string
     isCompleted?: boolean
+    status?: $Enums.LessonStatus
+    lessonPlan?: string | null
+    homework?: string | null
+    lessonSummary?: string | null
+    nextLessonPrep?: string | null
+    cancelReason?: string | null
     recurrenceSeriesId?: string | null
     recurrenceIndex?: number | null
     hourlyRateCents?: number | null
@@ -57268,6 +57629,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -57287,6 +57654,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -57306,6 +57679,12 @@ export namespace Prisma {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumLessonStatusFieldUpdateOperationsInput | $Enums.LessonStatus
+    lessonPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    homework?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    nextLessonPrep?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceSeriesId?: NullableStringFieldUpdateOperationsInput | string | null
     recurrenceIndex?: NullableIntFieldUpdateOperationsInput | number | null
     hourlyRateCents?: NullableIntFieldUpdateOperationsInput | number | null

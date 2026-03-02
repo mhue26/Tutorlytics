@@ -71,6 +71,14 @@ enum CheckInStatus {
   CANCELLED
 }
 
+enum LessonStatus {
+  SCHEDULED
+  IN_PROGRESS
+  CANCELLED
+  NEEDS_REVIEW
+  COMPLETED
+}
+
 enum AttendanceStatus {
   PRESENT
   ABSENT
@@ -298,6 +306,12 @@ model Meeting {
   startTime           DateTime
   endTime             DateTime
   isCompleted         Boolean  @default(false)
+  status              LessonStatus @default(SCHEDULED)
+  lessonPlan          String?
+  homework            String?
+  lessonSummary       String?
+  nextLessonPrep      String?
+  cancelReason        String?
   recurrenceSeriesId  String?
   recurrenceIndex     Int?
   hourlyRateCents     Int?

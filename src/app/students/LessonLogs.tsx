@@ -9,6 +9,11 @@ interface Meeting {
   startTime: Date;
   endTime: Date;
   isCompleted: boolean;
+  status: "SCHEDULED" | "IN_PROGRESS" | "CANCELLED" | "NEEDS_REVIEW" | "COMPLETED";
+  lessonPlan: string | null;
+  homework: string | null;
+  lessonSummary: string | null;
+  nextLessonPrep: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -51,6 +56,14 @@ function getDuration(startTime: Date, endTime: Date): string {
 }
 
 export default function LessonLogs({ meetings, terms = [] }: LessonLogsProps) {
+  const statusPillClass: Record<Meeting["status"], string> = {
+    SCHEDULED: "bg-blue-100 text-blue-800",
+    IN_PROGRESS: "bg-amber-100 text-amber-800",
+    CANCELLED: "bg-red-100 text-red-800",
+    NEEDS_REVIEW: "bg-purple-100 text-purple-800",
+    COMPLETED: "bg-green-100 text-green-800",
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <h4 className="font-medium text-gray-900 mb-4">Lesson Logs ({meetings.length})</h4>
@@ -81,22 +94,22 @@ export default function LessonLogs({ meetings, terms = [] }: LessonLogsProps) {
                       {meeting.description}
                     </div>
                   )}
+                  {meeting.lessonPlan && (
+                    <div className="text-sm text-gray-700 mt-2">
+                      <span className="font-medium">Plan:</span> {meeting.lessonPlan}
+                    </div>
+                  )}
+                  {meeting.homework && (
+                    <div className="text-sm text-gray-700 mt-1">
+                      <span className="font-medium">Homework:</span> {meeting.homework}
+                    </div>
+                  )}
                 </div>
                 <div className="ml-4">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      meeting.isCompleted
-                        ? 'bg-green-100 text-green-800'
-                        : new Date(meeting.startTime) > new Date()
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800'
-                    }`}
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${statusPillClass[meeting.status]}`}
                   >
-                    {meeting.isCompleted
-                      ? 'Completed'
-                      : new Date(meeting.startTime) > new Date()
-                      ? 'Upcoming'
-                      : 'Past'}
+                    {meeting.status.replace("_", " ")}
                   </span>
                 </div>
               </div>

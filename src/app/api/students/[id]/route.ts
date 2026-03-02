@@ -32,7 +32,7 @@ export async function PUT(
   const data: {
     firstName?: string;
     lastName?: string;
-    subjects?: string | null;
+    subjects?: string;
     year?: number | null;
     hourlyRateCents?: number;
   } = {};
@@ -47,7 +47,7 @@ export async function PUT(
     data.lastName = v;
   } else if (field === "subjects") {
     const v = String(value || "").trim();
-    data.subjects = v || null;
+    data.subjects = v || "";
   } else if (field === "year") {
     const raw = String(value || "").trim();
     if (!raw) {

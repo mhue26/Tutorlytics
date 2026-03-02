@@ -5,6 +5,7 @@ import TopHeader from "./TopHeader";
 import Sidebar from "./Sidebar";
 import SessionNeedOrgFix from "../SessionNeedOrgFix";
 import SwitchWorkspaceFromQuery from "../SwitchWorkspaceFromQuery";
+import CalendarUndoListener from "@/app/calendar/CalendarUndoListener";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export default function DashboardLayout({ children, session }: DashboardLayoutPr
 
   return (
     <div className="flex flex-col h-screen bg-gray-50" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+      <CalendarUndoListener />
       <SessionNeedOrgFix />
       <Suspense fallback={null}>
         <SwitchWorkspaceFromQuery />

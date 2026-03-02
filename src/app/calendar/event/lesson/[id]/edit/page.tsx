@@ -83,6 +83,15 @@ export default async function LessonEditPage({
 		isCompleted: meeting.isCompleted,
 		meetingLocation: meeting.meetingLocation ?? "",
 		lessonSubjects,
+		status:
+			meeting.status === "IN_PROGRESS" && new Date(meeting.endTime).getTime() < Date.now()
+				? ("NEEDS_REVIEW" as const)
+				: meeting.status,
+		lessonPlan: meeting.lessonPlan ?? "",
+		homework: meeting.homework ?? "",
+		lessonSummary: meeting.lessonSummary ?? "",
+		nextLessonPrep: meeting.nextLessonPrep ?? "",
+		cancelReason: meeting.cancelReason ?? "",
 		locationMode: location.locationMode,
 		locationAddress: location.locationAddress,
 		locationPlatform: location.locationPlatform,

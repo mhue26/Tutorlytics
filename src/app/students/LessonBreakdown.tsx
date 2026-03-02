@@ -9,6 +9,9 @@ interface Meeting {
   startTime: Date;
   endTime: Date;
   isCompleted: boolean;
+  status: "SCHEDULED" | "IN_PROGRESS" | "CANCELLED" | "NEEDS_REVIEW" | "COMPLETED";
+  lessonPlan: string | null;
+  homework: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -170,16 +173,11 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
   // Calculate statistics
   const stats = useMemo(() => {
     const totalLessons = filteredMeetings.length;
-    const completedLessons = filteredMeetings.filter(m => m.isCompleted).length;
-    const cancelledLessons = filteredMeetings.filter(m => {
-      // Check if the lesson title or description contains cancellation indicators
-      const title = m.title.toLowerCase();
-      const description = m.description?.toLowerCase() || '';
-      return title.includes('cancelled') || title.includes('canceled') || 
-             description.includes('cancelled') || description.includes('canceled');
-    }).length;
-    const upcomingLessons = filteredMeetings.filter(m => !m.isCompleted && new Date(m.startTime) > new Date()).length;
-    const pastLessons = filteredMeetings.filter(m => m.isCompleted || new Date(m.startTime) < new Date()).length;
+    const completedLessons = filteredMeetings.filter(m => m.status === "COMPLETED").length;
+    const cancelledLessons = filteredMeetings.filter(m => m.status === "CANCELLED").length;
+    const reviewPendingLessons = filteredMeetings.filter(m => m.status === "NEEDS_REVIEW").length;
+    const upcomingLessons = filteredMeetings.filter(m => m.status === "SCHEDULED" && new Date(m.startTime) > new Date()).length;
+    const pastLessons = filteredMeetings.filter(m => m.status === "COMPLETED" || new Date(m.startTime) < new Date()).length;
     
     // Calculate total hours
     const totalHours = filteredMeetings.reduce((total, meeting) => {
@@ -194,6 +192,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
       totalLessons,
       completedLessons,
       cancelledLessons,
+      reviewPendingLessons,
       upcomingLessons,
       pastLessons,
       totalHours,
@@ -398,8 +397,12 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
             </div>
           </div>
           
-          {/* Third row: Total Lessons */}
-          <div className="grid grid-cols-1 gap-4">
+          {/* Third row: Needs Review and Total Lessons */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-purple-50 p-4 rounded-2xl shadow-sm">
+              <div className="text-2xl font-bold text-purple-600">{stats.reviewPendingLessons}</div>
+              <div className="text-sm text-purple-800">Needs Review</div>
+            </div>
             <div className="bg-blue-50 p-4 rounded-2xl shadow-sm">
               <div className="text-2xl font-bold text-blue-600">{stats.totalLessons}</div>
               <div className="text-sm text-blue-800">Total Lessons</div>
@@ -455,7 +458,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                       fill="none"
                       stroke="#10b981"
                       strokeWidth="20"
-                      strokeDasharray={`${(stats.completedLessons / stats.totalLessons) * 251.2} 251.2`}
+                      strokeDasharray={`${((stats.completedLessons / Math.max(stats.totalLessons, 1)) * 251.2)} 251.2`}
                       transform="rotate(-90 50 50)"
                     />
                     <circle
@@ -465,8 +468,8 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                       fill="none"
                       stroke="#ef4444"
                       strokeWidth="20"
-                      strokeDasharray={`${(stats.cancelledLessons / stats.totalLessons) * 251.2} 251.2`}
-                      strokeDashoffset={`-${(stats.completedLessons / stats.totalLessons) * 251.2}`}
+                      strokeDasharray={`${((stats.cancelledLessons / Math.max(stats.totalLessons, 1)) * 251.2)} 251.2`}
+                      strokeDashoffset={`-${((stats.completedLessons / Math.max(stats.totalLessons, 1)) * 251.2)}`}
                       transform="rotate(-90 50 50)"
                     />
                     <circle
@@ -476,8 +479,8 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                       fill="none"
                       stroke="#f97316"
                       strokeWidth="20"
-                      strokeDasharray={`${(stats.upcomingLessons / stats.totalLessons) * 251.2} 251.2`}
-                      strokeDashoffset={`-${((stats.completedLessons + stats.cancelledLessons) / stats.totalLessons) * 251.2}`}
+                      strokeDasharray={`${((stats.upcomingLessons / Math.max(stats.totalLessons, 1)) * 251.2)} 251.2`}
+                      strokeDashoffset={`-${(((stats.completedLessons + stats.cancelledLessons) / Math.max(stats.totalLessons, 1)) * 251.2)}`}
                       transform="rotate(-90 50 50)"
                     />
                   </svg>
@@ -490,7 +493,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                 <div className="flex flex-col items-center">
                   <div 
                     className="bg-green-500 w-12 rounded-t"
-                    style={{ height: `${(stats.completedLessons / stats.totalLessons) * 200}px` }}
+                    style={{ height: `${(stats.completedLessons / Math.max(stats.totalLessons, 1)) * 200}px` }}
                   ></div>
                   <div className="text-xs text-gray-600 mt-2">Completed</div>
                   <div className="text-xs font-medium">{stats.completedLessons}</div>
@@ -498,7 +501,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                 <div className="flex flex-col items-center">
                   <div 
                     className="bg-red-500 w-12 rounded-t"
-                    style={{ height: `${(stats.cancelledLessons / stats.totalLessons) * 200}px` }}
+                    style={{ height: `${(stats.cancelledLessons / Math.max(stats.totalLessons, 1)) * 200}px` }}
                   ></div>
                   <div className="text-xs text-gray-600 mt-2">Cancelled</div>
                   <div className="text-xs font-medium">{stats.cancelledLessons}</div>
@@ -506,7 +509,7 @@ export default function LessonBreakdown({ meetings, teachingPeriods, studentName
                 <div className="flex flex-col items-center">
                   <div 
                     className="bg-orange-500 w-12 rounded-t"
-                    style={{ height: `${(stats.upcomingLessons / stats.totalLessons) * 200}px` }}
+                    style={{ height: `${(stats.upcomingLessons / Math.max(stats.totalLessons, 1)) * 200}px` }}
                   ></div>
                   <div className="text-xs text-gray-600 mt-2">Upcoming</div>
                   <div className="text-xs font-medium">{stats.upcomingLessons}</div>

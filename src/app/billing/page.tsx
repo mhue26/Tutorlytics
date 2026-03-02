@@ -88,7 +88,7 @@ export default async function BillingPage() {
 
 			<BillingClient
 				quotes={quotes.map((q) => ({
-					id: q.id,
+					id: String(q.id),
 					number: q.number,
 					total: q.total,
 					status: q.status,
@@ -97,7 +97,7 @@ export default async function BillingPage() {
 					convertedToInvoiceId: q.convertedToInvoiceId,
 				}))}
 				invoices={invoices.map((inv) => ({
-					id: inv.id,
+					id: String(inv.id),
 					number: inv.number,
 					amount: inv.amount,
 					discount: inv.discount,
@@ -111,7 +111,7 @@ export default async function BillingPage() {
 					paidAmount: inv.payments.reduce((s, p) => s + p.amount, 0),
 				}))}
 				recentPayments={recentPayments.map((p) => ({
-					id: p.id,
+					id: String(p.id),
 					amount: p.amount,
 					method: p.method,
 					reference: p.reference,

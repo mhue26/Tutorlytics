@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: "Multi-tenant tutoring management platform",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   let session;
   try {

@@ -302,7 +302,15 @@ export default function CalendarClient({
           <h2 className="text-2xl font-semibold text-[#3D4756]">Calendar</h2>
           {currentTerm && (
             <div className="flex items-center rounded-full px-4 py-2 shadow-sm" style={{ backgroundColor: '#FEF5eF' }}>
-              <span className="text-base font-medium" style={{ color: '#584b53' }}>{currentTerm.name}</span>
+              <button
+                type="button"
+                onClick={() => setShowTermsModal(true)}
+                className="text-base font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-[#584b53] focus:ring-offset-1 rounded-sm cursor-pointer"
+                style={{ color: '#584b53' }}
+                aria-label="Open teaching period editor"
+              >
+                {currentTerm.name}
+              </button>
               {currentWeek && (
                 <span className="ml-2 text-base" style={{ color: '#584b53' }}>• Week {currentWeek}</span>
               )}

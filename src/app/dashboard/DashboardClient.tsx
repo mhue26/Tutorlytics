@@ -23,14 +23,16 @@ interface ScheduleEvent {
 	endTime?: string;
 }
 
-interface StudentRow {
-	id: number;
-	firstName: string;
-	lastName: string;
+interface LessonLogRow {
+	id: number | string;
+	studentId: number | string | null;
+	studentFirstName: string;
+	studentLastName: string;
 	subjects: string;
 	isArchived: boolean;
-	nextLessonDate: string | null;
-	nextLessonTitle: string | null;
+	lessonDate: string;
+	lessonTitle: string;
+	status: string;
 }
 
 interface DashboardClientProps {
@@ -50,7 +52,7 @@ interface DashboardClientProps {
 	scheduleEvents: ScheduleEvent[];
 	scheduleCheckins: ScheduleEvent[];
 	needsReviewCount: number;
-	studentRows: StudentRow[];
+	lessonLogRows: LessonLogRow[];
 }
 
 function PercentBadge({ value }: { value: number }) {
@@ -125,7 +127,7 @@ export default function DashboardClient({
 	scheduleEvents,
 	scheduleCheckins,
 	needsReviewCount,
-	studentRows,
+	lessonLogRows,
 }: DashboardClientProps) {
 	const totalStudents = activeStudentsCount + archivedStudentsCount;
 
@@ -221,12 +223,12 @@ export default function DashboardClient({
 			{/* ── Row 2: Revenue + Upcoming Lessons + Schedule ──────────────── */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{/* Revenue */}
-				<CardShell className="min-h-[290px] !pb-1">
+				<CardShell className="min-h-[290px] flex flex-col">
 					<div className="flex items-center justify-between mb-1">
 						<h2 className="text-base font-semibold text-gray-900">Revenue</h2>
 						<SeeAllButton href="/billing/invoices" />
 					</div>
-					<div className="mb-4">
+					<div className="mb-2">
 						<span className="text-3xl font-bold text-gray-900">
 							${totalRevenue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
 						</span>
@@ -237,38 +239,44 @@ export default function DashboardClient({
 							)}
 						</div>
 					</div>
-					<BarChart
-						data={revenueBarData}
-						color="#86d4c8"
-						highlightColor="#86d4c8"
-						yAxisLabel="USD"
-						valueSuffix=" $"
-						metricLabel="Revenue"
-					/>
+					<div className="flex-1 min-h-0">
+						<BarChart
+							data={revenueBarData}
+							color="#86d4c8"
+							highlightColor="#86d4c8"
+							yAxisLabel="USD"
+							valueSuffix=" $"
+							metricLabel="Revenue"
+							height={0}
+						/>
+					</div>
 				</CardShell>
 
 				{/* Upcoming Lessons */}
-				<CardShell className="!pb-1">
+				<CardShell className="min-h-[290px] flex flex-col">
 					<div className="flex items-center justify-between mb-1">
 						<h2 className="text-base font-semibold text-gray-900">
 							Upcoming Lessons
 						</h2>
 						<SeeAllButton href="/calendar" />
 					</div>
-					<div className="mb-4">
+					<div className="mb-2">
 						<span className="text-3xl font-bold text-gray-900">
 							{totalUpcomingLessons}
 						</span>
 						<span className="text-sm text-gray-500 ml-1">scheduled</span>
 					</div>
-					<BarChart
-						data={upcomingLessonsBarData}
-						color="#d6e3f8"
-						highlightColor="#d6e3f8"
-						yAxisLabel="Lessons"
-						valueSuffix=""
-						metricLabel="Upcoming lessons"
-					/>
+					<div className="flex-1 min-h-0">
+						<BarChart
+							data={upcomingLessonsBarData}
+							color="#d6e3f8"
+							highlightColor="#d6e3f8"
+							yAxisLabel="Lessons"
+							valueSuffix=""
+							metricLabel="Upcoming lessons"
+							height={0}
+						/>
+					</div>
 				</CardShell>
 
 				{/* Schedule */}
@@ -282,8 +290,8 @@ export default function DashboardClient({
 				</div>
 			</div>
 
-			{/* ── Row 3: Students Table ────────────────────────────────────── */}
-			<StudentsTable students={studentRows} />
+			{/* ── Row 3: Lesson Log ───────────────────────────────────────── */}
+			<StudentsTable lessons={lessonLogRows} />
 		</div>
 	);
 }

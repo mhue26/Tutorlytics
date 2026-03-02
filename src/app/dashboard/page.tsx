@@ -14,6 +14,7 @@ export default async function DashboardPage() {
 	const eightWeeksAgo = new Date(now.getTime() - 8 * 7 * 24 * 60 * 60 * 1000);
 	const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 	const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+	const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
 	const meetingWhere: any = { organisationId: ctx.organisationId };
 	if (ctx.role === "TEACHER") {
@@ -29,7 +30,7 @@ export default async function DashboardPage() {
 		invoiceRows,
 		keyDates,
 		upcomingCheckIns,
-		studentsWithLessons,
+		recentLessons,
 	] = await Promise.all([
 		prisma.meeting.findMany({
 			where: {
@@ -99,24 +100,17 @@ export default async function DashboardPage() {
 			orderBy: { scheduledDate: "asc" },
 			take: 20,
 		}),
-		prisma.student.findMany({
+		prisma.meeting.findMany({
 			where: {
-				organisationId: ctx.organisationId,
-				meetings: {
-					some: {
-						startTime: { gte: now, lte: sevenDaysFromNow },
-					},
+				...meetingWhere,
+				startTime: {
+					gte: thirtyDaysAgo,
+					lte: now,
 				},
 			},
-			include: {
-				meetings: {
-					where: { startTime: { gte: now } },
-					orderBy: { startTime: "asc" },
-					take: 1,
-					select: { title: true, startTime: true },
-				},
-			},
-			take: 10,
+			include: { student: true },
+			orderBy: { startTime: "desc" },
+			take: 50,
 		}),
 	]);
 
@@ -264,18 +258,18 @@ export default async function DashboardPage() {
 		endTime: undefined as string | undefined,
 	}));
 
-	// ── Students table rows ───────────────────────────────────────────────────
+	// ── Lesson log rows (recent past lessons) ─────────────────────────────────
 
-	const studentRows = studentsWithLessons.map((s) => ({
-		id: s.id,
-		firstName: s.firstName,
-		lastName: s.lastName,
-		subjects: s.subjects || "",
-		isArchived: s.isArchived,
-		nextLessonDate: s.meetings[0]?.startTime
-			? new Date(s.meetings[0].startTime).toISOString()
-			: null,
-		nextLessonTitle: s.meetings[0]?.title ?? null,
+	const lessonLogRows = recentLessons.map((lesson) => ({
+		id: lesson.id,
+		studentId: lesson.student ? lesson.student.id : null,
+		studentFirstName: lesson.student ? lesson.student.firstName : "Unknown",
+		studentLastName: lesson.student ? lesson.student.lastName : "",
+		subjects: lesson.student?.subjects || "",
+		isArchived: lesson.student?.isArchived ?? false,
+		lessonDate: new Date(lesson.startTime).toISOString(),
+		lessonTitle: lesson.title || "Lesson",
+		status: (lesson as any).status as string,
 	}));
 
 	const formatDate = (date: Date) =>
@@ -304,7 +298,7 @@ export default async function DashboardPage() {
 			scheduleEvents={schedEvents}
 			scheduleCheckins={schedCheckins}
 			needsReviewCount={needsReviewCount}
-			studentRows={studentRows}
+			lessonLogRows={lessonLogRows}
 		/>
 	);
 }

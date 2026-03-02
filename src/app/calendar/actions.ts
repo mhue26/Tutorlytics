@@ -12,6 +12,7 @@ export async function createMeeting(formData: FormData): Promise<{ meetingIds: n
 	const meetingDate = formData.get("meetingDate") as string;
 	const startTime = formData.get("startTime") as string;
 	const endTime = formData.get("endTime") as string;
+	const teacherIdRaw = ((formData.get("teacherId") as string | null) ?? "").trim();
 	const description = (formData.get("description") as string) || "";
 	const lessonPlanRaw = (formData.get("lessonPlan") as string | null) ?? "";
 	const lessonPlanInput = lessonPlanRaw.trim();
@@ -43,6 +44,13 @@ export async function createMeeting(formData: FormData): Promise<{ meetingIds: n
 		where: { id: parseInt(studentId), organisationId: ctx.organisationId },
 	});
 	if (!student) return { error: "Student not found" };
+
+	let createdById = ctx.userId;
+	if (ctx.role === "OWNER" || ctx.role === "ADMIN") {
+		if (teacherIdRaw) {
+			createdById = teacherIdRaw;
+		}
+	}
 
 	const prepSeedMeeting = await prisma.meeting.findFirst({
 		where: {
@@ -112,7 +120,7 @@ export async function createMeeting(formData: FormData): Promise<{ meetingIds: n
 			endTime: slot.end,
 			isCompleted: false,
 			status: "SCHEDULED",
-			createdById: ctx.userId,
+			createdById,
 			organisationId: ctx.organisationId,
 			studentId: parseInt(studentId),
 			recurrenceSeriesId,
@@ -141,7 +149,7 @@ export async function createMeeting(formData: FormData): Promise<{ meetingIds: n
 			endTime: baseEndTime,
 			isCompleted,
 			status: isCompleted ? "COMPLETED" : "SCHEDULED",
-			createdById: ctx.userId,
+			createdById,
 			organisationId: ctx.organisationId,
 			studentId: parseInt(studentId),
 			...(hourlyRateCents != null && { hourlyRateCents }),

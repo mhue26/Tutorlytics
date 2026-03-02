@@ -49,14 +49,17 @@ export default function InteractiveTimeSeriesChart({
 	const startValue = canScroll ? Math.max(0, data.length - scrollWindowPoints) : 0;
 	const endValue = canScroll ? data.length - 1 : data.length - 1;
 
+	const hasVisibleYLabels = !hideYTickLabels || (!hideYAxisName && !!yAxisLabel);
+	const gridLeft = hasVisibleYLabels ? 8 : 4;
+
 	const option: EChartsOption = {
 		animation: true,
 		grid: {
-			left: 8,
-			right: 4,
-			top: 8,
-			bottom: canScroll ? 20 : 0,
-			containLabel: true,
+			left: gridLeft,
+			right: 6,
+			top: 6,
+			bottom: canScroll ? 20 : 4,
+			containLabel: hasVisibleYLabels,
 		},
 		tooltip: {
 			trigger: "axis",
@@ -91,7 +94,7 @@ export default function InteractiveTimeSeriesChart({
 			axisLabel: {
 				color: "#9ca3af",
 				fontSize: 10,
-				margin: 0,
+				margin: 4,
 			},
 		},
 		yAxis: {
@@ -189,10 +192,12 @@ export default function InteractiveTimeSeriesChart({
 			: undefined,
 	};
 
+	const chartHeight = height === 0 ? "100%" : height;
+
 	return (
 		<ReactECharts
 			option={option}
-			style={{ height, width: "100%" }}
+			style={{ height: chartHeight, width: "100%" }}
 			notMerge
 			lazyUpdate
 		/>

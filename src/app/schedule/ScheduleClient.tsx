@@ -31,14 +31,25 @@ interface TermOption {
   year: number;
 }
 
+interface TeacherMember {
+  user: {
+    id: string;
+    name: string | null;
+    email: string | null;
+  };
+  role: "OWNER" | "ADMIN" | "TEACHER";
+}
+
 interface ScheduleClientProps {
   students: Student[];
   classes: ClassOption[];
   terms: TermOption[];
   userId: string;
+  userRole: "OWNER" | "ADMIN" | "TEACHER";
+  teachers: TeacherMember[];
 }
 
-export default function ScheduleClient({ students, classes, terms, userId }: ScheduleClientProps) {
+export default function ScheduleClient({ students, classes, terms, userId, userRole, teachers }: ScheduleClientProps) {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [eventType, setEventType] = useState<"lesson" | "checkin" | "keydate">("lesson");
@@ -56,6 +67,10 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
   const [endTime, setEndTime] = useState<string>("");
   const [hourlyRate, setHourlyRate] = useState<string>("");
   const [total, setTotal] = useState<string>("");
+  const [selectedTeacherId, setSelectedTeacherId] = useState<string>(() => {
+    const current = teachers.find((m) => m.user.id === userId);
+    return current?.user.id ?? userId;
+  });
 
   const locationValue =
     locationMode === "in-person" ? locationAddress.trim() : locationMode === "online" ? locationPlatform : "";
@@ -148,6 +163,10 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
       const description = (formData.get("description") as string) || "";
       const studentId = formData.get("studentId") as string | null;
       const classId = formData.get("classId") as string | null;
+      // Ensure teacherId is always present for lessons/check-ins; fall back to current user.
+      if (!formData.get("teacherId")) {
+        formData.set("teacherId", selectedTeacherId || userId);
+      }
 
       if (type === "lesson") {
         const result = await createMeeting(formData);
@@ -216,7 +235,7 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
           <button
             type="submit"
             form="meeting-form"
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 rounded-lg bg-[#3D4756] text-white shadow-sm hover:bg-[#2A3441] focus:outline-none focus:ring-2 focus:ring-[#3D4756]/40 focus:ring-offset-2 transition-colors"
           >
             Save
           </button>
@@ -311,16 +330,6 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
                 </div>
               )}
 
-              {eventType === "lesson" && (
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="allDay"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                  <label htmlFor="allDay" className="text-sm text-gray-700">All day</label>
-                </div>
-              )}
             </div>
 
             {/* Repeat (lessons only) – immediately under date section */}
@@ -334,67 +343,103 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
             <div className="space-y-6">
                 {/* Location (lessons only): In-Person or Online, no default */}
                 {eventType === "lesson" && (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      </svg>
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <div className="flex-1 space-y-3">
                       <div className="inline-flex rounded-full bg-gray-100 p-1 text-xs">
-                      <button
-                        type="button"
-                        onClick={() => setLocationMode("in-person")}
-                        className={`px-3 py-1 rounded-full font-medium transition-colors ${
-                          locationMode === "in-person"
-                            ? "bg-white text-gray-900 shadow-sm"
-                            : "text-gray-600 hover:text-gray-900"
-                        }`}
-                      >
-                        In-Person
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setLocationMode("online")}
-                        className={`px-3 py-1 rounded-full font-medium transition-colors ${
-                          locationMode === "online"
-                            ? "bg-white text-gray-900 shadow-sm"
-                            : "text-gray-600 hover:text-gray-900"
-                        }`}
-                      >
-                        Online
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => setLocationMode("in-person")}
+                          className={`px-3 py-1 rounded-full font-medium transition-colors ${
+                            locationMode === "in-person"
+                              ? "bg-white text-gray-900 shadow-sm"
+                              : "text-gray-600 hover:text-gray-900"
+                          }`}
+                        >
+                          In-Person
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setLocationMode("online")}
+                          className={`px-3 py-1 rounded-full font-medium transition-colors ${
+                            locationMode === "online"
+                              ? "bg-white text-gray-900 shadow-sm"
+                              : "text-gray-600 hover:text-gray-900"
+                          }`}
+                        >
+                          Online
+                        </button>
                       </div>
+                      {locationMode === "in-person" && (
+                        <input
+                          type="text"
+                          value={locationAddress}
+                          onChange={(e) => setLocationAddress(e.target.value)}
+                          placeholder="Enter address"
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        />
+                      )}
+                      {locationMode === "online" && (
+                        <select
+                          value={locationPlatform}
+                          onChange={(e) => setLocationPlatform(e.target.value)}
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        >
+                          <option value="">Select platform</option>
+                          <option value="Zoom">Zoom</option>
+                          <option value="Google Meet">Google Meet</option>
+                          <option value="Microsoft Teams">Microsoft Teams</option>
+                          <option value="Webex">Webex</option>
+                        </select>
+                      )}
+                      <input type="hidden" name="location" value={locationValue} />
                     </div>
-                    {locationMode === "in-person" && (
-                      <input
-                        type="text"
-                        value={locationAddress}
-                        onChange={(e) => setLocationAddress(e.target.value)}
-                        placeholder="Enter address"
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
-                      />
-                    )}
-                    {locationMode === "online" && (
-                      <select
-                        value={locationPlatform}
-                        onChange={(e) => setLocationPlatform(e.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
-                      >
-                        <option value="">Select platform</option>
-                        <option value="Zoom">Zoom</option>
-                        <option value="Google Meet">Google Meet</option>
-                        <option value="Microsoft Teams">Microsoft Teams</option>
-                        <option value="Webex">Webex</option>
-                      </select>
-                    )}
-                    <input type="hidden" name="location" value={locationValue} />
+                  </div>
+                )}
+
+                {/* Teacher selection (for multi-teacher workspaces) */}
+                {eventType !== "keydate" && teachers.length > 0 && (
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <div className="flex-1 space-y-1">
+                      <span className="block text-sm text-gray-600">Teacher</span>
+                      {userRole === "TEACHER" ? (
+                        <>
+                          <div className="text-sm text-gray-900">
+                            {(() => {
+                              const current = teachers.find((m) => m.user.id === userId);
+                              return current?.user.name || current?.user.email || "You";
+                            })()}
+                          </div>
+                          <input type="hidden" name="teacherId" value={userId} />
+                        </>
+                      ) : (
+                        <select
+                          name="teacherId"
+                          value={selectedTeacherId}
+                          onChange={(e) => setSelectedTeacherId(e.target.value)}
+                          className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        >
+                          {teachers.map((m) => (
+                            <option key={m.user.id} value={m.user.id}>
+                              {(m.user.name || m.user.email || "Unnamed user") + ` (${m.role})`}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   </div>
                 )}
 
                 {/* Student Selection (lessons and check-ins) */}
                 {eventType !== "keydate" && (
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     <div className="relative flex-1" ref={studentDropdownRef}>
@@ -488,8 +533,18 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
                 {/* Lesson subjects (for lessons only) */}
                 {eventType === "lesson" && (
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gray-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
+                    <svg
+                      className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6.253v13M12 6.253C10.832 5.477 9.546 5 8.25 5 6.954 5 5.668 5.477 4.5 6.253v13C5.668 18.477 6.954 18 8.25 18c1.296 0 2.582.477 3.75 1.253M12 6.253C13.168 5.477 14.454 5 15.75 5c1.296 0 2.582.477 3.75 1.253v13C18.332 18.477 17.046 18 15.75 18c-1.296 0-2.582.477-3.75 1.253"
+                      />
                     </svg>
                     <div className="flex-1">
                       <div className="text-sm text-gray-600 mb-1">Lesson subjects</div>
@@ -504,28 +559,28 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
                 )}
 
                 {eventType === "lesson" && (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h10M7 16h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
-                      </svg>
+                  <div className="flex items-start gap-3">
+                    <svg className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h10M7 16h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                    </svg>
+                    <div className="flex-1 space-y-2">
                       <span className="text-sm text-gray-600">Lesson plan</span>
+                      <textarea
+                        name="lessonPlan"
+                        value={lessonPlan}
+                        onChange={(e) => setLessonPlan(e.target.value)}
+                        rows={3}
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                        placeholder="Outline what you'll cover in this lesson..."
+                      />
                     </div>
-                    <textarea
-                      name="lessonPlan"
-                      value={lessonPlan}
-                      onChange={(e) => setLessonPlan(e.target.value)}
-                      rows={3}
-                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
-                      placeholder="Outline what you'll cover in this lesson..."
-                    />
                   </div>
                 )}
 
                 {/* Billing (lessons only): hourly rate and total, auto-calc from duration */}
                 {eventType === "lesson" && (
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gray-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -575,8 +630,8 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
 
                 {/* Key date scope (optional class) */}
                 {eventType === "keydate" && classes.length > 0 && (
-                  <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M3 12h18M3 17h18" />
                     </svg>
                     <select
@@ -594,19 +649,19 @@ export default function ScheduleClient({ students, classes, terms, userId }: Sch
                 )}
 
                 {/* Description */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                    </svg>
+                <div className="flex items-start gap-3">
+                  <svg className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                  <div className="flex-1 space-y-2">
                     <span className="text-sm text-gray-600">Description</span>
+                    <textarea
+                      name="description"
+                      rows={4}
+                      className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
+                      placeholder="Add description or notes for this event..."
+                    />
                   </div>
-                  <textarea
-                    name="description"
-                    rows={4}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3D4756]/20 focus:border-[#3D4756]"
-                    placeholder="Add description or notes for this event..."
-                  />
                 </div>
             </div>
           </form>
